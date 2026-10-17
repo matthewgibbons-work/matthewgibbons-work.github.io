@@ -250,14 +250,15 @@ blockquote strong:first-child,
   padding-left: 0.25rem;
 }
 
+/* A hollow round bullet, not a square: a square looks tickable, and these can't be ticked (SP-8). */
 .task-box {
   display: inline-block;
-  inline-size: 1em;
-  block-size: 1em;
+  inline-size: 0.7em;
+  block-size: 0.7em;
   margin-right: 0.6em;
-  vertical-align: -0.12em;
+  vertical-align: 0.02em;
   border: 2px solid var(--green);
-  border-radius: 0.2em;
+  border-radius: 50%;
 }
 
 /* ==========================================================================

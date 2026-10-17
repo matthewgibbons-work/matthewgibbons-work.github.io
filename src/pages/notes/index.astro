@@ -71,6 +71,34 @@ if (!template?.body) throw new Error('NOTES.md template is missing: run npm run 
     questions for the 2-minute “explain this line” checks and your Release walkthrough, so they help you prepare.
   </p>
 
+  <details>
+    <summary>See an example: a finished Spark 0 NOTES.md (DIGHT 250)</summary>
+    <pre>{`# NOTES — S01 · Repo restructure
+
+## Intent
+I reorganized my course repo so this term's work has a clear home, and rebuilt my
+hub page so anyone visiting can find my Sparks, Prototypes, and old projects.
+
+## AI use
+Copilot Chat in Agent mode. I pasted the Start prompt, then asked: "Why does
+git mv keep the history when moving the folder by hand doesn't?"
+
+## Accepted / changed / rejected
+Accepted the folder layout as proposed. Changed the hub's heading from "Projects"
+to "Archive" so it matches the folder name. Rejected its first link list, because
+the cartoon link still pointed to /cartoon/ instead of /archive/cartoon/.
+
+## Dig deeper
+<main>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main. There
+should be only one per page, and screen readers can jump straight to it, which is
+why the agent put my hub's link list inside it.
+
+## Open questions
+I'm still not sure why git mv shows a rename but moving the folder in Finder
+looked like a delete plus a new file.`}</pre>
+    <p>Short is fine. Each section says something only you could write.</p>
+  </details>
+
   <div class="callout" role="note" aria-label="Your repo is public">
     <p>
       <strong>Your repo is public, and so is this file.</strong> Anyone can read your <code>NOTES.md</code>, including
@@ -80,8 +108,9 @@ if (!template?.body) throw new Error('NOTES.md template is missing: run npm run 
 
   <h2>Who writes it</h2>
   <p>
-    You do, all five sections. The agent may help you remember which prompts you used, but your <code>AGENTS.md</code> tells it never to fill in Accepted / changed / rejected, Dig deeper, or Open questions. If
-    you ask, it will ask you questions to help you write them instead.
+    You do, all five sections. Your <code>AGENTS.md</code> tells the agent never to write any of them. If you ask, it
+    will ask you questions to help you write them instead. It can list the prompts you used, to help with AI use, but
+    you write the section.
   </p>
 
   <h2>How it’s checked</h2>

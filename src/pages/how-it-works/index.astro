@@ -1,10 +1,12 @@
 ---
-// /how-it-works/: the onboarding guide, projected on Mon Oct 19. One page, a section per course.
+// /how-it-works/: the onboarding guide, projected on Mon Oct 19, and true all term (site v2:
+// no "today" wording). General to both courses; course details live on /250/ and /340/.
 // Drawn from dight-refactor/PLAN.md. Grading: tiers and levels only, no categories or weights,
 // and criteria for Sparks only (Prototype criteria come with each brief); decided Oct 17.
 import Base from '../../layouts/Base.astro';
 import Badge from '../../components/Badge.astro';
 import PageMeta from '../../components/PageMeta.astro';
+import CourseCards from '../../components/CourseCards.astro';
 
 const toc = [
   { id: 'why', label: 'Why we’re changing' },
@@ -13,9 +15,7 @@ const toc = [
   { id: 'grading', label: 'How it’s graded' },
   { id: 'repo', label: 'Your repo' },
   { id: 'ai-policy', label: 'AI policy and NOTES.md' },
-  { id: 'dight-250', label: 'DIGHT 250' },
-  { id: 'dight-340', label: 'DIGHT 340' },
-  { id: 'today', label: 'Today: Spark 0' },
+  { id: 'start', label: 'Start here: pick your course' },
 ];
 
 const loop = [
@@ -25,21 +25,6 @@ const loop = [
   { step: 'Verify', who: 'You', text: 'Live page, validator or console, keyboard, screen reader basics.' },
   { step: 'Explain', who: 'You', text: 'Your NOTES.md: what you kept, changed, or rejected, and why.' },
 ];
-
-const prototypes = {
-  '250': [
-    ['P1', 'Color + Typography', 'Mon Nov 2'],
-    ['P2', 'Box model + Flexbox', 'Mon Nov 9'],
-    ['P3', 'Grid', 'Mon Nov 16'],
-    ['P4', 'Responsive + Forms', 'Mon Nov 23'],
-  ],
-  '340': [
-    ['P1', 'Async 1 + Async 2', 'Mon Nov 2'],
-    ['P2', 'Modules/Vite + Svelte intro', 'Mon Nov 9'],
-    ['P3', 'Svelte logic + events', 'Mon Nov 16'],
-    ['P4', 'Svelte components + forms/shared state', 'Mon Nov 23'],
-  ],
-};
 ---
 
 <Base
@@ -50,9 +35,13 @@ const prototypes = {
   <h1>How this course works</h1>
 
   <p class="lede">
-    Starting today, we’re changing how this course works. AI coding tools can now write most of the syntax we’ve been
+    From Oct 19, this course works a new way. AI coding tools can now write most of the syntax we’ve been
     practicing. So from here on, you’ll learn what professional developers actually do with them: decide what to
     build, direct the tool, check its work, and explain every choice.
+  </p>
+  <p class="setup">
+    Here for setup? Go to Spark 0 for <a href="/250/spark-0/">DIGHT 250</a> ·
+    <a href="/340/spark-0/">DIGHT 340</a>.
   </p>
 
   <nav class="toc" aria-label="On this page">
@@ -88,8 +77,8 @@ const prototypes = {
         Learning Suite is just for links and grades.
       </li>
       <li>
-        <strong>Free tools.</strong> Nothing in this course requires a paid account. DIGHT 340 uses your Claude Pro,
-        with Copilot Free as the fallback.
+        <strong>Free tools.</strong> Nothing in this course requires a paid account. DIGHT 340 uses Claude Pro if you
+        have it, with Copilot Free as the fallback.
       </li>
     </ul>
     <p>
@@ -197,8 +186,8 @@ const prototypes = {
       <strong>No late penalties.</strong> Due dates are there to keep you on pace. Rework is welcome until the cutoffs:
     </p>
     <ul>
-      <li><strong>Wed Oct 28</strong> for work from before today (moved from Oct 21).</li>
-      <li><strong>Wed Dec 9</strong> for everything from today on, except the Release.</li>
+      <li><strong>Wed Oct 28</strong> for work from before Oct 19 (moved from Oct 21).</li>
+      <li><strong>Wed Dec 9</strong> for everything from Oct 19 on, except the Release.</li>
     </ul>
 
     <details>
@@ -215,13 +204,13 @@ const prototypes = {
     <h2 id="repo">Your repo</h2>
     <p>
       You keep one public repo per course and push straight to <code>main</code>. No pull requests, no classroom
-      platform. Today’s Spark 0 reorganizes the repo you already have into this layout:
+      platform. Spark 0 reorganizes the repo you already have into this layout:
     </p>
 
     <pre>sparks/s01-repo-restructure/   one folder per Spark
 prototypes/p01-…/              one folder per Prototype
 release/                       your final project
-archive/                       everything from before today
+archive/                       everything from before Oct 19
 index.html                     your hub, linking to all of it
 starter/NOTES.md               the NOTES.md template
 AGENTS.md                      the course rules for the agent</pre>
@@ -238,7 +227,7 @@ AGENTS.md                      the course rules for the agent</pre>
         <code>…github.io/cartoon/</code> becomes <code>…github.io/archive/cartoon/</code>. In 340 the repo rename changes
         every link too: <code>…github.io/dight340-exercises/ex03/</code> becomes
         <code>…github.io/dight340/archive/ex03/</code>. The pages still work at their new address. If you’re reworking an old assignment before Oct 28, resubmit its new link in Learning Suite. A
-        resubmission today just means “new URL”; say so in the comment if it’s also ready to regrade.
+        resubmission just means “new URL”; say so in the comment if it’s also ready to regrade.
       </p>
     </details>
   </section>
@@ -247,7 +236,7 @@ AGENTS.md                      the course rules for the agent</pre>
   <section aria-labelledby="ai-policy">
     <h2 id="ai-policy">AI policy and NOTES.md</h2>
     <p>
-      From today, <strong>AI agents are expected for all code</strong> in this course. This replaces the old “no
+      From Oct 19, <strong>AI agents are expected for all code</strong> in this course. This replaces the old “no
       AI-written code” rule and <code>ai-notes.md</code>.
     </p>
     <ul>
@@ -293,145 +282,14 @@ AGENTS.md                      the course rules for the agent</pre>
   </section>
 
   <!-- ===================================================================== -->
-  <section class="course course--250" aria-labelledby="dight-250">
-    <h2 id="dight-250"><Badge kind="250" /> DIGHT 250</h2>
-
-    <dl class="facts">
-      <div>
-        <dt>Agent</dt>
-        <dd>
-          GitHub Copilot Chat in VS Code, on the free tier, with the GitHub account you already push with.
-        </dd>
-      </div>
-      <div>
-        <dt>Scope</dt>
-        <dd>HTML and CSS only, with no frameworks. JavaScript appears once, in the Dec 9 bridge to 340.</dd>
-      </div>
-      <div>
-        <dt>Repo</dt>
-        <dd>Your <code>username.github.io</code> hub, restructured today.</dd>
-      </div>
-      <div>
-        <dt>Running example</dt>
-        <dd>The Saturday Morning Archive.</dd>
-      </div>
-    </dl>
-
-    <h3>Prototypes</h3>
-    <p class="dates-note">Dates may shift as the term goes on. Learning Suite always has the current ones.</p>
-    <div class="table-wrap" tabindex="0" role="region" aria-label="DIGHT 250 Prototypes">
-      <table>
-        <thead>
-          <tr><th scope="col">Prototype</th><th scope="col">Topic</th><th scope="col">Due</th></tr>
-        </thead>
-        <tbody>
-          {prototypes['250'].map(([n, topic, due]) => <tr><th scope="row">{n}</th><td>{topic}</td><td>{due}</td></tr>)}
-        </tbody>
-      </table>
-    </div>
-
-    <h3>Release and reflections</h3>
-    <ul>
-      <li>
-        <strong>Release:</strong> expand the Saturday Morning Archive, or build a small site for a real or realistic
-        audience. Brief out Mon Nov 16, intent brief in class Wed Nov 18. Due <strong>Fri Dec 11, 11:59 pm</strong>;
-        walkthrough at the open lab on <strong>Sat Dec 12</strong> (the final-exam slot).
-      </li>
-      <li>
-        <strong>Reflections:</strong> “A time the agent was wrong,” due Mon Nov 9. “Accessibility when you aren’t typing
-        the markup,” due Mon Nov 30. Optional: looking back on your Release, due with it.
-      </li>
-    </ul>
-    <p>In Spark 0 you type every <code>git</code> command yourself. The agent shows you what to type and why.</p>
-  </section>
-
-  <!-- ===================================================================== -->
-  <section class="course course--340" aria-labelledby="dight-340">
-    <h2 id="dight-340"><Badge kind="340" /> DIGHT 340</h2>
-
-    <dl class="facts">
-      <div>
-        <dt>Agent</dt>
-        <dd>
-          Claude Code, in the Claude desktop app’s Code tab, on your own Claude Pro account. Copilot Chat in VS Code is
-          the free fallback, and it reads the same rules.
-        </dd>
-      </div>
-      <div>
-        <dt>Scope</dt>
-        <dd>Vanilla JavaScript, Svelte 5, and Astro. TypeScript only where Svelte or Astro uses it, explained.</dd>
-      </div>
-      <div>
-        <dt>Repo</dt>
-        <dd>
-          <code>dight340-exercises</code>, renamed to <code>dight340</code> today, which changes its address. Plain
-          folders until Nov 23, when your Release becomes an Astro site in <code>release/</code>.
-        </dd>
-      </div>
-      <div>
-        <dt>Running example</dt>
-        <dd>Your Pokémon party, with PokéAPI.</dd>
-      </div>
-      <div>
-        <dt>Class</dt>
-        <dd>
-          A seminar: the unit page frames the concept for about 10 minutes, then you drive the agent through the live
-          build while I coach. Expect an “explain this line” question every class.
-        </dd>
-      </div>
-    </dl>
-
-    <h3>Working with Claude Code</h3>
-    <ul>
-      <li>
-        From Wed Oct 21, the repo sets Claude to its <strong>Learning</strong> style: it leaves some decisions in the
-        code for you to make. From Nov 23 it switches to <strong>Explanatory</strong>.
-      </li>
-      <li>
-        Your Pro usage limit is shared with chat, so build good habits from day one: plan before generating, ask for
-        small, scoped changes, and <code>/clear</code> between tasks. If you hit the limit, carry on in Copilot Chat.
-      </li>
-    </ul>
-
-    <h3>Prototypes</h3>
-    <p class="dates-note">Dates may shift as the term goes on. Learning Suite always has the current ones.</p>
-    <div class="table-wrap" tabindex="0" role="region" aria-label="DIGHT 340 Prototypes">
-      <table>
-        <thead>
-          <tr><th scope="col">Prototype</th><th scope="col">Topic</th><th scope="col">Due</th></tr>
-        </thead>
-        <tbody>
-          {prototypes['340'].map(([n, topic, due]) => <tr><th scope="row">{n}</th><td>{topic}</td><td>{due}</td></tr>)}
-        </tbody>
-      </table>
-    </div>
-
-    <h3>Release and reflections</h3>
-    <ul>
-      <li>
-        <strong>Release:</strong> an Astro site with Svelte islands, PokéAPI data, your reflections as a collection,
-        and tests. Or use your own API, by proposal. You’ll also write your project’s own <code>AGENTS.md</code> and
-        one custom skill, and explain why. Brief out Mon Nov 16, intent brief in class Wed Nov 18. Due
-        <strong>Tue Dec 15, 11:59 pm</strong>; walkthrough at the open lab on <strong>Wed Dec 16</strong> (the
-        final-exam slot).
-      </li>
-      <li>
-        <strong>Reflections:</strong> “A time the agent was wrong,” due Mon Nov 9. “Accessibility when you aren’t typing
-        the markup,” due Mon Nov 30; it becomes the first entry in your Astro site. Optional: looking back on your
-        Release, due with it.
-      </li>
-    </ul>
-    <p>In Spark 0 the agent runs the <code>git</code> commands, after showing you each one.</p>
-  </section>
-
-  <!-- ===================================================================== -->
-  <section class="today" aria-labelledby="today">
-    <h2 id="today">Today: Spark 0</h2>
+  <section class="start" aria-labelledby="start">
+    <h2 id="start">Start here: pick your course</h2>
     <p>
-      Time to set up your repo. Download the starter kit, add it to your repo, and an agent walks you through the rest,
-      one step at a time. Read what it proposes, check it, and say “next” only when you could explain what happened.
+      Each course has its own Spark 0 guide, prompts, and details (agent, scope, repo, topics, Prototypes, Release).
+      Spark 0 sets up your repo: download the starter kit, add it to your repo, and an agent walks you through the
+      rest, one step at a time.
     </p>
-    <p class="go"><a href="/spark-0/">Open the Spark 0 guide</a></p>
+    <CourseCards to="spark-0/" level={3} />
   </section>
 </Base>
 
@@ -545,59 +403,7 @@ AGENTS.md                      the course rules for the agent</pre>
     outline-offset: 2px;
   }
 
-  /* Course sections */
-  .course {
-    margin-block-start: 3rem;
-    padding: 0.25rem 1.5rem 1rem;
-    border: 1px solid var(--border);
-    border-top: 0.35rem solid var(--accent);
-    border-radius: var(--radius);
-  }
-
-  .course--250 { --accent: var(--blue); }
-  .course--340 { --accent: var(--red); }
-
-  .course h2 {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.5rem 0.75rem;
-    margin-block-start: 1rem;
-  }
-
-  .facts {
-    margin: 0 0 1.25rem;
-  }
-
-  .dates-note {
-    color: var(--muted);
-    font-size: 1rem;
-  }
-
-  .facts div {
-    margin-block-end: 0.75rem;
-  }
-
-  .facts dt {
-    font-weight: 700;
-  }
-
-  .facts dd {
-    margin: 0;
-  }
-
-  .today {
-    margin-block-start: 3rem;
-    padding: 0.25rem 1.5rem 1.25rem;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-left: 0.35rem solid var(--yellow);
-    border-radius: var(--radius);
-  }
-
-  .go {
-    margin: 0;
-    font-size: 1.2rem;
+  .setup {
     font-weight: 700;
   }
 </style>

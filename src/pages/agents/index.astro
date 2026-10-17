@@ -4,12 +4,14 @@
 // Keep it in step with those files when they change.
 import Base from '../../layouts/Base.astro';
 import Badge from '../../components/Badge.astro';
+import PageMeta from '../../components/PageMeta.astro';
 ---
 
 <Base
   title="AGENTS.md, explained"
   description="What the AGENTS.md file in your repo tells the AI agent, in plain language."
 >
+  <PageMeta courses={['dight250', 'dight340']} />
   <h1>AGENTS.md, explained</h1>
 
   <p class="lede">
@@ -57,11 +59,11 @@ import Badge from '../../components/Badge.astro';
   <ul>
     <li>Write your reflections, or draft, outline, or rewrite them.</li>
     <li>
-      Fill in the Accepted / changed / rejected, Dig deeper, or Open questions sections of your
-      <a href="/notes/"><code>NOTES.md</code></a>. If you ask, it offers questions to help you write them instead.
+      Write any section of your <a href="/notes/"><code>NOTES.md</code></a>. If you ask, it offers questions to
+      help you write them instead. It can list the prompts you used, but you write the AI use section.
     </li>
     <li>Add a library, framework, package, or CDN link without asking, or ever one outside the course.</li>
-    <li>Change <code>AGENTS.md</code>, <code>.github/</code>, or <code>.claude/</code>, unless you say I asked you to.</li>
+    <li>Change <code>AGENTS.md</code>, <code>.github/</code>, or <code>.claude/</code>, unless you tell it the instructor asked for the change.</li>
   </ul>
 
   <h2>What each course covers</h2>
