@@ -1,0 +1,198 @@
+---
+import '@fontsource-variable/orbitron';
+import '@fontsource/atkinson-hyperlegible/400.css';
+import '@fontsource/atkinson-hyperlegible/400-italic.css';
+import '@fontsource/atkinson-hyperlegible/700.css';
+import '@fontsource/atkinson-hyperlegible/700-italic.css';
+import '@fontsource-variable/fira-code';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+const siteName = 'DIGHT 250 & 340';
+const pageTitle = title === siteName ? title : `${title} · ${siteName}`;
+
+const nav = [
+  { href: '/how-it-works/', label: 'How it works' },
+  { href: '/spark-0/', label: 'Spark 0' },
+  { href: '/prompts/', label: 'Prompts' },
+];
+const path = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="canonical" href={new URL(path, Astro.site)} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <a class="site-name" href="/" aria-current={path === '/' ? 'page' : undefined}>
+          {siteName}
+        </a>
+        <nav aria-label="Main">
+          <ul>
+            {
+              nav.map(({ href, label }) => (
+                <li>
+                  <a href={href} aria-current={path.startsWith(href) ? 'page' : undefined}>
+                    {label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="wrap" tabindex="-1">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <p>DIGHT 250 &amp; 340 · Brigham Young University · Fall 2026</p>
+        <p class="credit">
+          Colours inspired by <cite>Voltron: Legendary Defender</cite>. A fan nod, not affiliated with
+          DreamWorks.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .wrap {
+    max-inline-size: var(--measure);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  /* Skip link: hidden until focused. */
+  .skip-link {
+    position: absolute;
+    inset-inline-start: var(--gutter);
+    inset-block-start: -10rem;
+    z-index: 10;
+    padding: 0.6rem 1rem;
+    background: var(--surface);
+    color: var(--text);
+    border: 2px solid var(--focus);
+    border-radius: var(--radius);
+    font-weight: 700;
+  }
+
+  .skip-link:focus {
+    inset-block-start: 0.5rem;
+  }
+
+  /* Header: a static starfield, no images, no motion. */
+  .site-header {
+    position: relative;
+    padding-block: 1.25rem;
+    margin-block-end: 2.5rem;
+    background-color: var(--bg);
+    background-image:
+      radial-gradient(1px 1px at 12% 30%, var(--star) 50%, transparent 51%),
+      radial-gradient(1px 1px at 27% 75%, var(--star) 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 41% 18%, var(--star) 50%, transparent 51%),
+      radial-gradient(1px 1px at 55% 62%, var(--star) 50%, transparent 51%),
+      radial-gradient(1px 1px at 68% 25%, var(--star) 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 79% 80%, var(--star) 50%, transparent 51%),
+      radial-gradient(1px 1px at 88% 40%, var(--star) 50%, transparent 51%),
+      radial-gradient(1px 1px at 95% 12%, var(--star) 50%, transparent 51%),
+      radial-gradient(1px 1px at 5% 85%, var(--star) 50%, transparent 51%),
+      radial-gradient(1px 1px at 35% 45%, var(--star) 50%, transparent 51%);
+    background-size: 22rem 7rem;
+  }
+
+  /* The five-colour stripe along the bottom edge. */
+  .site-header::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 0;
+    block-size: 4px;
+    background: var(--stripe);
+  }
+
+  .header-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
+  }
+
+  .site-name,
+  nav a {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .site-name {
+    font-size: 1.15rem;
+    letter-spacing: 0.04em;
+  }
+
+  nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  nav li + li {
+    margin-top: 0;
+  }
+
+  nav a {
+    display: inline-block;
+    padding-block: 0.4rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.03em;
+    border-bottom: 2px solid transparent;
+  }
+
+  /* Current page: an underline, not colour alone. */
+  nav a:hover,
+  nav a[aria-current='page'] {
+    border-bottom-color: var(--teal);
+  }
+
+  main {
+    min-block-size: 60vh;
+  }
+
+  main:focus {
+    outline: none;
+  }
+
+  .site-footer {
+    margin-block-start: 4rem;
+    padding-block: 1.5rem 2rem;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .site-footer p {
+    margin-block-end: 0.35rem;
+  }
+</style>

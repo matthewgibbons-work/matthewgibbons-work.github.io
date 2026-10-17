@@ -6,4 +6,6 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
   site: 'https://matthewgibbons-work.github.io',
   trailingSlash: 'always',
+  // No Shiki: code blocks use the site's own contrast-checked colours.
+  markdown: { syntaxHighlight: false },
 });

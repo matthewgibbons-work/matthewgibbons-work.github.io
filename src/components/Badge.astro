@@ -1,0 +1,18 @@
+---
+// A course or tier badge: colour plus a text label, never colour alone.
+interface Props {
+  kind: '250' | '340' | 'spark' | 'prototype' | 'release';
+}
+
+const labels = {
+  '250': 'DIGHT 250',
+  '340': 'DIGHT 340',
+  spark: 'Spark',
+  prototype: 'Prototype',
+  release: 'Release',
+};
+
+const { kind } = Astro.props;
+---
+
+<span class={`badge badge--${kind}`}>{labels[kind]}</span>
