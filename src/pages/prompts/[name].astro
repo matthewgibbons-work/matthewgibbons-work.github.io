@@ -1,0 +1,49 @@
+---
+// One page per copy-paste prompt: /prompts/start-250/, start-340/, dig-deeper/, check/.
+// The text is shown unrendered, exactly as tested, so students paste what was tested.
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageMeta from '../../components/PageMeta.astro';
+import CopyBlock from '../../components/CopyBlock.astro';
+import CopyButton from '../../components/CopyButton.astro';
+import { prompts, type PromptName } from '../../lib/prompts';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('prompts');
+  return entries.map((entry) => {
+    if (!(entry.id in prompts)) throw new Error(`No page details for prompt "${entry.id}" in src/lib/prompts.ts`);
+    return { params: { name: entry.id }, props: { text: entry.body ?? '' } };
+  });
+}
+
+const name = Astro.params.name as PromptName;
+const { text } = Astro.props;
+const info = prompts[name];
+---
+
+<Base title={info.title} description={info.description}>
+  <PageMeta courses={info.courses} />
+  <h1>{info.title}</h1>
+  <p class="lede">{info.description}</p>
+  <CopyButton target="prompt-text" />
+
+  <h2>How to use it</h2>
+  <ol>
+    {info.howTo.map((step) => <li>{step}</li>)}
+  </ol>
+  <p>
+    Once the starter kit is in your repo, <code>{info.command}</code> runs the same text, so you don’t need to
+    paste it.
+  </p>
+
+  <h2>The prompt</h2>
+  <CopyBlock id="prompt-text" text={text} label={`${info.title} text`} />
+
+  <p><a href="/prompts/">All prompts</a> · <a href="/spark-0/">Spark 0 guide</a></p>
+</Base>
+
+<style>
+  .lede {
+    font-size: 1.2rem;
+  }
+</style>

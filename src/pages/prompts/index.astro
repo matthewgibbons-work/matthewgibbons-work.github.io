@@ -1,0 +1,71 @@
+---
+// /prompts/: lists the four copy-paste prompts.
+import Base from '../../layouts/Base.astro';
+import Badge from '../../components/Badge.astro';
+import { prompts, promptOrder } from '../../lib/prompts';
+---
+
+<Base title="Prompts" description="The copy-paste versions of /start, /dig-deeper, and /check.">
+  <h1>Prompts</h1>
+  <p>
+    These are the prompts behind the course’s slash commands. Copying one from here and pasting it into the chat
+    always works. Once the starter kit is in your repo, the slash command runs the same text.
+  </p>
+
+  <ul class="prompt-list" role="list">
+    {
+      promptOrder.map((name) => {
+        const info = prompts[name];
+        return (
+          <li>
+            <h2>
+              <a href={`/prompts/${name}/`}>{info.title}</a>
+            </h2>
+            <p class="badges">
+              {info.courses.map((c) => (
+                <Badge kind={c === 'dight250' ? '250' : '340'} />
+              ))}
+              <code>{info.command}</code>
+            </p>
+            <p>{info.description}</p>
+          </li>
+        );
+      })
+    }
+  </ul>
+</Base>
+
+<style>
+  .prompt-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .prompt-list li {
+    margin: 0;
+    padding: 1rem 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  .prompt-list h2 {
+    margin: 0 0 0.5rem;
+    padding: 0;
+    border: 0;
+    font-size: 1.2rem;
+  }
+
+  .prompt-list p {
+    margin: 0.5rem 0 0;
+  }
+
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+  }
+</style>

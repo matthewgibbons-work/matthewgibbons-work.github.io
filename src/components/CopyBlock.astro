@@ -1,0 +1,26 @@
+---
+// A plain-text block with a Copy button above it.
+// Without JS (or if copying fails), the text is still there to select by hand.
+import CopyButton from './CopyButton.astro';
+
+interface Props {
+  id: string;
+  text: string;
+  label: string;
+}
+
+const { id, text, label } = Astro.props;
+---
+
+<div class="copy-block">
+  <CopyButton target={id} />
+  <pre id={id} aria-label={label}>{text}</pre>
+</div>
+
+<style>
+  /* Wrap long lines so nothing scrolls sideways; copying keeps the original line breaks. */
+  pre {
+    white-space: pre-wrap;
+    font-size: 0.95rem;
+  }
+</style>

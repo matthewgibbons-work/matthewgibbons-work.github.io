@@ -1,0 +1,18 @@
+---
+// The Spark 0 setup guide. Source: dight-refactor/course-site-content/spark-0.md (npm run sync).
+// The Markdown starts with its own h1, so this page doesn't add one.
+import { getEntry, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PageMeta from '../components/PageMeta.astro';
+
+const entry = await getEntry('pages', 'spark-0');
+if (!entry) throw new Error('spark-0.md is missing: run npm run sync');
+
+const { Content } = await render(entry);
+const { title, description, courses, tier, date, due } = entry.data;
+---
+
+<Base title={title} description={description}>
+  <PageMeta courses={courses} tier={tier ?? 'spark'} date={date} due={due} />
+  <Content />
+</Base>

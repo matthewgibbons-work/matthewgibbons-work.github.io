@@ -1,0 +1,76 @@
+---
+// A Copy button for a text block elsewhere on the page. The site's only JavaScript.
+// Hidden until the script runs, so there's never a button that does nothing.
+interface Props {
+  target: string;
+}
+
+const { target } = Astro.props;
+---
+
+<div class="copy-bar">
+  <button type="button" class="copy-button" data-copy-target={target} hidden>Copy prompt</button>
+  <p class="copy-status" role="status"></p>
+</div>
+
+<style>
+  .copy-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1rem;
+    margin-block-end: 0.75rem;
+  }
+
+  .copy-button {
+    font: inherit;
+    font-weight: 700;
+    min-block-size: 2.75rem;
+    padding: 0.5rem 1.25rem;
+    color: var(--bg);
+    background: var(--teal);
+    border: 2px solid var(--teal);
+    border-radius: var(--radius);
+    cursor: pointer;
+  }
+
+  .copy-button:hover {
+    background: var(--text);
+    border-color: var(--text);
+  }
+
+  .copy-status {
+    margin: 0;
+    color: var(--muted);
+  }
+</style>
+
+<script>
+  for (const button of document.querySelectorAll<HTMLButtonElement>('[data-copy-target]')) {
+    const block = document.getElementById(button.dataset.copyTarget ?? '');
+    const status = button.parentElement?.querySelector('.copy-status');
+    if (!block || !status) continue;
+
+    // Clear, then set on the next frame, so screen readers announce every click.
+    const announce = (message: string) => {
+      status.textContent = '';
+      requestAnimationFrame(() => (status.textContent = message));
+    };
+
+    button.hidden = false;
+    button.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(block.textContent ?? '');
+        announce('Copied. Paste it into the chat.');
+      } catch {
+        // Clipboard blocked: select the text so one keypress copies it.
+        const range = document.createRange();
+        range.selectNodeContents(block);
+        const selection = window.getSelection();
+        selection?.removeAllRanges();
+        selection?.addRange(range);
+        announce('Couldn’t copy automatically. The text is selected: press Cmd+C (Mac) or Ctrl+C (Windows).');
+      }
+    });
+  }
+</script>

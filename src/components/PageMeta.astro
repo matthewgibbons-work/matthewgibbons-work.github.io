@@ -1,0 +1,69 @@
+---
+// The strip above a page's h1: course and tier badges, then the dates.
+import Badge from './Badge.astro';
+
+interface Props {
+  courses: ('dight250' | 'dight340')[];
+  tier?: 'spark' | 'prototype' | 'release';
+  date?: Date;
+  due?: Date;
+}
+
+const { courses, tier, date, due } = Astro.props;
+
+// Frontmatter dates are midnight UTC; format in UTC so they don't slip a day.
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC' });
+const iso = (d: Date) => d.toISOString().slice(0, 10);
+---
+
+<div class="page-meta">
+  <p class="badges">
+    {courses.map((c) => <Badge kind={c === 'dight250' ? '250' : '340'} />)}
+    {tier && <Badge kind={tier} />}
+  </p>
+  {
+    (date || due) && (
+      <p class="dates">
+        {date && (
+          <span>
+            Session: <time datetime={iso(date)}>{fmt(date)}</time>
+          </span>
+        )}
+        {due && (
+          <span>
+            Due: <time datetime={iso(due)}>{fmt(due)}</time>
+          </span>
+        )}
+      </p>
+    )
+  }
+</div>
+
+<style>
+  .page-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1.25rem;
+    margin-block-end: 1rem;
+  }
+
+  .page-meta p {
+    margin: 0;
+  }
+
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .dates {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+</style>
