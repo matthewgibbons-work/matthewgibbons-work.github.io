@@ -49,7 +49,10 @@ const other = course && courses[otherCourse(course)];
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     {description && <meta name="description" content={description} />}
-    <link rel="canonical" href={new URL(path, Astro.site)} />
+    {
+      /* The 404 page is served at whatever path was missing, so it has no canonical URL. */
+      !path.startsWith('/404') && <link rel="canonical" href={new URL(path, Astro.site)} />
+    }
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to main content</a>
