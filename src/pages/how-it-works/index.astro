@@ -1,0 +1,603 @@
+---
+// /how-it-works/: the onboarding guide, projected on Mon Oct 19. One page, a section per course.
+// Drawn from dight-refactor/PLAN.md. Grading: tiers and levels only, no categories or weights,
+// and criteria for Sparks only (Prototype criteria come with each brief); decided Oct 17.
+import Base from '../../layouts/Base.astro';
+import Badge from '../../components/Badge.astro';
+import PageMeta from '../../components/PageMeta.astro';
+
+const toc = [
+  { id: 'why', label: 'Why we’re changing' },
+  { id: 'loop', label: 'The loop' },
+  { id: 'assignments', label: 'Sparks, Prototypes, and the Release' },
+  { id: 'grading', label: 'How it’s graded' },
+  { id: 'repo', label: 'Your repo' },
+  { id: 'ai-policy', label: 'AI policy and NOTES.md' },
+  { id: 'dight-250', label: 'DIGHT 250' },
+  { id: 'dight-340', label: 'DIGHT 340' },
+  { id: 'today', label: 'Today: Spark 0' },
+];
+
+const loop = [
+  { step: 'Intent', who: 'You', text: 'What problem this solves, and for whom.' },
+  { step: 'Spec', who: 'You', text: 'What “done” looks like, including accessibility.' },
+  { step: 'Generate', who: 'Agent', text: 'The agent writes the code, within the course scope.' },
+  { step: 'Verify', who: 'You', text: 'Live page, validator or console, keyboard, screen reader basics.' },
+  { step: 'Explain', who: 'You', text: 'Your NOTES.md: what you kept, changed, or rejected, and why.' },
+];
+
+const prototypes = {
+  '250': [
+    ['P1', 'Color + Typography', 'Mon Nov 2'],
+    ['P2', 'Box model + Flexbox', 'Mon Nov 9'],
+    ['P3', 'Grid', 'Mon Nov 16'],
+    ['P4', 'Responsive + Forms', 'Mon Nov 23'],
+  ],
+  '340': [
+    ['P1', 'Async 1 + Async 2', 'Mon Nov 2'],
+    ['P2', 'Modules/Vite + Svelte intro', 'Mon Nov 9'],
+    ['P3', 'Svelte logic + events', 'Mon Nov 16'],
+    ['P4', 'Svelte components + forms/shared state', 'Mon Nov 23'],
+  ],
+};
+---
+
+<Base
+  title="How this course works"
+  description="The new way DIGHT 250 and DIGHT 340 work from Oct 19: the loop, the assignments, your repo, and the AI policy."
+>
+  <PageMeta courses={['dight250', 'dight340']} />
+  <h1>How this course works</h1>
+
+  <p class="lede">
+    Starting today, we’re changing how this course works. AI coding tools can now write most of the syntax we’ve been
+    practicing. So from here on, you’ll learn what professional developers actually do with them: decide what to
+    build, direct the tool, check its work, and explain every choice.
+  </p>
+
+  <nav class="toc" aria-label="On this page">
+    <h2 id="toc-heading">On this page</h2>
+    <ol>
+      {toc.map((t) => <li><a href={`#${t.id}`}>{t.label}</a></li>)}
+    </ol>
+  </nav>
+
+  <!-- ===================================================================== -->
+  <section aria-labelledby="why">
+    <h2 id="why">Why we’re changing</h2>
+    <p>
+      You won’t learn less. The month you’ve spent writing code by hand is exactly what lets you read and judge what an
+      AI produces. We’ll build more, and you’ll understand it better.
+    </p>
+    <p>Here’s how it works now:</p>
+    <ul>
+      <li>
+        <strong>You read before you delegate.</strong> You’ll hand more of the writing to the agent as we cover each
+        concept, but only once you can read what it writes.
+      </li>
+      <li>
+        <strong>You’re accountable for every line.</strong> You must be able to explain anything you submit. Small,
+        frequent checks show you understand it; the code alone doesn’t.
+      </li>
+      <li>
+        <strong>We build first, then dig deeper.</strong> Making things comes first. Docs links and the
+        <a href="/prompts/dig-deeper/"><code>/dig-deeper</code></a> prompt are there whenever you want to slow down.
+      </li>
+      <li>
+        <strong>Plain tools.</strong> One public repo per course, pushed to <code>main</code>, live on GitHub Pages.
+        Learning Suite is just for links and grades.
+      </li>
+      <li>
+        <strong>Free tools.</strong> Nothing in this course requires a paid account. DIGHT 340 uses your Claude Pro,
+        with Copilot Free as the fallback.
+      </li>
+    </ul>
+    <p>
+      Each class teaches one concept, usually with a live build where the agent gets something wrong and we catch it
+      together. The rest of class is studio time: you build, and I come round.
+    </p>
+  </section>
+
+  <!-- ===================================================================== -->
+  <section aria-labelledby="loop">
+    <h2 id="loop">The loop</h2>
+    <p>Every Spark, Prototype, and Release follows the same five steps.</p>
+
+    <ol class="loop">
+      {
+        loop.map((l) => (
+          <li class={l.who === 'Agent' ? 'loop-agent' : undefined}>
+            <span class="loop-step">{l.step}</span>
+            <span class="loop-who">{l.who}</span>
+            <span class="loop-text">{l.text}</span>
+          </li>
+        ))
+      }
+    </ol>
+
+    <details>
+      <summary>Predict: of the five steps, how many does the agent do?</summary>
+      <p>
+        One: <strong>Generate</strong>. The other four are yours. You decide what to build and what “done” means, you
+        check the result, and you explain it. That’s the part of the job the agent can’t do for you, and it’s what this
+        course teaches.
+      </p>
+    </details>
+  </section>
+
+  <!-- ===================================================================== -->
+  <section aria-labelledby="assignments">
+    <h2 id="assignments">Sparks, Prototypes, and the Release</h2>
+    <p>
+      The names tell a product story: an idea (Spark), a working model (Prototype), then something shipped to real users
+      (Release).
+    </p>
+
+    <div class="table-wrap" tabindex="0" role="region" aria-label="Assignment tiers">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Tier</th>
+            <th scope="col">What it is</th>
+            <th scope="col">When</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row"><Badge kind="spark" /></th>
+            <td>15–30 minutes, one concept.</td>
+            <td>One every class, started in studio time. Due before the next class.</td>
+          </tr>
+          <tr>
+            <th scope="row"><Badge kind="prototype" /></th>
+            <td>Combines the week’s concepts into one piece.</td>
+            <td>Weekly from Oct 26, due the following Monday. Four in all.</td>
+          </tr>
+          <tr>
+            <th scope="row"><Badge kind="release" /></th>
+            <td>Your final project, for a real or realistic audience. Use the default brief or choose your own.</td>
+            <td>Brief out Nov 16; replaces Prototypes for the last few weeks.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      You’ll also write two more reflections (and an optional third), 200–300 words each, like the ones you’ve already
+      done. Dates are in your course’s section below.
+    </p>
+  </section>
+
+  <!-- ===================================================================== -->
+  <section aria-labelledby="grading">
+    <h2 id="grading">How it’s graded</h2>
+    <p>
+      Each piece is checked against a short list of what “done” means. It either meets the list or it’s “Not yet,” and
+      “Not yet” means fix it and resubmit.
+    </p>
+    <ul>
+      <li>
+        <strong>Sparks: Complete or Not yet.</strong> Complete means the folder exists, its
+        <a href="/notes/"><code>NOTES.md</code></a> covers every section, and the live page loads. Sparks are graded
+        straight from your repo; there’s nothing to submit.
+      </li>
+      <li>
+        <strong>Prototypes: Exceeds, Meets, or Not yet.</strong> Each brief comes with its “done” list, starting with P1
+        on Oct 26. You submit two links in Learning Suite: your live page and the code.
+      </li>
+      <li>
+        <strong>Release: a rubric plus a walkthrough.</strong> It covers functionality, code quality, Git, AI use (your
+        <code>NOTES.md</code>), accessibility, whether it solved the problem you set out to solve, and a 5-minute
+        walkthrough with me at the final-exam open lab.
+      </li>
+      <li><strong>Reflections: pass or fail,</strong> as now. Written by you, without AI.</li>
+    </ul>
+
+    <p>
+      <strong>No late penalties.</strong> Due dates are there to keep you on pace. Rework is welcome until the cutoffs:
+    </p>
+    <ul>
+      <li><strong>Wed Oct 28</strong> for work from before today (moved from Oct 21).</li>
+      <li><strong>Wed Dec 9</strong> for everything from today on, except the Release.</li>
+    </ul>
+
+    <details>
+      <summary>Predict: you finish a Spark two days after it’s due. What happens?</summary>
+      <p>
+        Nothing bad. There are no late penalties, so it counts as Complete once it meets the list. Just don’t let them
+        pile up: each Spark sets up the next class, and the Prototypes build on them.
+      </p>
+    </details>
+  </section>
+
+  <!-- ===================================================================== -->
+  <section aria-labelledby="repo">
+    <h2 id="repo">Your repo</h2>
+    <p>
+      You keep one public repo per course and push straight to <code>main</code>. No pull requests, no classroom
+      platform. Today’s Spark 0 reorganizes the repo you already have into this layout:
+    </p>
+
+    <pre aria-label="Repo layout">sparks/s01-repo-restructure/   one folder per Spark
+prototypes/p01-…/              one folder per Prototype
+release/                       your final project
+archive/                       everything from before today
+index.html                     your hub, linking to all of it
+starter/NOTES.md               the NOTES.md template
+AGENTS.md                      the course rules for the agent</pre>
+
+    <p>
+      Every assignment folder has its own <code>NOTES.md</code>. The kit also adds the slash commands:
+      <code>.github/skills/</code> in 250, <code>.claude/</code> in 340.
+    </p>
+
+    <details>
+      <summary>Predict: after Spark 0, do the links to your old assignments still work?</summary>
+      <p>
+        No. Your old work moves into <code>archive/</code>, so its address changes: in 250,
+        <code>…github.io/cartoon/</code> becomes <code>…github.io/archive/cartoon/</code>. In 340 the repo rename changes
+        every link too: <code>…github.io/dight340-exercises/ex03/</code> becomes
+        <code>…github.io/dight340/archive/ex03/</code>. The pages still work at their new address. If you’re reworking an old assignment before Oct 28, resubmit its new link in Learning Suite. A
+        resubmission today just means “new URL”; say so in the comment if it’s also ready to regrade.
+      </p>
+    </details>
+  </section>
+
+  <!-- ===================================================================== -->
+  <section aria-labelledby="ai-policy">
+    <h2 id="ai-policy">AI policy and NOTES.md</h2>
+    <p>
+      From today, <strong>AI agents are expected for all code</strong> in this course. This replaces the old “no
+      AI-written code” rule and <code>ai-notes.md</code>.
+    </p>
+    <ul>
+      <li>
+        The agent works within the course’s rules, set by the <a href="/agents/"><code>AGENTS.md</code></a> file in
+        your repo.
+      </li>
+      <li>
+        Every assignment folder has a <a href="/notes/"><code>NOTES.md</code></a>: your intent, the prompts you used,
+        what you kept, changed, or rejected, one thing you dug into, and what you still don’t understand.
+      </li>
+      <li>
+        <strong>You must be able to explain any line you submit.</strong> During studio time I’ll sometimes ask you to
+        explain a line in 2 minutes. Those checks are ungraded practice. The Release walkthrough is the graded version.
+      </li>
+      <li><strong>Reflections stay human-written.</strong> No AI to draft, outline, or rewrite them.</li>
+    </ul>
+
+    <aside class="callout" aria-label="Your repo is public">
+      <p>
+        <strong>Your repo is public.</strong> Anyone can read your <code>NOTES.md</code>, including the “Open questions”
+        section, where you write what you still don’t understand. That’s what it’s for, and I use it to choose
+        questions for your checks and walkthrough. Just write about the code, and leave out anything personal. You can
+        use a pseudonymous GitHub username if you prefer.
+      </p>
+    </aside>
+
+    <details>
+      <summary>Predict: the agent wrote a line you can’t explain. Should you submit it?</summary>
+      <p>
+        Not yet. Highlight it and run <a href="/prompts/dig-deeper/"><code>/dig-deeper</code></a>, read the MDN link,
+        and change the line if you find a clearer way. Submit it when you could explain it to someone else.
+      </p>
+    </details>
+
+    <details>
+      <summary>Predict: can you ask the agent to fix the grammar in your reflection?</summary>
+      <p>
+        No. Reflections are written without AI: no drafting, outlining, or rewriting, and that includes tidying. The
+        agent is told the same thing in <code>AGENTS.md</code>.
+      </p>
+    </details>
+  </section>
+
+  <!-- ===================================================================== -->
+  <section class="course course--250" aria-labelledby="dight-250">
+    <h2 id="dight-250"><Badge kind="250" /> DIGHT 250</h2>
+
+    <dl class="facts">
+      <div>
+        <dt>Agent</dt>
+        <dd>
+          GitHub Copilot Chat in VS Code, on the free tier, with the GitHub account you already push with.
+        </dd>
+      </div>
+      <div>
+        <dt>Scope</dt>
+        <dd>HTML and CSS only, with no frameworks. JavaScript appears once, in the Dec 9 bridge to 340.</dd>
+      </div>
+      <div>
+        <dt>Repo</dt>
+        <dd>Your <code>username.github.io</code> hub, restructured today.</dd>
+      </div>
+      <div>
+        <dt>Running example</dt>
+        <dd>The Saturday Morning Archive.</dd>
+      </div>
+    </dl>
+
+    <h3>Prototypes</h3>
+    <p class="dates-note">Dates may shift as the term goes on. Learning Suite always has the current ones.</p>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="DIGHT 250 Prototypes">
+      <table>
+        <thead>
+          <tr><th scope="col"></th><th scope="col">Topic</th><th scope="col">Due</th></tr>
+        </thead>
+        <tbody>
+          {prototypes['250'].map(([n, topic, due]) => <tr><th scope="row">{n}</th><td>{topic}</td><td>{due}</td></tr>)}
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Release and reflections</h3>
+    <ul>
+      <li>
+        <strong>Release:</strong> expand the Saturday Morning Archive, or build a small site for a real or realistic
+        audience. Brief out Mon Nov 16, intent brief in class Wed Nov 18. Due <strong>Fri Dec 11, 11:59 pm</strong>;
+        walkthrough at the open lab on <strong>Sat Dec 12</strong> (the final-exam slot).
+      </li>
+      <li>
+        <strong>Reflections:</strong> “A time the agent was wrong,” due Mon Nov 9. “Accessibility when you aren’t typing
+        the markup,” due Mon Nov 30. Optional: looking back on your Release, due with it.
+      </li>
+    </ul>
+    <p>In Spark 0 you type every <code>git</code> command yourself. The agent shows you what to type and why.</p>
+  </section>
+
+  <!-- ===================================================================== -->
+  <section class="course course--340" aria-labelledby="dight-340">
+    <h2 id="dight-340"><Badge kind="340" /> DIGHT 340</h2>
+
+    <dl class="facts">
+      <div>
+        <dt>Agent</dt>
+        <dd>
+          Claude Code, in the Claude desktop app’s Code tab, on your own Claude Pro account. Copilot Chat in VS Code is
+          the free fallback, and it reads the same rules.
+        </dd>
+      </div>
+      <div>
+        <dt>Scope</dt>
+        <dd>Vanilla JavaScript, Svelte 5, and Astro. TypeScript only where Svelte or Astro uses it, explained.</dd>
+      </div>
+      <div>
+        <dt>Repo</dt>
+        <dd>
+          <code>dight340-exercises</code>, renamed to <code>dight340</code> today, which changes its address. Plain
+          folders until Nov 23, when your Release becomes an Astro site in <code>release/</code>.
+        </dd>
+      </div>
+      <div>
+        <dt>Running example</dt>
+        <dd>Your Pokémon party, with PokéAPI.</dd>
+      </div>
+      <div>
+        <dt>Class</dt>
+        <dd>
+          A seminar: the unit page frames the concept for about 10 minutes, then you drive the agent through the live
+          build while I coach. Expect an “explain this line” question every class.
+        </dd>
+      </div>
+    </dl>
+
+    <h3>Working with Claude Code</h3>
+    <ul>
+      <li>
+        From Wed Oct 21, the repo sets Claude to its <strong>Learning</strong> style: it leaves some decisions in the
+        code for you to make. From Nov 23 it switches to <strong>Explanatory</strong>.
+      </li>
+      <li>
+        Your Pro usage limit is shared with chat, so build good habits from day one: plan before generating, ask for
+        small, scoped changes, and <code>/clear</code> between tasks. If you hit the limit, carry on in Copilot Chat.
+      </li>
+    </ul>
+
+    <h3>Prototypes</h3>
+    <p class="dates-note">Dates may shift as the term goes on. Learning Suite always has the current ones.</p>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="DIGHT 340 Prototypes">
+      <table>
+        <thead>
+          <tr><th scope="col"></th><th scope="col">Topic</th><th scope="col">Due</th></tr>
+        </thead>
+        <tbody>
+          {prototypes['340'].map(([n, topic, due]) => <tr><th scope="row">{n}</th><td>{topic}</td><td>{due}</td></tr>)}
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Release and reflections</h3>
+    <ul>
+      <li>
+        <strong>Release:</strong> an Astro site with Svelte islands, PokéAPI data, your reflections as a collection,
+        and tests. Or use your own API, by proposal. You’ll also write your project’s own <code>AGENTS.md</code> and
+        one custom skill, and explain why. Brief out Mon Nov 16, intent brief in class Wed Nov 18. Due
+        <strong>Tue Dec 15, 11:59 pm</strong>; walkthrough at the open lab on <strong>Wed Dec 16</strong> (the
+        final-exam slot).
+      </li>
+      <li>
+        <strong>Reflections:</strong> “A time the agent was wrong,” due Mon Nov 9. “Accessibility when you aren’t typing
+        the markup,” due Mon Nov 30; it becomes the first entry in your Astro site. Optional: looking back on your
+        Release, due with it.
+      </li>
+    </ul>
+    <p>In Spark 0 the agent runs the <code>git</code> commands, after showing you each one.</p>
+  </section>
+
+  <!-- ===================================================================== -->
+  <section class="today" aria-labelledby="today">
+    <h2 id="today">Today: Spark 0</h2>
+    <p>
+      Time to set up your repo. Download the starter kit, add it to your repo, and an agent walks you through the rest,
+      one step at a time. Read what it proposes, check it, and say “next” only when you could explain what happened.
+    </p>
+    <p class="go"><a href="/spark-0/">Open the Spark 0 guide</a></p>
+  </section>
+</Base>
+
+<style>
+  .lede {
+    font-size: 1.2rem;
+  }
+
+  /* On this page */
+  .toc {
+    margin-block: 2rem;
+    padding: 1rem 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  .toc h2 {
+    margin: 0 0 0.5rem;
+    padding: 0;
+    border: 0;
+    font-size: 1rem;
+    color: var(--muted);
+  }
+
+  .toc ol {
+    margin: 0;
+    columns: 2 14rem;
+    column-gap: 2rem;
+  }
+
+  .toc li {
+    break-inside: avoid;
+  }
+
+  section {
+    scroll-margin-top: 1rem;
+  }
+
+  /* The loop: one row per step (step · who · what), stacking on narrow screens. */
+  .loop {
+    list-style: none;
+    padding: 0;
+    counter-reset: loop;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .loop li {
+    counter-increment: loop;
+    margin: 0;
+    padding: 0.75rem 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 0.35rem solid var(--teal);
+    border-radius: var(--radius);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
+
+  @media (min-width: 34rem) {
+    .loop li {
+      grid-template-columns: 9rem 4.5rem 1fr;
+      align-items: baseline;
+      gap: 1rem;
+    }
+  }
+
+  .loop li.loop-agent {
+    border-left-color: var(--pink);
+  }
+
+  .loop-step {
+    font-family: var(--font-display);
+    font-weight: 700;
+  }
+
+  .loop-step::before {
+    content: counter(loop) '. ';
+  }
+
+  /* Who does the step: a text label, not just the colour. */
+  .loop-who {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .loop-agent .loop-who {
+    color: var(--pink);
+  }
+
+  .loop-text {
+    font-size: 0.95rem;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+    margin-block-end: 1.25rem;
+  }
+
+  .table-wrap table {
+    margin: 0;
+  }
+
+  /* Focusable so keyboard users can scroll a table that's wider than a phone. */
+  .table-wrap:focus-visible {
+    outline-offset: 2px;
+  }
+
+  /* Course sections */
+  .course {
+    margin-block-start: 3rem;
+    padding: 0.25rem 1.5rem 1rem;
+    border: 1px solid var(--border);
+    border-top: 0.35rem solid var(--accent);
+    border-radius: var(--radius);
+  }
+
+  .course--250 { --accent: var(--blue); }
+  .course--340 { --accent: var(--red); }
+
+  .course h2 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.75rem;
+    margin-block-start: 1rem;
+  }
+
+  .facts {
+    margin: 0 0 1.25rem;
+  }
+
+  .dates-note {
+    color: var(--muted);
+    font-size: 1rem;
+  }
+
+  .facts div {
+    margin-block-end: 0.75rem;
+  }
+
+  .facts dt {
+    font-weight: 700;
+  }
+
+  .facts dd {
+    margin: 0;
+  }
+
+  .today {
+    margin-block-start: 3rem;
+    padding: 0.25rem 1.5rem 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 0.35rem solid var(--yellow);
+    border-radius: var(--radius);
+  }
+
+  .go {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+</style>
