@@ -1,9 +1,186 @@
 ---
-// Placeholder home page; the real one is written in section 4.
+// Home: what the site is, today's link, a course picker, and the reference pages.
 import Base from '../layouts/Base.astro';
+import Badge from '../components/Badge.astro';
+
+// Today's session. Update before each class until unit pages take over.
+const today = {
+  date: '2026-10-19',
+  label: 'Mon, Oct 19',
+  title: 'Spark 0: Set up your repo',
+  href: '/spark-0/',
+  summary: 'Download the starter kit, add it to your repo, and let the agent walk you through the new layout.',
+};
+
+const courses = [
+  {
+    kind: '250' as const,
+    name: 'DIGHT 250',
+    topic: 'HTML and CSS',
+    example: 'the Saturday Morning Archive',
+    agent: 'GitHub Copilot in VS Code',
+    href: '/how-it-works/#dight-250',
+  },
+  {
+    kind: '340' as const,
+    name: 'DIGHT 340',
+    topic: 'JavaScript, Svelte, and Astro',
+    example: 'your Pokémon party',
+    agent: 'Claude Code in the Claude desktop app',
+    href: '/how-it-works/#dight-340',
+  },
+];
+
+const reference = [
+  { href: '/how-it-works/', title: 'How this course works', text: 'The loop, the assignments, grading, and the AI policy.' },
+  { href: '/prompts/', title: 'Prompts', text: 'Copy-paste versions of /start, /dig-deeper, and /check.' },
+  { href: '/notes/', title: 'The NOTES.md template', text: 'What goes in each section, and why it’s yours to write.' },
+  { href: '/agents/', title: 'AGENTS.md, explained', text: 'What the rules file in your repo tells the agent.' },
+];
 ---
 
-<Base title="DIGHT 250 & 340" description="Course site for DIGHT 250 and DIGHT 340.">
+<Base
+  title="DIGHT 250 & 340"
+  description="Course site for DIGHT 250 (HTML and CSS) and DIGHT 340 (JavaScript, Svelte, and Astro)."
+>
   <h1>DIGHT 250 &amp; 340</h1>
-  <p>The new course site is on its way. See you Monday, Oct 19.</p>
+  <p class="lede">
+    From Oct 19, both courses work a new way. An AI agent writes most of the syntax. You decide what to build, check
+    what it wrote, and explain every choice. This site has everything you need for that.
+  </p>
+
+  <section class="today" aria-labelledby="today-heading">
+    <h2 id="today-heading">
+      Today · <time datetime={today.date}>{today.label}</time>
+    </h2>
+    <p class="today-title">
+      <Badge kind="spark" />
+      <a href={today.href}>{today.title}</a>
+    </p>
+    <p>{today.summary}</p>
+  </section>
+
+  <h2>Pick your course</h2>
+  <ul class="cards" role="list">
+    {
+      courses.map((c) => (
+        <li class={`card card--${c.kind}`}>
+          <h3>
+            <a href={c.href}>{c.name}</a>
+          </h3>
+          <p>
+            <Badge kind={c.kind} /> {c.topic}
+          </p>
+          <p>
+            Running example: {c.example}. Agent: {c.agent}.
+          </p>
+        </li>
+      ))
+    }
+  </ul>
+
+  <h2>Reference</h2>
+  <ul class="reference" role="list">
+    {
+      reference.map((r) => (
+        <li>
+          <a href={r.href}>{r.title}</a>
+          <span>{r.text}</span>
+        </li>
+      ))
+    }
+  </ul>
 </Base>
+
+<style>
+  .lede {
+    font-size: 1.2rem;
+  }
+
+  .today {
+    margin-block: 2rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 0.35rem solid var(--yellow);
+    border-radius: var(--radius);
+  }
+
+  .today h2 {
+    margin: 0 0 0.75rem;
+    padding: 0;
+    border: 0;
+    font-size: 1.1rem;
+    color: var(--muted);
+  }
+
+  .today-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.75rem;
+    margin-block-end: 0.5rem;
+    font-size: 1.35rem;
+    font-weight: 700;
+  }
+
+  .today p:last-child {
+    margin: 0;
+  }
+
+  .cards {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+    gap: 1rem;
+  }
+
+  .card {
+    margin: 0;
+    padding: 1.25rem 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 0.35rem solid var(--accent);
+    border-radius: var(--radius);
+  }
+
+  .card--250 { --accent: var(--blue); }
+  .card--340 { --accent: var(--red); }
+
+  .card h3 {
+    margin: 0 0 0.75rem;
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+  }
+
+  .card p {
+    margin: 0 0 0.5rem;
+  }
+
+  .card p:last-child {
+    margin: 0;
+    color: var(--muted);
+    font-size: 1rem;
+  }
+
+  .reference {
+    list-style: none;
+    padding: 0;
+  }
+
+  .reference li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    margin: 0 0 1rem;
+  }
+
+  .reference a {
+    font-weight: 700;
+  }
+
+  .reference span {
+    color: var(--muted);
+  }
+</style>
