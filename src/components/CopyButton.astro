@@ -3,13 +3,16 @@
 // Hidden until the script runs, so there's never a button that does nothing.
 interface Props {
   target: string;
+  label?: string;
+  /** What the status line says after a successful copy. */
+  copied?: string;
 }
 
-const { target } = Astro.props;
+const { target, label = 'Copy prompt', copied = 'Copied. Paste it into the chat.' } = Astro.props;
 ---
 
 <div class="copy-bar">
-  <button type="button" class="copy-button" data-copy-target={target} hidden>Copy prompt</button>
+  <button type="button" class="copy-button" data-copy-target={target} data-copied={copied} hidden>{label}</button>
   <p class="copy-status" role="status"></p>
 </div>
 
@@ -61,7 +64,7 @@ const { target } = Astro.props;
     button.addEventListener('click', async () => {
       try {
         await navigator.clipboard.writeText(block.textContent ?? '');
-        announce('Copied. Paste it into the chat.');
+        announce(button.dataset.copied ?? 'Copied.');
       } catch {
         // Clipboard blocked: select the text so one keypress copies it.
         const range = document.createRange();

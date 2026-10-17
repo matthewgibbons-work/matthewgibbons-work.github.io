@@ -4,6 +4,7 @@
 //   course-site-content/spark-0.md     → src/content/pages/spark-0.md
 //   starter-kits/dist/*.zip            → public/downloads/
 //   starter-kits/dist/copy-paste/*.md  → src/content/prompts/
+//   starter-kits/src/templates/NOTES.md → src/content/templates/NOTES.md
 //
 // Source folder: ../dight-refactor next to this repo, or set DIGHT_REFACTOR=/path/to/it.
 
@@ -62,5 +63,10 @@ const promptsFrom = path.join(dist, 'copy-paste');
 const promptsTo = path.join(site, 'src/content/prompts');
 await fresh(promptsTo);
 await copyAll(promptsFrom, await listFiles(promptsFrom, '.md'), promptsTo);
+
+// The NOTES.md template: the same file build.sh puts in both kits' starter/ folder.
+const templatesTo = path.join(site, 'src/content/templates');
+await fresh(templatesTo);
+await copyAll(path.join(source, 'starter-kits/src/templates'), ['NOTES.md'], templatesTo);
 
 console.log('Done. Review with `git status`, then build and commit.');

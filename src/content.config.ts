@@ -26,4 +26,10 @@ const prompts = defineCollection({
   loader: glob({ pattern: '*.md', base: './src/content/prompts' }),
 });
 
-export const collections = { pages, prompts };
+// The NOTES.md template, synced from dight-refactor/starter-kits/src/templates/.
+// Shown raw, like the prompts.
+const templates = defineCollection({
+  loader: glob({ pattern: '*.md', base: './src/content/templates' }),
+});
+
+export const collections = { pages, prompts, templates };

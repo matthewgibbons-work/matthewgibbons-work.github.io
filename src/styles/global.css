@@ -218,11 +218,12 @@ td code {
 }
 
 /* ==========================================================================
-   Callouts: the guide's > blockquotes.
+   Callouts: the guide's > blockquotes, and <aside class="callout"> in .astro pages.
    ========================================================================== */
 
-blockquote {
-  margin-inline: 0;
+blockquote,
+.callout {
+  margin: 0 0 1.25rem;
   padding: 1rem 1.25rem;
   background: var(--surface);
   border: 1px solid var(--border);
@@ -230,11 +231,13 @@ blockquote {
   border-radius: var(--radius);
 }
 
-blockquote > :last-child {
+blockquote > :last-child,
+.callout > :last-child {
   margin-bottom: 0;
 }
 
-blockquote strong:first-child {
+blockquote strong:first-child,
+.callout strong:first-child {
   color: var(--pink);
 }
 

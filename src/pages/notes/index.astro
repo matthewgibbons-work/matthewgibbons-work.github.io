@@ -1,0 +1,110 @@
+---
+// /notes/: the NOTES.md template and what each section is for.
+// Template text: dight-refactor/starter-kits/src/templates/NOTES.md (npm run sync).
+import { getEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageMeta from '../../components/PageMeta.astro';
+import CopyBlock from '../../components/CopyBlock.astro';
+
+const template = await getEntry('templates', 'notes');
+if (!template?.body) throw new Error('NOTES.md template is missing: run npm run sync');
+---
+
+<Base
+  title="The NOTES.md template"
+  description="Every assignment folder has a NOTES.md. Here's the template, and what each section is for."
+>
+  <PageMeta courses={['dight250', 'dight340']} />
+  <h1>The NOTES.md template</h1>
+
+  <p class="lede">
+    The agent writes most of the code now. <code>NOTES.md</code> is where you show the part that’s yours: what you
+    asked for, what you kept, what you changed, and what you still don’t understand.
+  </p>
+
+  <p>
+    Every assignment folder (each Spark, each Prototype, and your Release) has its own <code>NOTES.md</code>. The
+    template is already in your repo at <code>starter/NOTES.md</code>; copy it into each new folder. Spark 0 makes your
+    first one, in <code>sparks/s01-repo-restructure/</code>.
+  </p>
+
+  <h2>The template</h2>
+  <CopyBlock
+    id="notes-template"
+    text={template.body}
+    label="NOTES.md template"
+    buttonLabel="Copy template"
+    copied="Copied. Paste it into a new NOTES.md."
+  />
+  <p>Replace <code>&lt;assignment name&gt;</code> and every placeholder line with your own words.</p>
+
+  <h2>What each section is for</h2>
+
+  <h3>Intent</h3>
+  <p>
+    What you built, who it’s for, and why, in 2–3 sentences. This is the first step of the loop. Write it <em>before</em> you ask the agent for code, and update it if your plan changes. On the Release, “did it solve the
+    stated problem?” is graded against this.
+  </p>
+
+  <h3>AI use</h3>
+  <p>
+    Which tool you used, and your key prompts or instructions, copied as you sent them. Two or three that shaped the
+    work are enough; you don’t need the whole conversation. This replaces the old <code>ai-notes.md</code>.
+  </p>
+
+  <h3>Accepted / changed / rejected</h3>
+  <p>
+    What you kept from the agent, what you changed, and why. This is the heart of the file. “I changed the <code>div</code> to a <code>button</code> because it couldn’t be reached with the keyboard” shows judgment;
+    “everything looked fine” doesn’t. On a Prototype, a well-reasoned <em>rejected</em> decision is one way to earn
+    Exceeds.
+  </p>
+
+  <h3>Dig deeper</h3>
+  <p>
+    One thing you looked up, with its MDN link, and what you learned from it. The agent ends most answers by pointing
+    out something worth digging into, and <a href="/prompts/dig-deeper/"><code>/dig-deeper</code></a> is built for
+    this. Either way, you write it.
+  </p>
+
+  <h3>Open questions</h3>
+  <p>
+    What you still don’t fully understand. Honest gaps are welcome here and cost you nothing. I use them to choose
+    questions for the 2-minute “explain this line” checks and your Release walkthrough, so they help you prepare.
+  </p>
+
+  <aside class="callout" aria-label="Your repo is public">
+    <p>
+      <strong>Your repo is public, and so is this file.</strong> Anyone can read your <code>NOTES.md</code>, including
+      your Open questions. Write about the code. Leave out anything personal you wouldn’t post online.
+    </p>
+  </aside>
+
+  <h2>Who writes it</h2>
+  <p>
+    You do, all five sections. The agent may help you remember which prompts you used, but your <code>AGENTS.md</code> tells it never to fill in Accepted / changed / rejected, Dig deeper, or Open questions. If
+    you ask, it will ask you questions to help you write them instead.
+  </p>
+
+  <h2>How it’s checked</h2>
+  <ul>
+    <li>
+      <strong>Sparks:</strong> Complete when the folder exists, its <code>NOTES.md</code> covers every section, and the
+      live page loads.
+    </li>
+    <li>
+      <strong>Prototypes and the Release:</strong> a complete <code>NOTES.md</code> is part of “done,” and the Release
+      rubric scores it under AI use.
+    </li>
+    <li>
+      <strong>Before you submit:</strong> run <a href="/prompts/check/"><code>/check</code></a> on the folder. It flags
+      missing sections and leftover template text, including placeholder lines, <code>TODO</code> markers, and HTML
+      comments, but it won’t write anything for you.
+    </li>
+  </ul>
+</Base>
+
+<style>
+  .lede {
+    font-size: 1.2rem;
+  }
+</style>
