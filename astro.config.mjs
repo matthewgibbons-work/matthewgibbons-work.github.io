@@ -9,4 +9,7 @@ export default defineConfig({
   trailingSlash: 'ignore',
   // No Shiki: code blocks use the site's own contrast-checked colours.
   markdown: { syntaxHighlight: false },
+  // Keep source whitespace: compression drops the space before an inline tag
+  // that starts a new line ("Write it\n<em>before</em>" → "Write it<em>before</em>").
+  compressHTML: false,
 });

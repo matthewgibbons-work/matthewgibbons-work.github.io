@@ -1,0 +1,132 @@
+---
+// /agents/: what AGENTS.md does, its rules in plain language, and each course's scope.
+// Paraphrases dight-refactor/starter-kits/src/agents/ (base.md, scope-250.md, scope-340.md).
+// Keep it in step with those files when they change.
+import Base from '../../layouts/Base.astro';
+import Badge from '../../components/Badge.astro';
+---
+
+<Base
+  title="AGENTS.md, explained"
+  description="What the AGENTS.md file in your repo tells the AI agent, in plain language."
+>
+  <h1>AGENTS.md, explained</h1>
+
+  <p class="lede">
+    The starter kit put a file called <code>AGENTS.md</code> at the top of your repo. I wrote it. Every AI agent that
+    works in your repo reads it first, so it sets the rules for how the agent helps you.
+  </p>
+
+  <p>
+    Copilot and Claude Code both read <code>AGENTS.md</code> on their own; you don’t have to paste it or point to it.
+    Both courses share the same rules, plus a short section on what each course covers.
+  </p>
+
+  <h2>What it tells the agent</h2>
+
+  <h3>Who it’s helping</h3>
+  <p>
+    A student who is here to learn, not just to ship code. Anything it writes, you have to be able to read, change, and
+    explain, so it should write code you can explain and help you understand it.
+  </p>
+
+  <h3>Before it writes code</h3>
+  <ul>
+    <li>If you haven’t said what you’re building and who it’s for, it asks.</li>
+    <li>It proposes a short plan (which files, what approach) and waits for you to agree.</li>
+    <li>It keeps each change small enough for you to review in one sitting.</li>
+  </ul>
+
+  <h3>When it writes code</h3>
+  <ul>
+    <li>
+      Accessible by default: landmarks, headings in order, labels on every form control, useful <code>alt</code> text,
+      enough contrast, no meaning carried by colour alone, everything usable from the keyboard, and focus outlines
+      never removed.
+    </li>
+    <li>
+      Course conventions: <code>const</code> and <code>let</code>, <code>===</code>, scripts loaded with
+      <code>defer</code>, and relative paths so pages work on GitHub Pages.
+    </li>
+    <li>It explains each choice in plain language.</li>
+    <li>It links the MDN page for everything it used. MDN is the course’s reference, not blogs or AI summaries.</li>
+    <li>It points out one thing worth digging into, for your NOTES.md, but doesn’t write that section.</li>
+  </ul>
+
+  <h3>Never</h3>
+  <ul>
+    <li>Write your reflections, or draft, outline, or rewrite them.</li>
+    <li>
+      Fill in the Accepted / changed / rejected, Dig deeper, or Open questions sections of your
+      <a href="/notes/"><code>NOTES.md</code></a>. If you ask, it offers questions to help you write them instead.
+    </li>
+    <li>Add a library, framework, package, or CDN link without asking, or ever one outside the course.</li>
+    <li>Change <code>AGENTS.md</code>, <code>.github/</code>, or <code>.claude/</code>, unless you say I asked you to.</li>
+  </ul>
+
+  <h2>What each course covers</h2>
+  <p>
+    The scope covers the whole course, not just this week. The agent can always <em>explain</em> something we haven’t
+    reached yet. If you ask it to <em>write</em> something outside the scope, it says so, explains why, and offers a way
+    that fits.
+  </p>
+
+  <section aria-labelledby="scope-250">
+    <h3 id="scope-250"><Badge kind="250" /> HTML and CSS only</h3>
+    <ul>
+      <li>
+        No JavaScript, except in the Dec 9 bridge Spark. If something seems to need JS, the agent looks for the HTML or
+        CSS way.
+      </li>
+      <li>No frameworks or preprocessors: no Tailwind, Bootstrap, or Sass. Hand-written CSS in <code>.css</code> files.</li>
+      <li>Web fonts are fine.</li>
+      <li>Valid HTML from the start, checked with the W3C validator.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="scope-340">
+    <h3 id="scope-340"><Badge kind="340" /> Vanilla JavaScript, Svelte 5, and Astro</h3>
+    <ul>
+      <li>No React, Vue, jQuery, Tailwind, or other UI or CSS frameworks.</li>
+      <li>Svelte 5 runes only (<code>$state</code>, <code>$derived</code>, <code>$props</code>…), not Svelte 4 syntax.</li>
+      <li>
+        TypeScript only where Svelte or Astro uses it, and the agent explains every annotation. You learn to read it,
+        not write it from scratch.
+      </li>
+      <li>
+        It proposes every <code>npm install</code> and waits for you. Vite, Svelte, Astro, Vitest, ESLint, Playwright,
+        and axe are approved; anything else, check with me first.
+      </li>
+      <li>No console errors, and visible, announced loading and error states for any data it fetches.</li>
+    </ul>
+  </section>
+
+  <details>
+    <summary>Predict: you ask the agent to “just add Tailwind.” What does it do?</summary>
+    <p>
+      It doesn’t add it. Tailwind is outside the scope in both courses, so the agent says so, explains why it’s out of
+      scope for this course, and offers a way to get the same result with what the course does use: hand-written CSS
+      in 250, or the 340 stack. Even for an in-scope library, it would ask before adding anything.
+    </p>
+  </details>
+
+  <h2>Don’t edit it</h2>
+  <p>
+    <code>AGENTS.md</code> is the same for everyone in the course. If a rule gets in your way, ask me rather than
+    changing it. In DIGHT 340, also don’t add a <code>CLAUDE.md</code>: Claude Code reads a <code>CLAUDE.md</code>
+    <em>instead of</em> <code>AGENTS.md</code>, so the course rules would stop loading.
+  </p>
+</Base>
+
+<style>
+  .lede {
+    font-size: 1.2rem;
+  }
+
+  section h3 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.75rem;
+  }
+</style>
