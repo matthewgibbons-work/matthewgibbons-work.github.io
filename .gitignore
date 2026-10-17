@@ -1,2 +1,15 @@
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# logs and env
+npm-debug.log*
+.env
+.env.*
+
+# OS
 .DS_Store
 Thumbs.db
