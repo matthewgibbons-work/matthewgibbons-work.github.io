@@ -1,0 +1,23 @@
+---
+// Not found: an empty state that points somewhere useful, on the site's own theme (NF-1).
+// GitHub Pages serves this file for any missing path.
+import Base from '../layouts/Base.astro';
+import CourseCards from '../components/CourseCards.astro';
+---
+
+<Base title="Page not found" description="That page isn't on the course site.">
+  <h1>That page isn’t here</h1>
+  <p class="lede">
+    It may have moved: Spark 0 and the prompts now live on each course’s own pages. Pick your course to carry on.
+  </p>
+
+  <CourseCards level={2} />
+
+  <p>Or go to the <a href="/">home page</a> or <a href="/how-it-works/">How this course works</a>.</p>
+</Base>
+
+<style>
+  .lede {
+    font-size: 1.2rem;
+  }
+</style>

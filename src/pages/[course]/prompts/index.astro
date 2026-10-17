@@ -1,0 +1,84 @@
+---
+// /250/prompts/ and /340/prompts/: this course's prompts, in two groups (PR-1):
+// the one you run once for Spark 0, and the ones you use all term.
+import Base from '../../../layouts/Base.astro';
+import PageMeta from '../../../components/PageMeta.astro';
+import { courses, courseOrder, type Course } from '../../../lib/courses';
+import { prompts, promptOrder, promptHref } from '../../../lib/prompts';
+
+export function getStaticPaths() {
+  return courseOrder.map((course) => ({ params: { course } }));
+}
+
+const course = Astro.params.course as Course;
+const c = courses[course];
+const groups = [
+  { id: 'spark-0', title: 'Spark 0 (run once)', names: promptOrder.filter((n) => prompts[course][n].group === 'spark-0') },
+  { id: 'term', title: 'All term', names: promptOrder.filter((n) => prompts[course][n].group === 'term') },
+];
+---
+
+<Base title={`Prompts · ${c.name}`} description={`The ${c.name} Start prompt, and the copy-paste versions of /dig-deeper and /check.`} course={course}>
+  <PageMeta courses={[`dight${course}`]} />
+  <h1>Prompts</h1>
+  <p>
+    Copying a prompt from here and pasting it into the chat always works. Once the starter kit is in your repo, the
+    all-term prompts are also slash commands that run the same text.
+  </p>
+
+  {
+    groups.map((g) => (
+      <section aria-labelledby={g.id}>
+        <h2 id={g.id}>{g.title}</h2>
+        <ul class="prompt-list" role="list">
+          {g.names.map((name) => {
+            const info = prompts[course][name];
+            return (
+              <li>
+                <h3>
+                  <a href={promptHref(name, course)}>{info.title}</a>
+                  {info.command && <code>{info.command}</code>}
+                </h3>
+                <p>{info.description}</p>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+    ))
+  }
+</Base>
+
+<style>
+  .prompt-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .prompt-list li {
+    margin: 0;
+    padding: 1rem 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  .prompt-list h3 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 0.75rem;
+    margin: 0 0 0.5rem;
+    font-size: 1.2rem;
+  }
+
+  .prompt-list h3 code {
+    font-size: 1rem;
+  }
+
+  .prompt-list p {
+    margin: 0.5rem 0 0;
+  }
+</style>

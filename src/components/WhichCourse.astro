@@ -1,0 +1,28 @@
+---
+// A "Which course?" page for a root URL whose content is now course-specific
+// (/spark-0/, /prompts/, /prompts/dig-deeper/, /prompts/check/). An empty state
+// with one question, instead of a 404 (site v2, Oct 17).
+import Base from '../layouts/Base.astro';
+import CourseCards from './CourseCards.astro';
+
+interface Props {
+  /** What the student came for, e.g. "the Spark 0 guide". */
+  thing: string;
+  /** Path under the course, e.g. 'spark-0/'. */
+  to: string;
+}
+
+const { thing, to } = Astro.props;
+---
+
+<Base title="Which course?" description={`Pick your course to open ${thing}.`}>
+  <h1>Which course are you in?</h1>
+  <p class="lede">Each course has its own version of {thing}. Pick yours:</p>
+  <CourseCards to={to} level={2} />
+</Base>
+
+<style>
+  .lede {
+    font-size: 1.2rem;
+  }
+</style>

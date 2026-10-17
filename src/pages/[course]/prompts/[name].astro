@@ -1,0 +1,64 @@
+---
+// One page per prompt per course: /250/prompts/start/, dig-deeper/, check/ (and /340/…).
+// The text is shown unrendered, exactly as tested, so students paste what was tested.
+import { getEntry } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import PageMeta from '../../../components/PageMeta.astro';
+import CopyBlock from '../../../components/CopyBlock.astro';
+import { courseOrder, type Course } from '../../../lib/courses';
+import { prompts, promptOrder, promptFile, type PromptName } from '../../../lib/prompts';
+
+export function getStaticPaths() {
+  return courseOrder.flatMap((course) => promptOrder.map((name) => ({ params: { course, name } })));
+}
+
+const course = Astro.params.course as Course;
+const name = Astro.params.name as PromptName;
+const info = prompts[course][name];
+const entry = await getEntry('prompts', promptFile(name, course));
+if (!entry) throw new Error(`Prompt "${promptFile(name, course)}" is missing: run npm run sync`);
+---
+
+<Base title={`${info.title} · DIGHT ${course}`} description={info.description} course={course}>
+  {
+    name === 'start' && (
+      <p class="back">
+        <a href={`/${course}/spark-0/`}>← Back to Spark 0, Part C</a>
+      </p>
+    )
+  }
+  <PageMeta courses={[`dight${course}`]} tier={name === 'start' ? 'spark' : undefined} />
+  <h1>{info.title}</h1>
+  <p class="lede">{info.description}</p>
+
+  <h2>How to use it</h2>
+  <ol>
+    {info.howTo.map((step) => <li>{step}</li>)}
+  </ol>
+  {
+    info.command ? (
+      <p>
+        Once the starter kit is in your repo, <code>{info.command}</code> runs the same text, so you don’t need to
+        paste it.
+      </p>
+    ) : (
+      <p>You run this prompt once, for Spark 0, so it’s always pasted. There’s no slash command for it.</p>
+    )
+  }
+
+  <h2>The prompt</h2>
+  <CopyBlock id="prompt-text" text={entry.body ?? ''} />
+
+  <p><a href={`/${course}/prompts/`}>All prompts</a> · <a href={`/${course}/spark-0/`}>Spark 0 guide</a></p>
+</Base>
+
+<style>
+  .lede {
+    font-size: 1.2rem;
+  }
+
+  .back {
+    margin-block-end: 1rem;
+    font-weight: 700;
+  }
+</style>

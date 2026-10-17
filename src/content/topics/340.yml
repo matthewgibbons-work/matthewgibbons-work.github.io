@@ -1,0 +1,44 @@
+# DIGHT 340 topics this term, in order (site v2, Oct 17).
+# No dates on purpose: units can shift without an edit. Source: PLAN.md "DIGHT 340 unit map".
+# Fields: name, summary (one line), tier (spark | prototype | release, optional),
+# prototype (the Prototype this topic feeds, optional).
+- name: Onboarding and Spark 0
+  summary: Rename your repo and set it up for the new system, with the agent walking you through it.
+  tier: spark
+- name: DOM (re-run)
+  summary: Render your Pokémon party to the page; semantic buttons and keyboard events.
+- name: Async 1
+  summary: The event loop, Promises, and Promise.all.
+  prototype: P1
+- name: Async 2
+  summary: async/await, fetching PokéAPI, JSON, and error handling.
+  prototype: P1
+- name: Modules, npm, Vite, and Vitest
+  summary: Split code into modules, and set up a build and tests.
+  prototype: P2
+- name: Svelte intro
+  summary: Components, $state, $derived, and $effect; reading TypeScript annotations.
+  prototype: P2
+- name: Svelte logic and events
+  summary: if, each, and await blocks; fetching data; accessibility warnings.
+  prototype: P3
+- name: Svelte components and props
+  summary: Typed props, snippets, and callback props. The Release brief comes out.
+  prototype: P4
+- name: Svelte forms and shared state
+  summary: bind:, shared state, labeled inputs, and announced errors; write your Release intent brief.
+  prototype: P4
+- name: Astro intro and repo conversion
+  summary: Routing, layouts, and deploying an Astro site.
+- name: Astro content collections
+  summary: Your reflections become a collection, with schemas and dynamic routes.
+- name: Astro islands and client-side data
+  summary: Svelte inside Astro, client directives, and view transitions.
+- name: Testing and accessibility
+  summary: End-to-end tests with Playwright and axe.
+- name: Big live build
+  summary: A whole Astro and Svelte app, from intent brief to verified deploy.
+  tier: release
+- name: Open lab
+  summary: Final help and Release walkthroughs.
+  tier: release

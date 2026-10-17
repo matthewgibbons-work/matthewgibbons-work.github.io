@@ -1,0 +1,102 @@
+---
+// The two course cards: the hub's one question, also used on the "Which course?"
+// pages, the 404, and How it works. The whole card is the link (a big target).
+import Badge from './Badge.astro';
+import { courses, courseOrder } from '../lib/courses';
+
+interface Props {
+  /** Appended to the course home, e.g. 'spark-0/' links to /250/spark-0/. */
+  to?: string;
+  /** Heading level for each card's title, to fit the page's outline. */
+  level?: 2 | 3;
+}
+
+const { to = '', level = 3 } = Astro.props;
+const Heading = `h${level}` as 'h2' | 'h3';
+---
+
+<ul class="cards" role="list">
+  {
+    courseOrder.map((id) => {
+      const c = courses[id];
+      return (
+        <li class={`card card--${id}`}>
+          <Heading>
+            <a href={`${c.href}${to}`}>{c.name}</a>
+          </Heading>
+          <p>
+            <Badge kind={id} /> {c.topic}
+          </p>
+          <p class="card-meta">
+            Running example: {c.example}. Agent: {c.agent}.
+          </p>
+        </li>
+      );
+    })
+  }
+</ul>
+
+<style>
+  .cards {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+    gap: 1rem;
+    margin-block: 1.5rem 2rem;
+  }
+
+  .card {
+    position: relative;
+    margin: 0;
+    padding: 1.25rem 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 0.35rem solid var(--card-accent);
+    border-radius: var(--radius);
+  }
+
+  .card--250 { --card-accent: var(--blue); }
+  .card--340 { --card-accent: var(--red); }
+
+  .card:hover {
+    border-color: var(--card-accent);
+  }
+
+  .card :is(h2, h3) {
+    margin: 0 0 0.75rem;
+    padding: 0;
+    border: 0;
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+  }
+
+  /* Stretch the title link over the whole card. */
+  .card a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+  }
+
+  .card:focus-within {
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
+  }
+
+  .card a:focus-visible {
+    outline: none;
+  }
+
+  .card p {
+    margin: 0 0 0.5rem;
+  }
+
+  .card-meta {
+    color: var(--muted);
+  }
+
+  .card p:last-child {
+    margin: 0;
+  }
+</style>

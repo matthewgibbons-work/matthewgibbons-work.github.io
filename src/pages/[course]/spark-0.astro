@@ -1,0 +1,65 @@
+---
+// Spark 0 for one course: /250/spark-0/ and /340/spark-0/ (site v2, Oct 17).
+// Source: dight-refactor/course-site-content/spark-0.md, split per course by npm run sync.
+// The Markdown starts with its own h1. Its <!-- prompt:start --> marker becomes this
+// course's Start prompt with a Copy button, so students never leave the page (SP-2).
+import { getEntry, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageMeta from '../../components/PageMeta.astro';
+import MarkdownBody from '../../components/MarkdownBody.astro';
+import CopyButton from '../../components/CopyButton.astro';
+import { courseOrder, type Course } from '../../lib/courses';
+import { promptFile, promptHref } from '../../lib/prompts';
+
+export function getStaticPaths() {
+  return courseOrder.map((course) => ({ params: { course } }));
+}
+
+const course = Astro.params.course as Course;
+const entry = await getEntry('pages', `spark-0-${course}`);
+if (!entry) throw new Error(`spark-0-${course}.md is missing: run npm run sync`);
+const start = await getEntry('prompts', promptFile('start', course));
+if (!start) throw new Error(`The ${course} Start prompt is missing: run npm run sync`);
+
+const { Content } = await render(entry);
+const { title, description, courses, tier, date, due } = entry.data;
+---
+
+<Base title={title} description={description} course={course}>
+  <PageMeta courses={courses} tier={tier ?? 'spark'} date={date} due={due} />
+  <MarkdownBody>
+    <Content />
+    <div class="start-prompt" slot="prompt">
+      <CopyButton target="start-prompt" label="Copy the Start prompt" />
+      <details>
+        <summary>See the prompt text</summary>
+        <pre id="start-prompt">{start.body}</pre>
+      </details>
+      <p class="aside">
+        Also on its own page: <a href={promptHref('start', course)}>Start prompt</a>.
+      </p>
+    </div>
+  </MarkdownBody>
+</Base>
+
+<style>
+  .start-prompt {
+    margin-block: 1.25rem 1.5rem;
+    padding: 1rem 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 0.35rem solid var(--accent);
+    border-radius: var(--radius);
+  }
+
+  .start-prompt pre {
+    white-space: pre-wrap;
+    font-size: 0.95rem;
+  }
+
+  .aside {
+    margin: 0.75rem 0 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+</style>

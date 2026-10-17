@@ -32,4 +32,19 @@ const templates = defineCollection({
   loader: glob({ pattern: '*.md', base: './src/content/templates' }),
 });
 
-export const collections = { pages, prompts, templates };
+// Topics this term, one file per course (id '250' or '340'), synced from
+// dight-refactor/course-site-content/topics-NNN.yml. In teaching order, with no
+// dates on purpose, so units can shift without an edit.
+const topics = defineCollection({
+  loader: glob({ pattern: '*.yml', base: './src/content/topics' }),
+  schema: z.array(
+    z.object({
+      name: z.string(),
+      summary: z.string(),
+      tier: z.enum(['spark', 'prototype', 'release']).optional(),
+      prototype: z.string().regex(/^P\d$/).optional(),
+    }),
+  ),
+});
+
+export const collections = { pages, prompts, templates, topics };

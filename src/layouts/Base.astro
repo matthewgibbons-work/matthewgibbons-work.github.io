@@ -6,26 +6,44 @@ import '@fontsource/atkinson-hyperlegible/700.css';
 import '@fontsource/atkinson-hyperlegible/700-italic.css';
 import '@fontsource-variable/fira-code';
 import '../styles/global.css';
+import Badge from '../components/Badge.astro';
+import { courses, otherCourse, type Course } from '../lib/courses';
 
 interface Props {
   title: string;
   description?: string;
+  /** Set on course pages: switches the nav to that course and the accent to its colour. */
+  course?: Course;
 }
 
-const { title, description } = Astro.props;
+const { title, description, course } = Astro.props;
 const siteName = 'DIGHT 250 & 340';
 const pageTitle = title === siteName ? title : `${title} · ${siteName}`;
-
-const nav = [
-  { href: '/how-it-works/', label: 'How it works' },
-  { href: '/spark-0/', label: 'Spark 0' },
-  { href: '/prompts/', label: 'Prompts' },
-];
 const path = Astro.url.pathname;
+
+// The nav only offers links that make sense where you are (site v2, Oct 17).
+// Course pages: that course's pages, then How it works. Shared pages: the shared
+// pages, then both courses.
+const nav = course
+  ? [
+      { href: `/${course}/`, label: 'Course home', exact: true },
+      { href: `/${course}/spark-0/`, label: 'Spark 0' },
+      { href: `/${course}/prompts/`, label: 'Prompts' },
+      { href: '/how-it-works/', label: 'How it works' },
+    ]
+  : [
+      { href: '/how-it-works/', label: 'How it works' },
+      { href: '/notes/', label: 'NOTES' },
+      { href: '/agents/', label: 'AGENTS' },
+      { href: '/250/', label: 'DIGHT 250' },
+      { href: '/340/', label: 'DIGHT 340' },
+    ];
+const isCurrent = (href: string, exact = false) => (exact ? path === href : path.startsWith(href));
+const other = course && courses[otherCourse(course)];
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-course={course}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -43,10 +61,11 @@ const path = Astro.url.pathname;
         </a>
         <nav aria-label="Main">
           <ul>
+            {course && <li class="nav-course"><Badge kind={course} /></li>}
             {
-              nav.map(({ href, label }) => (
+              nav.map(({ href, label, exact }) => (
                 <li>
-                  <a href={href} aria-current={path.startsWith(href) ? 'page' : undefined}>
+                  <a href={href} aria-current={isCurrent(href, exact) ? 'page' : undefined}>
                     {label}
                   </a>
                 </li>
@@ -54,6 +73,7 @@ const path = Astro.url.pathname;
             }
           </ul>
         </nav>
+        {other && <a class="switch" href={other.href}>Switch to {other.name}</a>}
       </div>
     </header>
 
@@ -170,10 +190,21 @@ const path = Astro.url.pathname;
     border-bottom: 2px solid transparent;
   }
 
-  /* Current page: an underline, not colour alone. */
+  /* Current page: an underline, not colour alone. In the course accent on course pages. */
   nav a:hover,
   nav a[aria-current='page'] {
-    border-bottom-color: var(--teal);
+    border-bottom-color: var(--accent);
+  }
+
+  .nav-course {
+    display: flex;
+    align-items: center;
+  }
+
+  /* The other course: small and out of the way, but always there. */
+  .switch {
+    font-size: 0.85rem;
+    color: var(--muted);
   }
 
   main {

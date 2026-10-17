@@ -11,12 +11,11 @@ The assignment is the folder I've named after this prompt, or the folder of the 
 - No `TODO(human)` markers are left anywhere in the folder's code, either. List each one with its file and line.
 - AI use names the tool and at least one actual prompt or instruction.
 - Accepted / changed / rejected says *why*, not just *what*.
-- Dig deeper includes an MDN link (or Svelte or Astro docs link in DIGHT 340).
+- Dig deeper includes an MDN link.
 
 **"Done" requirements**
 
-- **DIGHT 250:** read the HTML and point out anything likely to fail the W3C validator. Then remind me to run the real check at https://validator.w3.org/nu/ with my live URL.
-- **DIGHT 340:** look for code likely to cause console errors (bad imports, unhandled promise rejections, undefined variables). If ESLint or Vitest is set up in this folder, offer to run `npx eslint .` and `npx vitest run`, and run them only if I say yes.
+- **Validator:** read the HTML and point out anything likely to fail the W3C validator. Then remind me to run the real check at https://validator.w3.org/nu/ with my live URL.
 - **The live page:** tell me the GitHub Pages URL this folder should have, and that I need to open it and see it load.
 - **Hub link:** the hub `index.html` links to this folder.
 - **Git:** run `git status` and `git log --oneline -- <folder>`. Tell me if anything isn't committed or pushed, and whether my commit messages say what changed (not "update" or "fix").

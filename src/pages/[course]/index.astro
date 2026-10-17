@@ -1,0 +1,317 @@
+---
+// Course home: /250/ and /340/ (site v2, Oct 17). Nothing here needs a weekly edit:
+// the topic list has no dates and no "current" marker, and the setup guide stays all term.
+// Order: setup guide, your setup, the term (topics, Prototypes, Release), prompts, reference.
+import { getEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Badge from '../../components/Badge.astro';
+import { courses, courseOrder, type Course } from '../../lib/courses';
+import { prompts, promptOrder, promptHref } from '../../lib/prompts';
+
+export function getStaticPaths() {
+  return courseOrder.map((course) => ({ params: { course } }));
+}
+
+const course = Astro.params.course as Course;
+const c = courses[course];
+const topics = (await getEntry('topics', course))?.data ?? [];
+const spark0 = await getEntry('pages', `spark-0-${course}`);
+---
+
+<Base title={c.name} description={`${c.name}: ${c.topic}. Setup, topics this term, and prompts.`} course={course}>
+  <h1>{c.name}</h1>
+  <p class="lede"><Badge kind={course} /> {c.topic}, with {c.example}.</p>
+
+  <section class="start" aria-labelledby="start">
+    <h2 id="start"><Badge kind="spark" /> Setup guide (Spark 0)</h2>
+    <p>{spark0?.data.description}</p>
+    <p class="go"><a href={`/${course}/spark-0/`}>Open the Spark 0 guide</a></p>
+  </section>
+
+  <section aria-labelledby="setup">
+    <h2 id="setup">Your setup</h2>
+    {
+      course === '250' ? (
+        <dl class="facts">
+          <div>
+            <dt>Agent</dt>
+            <dd>GitHub Copilot Chat in VS Code, on the free tier, with the GitHub account you already push with.</dd>
+          </div>
+          <div>
+            <dt>Scope</dt>
+            <dd>HTML and CSS only, with no frameworks. JavaScript appears once, in the bridge to 340 at the end of term.</dd>
+          </div>
+          <div>
+            <dt>Repo</dt>
+            <dd>Your <code>username.github.io</code> hub, restructured in Spark 0.</dd>
+          </div>
+          <div>
+            <dt>Running example</dt>
+            <dd>The Saturday Morning Archive.</dd>
+          </div>
+          <div>
+            <dt>Git</dt>
+            <dd>You type every <code>git</code> command yourself. The agent shows you what to type and why.</dd>
+          </div>
+        </dl>
+      ) : (
+        <>
+          <dl class="facts">
+            <div>
+              <dt>Agent</dt>
+              <dd>
+                Claude Code, in the Claude desktop app’s Code tab, on your own Claude Pro account. Copilot Chat in VS
+                Code is the free fallback, and it reads the same rules.
+              </dd>
+            </div>
+            <div>
+              <dt>Scope</dt>
+              <dd>Vanilla JavaScript, Svelte 5, and Astro. TypeScript only where Svelte or Astro uses it, explained.</dd>
+            </div>
+            <div>
+              <dt>Repo</dt>
+              <dd>
+                <code>dight340-exercises</code>, renamed to <code>dight340</code> in Spark 0, which changes its address.
+                Plain folders until the Astro unit, when your Release becomes an Astro site in <code>release/</code>.
+              </dd>
+            </div>
+            <div>
+              <dt>Running example</dt>
+              <dd>Your Pokémon party, with PokéAPI.</dd>
+            </div>
+            <div>
+              <dt>Class</dt>
+              <dd>
+                A seminar: the unit page frames the concept for about 10 minutes, then you drive the agent through the
+                live build while I coach. Expect an “explain this line” question every class.
+              </dd>
+            </div>
+            <div>
+              <dt>Git</dt>
+              <dd>The agent runs the <code>git</code> commands, after showing you each one.</dd>
+            </div>
+          </dl>
+
+          <h3>Working with Claude Code</h3>
+          <ul>
+            <li>
+              After Spark 0, the repo sets Claude to its <strong>Learning</strong> style: it leaves some decisions in the
+              code for you to make. From the Astro unit it switches to <strong>Explanatory</strong>.
+            </li>
+            <li>
+              Your Pro usage limit is shared with chat, so build good habits from day one: plan before generating, ask
+              for small, scoped changes, and <code>/clear</code> between tasks. If you hit the limit, carry on in
+              Copilot Chat.
+            </li>
+          </ul>
+        </>
+      )
+    }
+  </section>
+
+  <section aria-labelledby="term">
+    <h2 id="term">The term</h2>
+
+    <h3>Topics this term</h3>
+    <p class="note">In teaching order. Dates live in Learning Suite, so this list never goes out of date.</p>
+    <ol class="topics">
+      {
+        topics.map((t) => (
+          <li>
+            <span class="topic-name">{t.name}</span>
+            {t.tier && <Badge kind={t.tier} />}
+            {t.prototype && <span class="topic-proto">Feeds {t.prototype}</span>}
+            <span class="topic-summary">{t.summary}</span>
+          </li>
+        ))
+      }
+    </ol>
+
+    <h3>Prototypes</h3>
+    <p class="note">Dates may shift as the term goes on. Learning Suite always has the current ones.</p>
+    <div class="table-wrap" tabindex="0" role="region" aria-label={`${c.name} Prototypes`}>
+      <table>
+        <thead>
+          <tr><th scope="col">Prototype</th><th scope="col">Topic</th><th scope="col">Due</th></tr>
+        </thead>
+        <tbody>
+          {c.prototypes.map(([n, topic, due]) => <tr><th scope="row">{n}</th><td>{topic}</td><td>{due}</td></tr>)}
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Release and reflections</h3>
+    {
+      course === '250' ? (
+        <ul>
+          <li>
+            <strong>Release:</strong> expand the Saturday Morning Archive, or build a small site for a real or
+            realistic audience. Brief out Mon Nov 16, intent brief in class Wed Nov 18. Due{' '}
+            <strong>Fri Dec 11, 11:59 pm</strong>; walkthrough at the open lab on <strong>Sat Dec 12</strong> (the
+            final-exam slot).
+          </li>
+          <li>
+            <strong>Reflections:</strong> “A time the agent was wrong,” due Mon Nov 9. “Accessibility when you aren’t
+            typing the markup,” due Mon Nov 30. Optional: looking back on your Release, due with it.
+          </li>
+        </ul>
+      ) : (
+        <ul>
+          <li>
+            <strong>Release:</strong> an Astro site with Svelte islands, PokéAPI data, your reflections as a
+            collection, and tests. Or use your own API, by proposal. You’ll also write your project’s own{' '}
+            <code>AGENTS.md</code> and one custom skill, and explain why. Brief out Mon Nov 16, intent brief in class
+            Wed Nov 18. Due <strong>Tue Dec 15, 11:59 pm</strong>; walkthrough at the open lab on{' '}
+            <strong>Wed Dec 16</strong> (the final-exam slot).
+          </li>
+          <li>
+            <strong>Reflections:</strong> “A time the agent was wrong,” due Mon Nov 9. “Accessibility when you aren’t
+            typing the markup,” due Mon Nov 30; it becomes the first entry in your Astro site. Optional: looking back
+            on your Release, due with it.
+          </li>
+        </ul>
+      )
+    }
+  </section>
+
+  <section aria-labelledby="prompts">
+    <h2 id="prompts">Prompts</h2>
+    <ul class="links" role="list">
+      {
+        promptOrder.map((name) => {
+          const p = prompts[course][name];
+          return (
+            <li>
+              <a href={promptHref(name, course)}>{p.title}</a>
+              {p.command && <code>{p.command}</code>}
+              <span>{p.description}</span>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </section>
+
+  <section aria-labelledby="reference">
+    <h2 id="reference">Reference</h2>
+    <ul class="links" role="list">
+      <li><a href="/how-it-works/">How this course works</a><span>The loop, the assignments, grading, and the AI policy.</span></li>
+      <li><a href="/notes/">The NOTES.md template</a><span>What goes in each section, and why it’s yours to write.</span></li>
+      <li><a href="/agents/">AGENTS.md, explained</a><span>What the rules file in your repo tells the agent.</span></li>
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .lede {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.75rem;
+    font-size: 1.2rem;
+  }
+
+  section {
+    margin-block-start: 2.5rem;
+  }
+
+  /* The setup guide: first, and the one thing to do. */
+  .start {
+    padding: 0.25rem 1.5rem 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 0.35rem solid var(--accent);
+    border-radius: var(--radius);
+  }
+
+  .start h2 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.75rem;
+  }
+
+  .go {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  .facts {
+    margin: 0 0 1.25rem;
+  }
+
+  .facts div {
+    margin-block-end: 0.75rem;
+  }
+
+  .facts dt {
+    font-weight: 700;
+  }
+
+  .facts dd {
+    margin: 0;
+  }
+
+  .note {
+    color: var(--muted);
+    font-size: 1rem;
+  }
+
+  .topics {
+    padding-inline-start: 1.75rem;
+  }
+
+  .topics li {
+    margin-block-end: 0.75rem;
+  }
+
+  .topic-name {
+    font-weight: 700;
+    margin-inline-end: 0.5rem;
+  }
+
+  .topic-proto {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .topic-summary {
+    display: block;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+    margin-block-end: 1.25rem;
+  }
+
+  .table-wrap table {
+    margin: 0;
+  }
+
+  .table-wrap:focus-visible {
+    outline-offset: 2px;
+  }
+
+  .links {
+    list-style: none;
+    padding: 0;
+  }
+
+  .links li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.1rem 0.6rem;
+    margin: 0 0 1rem;
+  }
+
+  .links a {
+    font-weight: 700;
+  }
+
+  .links span {
+    flex-basis: 100%;
+    color: var(--muted);
+  }
+</style>

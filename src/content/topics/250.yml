@@ -1,0 +1,44 @@
+# DIGHT 250 topics this term, in order (site v2, Oct 17).
+# No dates on purpose: units can shift without an edit. Source: PLAN.md "DIGHT 250 unit map".
+# Fields: name, summary (one line), tier (spark | prototype | release, optional),
+# prototype (the Prototype this topic feeds, optional).
+- name: Onboarding and Spark 0
+  summary: Set up your repo for the new system, with the agent walking you through it.
+  tier: spark
+- name: Re-run in the loop
+  summary: Rebuild or extend the Episode Guide using what you already know.
+- name: Color
+  summary: Color formats, backgrounds, and gradients; contrast, and never color alone.
+  prototype: P1
+- name: Typography
+  summary: Web fonts, rem and em, line-height; readable at 200% zoom.
+  prototype: P1
+- name: Box model and display
+  summary: Spacing, sizing, and touch target size.
+  prototype: P2
+- name: Flexbox
+  summary: One-dimensional layout; visual order versus source order.
+  prototype: P2
+- name: Grid
+  summary: Two-dimensional layout with template areas and auto-fit.
+  prototype: P3
+- name: Responsive design
+  summary: Layouts that reflow down to 320px wide. The Release brief comes out.
+  prototype: P4
+- name: Forms
+  summary: Labels, fieldsets, and validation; write your Release intent brief.
+  prototype: P4
+- name: Multimedia and positioning
+  summary: Captions, no autoplay, and visually hidden text.
+- name: Modern CSS
+  summary: "`:has()`, custom properties, nesting, dark mode, and focus styles."
+- name: Transitions, animations, and an accessibility audit
+  summary: Motion that respects reduced-motion settings; audit with the validator, axe, and the keyboard.
+- name: Big live build
+  summary: A whole site, from intent brief to verified deploy.
+  tier: release
+- name: Bridge to DIGHT 340
+  summary: A first look at JavaScript and DOM events, through the agent.
+- name: Open lab
+  summary: Final help and Release walkthroughs.
+  tier: release

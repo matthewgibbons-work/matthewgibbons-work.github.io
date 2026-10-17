@@ -60,13 +60,22 @@ const { target, label = 'Copy prompt', copied = 'Copied. Paste it into the chat.
       requestAnimationFrame(() => (status.textContent = message));
     };
 
+    // The button itself says "Copied" for 2 seconds, so success is hard to miss (CB-1).
+    const label = button.textContent;
+    let reset: number | undefined;
+
     button.hidden = false;
     button.addEventListener('click', async () => {
       try {
         await navigator.clipboard.writeText(block.textContent ?? '');
         announce(button.dataset.copied ?? 'Copied.');
+        button.textContent = 'Copied ✓';
+        clearTimeout(reset);
+        reset = window.setTimeout(() => (button.textContent = label), 2000);
       } catch {
-        // Clipboard blocked: select the text so one keypress copies it.
+        // Clipboard blocked: select the text so one keypress copies it. Open a
+        // collapsed <details> first (Spark 0's inline prompt), or nothing is selected.
+        block.closest('details')?.setAttribute('open', '');
         const range = document.createRange();
         range.selectNodeContents(block);
         const selection = window.getSelection();

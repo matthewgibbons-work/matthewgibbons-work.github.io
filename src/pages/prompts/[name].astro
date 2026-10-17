@@ -1,55 +1,18 @@
 ---
-// One page per copy-paste prompt: /prompts/start-250/, start-340/, dig-deeper/, check/.
-// The text is shown unrendered, exactly as tested, so students paste what was tested.
-import { getCollection } from 'astro:content';
-import Base from '../../layouts/Base.astro';
-import PageMeta from '../../components/PageMeta.astro';
-import CopyBlock from '../../components/CopyBlock.astro';
-import CopyButton from '../../components/CopyButton.astro';
-import { prompts, type PromptName } from '../../lib/prompts';
+// /prompts/dig-deeper/ and /prompts/check/ ask which course. The shared pages
+// (How it works, NOTES, AGENTS) link here, so they never need a course.
+// The old /prompts/start-250 and start-340 redirect in astro.config.mjs instead.
+import WhichCourse from '../../components/WhichCourse.astro';
 
-export async function getStaticPaths() {
-  const entries = await getCollection('prompts');
-  return entries.map((entry) => {
-    if (!(entry.id in prompts)) throw new Error(`No page details for prompt "${entry.id}" in src/lib/prompts.ts`);
-    return { params: { name: entry.id }, props: { text: entry.body ?? '' } };
-  });
+export function getStaticPaths() {
+  return [
+    { params: { name: 'dig-deeper' }, props: { thing: 'the Dig deeper prompt' } },
+    { params: { name: 'check' }, props: { thing: 'the Check prompt' } },
+  ];
 }
 
-const name = Astro.params.name as PromptName;
-const { text } = Astro.props;
-const info = prompts[name];
+const { name } = Astro.params;
+const { thing } = Astro.props;
 ---
 
-<Base title={info.title} description={info.description}>
-  <PageMeta courses={info.courses} />
-  <h1>{info.title}</h1>
-  <p class="lede">{info.description}</p>
-  <CopyButton target="prompt-text" />
-
-  <h2>How to use it</h2>
-  <ol>
-    {info.howTo.map((step) => <li>{step}</li>)}
-  </ol>
-  {
-    info.command ? (
-      <p>
-        Once the starter kit is in your repo, <code>{info.command}</code> runs the same text, so you don’t need to
-        paste it.
-      </p>
-    ) : (
-      <p>You run this prompt once, for Spark 0, so it’s always pasted. There’s no slash command for it.</p>
-    )
-  }
-
-  <h2>The prompt</h2>
-  <CopyBlock id="prompt-text" text={text} />
-
-  <p><a href="/prompts/">All prompts</a> · <a href="/spark-0/">Spark 0 guide</a></p>
-</Base>
-
-<style>
-  .lede {
-    font-size: 1.2rem;
-  }
-</style>
+<WhichCourse thing={thing} to={`prompts/${name}/`} />
