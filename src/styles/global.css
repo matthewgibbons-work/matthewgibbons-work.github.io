@@ -218,7 +218,7 @@ td code {
 }
 
 /* ==========================================================================
-   Callouts: the guide's > blockquotes, and <aside class="callout"> in .astro pages.
+   Callouts: the guide's > blockquotes, and <div class="callout" role="note"> in .astro pages.
    ========================================================================== */
 
 blockquote,
@@ -242,7 +242,7 @@ blockquote strong:first-child,
 }
 
 /* ==========================================================================
-   Checklists (GFM task lists): the boxes are visual only.
+   Checklists (GFM task lists): decorative boxes, see src/components/MarkdownBody.astro.
    ========================================================================== */
 
 .contains-task-list {
@@ -250,12 +250,14 @@ blockquote strong:first-child,
   padding-left: 0.25rem;
 }
 
-.task-list-item input {
-  accent-color: var(--green);
-  margin-right: 0.5em;
-  inline-size: 1.1em;
-  block-size: 1.1em;
-  vertical-align: -0.15em;
+.task-box {
+  display: inline-block;
+  inline-size: 1em;
+  block-size: 1em;
+  margin-right: 0.6em;
+  vertical-align: -0.12em;
+  border: 2px solid var(--green);
+  border-radius: 0.2em;
 }
 
 /* ==========================================================================

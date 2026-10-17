@@ -4,6 +4,7 @@
 import { getEntry, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import PageMeta from '../components/PageMeta.astro';
+import MarkdownBody from '../components/MarkdownBody.astro';
 
 const entry = await getEntry('pages', 'spark-0');
 if (!entry) throw new Error('spark-0.md is missing: run npm run sync');
@@ -14,5 +15,5 @@ const { title, description, courses, tier, date, due } = entry.data;
 
 <Base title={title} description={description}>
   <PageMeta courses={courses} tier={tier ?? 'spark'} date={date} due={due} />
-  <Content />
+  <MarkdownBody><Content /></MarkdownBody>
 </Base>

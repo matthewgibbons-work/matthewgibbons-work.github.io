@@ -1,0 +1,10 @@
+---
+// Renders a Markdown page's content, with one fix: "- [ ]" lists come out as disabled,
+// unlabeled checkboxes, which screen readers announce as nameless "checkbox, dimmed"
+// controls. Students can't tick them anyway, so each becomes a decorative box and the
+// item is read as a plain list item.
+const html = await Astro.slots.render('default');
+const fixed = html.replace(/<input\b[^>]*type="checkbox"[^>]*>/g, '<span class="task-box" aria-hidden="true"></span>');
+---
+
+<Fragment set:html={fixed} />

@@ -32,7 +32,6 @@ if (!template?.body) throw new Error('NOTES.md template is missing: run npm run 
   <CopyBlock
     id="notes-template"
     text={template.body}
-    label="NOTES.md template"
     buttonLabel="Copy template"
     copied="Copied. Paste it into a new NOTES.md."
   />
@@ -72,12 +71,12 @@ if (!template?.body) throw new Error('NOTES.md template is missing: run npm run 
     questions for the 2-minute “explain this line” checks and your Release walkthrough, so they help you prepare.
   </p>
 
-  <aside class="callout" aria-label="Your repo is public">
+  <div class="callout" role="note" aria-label="Your repo is public">
     <p>
       <strong>Your repo is public, and so is this file.</strong> Anyone can read your <code>NOTES.md</code>, including
       your Open questions. Write about the code. Leave out anything personal you wouldn’t post online.
     </p>
-  </aside>
+  </div>
 
   <h2>Who writes it</h2>
   <p>

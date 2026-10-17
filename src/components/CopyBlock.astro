@@ -6,17 +6,16 @@ import CopyButton from './CopyButton.astro';
 interface Props {
   id: string;
   text: string;
-  label: string;
   buttonLabel?: string;
   copied?: string;
 }
 
-const { id, text, label, buttonLabel, copied } = Astro.props;
+const { id, text, buttonLabel, copied } = Astro.props;
 ---
 
 <div class="copy-block">
   <CopyButton target={id} label={buttonLabel} copied={copied} />
-  <pre id={id} aria-label={label}>{text}</pre>
+  <pre id={id}>{text}</pre>
 </div>
 
 <style>
