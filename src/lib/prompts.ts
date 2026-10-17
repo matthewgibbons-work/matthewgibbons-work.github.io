@@ -7,8 +7,9 @@ export interface PromptInfo {
   title: string;
   description: string;
   courses: ('dight250' | 'dight340')[];
-  /** The slash command that runs the same text once the kit is in place. */
-  command: string;
+  /** The slash command that runs the same text once the kit is in place. The Start
+   *  prompts have none: Spark 0 runs once, before the kit is there. */
+  command?: string;
   /** Where and how to paste it, as short HTML-free sentences. */
   howTo: string[];
 }
@@ -18,18 +19,16 @@ export const prompts: Record<PromptName, PromptInfo> = {
     title: 'Start prompt: DIGHT 250',
     description: 'Runs Spark 0 for DIGHT 250, one step at a time.',
     courses: ['dight250'],
-    command: '/start',
     howTo: [
       'In VS Code, open the Chat view and choose Agent in the mode menu.',
       'Copy the prompt, paste it into the chat, and send it.',
-      'Today you paste it: /start only works after the agent’s first step puts the kit in place.',
+      'If the conversation breaks partway, paste it again and say which step you’d reached.',
     ],
   },
   'start-340': {
     title: 'Start prompt: DIGHT 340',
     description: 'Runs Spark 0 for DIGHT 340, one step at a time.',
     courses: ['dight340'],
-    command: '/start',
     howTo: [
       'In the Claude desktop app, open the Code tab and start a new session on your repo folder.',
       'Copy the prompt, paste it in, and send it.',

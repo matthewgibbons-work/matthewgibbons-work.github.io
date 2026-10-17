@@ -55,7 +55,7 @@ You should now see `dight250-starter/` (or `dight340-starter/`) in your repo. Th
 2. In the mode menu at the bottom of the chat box, choose **Agent**. Agent mode can create and move files; Ask mode can't.
 3. Copy the [Start prompt for DIGHT 250](/prompts/start-250) and paste it into the chat. Send it.
 
-After the agent's first step, the kit's skills are in place, so you can type `/start`, `/dig-deeper`, or `/check` instead of pasting. Today you paste, because the kit isn't in place until that first step.
+You paste the Start prompt because you only run it once, before the kit is in place. After the agent's first step, the kit's skills are in place, so from then on you can type `/dig-deeper` or `/check` instead of pasting those prompts.
 
 ### DIGHT 340: the Claude desktop app
 
@@ -63,7 +63,7 @@ After the agent's first step, the kit's skills are in place, so you can type `/s
 2. Choose your repo folder (`dight340-exercises`) itself, not the folder it's in.
 3. Copy the [Start prompt for DIGHT 340](/prompts/start-340) and paste it in. Send it.
 
-After the agent's first step, type `/` and check that `start`, `dig-deeper`, and `check` are listed. You don't need to restart: the app picks up the skills straight away, and `AGENTS.md` and the Learning output style load on their own from your next session.
+After the agent's first step, type `/` and check that `dig-deeper` and `check` are listed. You don't need to restart: the app picks up the skills straight away, and `AGENTS.md` and the Learning output style load on their own from your next session.
 
 **Using the terminal or the VS Code extension instead?** After the agent's first step, restart Claude Code once so it reads `AGENTS.md`, the skills, and the settings. In the terminal, type `/exit`, then `claude --continue` to come back to the same conversation. In the VS Code extension, open a new Claude tab and resume the conversation from the session history.
 
@@ -136,7 +136,7 @@ Check that VS Code has your repo folder itself open (not a folder above it), and
 **DIGHT 250: Copilot says it "couldn't load" the skill, but keeps going.**
 That's fine. It already has the skill's instructions and is following them. To avoid it, name the folder: `/check sparks/s01-repo-restructure`, not just `/check`.
 
-**DIGHT 340: `/start`, `/dig-deeper`, or `/check` doesn't appear when you type `/`.**
+**DIGHT 340: `/dig-deeper` or `/check` doesn't appear when you type `/`.**
 Check that the session is open on your repo folder itself (not a folder above it), and that `.claude/skills/` is at the top level. If it still doesn't appear, start a new session on the repo folder. Until it's fixed, paste the [Dig deeper](/prompts/dig-deeper) or [Check](/prompts/check) prompt instead; they're the same text.
 
 **DIGHT 340: Claude doesn't seem to know the course rules, or the Learning style is off.**

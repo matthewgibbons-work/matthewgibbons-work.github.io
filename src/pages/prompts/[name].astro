@@ -31,10 +31,16 @@ const info = prompts[name];
   <ol>
     {info.howTo.map((step) => <li>{step}</li>)}
   </ol>
-  <p>
-    Once the starter kit is in your repo, <code>{info.command}</code> runs the same text, so you don’t need to
-    paste it.
-  </p>
+  {
+    info.command ? (
+      <p>
+        Once the starter kit is in your repo, <code>{info.command}</code> runs the same text, so you don’t need to
+        paste it.
+      </p>
+    ) : (
+      <p>You run this prompt once, for Spark 0, so it’s always pasted. There’s no slash command for it.</p>
+    )
+  }
 
   <h2>The prompt</h2>
   <CopyBlock id="prompt-text" text={text} />

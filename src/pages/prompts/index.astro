@@ -5,11 +5,12 @@ import Badge from '../../components/Badge.astro';
 import { prompts, promptOrder } from '../../lib/prompts';
 ---
 
-<Base title="Prompts" description="The copy-paste versions of /start, /dig-deeper, and /check.">
+<Base title="Prompts" description="The Start prompts for Spark 0, and the copy-paste versions of /dig-deeper and /check.">
   <h1>Prompts</h1>
   <p>
-    These are the prompts behind the course’s slash commands. Copying one from here and pasting it into the chat
-    always works. Once the starter kit is in your repo, the slash command runs the same text.
+    Copying a prompt from here and pasting it into the chat always works. The Start prompts run Spark 0 once, so
+    you always paste them. Dig deeper and Check are also slash commands: once the starter kit is in your repo,
+    <code>/dig-deeper</code> and <code>/check</code> run the same text.
   </p>
 
   <ul class="prompt-list" role="list">
@@ -25,7 +26,7 @@ import { prompts, promptOrder } from '../../lib/prompts';
               {info.courses.map((c) => (
                 <Badge kind={c === 'dight250' ? '250' : '340'} />
               ))}
-              <code>{info.command}</code>
+              {info.command && <code>{info.command}</code>}
             </p>
             <p>{info.description}</p>
           </li>

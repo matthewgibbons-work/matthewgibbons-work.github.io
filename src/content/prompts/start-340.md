@@ -11,15 +11,15 @@ How to run this:
 
 ## Step 1: Check the kit and the agent setup
 
-The repo root should have `AGENTS.md`, `.claude/settings.json`, `.claude/skills/` (with `start/`, `dig-deeper/`, and `check/`, each holding a `SKILL.md`), and `starter/` (with `index.html` and `NOTES.md`).
+The repo root should have `AGENTS.md`, `.claude/settings.json`, `.claude/skills/` (with `dig-deeper/` and `check/`, each holding a `SKILL.md`), and `starter/` (with `index.html` and `NOTES.md`).
 
 - If they're inside a subfolder (for example `dight340-starter/`), show me the moves to bring them to the root, then make them once I agree, and remove the empty subfolder.
 - If anything is missing, stop and tell me to download the starter kit again from the course site.
 - Check there's no `CLAUDE.md` or `CLAUDE.local.md` in this repo. If there is one, Claude Code reads it *instead of* `AGENTS.md`, so tell me and we'll decide what to do with it.
 - Then tell me what to do next, depending on where I'm running you:
-  - **Claude desktop app (Code tab):** no restart. The app picks up the skills straight away, so tell me to type `/` and check that `start`, `dig-deeper`, and `check` are listed. It loads `AGENTS.md` and the Learning output style only when a session starts, so read `AGENTS.md` now and follow it for the rest of this session; from my next session, both load on their own. Don't tell me to restart or open a new session.
-  - **Terminal:** tell me to restart Claude Code, because it reads `AGENTS.md`, `.claude/settings.json`, and the skills only when it starts: `/exit`, then `claude --continue` to come back to this conversation. Then tell me to run `claude --version` (it needs to be 2.1.277 or later to read `AGENTS.md`), `/context` to see that `AGENTS.md` is loaded, and type `/` to see `start`, `dig-deeper`, and `check`.
-  - **VS Code extension:** tell me to restart by opening a new Claude tab and resuming this conversation from the session history, then type `/` to see the three skills.
+  - **Claude desktop app (Code tab):** no restart. The app picks up the skills straight away, so tell me to type `/` and check that `dig-deeper` and `check` are listed. It loads `AGENTS.md` and the Learning output style only when a session starts, so read `AGENTS.md` now and follow it for the rest of this session; from my next session, both load on their own. Don't tell me to restart or open a new session.
+  - **Terminal:** tell me to restart Claude Code, because it reads `AGENTS.md`, `.claude/settings.json`, and the skills only when it starts: `/exit`, then `claude --continue` to come back to this conversation. Then tell me to run `claude --version` (it needs to be 2.1.277 or later to read `AGENTS.md`), `/context` to see that `AGENTS.md` is loaded, and type `/` to see `dig-deeper` and `check`.
+  - **VS Code extension:** tell me to restart by opening a new Claude tab and resuming this conversation from the session history, then type `/` to see the two skills.
   - **Copilot:** tell me to check that **Chat: Open Customizations** (in the Command Palette) lists `AGENTS.md`.
 
 ## Step 2: Rename the repo

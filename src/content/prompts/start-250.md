@@ -11,7 +11,7 @@ How to run this:
 
 ## Step 1: Check the kit is in place
 
-The repo root should have `AGENTS.md`, `.github/skills/` (with `start/`, `dig-deeper/`, and `check/`, each holding a `SKILL.md`), and `starter/` (with `index.html` and `NOTES.md`).
+The repo root should have `AGENTS.md`, `.github/skills/` (with `dig-deeper/` and `check/`, each holding a `SKILL.md`), and `starter/` (with `index.html` and `NOTES.md`).
 
 - If they're all at the root, say so.
 - If they're inside a subfolder (for example `dight250-starter/`), show me the moves to bring them to the root, then make them once I agree, and remove the empty subfolder.
