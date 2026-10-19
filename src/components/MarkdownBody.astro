@@ -5,11 +5,21 @@
 //   becomes a decorative box and the item is read as a plain list item.
 // - A <!-- prompt:start --> marker is replaced by the "prompt" slot, if the page passes one
 //   (Spark 0 puts the Start prompt there, site v2).
+// - A brief's "done" list sits between <!-- done:start --> and <!-- done:end --> (Oct 19).
+//   It's wrapped in #done-list, with the "done" slot (a Copy button) just above it, so
+//   students can paste the whole list into the chat when they run /check.
 const html = await Astro.slots.render('default');
 const prompt = Astro.slots.has('prompt') ? await Astro.slots.render('prompt') : '';
-const fixed = html
+const done = Astro.slots.has('done') ? await Astro.slots.render('done') : '';
+const hasDone = done && html.includes('<!-- done:start -->') && html.includes('<!-- done:end -->');
+let fixed = html
   .replace(/<input\b[^>]*type="checkbox"[^>]*>/g, '<span class="task-box" aria-hidden="true"></span>')
   .replace('<!-- prompt:start -->', prompt);
+if (hasDone) {
+  fixed = fixed
+    .replace('<!-- done:start -->', `${done}<div class="done-list" id="done-list">`)
+    .replace('<!-- done:end -->', '</div>');
+}
 ---
 
 <Fragment set:html={fixed} />

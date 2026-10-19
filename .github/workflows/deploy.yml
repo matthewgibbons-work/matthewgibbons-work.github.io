@@ -3,6 +3,12 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  # Daily rebuild (Oct 19), so a page marked `ready: true` goes live on its date with no
+  # push: pages go live at 13:00 UTC (6 am MST, 7 am MDT; src/lib/published.ts). It runs a
+  # few minutes after the hour, because GitHub delays jobs queued exactly on the hour.
+  schedule:
+    - cron: '7 13 * * *'
+  # "Run workflow" on the Actions tab: publish now, for a same-day fix.
   workflow_dispatch:
 
 permissions:

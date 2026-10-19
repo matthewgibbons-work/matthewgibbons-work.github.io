@@ -2,11 +2,14 @@
 // Course home: /250/ and /340/ (site v2, Oct 17). Nothing here needs a weekly edit:
 // the topic list has no dates and no "current" marker, and the setup guide stays all term.
 // Order: setup guide, your setup, the term (topics, Prototypes, Release), skills, reference.
+// Oct 19: a topic links to its unit page (via `unit:` in topics-NNN.yml) and that unit's
+// Spark, and each Prototype row links to its brief, once those pages are published.
 import { getEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Badge from '../../components/Badge.astro';
 import { courses, courseOrder, type Course } from '../../lib/courses';
 import { skills, skillOrder, skillHref } from '../../lib/skills';
+import { findPage, pageHref, parseId, prototypePage, sessionPair } from '../../lib/published';
 
 export function getStaticPaths() {
   return courseOrder.map((course) => ({ params: { course } }));
@@ -16,6 +19,28 @@ const course = Astro.params.course as Course;
 const c = courses[course];
 const topics = (await getEntry('topics', course))?.data ?? [];
 const spark0 = await getEntry('pages', `spark-0-${course}`);
+
+// Links only to pages this build shows, so production never links a draft.
+const topicLinks = await Promise.all(
+  topics.map(async (t) => {
+    const unit = t.unit ? await findPage(course, 'unit', t.unit) : undefined;
+    const spark = unit?.data.session ? (await sessionPair(course, unit.data.session)).spark : undefined;
+    const brief = t.prototype ? await prototypePage(course, t.prototype) : undefined;
+    return {
+      unit: unit && pageHref(unit),
+      spark: spark && { href: pageHref(spark), label: parseId(spark.id)!.slug.toUpperCase() },
+      prototype: brief && pageHref(brief),
+    };
+  }),
+);
+const prototypeHrefs = Object.fromEntries(
+  await Promise.all(
+    c.prototypes.map(async ([n]) => {
+      const brief = await prototypePage(course, n);
+      return [n, brief && pageHref(brief)] as const;
+    }),
+  ),
+);
 ---
 
 <Base title={c.name} description={`${c.name}: ${c.topic}. Setup, topics this term, and skills.`} course={course}>
@@ -116,14 +141,32 @@ const spark0 = await getEntry('pages', `spark-0-${course}`);
     <p class="note">In teaching order. Dates live in Learning Suite, so this list never goes out of date.</p>
     <ol class="topics">
       {
-        topics.map((t) => (
-          <li>
-            <span class="topic-name">{t.name}</span>
-            {t.tier && <Badge kind={t.tier} />}
-            {t.prototype && <span class="topic-proto">Feeds {t.prototype}</span>}
-            <span class="topic-summary">{t.summary}</span>
-          </li>
-        ))
+        topics.map((t, i) => {
+          const links = topicLinks[i];
+          return (
+            <li>
+              {links.unit ? (
+                <a class="topic-name" href={links.unit}>
+                  {t.name}
+                </a>
+              ) : (
+                <span class="topic-name">{t.name}</span>
+              )}
+              {t.tier && <Badge kind={t.tier} />}
+              {links.spark && (
+                <a class="topic-link" href={links.spark.href}>
+                  Spark {links.spark.label}
+                </a>
+              )}
+              {t.prototype && (
+                <span class="topic-proto">
+                  Feeds {links.prototype ? <a href={links.prototype}>{t.prototype}</a> : t.prototype}
+                </span>
+              )}
+              <span class="topic-summary">{t.summary}</span>
+            </li>
+          );
+        })
       }
     </ol>
 
@@ -135,7 +178,13 @@ const spark0 = await getEntry('pages', `spark-0-${course}`);
           <tr><th scope="col">Prototype</th><th scope="col">Topic</th><th scope="col">Due</th></tr>
         </thead>
         <tbody>
-          {c.prototypes.map(([n, topic, due]) => <tr><th scope="row">{n}</th><td>{topic}</td><td>{due}</td></tr>)}
+          {c.prototypes.map(([n, topic, due]) => (
+            <tr>
+              <th scope="row">{prototypeHrefs[n] ? <a href={prototypeHrefs[n]}>{n}</a> : n}</th>
+              <td>{topic}</td>
+              <td>{due}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
@@ -271,9 +320,14 @@ const spark0 = await getEntry('pages', `spark-0-${course}`);
     margin-inline-end: 0.5rem;
   }
 
+  .topic-proto,
+  .topic-link {
+    font-size: 0.9rem;
+    margin-inline-end: 0.5rem;
+  }
+
   .topic-proto {
     color: var(--muted);
-    font-size: 0.9rem;
   }
 
   .topic-summary {

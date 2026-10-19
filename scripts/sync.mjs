@@ -1,13 +1,18 @@
 // Copies course content from dight-refactor/ into this site, so nothing is edited twice.
 // Edit the source in dight-refactor/ only, run its starter-kits/build.sh, then `npm run sync`.
 //
-//   course-site-content/spark-0.md     → src/content/pages/spark-0-250.md and spark-0-340.md
+//   course-site-content/*.md           → src/content/pages/<name>-250.md and <name>-340.md (split)
+//   course-site-content/units/, sparks/, prototypes/ NNN-<slug>.md
+//                                      → src/content/pages/<same folder>/NNN-<slug>.md (one course each)
 //   course-site-content/topics-NNN.yml → src/content/topics/NNN.yml
 //   starter-kits/dist/*.zip            → public/downloads/
 //   starter-kits/dist/copy-paste/*.md  → src/content/prompts/
 //   starter-kits/src/templates/NOTES.md → src/content/templates/NOTES.md
 //
 // Source folder: ../dight-refactor next to this repo, or set DIGHT_REFACTOR=/path/to/it.
+//
+// Every page is copied, drafts included: the build decides what's live (`ready` plus its
+// date; see src/lib/published.ts). The explicit coursePages list is gone (Oct 19).
 
 import { cp, mkdir, readdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -18,14 +23,15 @@ const source = path.resolve(process.env.DIGHT_REFACTOR ?? path.join(site, '../di
 
 const courses = ['250', '340'];
 
-// Pages split into one copy per course (site v2, Oct 17). In the source:
+// Shared pages (the .md files at the top of course-site-content/) are split into one copy
+// per course (site v2, Oct 17). In the source:
 //   <!-- 250 --> … <!-- /250 -->  (own lines) kept only on the 250 page; the same for 340
 //   {{course}}                    becomes 250 or 340
 //   <!-- prompt:start -->         left in; the page swaps in that course's Start prompt
 // The leading HTML comment (notes for editors) is dropped, and `courses:` is set to one course.
-const coursePages = ['spark-0.md'];
-// Copied before the split; removed so they don't linger in src/content/pages/.
-const retiredPages = ['spark-0.md'];
+// Single-course pages (Oct 19) live in these folders, named 250-<slug>.md or 340-<slug>.md.
+// They get the same treatment for their own course, so {{course}} works in them too.
+const courseFolders = ['units', 'sparks', 'prototypes'];
 
 async function exists(p) {
   return stat(p).then(() => true, () => false);
@@ -73,17 +79,34 @@ function forCourse(text, course) {
     .replaceAll('{{course}}', course);
 }
 
-// Pages: written one by one, because src/content/pages/ may also hold pages written here.
+// Shared pages: written one by one, because src/content/pages/ also holds the folders below.
 const pagesFrom = path.join(source, 'course-site-content');
 const pagesTo = path.join(site, 'src/content/pages');
 await mkdir(pagesTo, { recursive: true });
-for (const name of retiredPages) await rm(path.join(pagesTo, name), { force: true });
-for (const name of coursePages) {
+for (const name of await listFiles(pagesFrom, '.md')) {
   const text = await readFile(path.join(pagesFrom, name), 'utf8');
   for (const course of courses) {
     const out = name.replace(/\.md$/, `-${course}.md`);
     await writeFile(path.join(pagesTo, out), forCourse(text, course));
     console.log(`  ${path.relative(source, path.join(pagesFrom, name))} → ${path.relative(site, path.join(pagesTo, out))}`);
+  }
+}
+
+// Single-course pages: each folder is owned by this script, so replaced wholesale.
+for (const folder of courseFolders) {
+  const from = path.join(pagesFrom, folder);
+  const to = path.join(pagesTo, folder);
+  await fresh(to);
+  if (!(await exists(from))) continue;
+  for (const name of await listFiles(from, '.md')) {
+    const match = name.match(/^(250|340)-[a-z0-9-]+\.md$/);
+    if (!match) {
+      console.warn(`  Skipped ${folder}/${name}: name it 250-<slug>.md or 340-<slug>.md`);
+      continue;
+    }
+    const text = await readFile(path.join(from, name), 'utf8');
+    await writeFile(path.join(to, name), forCourse(text, match[1]));
+    console.log(`  ${path.relative(source, path.join(from, name))} → ${path.relative(site, path.join(to, name))}`);
   }
 }
 

@@ -1,15 +1,23 @@
 ---
-// The strip above a page's h1: course and tier badges, then the dates.
+// The strip above a page's h1: course and tier badges, then the dates, and on briefs the
+// repo folder and the unit(s) it belongs to (Oct 19: briefs keep these out of their body).
 import Badge from './Badge.astro';
 
 interface Props {
   courses: ('dight250' | 'dight340')[];
   tier?: 'spark' | 'prototype' | 'release';
+  /** The session a unit page or Spark belongs to. */
   date?: Date;
+  /** When a Prototype brief goes out. */
+  released?: Date;
   due?: Date;
+  /** The student's repo folder for this assignment. */
+  folder?: string;
+  /** A Spark's unit, or a Prototype's units; published pages only. */
+  units?: { href: string; title: string }[];
 }
 
-const { courses, tier, date, due } = Astro.props;
+const { courses, tier, date, released, due, folder, units = [] } = Astro.props;
 
 // Frontmatter dates are midnight UTC; format in UTC so they don't slip a day.
 const fmt = (d: Date) =>
@@ -23,16 +31,43 @@ const iso = (d: Date) => d.toISOString().slice(0, 10);
     {tier && <Badge kind={tier} />}
   </p>
   {
-    (date || due) && (
+    (date || released || due) && (
       <p class="dates">
         {date && (
           <span>
             Session: <time datetime={iso(date)}>{fmt(date)}</time>
           </span>
         )}
+        {released && (
+          <span>
+            Released: <time datetime={iso(released)}>{fmt(released)}</time>
+          </span>
+        )}
         {due && (
           <span>
             Due: <time datetime={iso(due)}>{fmt(due)}</time>
+          </span>
+        )}
+      </p>
+    )
+  }
+  {
+    (folder || units.length > 0) && (
+      <p class="dates">
+        {folder && (
+          <span>
+            Folder: <code>{folder}</code>
+          </span>
+        )}
+        {units.length > 0 && (
+          <span>
+            {units.length === 1 ? 'Unit' : 'Units'}:{' '}
+            {units.map((unit, i) => (
+              <>
+                {i > 0 && ', '}
+                <a href={unit.href}>{unit.title}</a>
+              </>
+            ))}
           </span>
         )}
       </p>

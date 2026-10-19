@@ -391,3 +391,86 @@ details > :last-child {
 main :is(p, li, dt, dd, blockquote, summary) {
   max-inline-size: var(--prose);
 }
+
+/* ==========================================================================
+   Diagrams (Oct 19): inline SVG in a unit page's Markdown, inside
+   <figure class="diagram"> with a visible <figcaption>. The SVG has role="img" and a
+   <title>, and draws only with the classes below, so it follows the theme and both
+   colour modes. Never colour alone: every shape that carries meaning has a text label.
+     <rect class="d-box">   panel: surface fill, border stroke
+     <rect class="d-key">   highlighted panel: course accent stroke
+     d-spark, d-proto       Spark yellow / Prototype green strokes
+     <line class="d-line">  connector; add marker-end="url(#arrow-wide)" for an arrow head
+     <text>                 body text colour; class="d-muted" for secondary labels,
+                            "d-code" for code
+   Readable at 320px: draw a single SVG at most 400 units wide (a vertical flow), or give
+   a wide drawing a narrow twin: <svg class="d-wide"> and <svg class="d-narrow"> in the
+   same figure. Only the one that fits is shown (and read); the swap is at 36rem.
+   Each SVG needs its own <defs> and ids (arrow-wide, arrow-narrow): a hidden SVG's
+   markers don't render in the other one.
+   ========================================================================== */
+
+.diagram {
+  margin: 0 0 1.5rem;
+  max-inline-size: var(--prose);
+}
+
+.diagram svg {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  font-family: var(--font-body);
+  font-size: 15px;
+}
+
+.diagram text {
+  fill: var(--text);
+}
+
+.diagram .d-muted {
+  fill: var(--muted);
+}
+
+.diagram .d-code {
+  font-family: var(--font-code);
+  font-variant-ligatures: none;
+}
+
+.diagram .d-box,
+.diagram .d-key,
+.diagram .d-spark,
+.diagram .d-proto {
+  fill: var(--surface);
+  stroke: var(--border);
+  stroke-width: 1.5;
+}
+
+.diagram .d-key { stroke: var(--accent); stroke-width: 2.5; }
+.diagram .d-spark { stroke: var(--yellow); stroke-width: 2.5; }
+.diagram .d-proto { stroke: var(--green); stroke-width: 2.5; }
+
+.diagram .d-line {
+  stroke: var(--muted);
+  stroke-width: 1.5;
+  fill: none;
+}
+
+/* The arrow head, defined in each SVG's <defs>:
+   <marker id="arrow-wide" viewBox="0 0 8 8" refX="8" refY="4" markerWidth="8" markerHeight="8"
+     orient="auto-start-reverse"><path class="d-arrow" d="M0,0 L8,4 L0,8 z" /></marker> */
+.diagram .d-arrow {
+  fill: var(--muted);
+}
+
+.diagram .d-narrow { display: none; }
+
+@media (max-width: 36rem) {
+  .diagram .d-wide { display: none; }
+  .diagram .d-narrow { display: block; }
+}
+
+.diagram figcaption {
+  margin-block-start: 0.5rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}

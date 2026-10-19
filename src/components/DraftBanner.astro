@@ -1,0 +1,56 @@
+---
+// The banner on a page that isn't published yet (Oct 19). Production never builds such a
+// page, so in practice this shows only in `npm run dev`, where every page renders.
+//   Draft:     no `ready: true` yet; add it once the dry run passes.
+//   Scheduled: ready, and goes live with the first build after its go-live time.
+import { goLiveTime, pageStatus, type Page } from '../lib/published';
+
+interface Props {
+  page: Page;
+}
+
+const { page } = Astro.props;
+const status = pageStatus(page);
+const live = goLiveTime(page);
+const when = live?.toLocaleString('en-US', {
+  weekday: 'short',
+  month: 'short',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: '2-digit',
+  timeZone: 'America/Denver',
+  timeZoneName: 'short',
+});
+---
+
+{
+  status !== 'published' && (
+    <div class={`callout draft-banner draft-banner--${status}`} role="note">
+      {status === 'draft' ? (
+        <p>
+          <strong>Draft: not published.</strong> Add <code>ready: true</code> to the frontmatter once the
+          dry run passes{when && <>, and it goes live {when}</>}.
+        </p>
+      ) : (
+        <p>
+          <strong>Ready: goes live {when}.</strong> The first build after then publishes it (the daily
+          rebuild, or any push).
+        </p>
+      )}
+    </div>
+  )
+}
+
+<style>
+  .draft-banner {
+    margin-block: 0 1.25rem;
+  }
+
+  .draft-banner--draft {
+    border-left-color: var(--yellow);
+  }
+
+  .draft-banner--scheduled {
+    border-left-color: var(--green);
+  }
+</style>

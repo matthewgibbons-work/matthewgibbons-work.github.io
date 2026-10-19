@@ -1,0 +1,107 @@
+---
+// "This session": the panel at the foot of a unit page or brief that links the pages
+// belonging together (Oct 19). Links are computed, never typed: a unit page and its Spark
+// share `session`, and a unit's `prototype` joins it to the Prototype brief.
+//   Unit page → its Spark, and the Prototype it feeds
+//   Spark     → its unit, and the Prototype that unit feeds
+//   Prototype → each unit it combines, with that unit's Spark
+// Only pages this build shows are linked, so production never links a draft.
+// With nothing to link, the panel isn't rendered.
+import Badge from './Badge.astro';
+import {
+  pageHref,
+  parseId,
+  prototypePage,
+  sessionPair,
+  unitsFeeding,
+  type Page,
+} from '../lib/published';
+import type { Course } from '../lib/courses';
+
+interface Props {
+  page: Page;
+  course: Course;
+}
+
+interface Item {
+  kind: 'unit' | 'spark' | 'prototype';
+  href: string;
+  title: string;
+}
+
+const { page, course } = Astro.props;
+const { kind, slug } = parseId(page.id)!;
+const item = (p: Page): Item => ({ kind: parseId(p.id)!.kind, href: pageHref(p), title: p.data.title });
+
+const items: Item[] = [];
+if (kind === 'prototype') {
+  for (const unit of await unitsFeeding(course, slug.toUpperCase())) {
+    items.push(item(unit));
+    const { spark } = await sessionPair(course, unit.data.session ?? 0);
+    if (spark) items.push(item(spark));
+  }
+} else {
+  const { unit, spark } = page.data.session
+    ? await sessionPair(course, page.data.session)
+    : { unit: undefined, spark: undefined };
+  const other = kind === 'unit' ? spark : unit;
+  if (other) items.push(item(other));
+  const prototype = (kind === 'unit' ? page : unit)?.data.prototype;
+  const brief = prototype && (await prototypePage(course, prototype));
+  if (brief) items.push(item(brief));
+}
+
+const heading = kind === 'prototype' ? 'Units in this Prototype' : 'This session';
+---
+
+{
+  items.length > 0 && (
+    <nav class="session-panel" aria-labelledby="session-panel-heading">
+      <h2 id="session-panel-heading">{heading}</h2>
+      <ul>
+        {items.map(({ kind, href, title }) => (
+          <li>
+            {kind === 'unit' ? <span class="badge badge--unit">Unit</span> : <Badge kind={kind} />}
+            <a href={href}>{title}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}
+
+<style>
+  .session-panel {
+    margin-block-start: 3rem;
+    padding: 1rem 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 0.35rem solid var(--accent);
+    border-radius: var(--radius);
+  }
+
+  .session-panel h2 {
+    margin-block: 0 0.75rem;
+    font-size: 1.1rem;
+  }
+
+  .session-panel ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .session-panel li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  /* Units aren't a graded tier, so their label uses the course accent, not a tier colour. */
+  .badge--unit {
+    color: var(--accent);
+  }
+</style>

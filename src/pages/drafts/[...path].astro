@@ -1,0 +1,106 @@
+---
+// /drafts/: every unit page and brief, with whether it's live (Oct 19). Dev only:
+// production builds no path for it, so it never reaches the site. The [...path] route is
+// only there so getStaticPaths can return nothing in production.
+import Base from '../../layouts/Base.astro';
+import Badge from '../../components/Badge.astro';
+import {
+  goLiveTime,
+  pageHref,
+  pageStatus,
+  parseId,
+  shownPages,
+  type Kind,
+  type Status,
+} from '../../lib/published';
+
+export function getStaticPaths() {
+  return import.meta.env.DEV ? [{ params: { path: undefined } }] : [];
+}
+
+const kinds: Kind[] = ['unit', 'spark', 'prototype'];
+const pages = (await Promise.all(kinds.map((kind) => shownPages(kind)))).flat();
+const statusOrder: Record<Status, number> = { draft: 0, scheduled: 1, published: 2 };
+const rows = pages
+  .map((page) => ({ page, ...parseId(page.id)!, status: pageStatus(page), live: goLiveTime(page) }))
+  .sort(
+    (a, b) =>
+      statusOrder[a.status] - statusOrder[b.status] ||
+      (a.live?.getTime() ?? 0) - (b.live?.getTime() ?? 0) ||
+      a.course.localeCompare(b.course),
+  );
+
+const statusLabels: Record<Status, string> = { draft: 'Draft', scheduled: 'Ready, scheduled', published: 'Live' };
+const kindLabels: Record<Kind, string> = { unit: 'Unit', spark: 'Spark', prototype: 'Prototype' };
+const fmt = (d: Date) =>
+  d.toLocaleString('en-US', {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    timeZone: 'America/Denver',
+    timeZoneName: 'short',
+  });
+const counts = (status: Status) => rows.filter((row) => row.status === status).length;
+---
+
+<Base title="Drafts" description="Dev only: every unit page and brief, and whether it's live.">
+  <h1>Drafts</h1>
+  <p class="lede">
+    Dev only. {counts('draft')} draft, {counts('scheduled')} ready and scheduled, {counts('published')} live.
+  </p>
+
+  <table>
+    <caption class="visually-hidden">Unit pages and briefs, drafts first, then by go-live time</caption>
+    <thead>
+      <tr>
+        <th scope="col">Page</th>
+        <th scope="col">Course</th>
+        <th scope="col">Kind</th>
+        <th scope="col">Status</th>
+        <th scope="col">Goes live</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rows.map(({ page, course, kind, status, live }) => (
+          <tr>
+            <td>
+              <a href={pageHref(page)}>{page.data.title}</a>
+            </td>
+            <td>
+              <Badge kind={course} />
+            </td>
+            <td>{kindLabels[kind]}</td>
+            <td class={`status status--${status}`}>{statusLabels[status]}</td>
+            <td>{live ? fmt(live) : 'No date'}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+
+  <h2>Checking before you push</h2>
+  <ul>
+    <li>A page publishes once it has <code>ready: true</code> and its go-live time has passed (13:00 UTC on its date).</li>
+    <li>
+      To see what production will publish: <code>npm run build &amp;&amp; npm run preview</code>. For a later day, put
+      <code>PUBLISH_AS_OF=2026-10-26T13:00Z</code> in front of <code>npm run build</code>.
+    </li>
+    <li>
+      Did <code>npm run sync</code> create a new folder (for example, the first <code>units/</code> page)? Then restart
+      <code>npm run dev</code>, or the new pages won't appear.
+    </li>
+  </ul>
+</Base>
+
+<style>
+  .status--draft {
+    border-left: 0.35rem solid var(--yellow);
+  }
+
+  .status--scheduled {
+    border-left: 0.35rem solid var(--green);
+  }
+</style>

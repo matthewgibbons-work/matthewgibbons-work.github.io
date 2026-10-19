@@ -1,0 +1,69 @@
+---
+// Unit pages, Spark briefs, and Prototype briefs (Oct 19):
+//   /<course>/units/<slug>/  /<course>/sparks/sNN/  /<course>/prototypes/pN/
+// Sources: dight-refactor/course-site-content/<folder>/<course>-<slug>.md, copied by npm run sync.
+// Production builds only make pages that are published (ready, and their date has come);
+// dev makes every page. See src/lib/published.ts.
+import { render } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import CopyButton from '../../../components/CopyButton.astro';
+import DraftBanner from '../../../components/DraftBanner.astro';
+import PageMeta from '../../../components/PageMeta.astro';
+import MarkdownBody from '../../../components/MarkdownBody.astro';
+import SessionPanel from '../../../components/SessionPanel.astro';
+import {
+  pageHref,
+  parseId,
+  sessionPair,
+  shownPages,
+  unitsFeeding,
+  type Kind,
+  type Page,
+} from '../../../lib/published';
+import type { Course } from '../../../lib/courses';
+
+export async function getStaticPaths() {
+  const kinds: Kind[] = ['unit', 'spark', 'prototype'];
+  const folders: Record<Kind, string> = { unit: 'units', spark: 'sparks', prototype: 'prototypes' };
+  const pages = (await Promise.all(kinds.map((kind) => shownPages(kind)))).flat();
+  return pages.map((page) => {
+    const { kind, course, slug } = parseId(page.id)!;
+    return { params: { course, folder: folders[kind], slug }, props: { page } };
+  });
+}
+
+interface Props {
+  page: Page;
+}
+
+const { page } = Astro.props;
+const course = Astro.params.course as Course;
+const { Content } = await render(page);
+const { title, description, courses, tier, date, released, due, folder, session } = page.data;
+const { kind, slug } = parseId(page.id)!;
+
+// The meta line links a brief up to its unit(s): a Spark shares its unit's session, and a
+// Prototype's units name it in `prototype`. Only published pages are linked.
+const unitPages =
+  kind === 'spark' && session
+    ? [(await sessionPair(course, session)).unit].filter((unit) => unit !== undefined)
+    : kind === 'prototype'
+      ? await unitsFeeding(course, slug.toUpperCase())
+      : [];
+const units = unitPages.map((unit) => ({ href: pageHref(unit), title: unit.data.title }));
+---
+
+<Base title={title} description={description} course={course}>
+  <DraftBanner {page} />
+  <PageMeta {courses} {tier} {date} {released} {due} {folder} {units} />
+  <MarkdownBody>
+    <Content />
+    <CopyButton
+      slot="done"
+      target="done-list"
+      label="Copy the “done” list"
+      copied="Copied. Paste it into the chat when you run /check."
+    />
+  </MarkdownBody>
+  <SessionPanel {page} {course} />
+</Base>
