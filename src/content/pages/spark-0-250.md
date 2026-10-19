@@ -25,9 +25,12 @@ At the end you'll have:
 ## Before you start
 
 - [ ] Your laptop, with VS Code open.
-- [ ] Your course repo cloned on this laptop, with nothing waiting to be committed. In VS Code's terminal, `git status` should say "nothing to commit, working tree clean." If it doesn't, commit or ask for help first.
-- [ ] Run `git pull` so you have the latest version.
-- [ ] Copilot Chat signed in and responding. Open the Chat view and type "hi." If it answers, you're ready.
+- [ ] [GitHub Desktop](https://desktop.github.com/) installed and signed in with the GitHub account you push with, and your course repo added to it (**File → Add Local Repository**, or **Clone Repository** if it isn't on this laptop yet).
+- [ ] Nothing waiting to be committed: GitHub Desktop's **Changes** tab says "No local changes." If it doesn't, commit or ask for help first.
+- [ ] The latest version: click **Fetch origin**, then **Pull origin** if it appears.
+- [ ] **GitHub Copilot Free** set up on the GitHub account you already push with. It's free and needs no payment details. In VS Code, click the Copilot icon in the Status Bar (bottom of the window), choose to sign in, and sign in with that GitHub account. If the account has no Copilot plan yet, VS Code sets up Copilot Free for you. (You can also turn it on at [github.com/settings/copilot](https://github.com/settings/copilot).)
+- [ ] The **GitHub Copilot Chat** extension installed in VS Code. Signing in usually adds it; if not, find it in the Extensions view (search "GitHub Copilot Chat").
+- [ ] Copilot Chat responding. Open the Chat view and type "hi." If it answers, you're ready.
 
 ## Part A of E · Download the starter kit (about 3 min)
 
@@ -51,7 +54,7 @@ You should now see `dight250-starter/` in your repo. The agent moves the files t
 
 <!-- prompt:start -->
 
-You paste the Start prompt because you only run it once, before the kit is in place. After the agent's first step, the kit's skills are in place, so from then on you can type `/dig-deeper` or `/check` instead of pasting those prompts.
+After the agent's first step, type `/` in the chat and check that `dig-deeper` and `check` are listed. Those are the course's skills, and you'll use them all term.
 
 ## Part D of E · Work through the agent's steps (about 25 min)
 
@@ -67,7 +70,7 @@ Things the agent will ask you for:
 - **Your GitHub username.**
 - **Your NOTES.md.** The agent gives you a question for each section, but you write every section yourself. It won't write any of it for you (that's in `AGENTS.md`).
 
-You type the `git` commands yourself. The agent shows you what to type and explains it.
+You commit and push in GitHub Desktop. The agent tells you what to check in the **Changes** tab and suggests a commit summary.
 
 ## Part E of E · Check your work (about 10 min)
 
@@ -77,9 +80,9 @@ You type the `git` commands yourself. The agent shows you what to type and expla
 - [ ] The hub passes the [W3C validator](https://validator.w3.org/nu/) (use "Check by address").
 - [ ] You can reach every link on the hub using only the Tab key, and you can see where you are.
 - [ ] `sparks/s01-repo-restructure/NOTES.md` has every section filled in, in your own words.
-- [ ] `git status` says "nothing to commit," and both commits are on GitHub (check the repo's commit history).
+- [ ] GitHub Desktop says "No local changes," both commits are in its **History** tab, and there's nothing left to push.
 
-Then run `/check sparks/s01-repo-restructure` (or paste the [Check prompt](/250/prompts/check/)). It points out gaps and doesn't fill them.
+Then run [`/check`](/250/skills/check/) on the folder: `/check sparks/s01-repo-restructure`. It points out gaps and doesn't fill them.
 
 ## You're done
 
@@ -106,7 +109,7 @@ Check that the `dight250-starter/` folder is inside your repo in VS Code's Explo
 <summary><code>/dig-deeper</code> or <code>/check</code> doesn't appear when you type <code>/</code>.</summary>
 
 Check that VS Code has your repo folder itself open (not a folder above it), and that `.github/skills/` is at the top level.
-Until it's fixed, paste the [Dig deeper](/250/prompts/dig-deeper/) or [Check](/250/prompts/check/) prompt instead; they're the same text.
+If they're still missing, ask the instructor.
 
 </details>
 
@@ -115,7 +118,7 @@ Until it's fixed, paste the [Dig deeper](/250/prompts/dig-deeper/) or [Check](/2
 <details>
 <summary>The agent does several steps at once.</summary>
 
-Tell it: "Stop. Undo that last step, then do one step at a time and wait for me." If files moved and you're unsure what happened, don't commit. `git status` shows every change, and the instructor can help you undo it.
+Tell it: "Stop. Undo that last step, then do one step at a time and wait for me." If files moved and you're unsure what happened, don't commit. GitHub Desktop's **Changes** tab shows every change, and the instructor can help you undo it.
 
 </details>
 

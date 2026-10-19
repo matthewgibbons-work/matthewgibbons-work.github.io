@@ -7,9 +7,7 @@ export interface CourseInfo {
   id: Course;
   name: string;
   topic: string;
-  /** The running example, as it reads mid-sentence. */
-  example: string;
-  /** The default agent, short. */
+  /** The agent, by name only (Oct 19: no app or editor named on the cards). */
   agent: string;
   /** Course home. */
   href: string;
@@ -22,8 +20,7 @@ export const courses: Record<Course, CourseInfo> = {
     id: '250',
     name: 'DIGHT 250',
     topic: 'HTML and CSS',
-    example: 'the Saturday Morning Archive',
-    agent: 'GitHub Copilot in VS Code',
+    agent: 'GitHub Copilot',
     href: '/250/',
     prototypes: [
       ['P1', 'Color + Typography', 'Mon Nov 2'],
@@ -36,8 +33,7 @@ export const courses: Record<Course, CourseInfo> = {
     id: '340',
     name: 'DIGHT 340',
     topic: 'JavaScript, Svelte, and Astro',
-    example: 'your Pokémon party',
-    agent: 'Claude Code in the Claude desktop app',
+    agent: 'Claude Code',
     href: '/340/',
     prototypes: [
       ['P1', 'Async 1 + Async 2', 'Mon Nov 2'],

@@ -9,7 +9,6 @@ import PageMeta from '../../components/PageMeta.astro';
 import MarkdownBody from '../../components/MarkdownBody.astro';
 import CopyButton from '../../components/CopyButton.astro';
 import { courseOrder, type Course } from '../../lib/courses';
-import { promptFile, promptHref } from '../../lib/prompts';
 
 export function getStaticPaths() {
   return courseOrder.map((course) => ({ params: { course } }));
@@ -18,7 +17,7 @@ export function getStaticPaths() {
 const course = Astro.params.course as Course;
 const entry = await getEntry('pages', `spark-0-${course}`);
 if (!entry) throw new Error(`spark-0-${course}.md is missing: run npm run sync`);
-const start = await getEntry('prompts', promptFile('start', course));
+const start = await getEntry('prompts', `start-${course}`);
 if (!start) throw new Error(`The ${course} Start prompt is missing: run npm run sync`);
 
 const { Content } = await render(entry);
@@ -35,9 +34,6 @@ const { title, description, courses, tier, date, due } = entry.data;
         <summary>See the prompt text</summary>
         <pre id="start-prompt">{start.body}</pre>
       </details>
-      <p class="aside">
-        Also on its own page: <a href={promptHref('start', course)}>Start prompt</a>.
-      </p>
     </div>
   </MarkdownBody>
 </Base>
@@ -54,12 +50,6 @@ const { title, description, courses, tier, date, due } = entry.data;
 
   .start-prompt pre {
     white-space: pre-wrap;
-    font-size: 0.95rem;
-  }
-
-  .aside {
-    margin: 0.75rem 0 0;
-    color: var(--muted);
     font-size: 0.95rem;
   }
 </style>

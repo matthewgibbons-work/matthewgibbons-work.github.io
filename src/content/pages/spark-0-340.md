@@ -25,8 +25,10 @@ At the end you'll have:
 ## Before you start
 
 - [ ] Your laptop, with VS Code open.
-- [ ] Your course repo cloned on this laptop, with nothing waiting to be committed. In VS Code's terminal, `git status` should say "nothing to commit, working tree clean." If it doesn't, commit or ask for help first.
-- [ ] Run `git pull` so you have the latest version.
+- [ ] [GitHub Desktop](https://desktop.github.com/) installed and signed in with the GitHub account you push with, and your course repo added to it (**File → Add Local Repository**, or **Clone Repository** if it isn't on this laptop yet).
+- [ ] Nothing waiting to be committed: GitHub Desktop's **Changes** tab says "No local changes." If it doesn't, commit or ask for help first.
+- [ ] The latest version: click **Fetch origin**, then **Pull origin** if it appears.
+- [ ] The **Claude Code** extension installed in VS Code (Extensions view, search "Claude Code", published by Anthropic), and signed in with your Claude account.
 - [ ] The Claude desktop app signed in with your Claude account, with its **Code** tab open. If the app offers an update, install it first. If Claude isn't working, use Copilot Chat for today (see "If something goes wrong").
 
 ## Part A of E · Download the starter kit (about 3 min)
@@ -76,7 +78,7 @@ Things the agent will ask you for:
 - **Your GitHub username.**
 - **Your NOTES.md.** The agent gives you a question for each section, but you write every section yourself. It won't write any of it for you (that's in `AGENTS.md`).
 
-You rename the repo on github.com yourself (Settings → General). The agent runs the `git` commands after showing you each one.
+You rename the repo on github.com yourself (Settings → General), then point GitHub Desktop at the new name. You commit and push in GitHub Desktop. The agent tells you what to check in the **Changes** tab and suggests a commit summary.
 
 ## Part E of E · Check your work (about 10 min)
 
@@ -86,9 +88,9 @@ You rename the repo on github.com yourself (Settings → General). The agent run
 - [ ] The browser console shows no errors on the hub.
 - [ ] You can reach every link on the hub using only the Tab key, and you can see where you are.
 - [ ] `sparks/s01-repo-restructure/NOTES.md` has every section filled in, in your own words.
-- [ ] `git status` says "nothing to commit," and both commits are on GitHub (check the repo's commit history).
+- [ ] GitHub Desktop says "No local changes," both commits are in its **History** tab, and there's nothing left to push.
 
-Then run `/check sparks/s01-repo-restructure` (or paste the [Check prompt](/340/prompts/check/)). It points out gaps and doesn't fill them.
+Then run [`/check`](/340/skills/check/) on the folder: `/check sparks/s01-repo-restructure`. It points out gaps and doesn't fill them.
 
 ## You're done
 
@@ -115,7 +117,7 @@ Check that the `dight340-starter/` folder is inside your repo in VS Code's Explo
 <summary><code>/dig-deeper</code> or <code>/check</code> doesn't appear when you type <code>/</code>.</summary>
 
 Check that the session is open on your repo folder itself (not a folder above it), and that `.claude/skills/` is at the top level. If it still doesn't appear, start a new session on the repo folder.
-Until it's fixed, paste the [Dig deeper](/340/prompts/dig-deeper/) or [Check](/340/prompts/check/) prompt instead; they're the same text.
+If they're still missing, ask the instructor.
 
 </details>
 
@@ -131,7 +133,7 @@ Both load when a session starts, so start a new session on your repo folder. To 
 <details>
 <summary>The agent does several steps at once.</summary>
 
-Tell it: "Stop. Undo that last step, then do one step at a time and wait for me." If files moved and you're unsure what happened, don't commit. `git status` shows every change, and the instructor can help you undo it.
+Tell it: "Stop. Undo that last step, then do one step at a time and wait for me." If files moved and you're unsure what happened, don't commit. GitHub Desktop's **Changes** tab shows every change, and the instructor can help you undo it.
 
 </details>
 

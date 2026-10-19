@@ -1,12 +1,12 @@
 ---
 // Course home: /250/ and /340/ (site v2, Oct 17). Nothing here needs a weekly edit:
 // the topic list has no dates and no "current" marker, and the setup guide stays all term.
-// Order: setup guide, your setup, the term (topics, Prototypes, Release), prompts, reference.
+// Order: setup guide, your setup, the term (topics, Prototypes, Release), skills, reference.
 import { getEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Badge from '../../components/Badge.astro';
 import { courses, courseOrder, type Course } from '../../lib/courses';
-import { prompts, promptOrder, promptHref } from '../../lib/prompts';
+import { skills, skillOrder, skillHref } from '../../lib/skills';
 
 export function getStaticPaths() {
   return courseOrder.map((course) => ({ params: { course } }));
@@ -18,9 +18,9 @@ const topics = (await getEntry('topics', course))?.data ?? [];
 const spark0 = await getEntry('pages', `spark-0-${course}`);
 ---
 
-<Base title={c.name} description={`${c.name}: ${c.topic}. Setup, topics this term, and prompts.`} course={course}>
+<Base title={c.name} description={`${c.name}: ${c.topic}. Setup, topics this term, and skills.`} course={course}>
   <h1>{c.name}</h1>
-  <p class="lede"><Badge kind={course} /> {c.topic}, with {c.example}.</p>
+  <p class="lede"><Badge kind={course} /> {c.topic}</p>
 
   <section class="start" aria-labelledby="start">
     <h2 id="start"><Badge kind="spark" /> Setup guide (Spark 0)</h2>
@@ -51,7 +51,7 @@ const spark0 = await getEntry('pages', `spark-0-${course}`);
           </div>
           <div>
             <dt>Git</dt>
-            <dd>You type every <code>git</code> command yourself. The agent shows you what to type and why.</dd>
+            <dd>You commit and push in GitHub Desktop. The agent tells you what to check and suggests a commit summary.</dd>
           </div>
         </dl>
       ) : (
@@ -88,7 +88,7 @@ const spark0 = await getEntry('pages', `spark-0-${course}`);
             </div>
             <div>
               <dt>Git</dt>
-              <dd>The agent runs the <code>git</code> commands, after showing you each one.</dd>
+              <dd>You commit and push in GitHub Desktop. The agent tells you what to check and suggests a commit summary.</dd>
             </div>
           </dl>
 
@@ -174,17 +174,17 @@ const spark0 = await getEntry('pages', `spark-0-${course}`);
     }
   </section>
 
-  <section aria-labelledby="prompts">
-    <h2 id="prompts">Prompts</h2>
+  <section aria-labelledby="skills">
+    <h2 id="skills">Skills</h2>
     <ul class="links" role="list">
       {
-        promptOrder.map((name) => {
-          const p = prompts[course][name];
+        skillOrder.map((name) => {
+          const s = skills[name];
           return (
             <li>
-              <a href={promptHref(name, course)}>{p.title}</a>
-              {p.command && <code>{p.command}</code>}
-              <span>{p.description}</span>
+              <a href={skillHref(name, course)}>{s.title}</a>
+              <code>{s.command}</code>
+              <span>{s.description}</span>
             </li>
           );
         })

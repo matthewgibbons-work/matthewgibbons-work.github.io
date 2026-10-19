@@ -6,7 +6,7 @@ How to run this:
 - Do one step at a time. At the end of each step, tell me what you did and what I should check, then end with: "Ask me anything about this step, or say *next*." **Stop and wait.** If I ask a question, answer it briefly, then wait again. Don't start the next step until I say "next".
 - Explain each step in plain language. I'm a beginner.
 - Show me any file moves before you make them. Never delete my old work; it all moves to `archive/`.
-- I run the `git` commands myself. Show me exactly what to type and what each command does.
+- I commit and push myself, in GitHub Desktop. Don't run `git` commands that change the repo (`add`, `commit`, `push`, and so on). When it's time to commit, tell me what to check in Desktop's **Changes** tab and suggest a commit message.
 - Don't leave parts of the work for me to write as code (no `TODO(human)` markers) during this Spark. The parts I write are in `NOTES.md`.
 
 ## Step 1: Check the kit is in place
@@ -28,9 +28,9 @@ Explain why moving everything together keeps my old pages working: the relative 
 
 ## Step 3: Move old work into `archive/`
 
-Once I agree, show me the commands to create `archive/` and move everything with `git mv`, so Git keeps each file's history, and explain what that means. I'll run them and tell you when they're done. Then have me run `git status` and check that every move shows as renamed. Then check every link and `src` in `archive/index.html` and say whether each one still points to a file that exists. Fix only paths that broke, and tell me each fix.
+Once I agree, create `archive/` and move everything into it. Then check every link and `src` in `archive/index.html` and say whether each one still points to a file that exists. Fix only paths that broke, and tell me each fix.
 
-Then show me the commands to commit this step on its own (no push yet), with a message like "Move old work into archive/". Explain why the move gets its own commit: the history shows it clearly as renames, and it's a safe point to come back to if a later step goes wrong. I'll run them and tell you when they're done.
+Then have me commit this step on its own in GitHub Desktop (no push yet), with a summary like "Move old work into archive/". Tell me what I'll see in the **Changes** tab: each moved file may show up twice, once as deleted and once as new. That's normal; Git matches them up as moves, so each file keeps its history. Explain why the move gets its own commit: the history shows it clearly as moves, and it's a safe point to come back to if a later step goes wrong. Wait until I tell you it's committed.
 
 ## Step 4: Create the new structure
 
@@ -56,7 +56,7 @@ Copy `starter/NOTES.md` to `sparks/s01-repo-restructure/NOTES.md` and replace `<
 
 ## Step 7: Commit and push
 
-Show me the commands to stage, commit, and push, with a meaningful commit message (for example: "Add starter kit, new hub, and S01 notes"). Stage everything new, including the kit files from Step 1 (`AGENTS.md`, `.github/`, and `starter/`), which aren't committed yet. Explain what each command does, and that the push sends both commits (this one and the archive commit) to GitHub. I'll run them and tell you when they're done. Then have me run `git status` and check it says there's nothing to commit.
+Have me commit in GitHub Desktop, and suggest a meaningful summary (for example: "Add starter kit, new hub, and S01 notes"). Tell me to check that every changed file in the **Changes** tab is ticked, including the kit files from Step 1 (`AGENTS.md`, `.github/`, and `starter/`), which aren't committed yet. Then have me click **Push origin**, and explain that it sends both commits (this one and the archive commit) to GitHub. Wait until I tell you it's pushed. Then have me check that Desktop says "No local changes" and that both commits are in the **History** tab.
 
 ## Step 8: Verify it's live
 
@@ -71,4 +71,4 @@ If something fails, help me find out why before fixing it.
 
 ## Step 9: Wrap up
 
-Summarize what we did in 3–4 sentences. Point out that my old pages now live under `/archive/` (for example `https://<username>.github.io/archive/cartoon/`), so if I'm reworking any old assignment before Oct 28, I need to resubmit its new link in Learning Suite. Remind me that my `NOTES.md` has to cover every section for this Spark to count as Complete, and that I can run `/check` (or paste the Check prompt from the course site) before I'm done. Suggest one thing to dig into, with an MDN link, such as `git mv`, relative URLs, or HTML landmarks.
+Summarize what we did in 3–4 sentences. Point out that my old pages now live under `/archive/` (for example `https://<username>.github.io/archive/cartoon/`), so if I'm reworking any old assignment before Oct 28, I need to resubmit its new link in Learning Suite. Remind me that my `NOTES.md` has to cover every section for this Spark to count as Complete, and that I can run `/check` before I'm done. Suggest one thing to dig into, with a link, such as how Git tracks moved files, relative URLs, or HTML landmarks.
