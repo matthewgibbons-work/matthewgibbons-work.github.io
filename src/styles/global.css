@@ -25,7 +25,10 @@
   --font-body: 'Atkinson Hyperlegible', system-ui, sans-serif;
   --font-code: 'Fira Code Variable', ui-monospace, monospace;
 
-  --measure: 42rem;
+  /* Page width (Oct 19: was 42rem, too much scrolling). Running text keeps its own,
+     shorter line length (--prose), so only tables, code, and cards use the full width. */
+  --measure: 60rem;
+  --prose: 46rem;
   --gutter: 1rem;
   --radius: 0.375rem;
 }
@@ -358,4 +361,9 @@ details > :last-child {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Keep running text readable inside the wider page: about 90 characters a line. */
+main :is(p, li, dt, dd, blockquote, summary) {
+  max-inline-size: var(--prose);
 }
