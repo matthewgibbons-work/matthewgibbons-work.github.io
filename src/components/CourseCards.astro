@@ -25,10 +25,13 @@ const Heading = `h${level}` as 'h2' | 'h3';
             <a href={`${c.href}${to}`}>{c.name}</a>
           </Heading>
           <p>
-            <Badge kind={id} /> {c.topic}
+            {c.topic}
           </p>
           <p class="card-meta">
-            Running example: {c.example}. Agent: {c.agent}.
+            Running example: {c.example}.
+          </p>
+          <p class="card-meta">
+            Agent: {c.agent}.
           </p>
         </li>
       );
