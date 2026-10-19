@@ -1,0 +1,89 @@
+---
+// Light/dark toggle (Oct 19). The icon shows the mode it switches TO: a sun while the
+// page is dark, a moon while it's light. The choice is saved in localStorage; with no
+// choice saved, the page follows the system setting. Base.astro's inline head script
+// applies a saved choice before first paint, so there's no flash.
+// Hidden until the script runs, so there's never a button that does nothing.
+---
+
+<button class="theme-toggle" type="button" hidden>
+  <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+    <circle cx="12" cy="12" r="4.5" fill="currentColor"></circle>
+    <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"></path>
+    </g>
+  </svg>
+  <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+    <path fill="currentColor" d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5a8.5 8.5 0 1 0 11.1 11.1z"></path>
+  </svg>
+</button>
+
+<style>
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 2.75rem; /* touch target */
+    block-size: 2.75rem;
+    padding: 0;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .theme-toggle[hidden] {
+    display: none;
+  }
+
+  .theme-toggle:hover {
+    border-color: var(--accent, var(--text));
+  }
+
+  .theme-toggle:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+  }
+
+  /* Sun while dark (switches to light); moon while light. */
+  .theme-toggle[data-current='dark'] .icon-moon,
+  .theme-toggle[data-current='light'] .icon-sun {
+    display: none;
+  }
+</style>
+
+<script>
+  const root = document.documentElement;
+  const system = window.matchMedia('(prefers-color-scheme: light)');
+
+  const current = (): 'light' | 'dark' =>
+    (root.dataset.theme as 'light' | 'dark' | undefined) ?? (system.matches ? 'light' : 'dark');
+
+  function render(button: HTMLButtonElement) {
+    const now = current();
+    const next = now === 'dark' ? 'light' : 'dark';
+    button.dataset.current = now;
+    button.setAttribute('aria-label', `Switch to ${next} mode`);
+    button.title = `Switch to ${next} mode`;
+  }
+
+  for (const button of document.querySelectorAll<HTMLButtonElement>('.theme-toggle')) {
+    render(button);
+    button.hidden = false;
+
+    button.addEventListener('click', () => {
+      const next = current() === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = next;
+      try {
+        localStorage.setItem('theme', next);
+      } catch {
+        // Storage blocked: the choice lasts for this page only.
+      }
+      render(button);
+    });
+
+    // No saved choice: keep the icon right if the system setting changes.
+    system.addEventListener('change', () => render(button));
+  }
+</script>

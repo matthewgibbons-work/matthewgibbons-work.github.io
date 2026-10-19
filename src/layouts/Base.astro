@@ -7,6 +7,7 @@ import '@fontsource/atkinson-hyperlegible/700-italic.css';
 import '@fontsource-variable/fira-code';
 import '../styles/global.css';
 import Badge from '../components/Badge.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
 import { courses, otherCourse, type Course } from '../lib/courses';
 
 interface Props {
@@ -53,6 +54,13 @@ const other = course && courses[otherCourse(course)];
       /* The 404 page is served at whatever path was missing, so it has no canonical URL. */
       !path.startsWith('/404') && <link rel="canonical" href={new URL(path, Astro.site)} />
     }
+    <script is:inline>
+      // Apply a saved light/dark choice before first paint (ThemeToggle.astro saves it).
+      try {
+        const theme = localStorage.getItem('theme');
+        if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
+      } catch {}
+    </script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to main content</a>
@@ -76,7 +84,10 @@ const other = course && courses[otherCourse(course)];
             }
           </ul>
         </nav>
-        {other && <a class="switch" href={other.href}>Switch to {other.name}</a>}
+        <div class="header-tools">
+          {other && <a class="switch" href={other.href}>Switch to {other.name}</a>}
+          <ThemeToggle />
+        </div>
       </div>
     </header>
 
@@ -198,6 +209,12 @@ const other = course && courses[otherCourse(course)];
   .nav-course {
     display: flex;
     align-items: center;
+  }
+
+  .header-tools {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
   }
 
   /* The other course: small and out of the way, but always there. */
