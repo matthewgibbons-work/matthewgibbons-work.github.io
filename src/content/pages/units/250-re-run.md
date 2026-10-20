@@ -20,7 +20,7 @@ Two of the five steps carry most of the weight, and they're a pair. The **Spec**
 The agent only does **Generate**. Everything else is yours: what the page is for (Intent), what done means (Spec), whether it's true (Verify), and what you kept, changed, or rejected (Explain).
 
 <figure class="diagram">
-<svg class="d-wide" viewBox="0 0 640 132" role="img" aria-labelledby="loop-wide-title">
+<svg class="d-wide" viewBox="0 -4 640 136" role="img" aria-labelledby="loop-wide-title">
 <title id="loop-wide-title">The loop: Intent, Spec, Generate, Verify, Explain. The agent does Generate; you do the rest. Verify checks the page against the Spec.</title>
 <defs><marker id="arrow-wide" viewBox="0 0 8 8" refX="8" refY="4" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="d-arrow" d="M0,0 L8,4 L0,8 z" /></marker></defs>
 <rect class="d-box" x="4" y="40" width="104" height="52" rx="6" />
@@ -43,7 +43,7 @@ The agent only does **Generate**. Everything else is yours: what the page is for
 <text class="d-muted" x="121" y="118" text-anchor="middle">you</text>
 <text class="d-muted" x="511" y="118" text-anchor="middle">you</text>
 </svg>
-<svg class="d-narrow" viewBox="0 0 240 350" role="img" aria-labelledby="loop-narrow-title">
+<svg class="d-narrow" viewBox="0 0 252 350" role="img" aria-labelledby="loop-narrow-title">
 <title id="loop-narrow-title">The loop: Intent, Spec, Generate, Verify, Explain. The agent does Generate; you do the rest. Verify checks the page against the Spec.</title>
 <defs><marker id="arrow-narrow" viewBox="0 0 8 8" refX="8" refY="4" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="d-arrow" d="M0,0 L8,4 L0,8 z" /></marker></defs>
 <rect class="d-box" x="4" y="4" width="180" height="46" rx="6" />

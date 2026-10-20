@@ -51,6 +51,7 @@ const counts = (status: Status) => rows.filter((row) => row.status === status).l
     Dev only. {counts('draft')} draft, {counts('scheduled')} ready and scheduled, {counts('published')} live.
   </p>
 
+  <div class="table-wrap" tabindex="0" role="region" aria-label="Unit pages and briefs">
   <table>
     <caption class="visually-hidden">Unit pages and briefs, drafts first, then by go-live time</caption>
     <thead>
@@ -80,6 +81,7 @@ const counts = (status: Status) => rows.filter((row) => row.status === status).l
       }
     </tbody>
   </table>
+  </div>
 
   <h2>Checking before you push</h2>
   <ul>
@@ -96,6 +98,11 @@ const counts = (status: Status) => rows.filter((row) => row.status === status).l
 </Base>
 
 <style>
+  .table-wrap {
+    overflow-x: auto;
+    margin-block-end: 1.25rem;
+  }
+
   .status--draft {
     border-left: 0.35rem solid var(--yellow);
   }
