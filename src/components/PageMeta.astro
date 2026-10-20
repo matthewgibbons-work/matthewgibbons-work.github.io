@@ -62,12 +62,8 @@ const iso = (d: Date) => d.toISOString().slice(0, 10);
         {units.length > 0 && (
           <span>
             {units.length === 1 ? 'Unit' : 'Units'}:{' '}
-            {units.map((unit, i) => (
-              <>
-                {i > 0 && ', '}
-                <a href={unit.href}>{unit.title}</a>
-              </>
-            ))}
+            {/* One line: compressHTML is off, so line breaks here would show as a space before each comma. */}
+            {units.map((unit, i) => <>{i > 0 && ', '}<a href={unit.href}>{unit.title}</a></>)}
           </span>
         )}
       </p>

@@ -2,6 +2,7 @@
 title: "Spark 0: Set up your repo"
 description: "Download the starter kit, add it to your repo, and let the agent walk you through the new layout."
 courses: [dight250]
+ready: true
 session: 1
 date: 2026-10-19
 due: 2026-10-21

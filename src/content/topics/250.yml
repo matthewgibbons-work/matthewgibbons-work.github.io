@@ -2,15 +2,20 @@
 # No dates on purpose: units can shift without an edit. Source: PLAN.md "DIGHT 250 unit map".
 # Fields: name, summary (one line), tier (spark | prototype | release, optional),
 # prototype (the Prototype this topic feeds, optional).
+# unit (slug of this topic's unit page, units/250-<slug>.md, optional; Oct 19).
+#   The landing page links the topic once that page is published, so it's safe to add early.
 - name: Onboarding and Spark 0
   summary: Set up your repo for the new system, with the agent walking you through it.
   tier: spark
 - name: Re-run in the loop
+  unit: re-run
   summary: Rebuild or extend the Episode Guide using what you already know.
 - name: Color
+  unit: color
   summary: Color formats, backgrounds, and gradients; contrast, and never color alone.
   prototype: P1
 - name: Typography
+  unit: typography
   summary: Web fonts, rem and em, line-height; readable at 200% zoom.
   prototype: P1
 - name: Box model and display

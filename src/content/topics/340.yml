@@ -2,15 +2,20 @@
 # No dates on purpose: units can shift without an edit. Source: PLAN.md "DIGHT 340 unit map".
 # Fields: name, summary (one line), tier (spark | prototype | release, optional),
 # prototype (the Prototype this topic feeds, optional).
+# unit (slug of this topic's unit page, units/340-<slug>.md, optional; Oct 19).
+#   The landing page links the topic once that page is published, so it's safe to add early.
 - name: Onboarding and Spark 0
   summary: Rename your repo and set it up for the new system, with the agent walking you through it.
   tier: spark
 - name: DOM (re-run)
+  unit: dom
   summary: Render your Pokémon party to the page; semantic buttons and keyboard events.
 - name: Async 1
+  unit: async-1
   summary: The event loop, Promises, and Promise.all.
   prototype: P1
 - name: Async 2
+  unit: async-2
   summary: async/await, fetching PokéAPI, JSON, and error handling.
   prototype: P1
 - name: Modules, npm, Vite, and Vitest
