@@ -1,19 +1,23 @@
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
+import { courseOrder } from './lib/courses';
 
 // Markdown pages, synced from dight-refactor/course-site-content/ (npm run sync).
 // The id is the path without .md: 'spark-0-250', 'units/250-color',
-// 'sparks/250-s02', 'prototypes/250-p1'. The folder says what kind of page it is.
+// 'sparks/250-s02', 'prototypes/250-p1', 'release/250-release'. The folder says what kind of page it is.
 // A page goes live only when it's `ready` and its date has arrived (`date` for
-// units and Sparks, `released` for Prototypes); see src/lib/published.ts.
+// units and Sparks, `released` for Prototypes and the Release brief); see src/lib/published.ts.
 const pages = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/pages' }),
   schema: z
     .object({
       title: z.string(),
       description: z.string(),
-      courses: z.array(z.enum(['dight250', 'dight340'])).min(1),
+      // 'dight250', 'dight340', …: one per listed course in src/data/courses.json.
+      courses: z
+        .array(z.string().refine((id) => courseOrder.includes(id.replace(/^dight/, '')), 'Not a listed course'))
+        .min(1),
       /** Set once the dry run passes. Missing means draft, so nothing leaks by accident. */
       ready: z.boolean().default(false),
       tier: z.enum(['spark', 'prototype', 'release']).optional(),
@@ -54,6 +58,8 @@ const topics = defineCollection({
       summary: z.string(),
       tier: z.enum(['spark', 'prototype', 'release']).optional(),
       prototype: z.string().regex(/^P\d$/).optional(),
+      /** The session this topic is taught in (1–14); the schedule joins it to the calendar in courses.json. */
+      session: z.number().int().min(1).optional(),
       /** Slug of this topic's unit page (units/NNN-<slug>.md); linked once it's published. */
       unit: z.string().regex(/^[a-z0-9-]+$/).optional(),
     }),

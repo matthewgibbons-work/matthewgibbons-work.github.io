@@ -1,18 +1,22 @@
 ---
 // A course or tier badge: colour plus a text label, never colour alone.
+// A course id ('250', '340', …) takes its name and colour from the registry (src/lib/courses.ts).
+import { courses } from '../lib/courses';
+
 interface Props {
-  kind: '250' | '340' | 'spark' | 'prototype' | 'release';
+  kind: string;
 }
 
-const labels = {
-  '250': 'DIGHT 250',
-  '340': 'DIGHT 340',
+const tiers: Record<string, string> = {
   spark: 'Spark',
   prototype: 'Prototype',
   release: 'Release',
 };
 
 const { kind } = Astro.props;
+const course = courses[kind];
+const label = course?.name ?? tiers[kind];
+if (!label) throw new Error(`Badge: "${kind}" is neither a listed course nor a tier.`);
 ---
 
-<span class={`badge badge--${kind}`}>{labels[kind]}</span>
+<span class={`badge badge--${kind}`} style={course && `color: var(--${course.color})`}>{label}</span>

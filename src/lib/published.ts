@@ -1,19 +1,22 @@
 // What's live: the one place the site decides whether a page is published (Oct 19).
 // A page is published when its frontmatter says `ready: true` and its go-live time has
-// passed: 13:00 UTC on its `date` (units, Sparks) or `released` (Prototypes), the same
+// passed: 13:00 UTC on its `date` (units, Sparks) or `released` (Prototypes and the Release brief), the same
 // hour as the daily rebuild in deploy.yml (6 am MST, 7 am MDT).
 // Production builds leave unpublished pages out entirely, along with every link to them.
 // `npm run dev` shows everything, so drafts can be checked; each one gets a banner.
 // PUBLISH_AS_OF=2026-10-26 npm run build previews what a later day's rebuild will publish.
 
 import { getCollection, type CollectionEntry } from 'astro:content';
-import type { Course } from './courses';
+import { courseOrder, type Course } from './courses';
 
 export type Page = CollectionEntry<'pages'>;
-export type Kind = 'unit' | 'spark' | 'prototype';
+export type Kind = 'unit' | 'spark' | 'prototype' | 'release';
 
-const kindFolders: Record<string, Kind> = { units: 'unit', sparks: 'spark', prototypes: 'prototype' };
-const urlFolders: Record<Kind, string> = { unit: 'units', spark: 'sparks', prototype: 'prototypes' };
+const kindFolders: Record<string, Kind> = { units: 'unit', sparks: 'spark', prototypes: 'prototype', release: 'release' };
+const urlFolders: Record<Kind, string> = { unit: 'units', spark: 'sparks', prototype: 'prototypes', release: 'release' };
+
+// Course ids come from the registry (src/data/courses.json), listed courses only.
+const idPattern = new RegExp(`^(units|sparks|prototypes|release)/(${courseOrder.join('|')})-([a-z0-9-]+)$`);
 
 const GO_LIVE_HOUR_UTC = 13;
 
@@ -25,14 +28,16 @@ const showDrafts = import.meta.env.DEV;
 
 /** 'units/250-color' → { kind: 'unit', course: '250', slug: 'color' }. Spark 0 and other pages → null. */
 export function parseId(id: string): { kind: Kind; course: Course; slug: string } | null {
-  const match = id.match(/^(units|sparks|prototypes)\/(250|340)-([a-z0-9-]+)$/);
+  const match = id.match(idPattern);
   if (!match) return null;
   return { kind: kindFolders[match[1]], course: match[2] as Course, slug: match[3] };
 }
 
 export function pageHref(page: Page): string {
   const parsed = parseId(page.id);
-  if (!parsed) throw new Error(`${page.id} isn't a unit, Spark, or Prototype page`);
+  if (!parsed) throw new Error(`${page.id} isn't a unit, Spark, Prototype, or Release page`);
+  // A course has one Release brief, so it has no slug in its URL: /250/release/.
+  if (parsed.kind === 'release') return `/${parsed.course}/release/`;
   return `/${parsed.course}/${urlFolders[parsed.kind]}/${parsed.slug}/`;
 }
 
@@ -57,7 +62,7 @@ export function isShown(page: Page): boolean {
   return showDrafts || pageStatus(page) === 'published';
 }
 
-/** Every unit, Spark, or Prototype page this build shows, for one course or both. */
+/** Every unit, Spark, Prototype, or Release page this build shows, for one course or both. */
 export async function shownPages(kind: Kind, course?: Course): Promise<Page[]> {
   const all = await getCollection('pages');
   return all.filter((page) => {
@@ -69,6 +74,11 @@ export async function shownPages(kind: Kind, course?: Course): Promise<Page[]> {
 /** The shown page for a course, kind, and slug (e.g. '250', 'unit', 'color'), if any. */
 export async function findPage(course: Course, kind: Kind, slug: string): Promise<Page | undefined> {
   return (await shownPages(kind, course)).find((page) => parseId(page.id)?.slug === slug);
+}
+
+/** The shown Release brief for a course, if any (sources are named release/250-release.md). */
+export async function releasePage(course: Course): Promise<Page | undefined> {
+  return findPage(course, 'release', 'release');
 }
 
 /** The shown unit page and Spark for one session: they share `session`. */

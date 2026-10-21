@@ -344,13 +344,9 @@ details > :last-child {
 }
 
 /* Course accent (site v2): teal on shared pages, the course colour on course pages
-   (<html data-course>). Used for the nav underline and course cards. */
+   (<html style="--accent: …">, set from the course registry). Used for the nav underline. */
 :root { --accent: var(--teal); }
-[data-course='250'] { --accent: var(--blue); }
-[data-course='340'] { --accent: var(--red); }
 
-.badge--250 { color: var(--blue); }
-.badge--340 { color: var(--red); }
 .badge--spark { color: var(--yellow); }
 .badge--prototype { color: var(--green); }
 

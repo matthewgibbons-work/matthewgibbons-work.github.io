@@ -4,7 +4,8 @@
 import Badge from './Badge.astro';
 
 interface Props {
-  courses: ('dight250' | 'dight340')[];
+  /** 'dight250', 'dight340', …: the frontmatter's `courses`. */
+  courses: string[];
   tier?: 'spark' | 'prototype' | 'release';
   /** The session a unit page or Spark belongs to. */
   date?: Date;
@@ -27,7 +28,7 @@ const iso = (d: Date) => d.toISOString().slice(0, 10);
 
 <div class="page-meta">
   <p class="badges">
-    {courses.map((c) => <Badge kind={c === 'dight250' ? '250' : '340'} />)}
+    {courses.map((c) => <Badge kind={c.replace(/^dight/, '')} />)}
     {tier && <Badge kind={tier} />}
   </p>
   {

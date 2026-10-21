@@ -1,0 +1,117 @@
+{
+  "calendars": {
+    "fall2026": {
+      "sessions": {
+        "1": "2026-10-19",
+        "2": "2026-10-21",
+        "3": "2026-10-26",
+        "4": "2026-10-28",
+        "5": "2026-11-02",
+        "6": "2026-11-04",
+        "7": "2026-11-09",
+        "8": "2026-11-16",
+        "9": "2026-11-18",
+        "10": "2026-11-23",
+        "11": "2026-11-30",
+        "12": "2026-12-02",
+        "13": "2026-12-07",
+        "14": "2026-12-09"
+      },
+      "noClass": [
+        {
+          "date": "2026-11-11"
+        },
+        {
+          "date": "2026-11-25",
+          "reason": "Thanksgiving"
+        }
+      ]
+    }
+  },
+  "courses": [
+    {
+      "id": "250",
+      "name": "DIGHT 250",
+      "topic": "HTML and CSS",
+      "agent": "GitHub Copilot",
+      "color": "blue",
+      "listed": true,
+      "calendar": "fall2026",
+      "release": {
+        "released": "2026-11-16",
+        "intentBrief": "2026-11-18",
+        "due": "2026-12-11",
+        "dueTime": "11:59 pm",
+        "openLab": "2026-12-12"
+      },
+      "prototypes": [
+        {
+          "id": "P1",
+          "topic": "Color + Typography",
+          "due": "2026-11-02",
+          "released": "2026-10-26"
+        },
+        {
+          "id": "P2",
+          "topic": "Box model + Flexbox",
+          "due": "2026-11-09",
+          "released": "2026-11-02"
+        },
+        {
+          "id": "P3",
+          "topic": "Grid",
+          "due": "2026-11-16",
+          "released": "2026-11-09"
+        },
+        {
+          "id": "P4",
+          "topic": "Responsive + Forms",
+          "due": "2026-11-23",
+          "released": "2026-11-16"
+        }
+      ]
+    },
+    {
+      "id": "340",
+      "name": "DIGHT 340",
+      "topic": "JavaScript, Svelte, and Astro",
+      "agent": "Claude Code",
+      "color": "red",
+      "listed": true,
+      "calendar": "fall2026",
+      "release": {
+        "released": "2026-11-16",
+        "intentBrief": "2026-11-18",
+        "due": "2026-12-15",
+        "dueTime": "11:59 pm",
+        "openLab": "2026-12-16"
+      },
+      "prototypes": [
+        {
+          "id": "P1",
+          "topic": "Async 1 + Async 2",
+          "due": "2026-11-02",
+          "released": "2026-10-26"
+        },
+        {
+          "id": "P2",
+          "topic": "Modules/Vite + Svelte intro",
+          "due": "2026-11-09",
+          "released": "2026-11-02"
+        },
+        {
+          "id": "P3",
+          "topic": "Svelte logic + events",
+          "due": "2026-11-16",
+          "released": "2026-11-09"
+        },
+        {
+          "id": "P4",
+          "topic": "Svelte components + forms/shared state",
+          "due": "2026-11-23",
+          "released": "2026-11-16"
+        }
+      ]
+    }
+  ]
+}

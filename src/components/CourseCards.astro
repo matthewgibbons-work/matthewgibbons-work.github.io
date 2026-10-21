@@ -20,7 +20,7 @@ const Heading = `h${level}` as 'h2' | 'h3';
     courseOrder.map((id) => {
       const c = courses[id];
       return (
-        <li class={`card card--${id}`}>
+        <li class="card" style={`--card-accent: var(--${c.color})`}>
           <Heading>
             <a href={`${c.href}${to}`}>{c.name}</a>
           </Heading>
@@ -55,9 +55,6 @@ const Heading = `h${level}` as 'h2' | 'h3';
     border-top: 0.35rem solid var(--card-accent);
     border-radius: var(--radius);
   }
-
-  .card--250 { --card-accent: var(--blue); }
-  .card--340 { --card-accent: var(--red); }
 
   .card:hover {
     border-color: var(--card-accent);

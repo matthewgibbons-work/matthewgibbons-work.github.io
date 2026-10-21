@@ -2,7 +2,7 @@
 // Edit the source in dight-refactor/ only, run its starter-kits/build.sh, then `npm run sync`.
 //
 //   course-site-content/*.md           → src/content/pages/<name>-250.md and <name>-340.md (split)
-//   course-site-content/units/, sparks/, prototypes/ NNN-<slug>.md
+//   course-site-content/units/, sparks/, prototypes/, release/ NNN-<slug>.md
 //                                      → src/content/pages/<same folder>/NNN-<slug>.md (one course each)
 //   course-site-content/topics-NNN.yml → src/content/topics/NNN.yml
 //   starter-kits/dist/*.zip            → public/downloads/
@@ -10,6 +10,9 @@
 //   starter-kits/src/templates/NOTES.md → src/content/templates/NOTES.md
 //
 // Source folder: ../dight-refactor next to this repo, or set DIGHT_REFACTOR=/path/to/it.
+// Courses: src/data/courses.json (the course registry). Only `listed` courses are synced;
+// an unlisted course's files are skipped, though its <!-- NNN --> blocks are still dropped
+// from the shared pages.
 //
 // Every page is copied, drafts included: the build decides what's live (`ready` plus its
 // date; see src/lib/published.ts). The explicit coursePages list is gone (Oct 19).
@@ -21,17 +24,21 @@ import { fileURLToPath } from 'node:url';
 const site = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const source = path.resolve(process.env.DIGHT_REFACTOR ?? path.join(site, '../dight-refactor'));
 
-const courses = ['250', '340'];
+const registry = JSON.parse(await readFile(path.join(site, 'src/data/courses.json'), 'utf8'));
+const allIds = registry.courses.map((c) => c.id);
+const courses = registry.courses.filter((c) => c.listed).map((c) => c.id);
+const idAlternation = allIds.join('|');
 
 // Shared pages (the .md files at the top of course-site-content/) are split into one copy
 // per course (site v2, Oct 17). In the source:
-//   <!-- 250 --> … <!-- /250 -->  (own lines) kept only on the 250 page; the same for 340
-//   {{course}}                    becomes 250 or 340
+//   <!-- 250 --> … <!-- /250 -->  (own lines) kept only on the 250 page; the same for each other course
+//   {{course}}                    becomes the course id
 //   <!-- prompt:start -->         left in; the page swaps in that course's Start prompt
 // The leading HTML comment (notes for editors) is dropped, and `courses:` is set to one course.
-// Single-course pages (Oct 19) live in these folders, named 250-<slug>.md or 340-<slug>.md.
+// Single-course pages (Oct 19) live in these folders, named <course>-<slug>.md (250-color.md).
 // They get the same treatment for their own course, so {{course}} works in them too.
-const courseFolders = ['units', 'sparks', 'prototypes'];
+// release/ holds each course's one Release brief, <course>-release.md (Oct 21).
+const courseFolders = ['units', 'sparks', 'prototypes', 'release'];
 
 async function exists(p) {
   return stat(p).then(() => true, () => false);
@@ -62,14 +69,17 @@ if (!(await exists(path.join(source, 'PLAN.md')))) {
 
 console.log(`Syncing from ${source}`);
 
+const openMarker = new RegExp(`^<!-- (${idAlternation}) -->$`);
+const closeMarker = new RegExp(`^<!-- /(${idAlternation}) -->$`);
+
 // Keeps one course's blocks, drops the other's and the marker lines.
 function forCourse(text, course) {
   const out = [];
   let skip = false;
   for (const line of text.split('\n')) {
-    const open = line.match(/^<!-- (250|340) -->$/);
+    const open = line.match(openMarker);
     if (open) { skip = open[1] !== course; continue; }
-    if (/^<!-- \/(250|340) -->$/.test(line)) { skip = false; continue; }
+    if (closeMarker.test(line)) { skip = false; continue; }
     if (!skip) out.push(line);
   }
   return out
@@ -99,9 +109,13 @@ for (const folder of courseFolders) {
   await fresh(to);
   if (!(await exists(from))) continue;
   for (const name of await listFiles(from, '.md')) {
-    const match = name.match(/^(250|340)-[a-z0-9-]+\.md$/);
+    const match = name.match(/^([0-9]+)-[a-z0-9-]+\.md$/);
     if (!match) {
-      console.warn(`  Skipped ${folder}/${name}: name it 250-<slug>.md or 340-<slug>.md`);
+      console.warn(`  Skipped ${folder}/${name}: name it <course>-<slug>.md, like 250-color.md`);
+      continue;
+    }
+    if (!courses.includes(match[1])) {
+      console.log(`  Skipped ${folder}/${name}: course ${match[1]} isn't listed in src/data/courses.json`);
       continue;
     }
     const text = await readFile(path.join(from, name), 'utf8');
@@ -115,6 +129,10 @@ const topicsTo = path.join(site, 'src/content/topics');
 await fresh(topicsTo);
 for (const course of courses) {
   const from = path.join(pagesFrom, `topics-${course}.yml`);
+  if (!(await exists(from))) {
+    console.warn(`  No topics-${course}.yml: the ${course} landing page will have no topic list.`);
+    continue;
+  }
   await cp(from, path.join(topicsTo, `${course}.yml`));
   console.log(`  ${path.relative(source, from)} → ${path.relative(site, path.join(topicsTo, `${course}.yml`))}`);
 }
