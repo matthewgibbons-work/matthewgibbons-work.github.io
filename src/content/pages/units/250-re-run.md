@@ -2,7 +2,7 @@
 title: "Re-run in the loop"
 description: "Your first full loop, on ground you already know: why a \"done\" list is a spec you can check line by line."
 courses: [dight250]
-ready: false # true once the S02 dry run passes, with the S02 brief (PLAN.md: Build order)
+ready: true # S02 dry run passed Oct 21
 session: 2
 date: 2026-10-21
 ---
@@ -105,8 +105,9 @@ Prompts like this often come back with one or more of these:
 - Episodes in `<div>`s styled to look like a table, or a `<table>` with no `<caption>` and no `scope` on its header cells.
 - The whole page in `<div>`s, with no `header`, `main`, or `footer`.
 - A CSS framework linked from a CDN "to make it look nice," which `AGENTS.md` rules out.
+- Episodes, air dates, or summaries we never gave it, filled in without asking. Two runs gave the same episode two different air dates, both stated just as confidently.
 
-The validator passed it. The "done" list didn't: going down it line by line turned up each slip. Then we ran the loop properly, with an intent and the "done" list in the prompt, and compared the two versions.
+The validator and axe can pass a page like this, because neither knows a table should be there. The "done" list does: going down it line by line turned up each slip. Then we ran the loop properly, with an intent and the "done" list in the prompt, and compared the two versions.
 
 </details>
 
