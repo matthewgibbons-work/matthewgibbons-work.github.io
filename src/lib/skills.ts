@@ -15,6 +15,8 @@ export interface SkillInfo {
   description: string;
   /** How to run it, as short HTML-free sentences. */
   howTo: string[];
+  /** Per-course wording that replaces `description` or `howTo`. */
+  byCourse?: Partial<Record<Course, Partial<Pick<SkillInfo, 'description' | 'howTo'>>>>;
 }
 
 export const skillOrder: SkillName[] = ['dig-deeper', 'check'];
@@ -44,6 +46,18 @@ export const skills: Record<SkillName, SkillInfo> = {
       'Type /dig-deeper in the chat and send it.',
       'Answer its “predict” question before it reveals the answer.',
     ],
+    // Oct 21: the Desktop app has no editor to highlight in, and the VS Code extension
+    // didn't pass highlighted code to the skill. Naming the code works everywhere.
+    byCourse: {
+      '340': {
+        description: 'A tutor for code you name: it explains, links MDN, then asks you to predict.',
+        howTo: [
+          'Type /dig-deeper, then the file and the lines you want to understand, like /dig-deeper main.js lines 40-52.',
+          'Or paste the code after /dig-deeper.',
+          'Answer its “predict” question before it reveals the answer.',
+        ],
+      },
+    },
   },
   check: {
     title: 'Check',
@@ -56,3 +70,9 @@ export const skills: Record<SkillName, SkillInfo> = {
     ],
   },
 };
+
+/** A skill's page details for one course, with that course's wording applied. */
+export function skillInfo(name: SkillName, course: Course): SkillInfo {
+  const { byCourse, ...info } = skills[name];
+  return { ...info, ...byCourse?.[course] };
+}

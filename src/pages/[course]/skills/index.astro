@@ -4,7 +4,7 @@
 import Base from '../../../layouts/Base.astro';
 import PageMeta from '../../../components/PageMeta.astro';
 import { courses, courseOrder, type Course } from '../../../lib/courses';
-import { skills, skillOrder, skillHref, skillWhere } from '../../../lib/skills';
+import { skillInfo, skillOrder, skillHref, skillWhere } from '../../../lib/skills';
 
 export function getStaticPaths() {
   return courseOrder.map((course) => ({ params: { course } }));
@@ -26,7 +26,7 @@ const folder = course === '250' ? '.github/skills/' : '.claude/skills/';
   <ul class="skill-list" role="list">
     {
       skillOrder.map((name) => {
-        const info = skills[name];
+        const info = skillInfo(name, course);
         return (
           <li>
             <h2>
