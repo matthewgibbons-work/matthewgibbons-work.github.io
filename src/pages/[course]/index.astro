@@ -4,12 +4,15 @@
 // Order: setup guide, your setup, the term (topics, Prototypes, Release), skills, reference.
 // Oct 19: a topic links to its unit page (via `unit:` in topics-NNN.yml) and that unit's
 // Spark, and each Prototype row links to its brief, once those pages are published.
+// Oct 21: a "Find your way" row links the Schedule, the three indexes, and the Release
+// brief; Prototype and Release dates come from the course registry (src/data/courses.json);
+// reflections are gone (dropped Oct 21).
 import { getEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Badge from '../../components/Badge.astro';
-import { courses, courseOrder, type Course } from '../../lib/courses';
+import { courses, courseOrder, fmtDay, type Course } from '../../lib/courses';
 import { skillInfo, skillOrder, skillHref } from '../../lib/skills';
-import { findPage, pageHref, parseId, prototypePage, sessionPair } from '../../lib/published';
+import { findPage, pageHref, parseId, prototypePage, releasePage, sessionPair } from '../../lib/published';
 
 export function getStaticPaths() {
   return courseOrder.map((course) => ({ params: { course } }));
@@ -35,17 +38,35 @@ const topicLinks = await Promise.all(
 );
 const prototypeHrefs = Object.fromEntries(
   await Promise.all(
-    c.prototypes.map(async ([n]) => {
-      const brief = await prototypePage(course, n);
-      return [n, brief && pageHref(brief)] as const;
+    c.prototypes.map(async ({ id }) => {
+      const brief = await prototypePage(course, id);
+      return [id, brief && pageHref(brief)] as const;
     }),
   ),
 );
+const release = await releasePage(course);
+const r = c.release;
+// The row under the title. The Release brief links only once it's published.
+const findYourWay = [
+  { href: `/${course}/schedule/`, label: 'Schedule' },
+  { href: `/${course}/units/`, label: 'Units' },
+  { href: `/${course}/sparks/`, label: 'Sparks' },
+  { href: `/${course}/prototypes/`, label: 'Prototypes' },
+  ...(release ? [{ href: pageHref(release), label: 'Release brief' }] : []),
+];
 ---
 
 <Base title={c.name} description={`${c.name}: ${c.topic}. Setup, topics this term, and skills.`} course={course}>
   <h1>{c.name}</h1>
   <p class="lede"><Badge kind={course} /> {c.topic}</p>
+
+  <nav class="find" aria-labelledby="find">
+    <h2 id="find">Find your way</h2>
+    <ul role="list">
+      {findYourWay.map(({ href, label }) => <li><a href={href}>{label}</a></li>)}
+      {!release && <li class="soon">Release brief: out {fmtDay(r.released)}</li>}
+    </ul>
+  </nav>
 
   <section class="start" aria-labelledby="start">
     <h2 id="start"><Badge kind="spark" /> Setup guide (Spark 0)</h2>
@@ -138,7 +159,7 @@ const prototypeHrefs = Object.fromEntries(
     <h2 id="term">The term</h2>
 
     <h3>Topics this term</h3>
-    <p class="note">In teaching order. Dates live in Learning Suite, so this list never goes out of date.</p>
+    <p class="note">In teaching order. For dates, see the <a href={`/${course}/schedule/`}>schedule</a>.</p>
     <ol class="topics">
       {
         topics.map((t, i) => {
@@ -178,49 +199,41 @@ const prototypeHrefs = Object.fromEntries(
           <tr><th scope="col">Prototype</th><th scope="col">Topic</th><th scope="col">Due</th></tr>
         </thead>
         <tbody>
-          {c.prototypes.map(([n, topic, due]) => (
+          {c.prototypes.map(({ id, topic, due }) => (
             <tr>
-              <th scope="row">{prototypeHrefs[n] ? <a href={prototypeHrefs[n]}>{n}</a> : n}</th>
+              <th scope="row">{prototypeHrefs[id] ? <a href={prototypeHrefs[id]}>{id}</a> : id}</th>
               <td>{topic}</td>
-              <td>{due}</td>
+              <td>{fmtDay(due)}</td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
 
-    <h3>Release and reflections</h3>
+    <h3>Release</h3>
     {
       course === '250' ? (
-        <ul>
-          <li>
-            <strong>Release:</strong> expand the Saturday Morning Archive, or build a small site for a real or
-            realistic audience. Brief out Mon Nov 16, intent brief in class Wed Nov 18. Due{' '}
-            <strong>Fri Dec 11, 11:59 pm</strong>; walkthrough at the open lab on <strong>Sat Dec 12</strong> (the
-            final-exam slot).
-          </li>
-          <li>
-            <strong>Reflections:</strong> “A time the agent was wrong,” due Mon Nov 9. “Accessibility when you aren’t
-            typing the markup,” due Mon Nov 30. Optional: looking back on your Release, due with it.
-          </li>
-        </ul>
+        <p>
+          Expand the Saturday Morning Archive, or build a small site for a real or realistic audience.
+        </p>
       ) : (
-        <ul>
-          <li>
-            <strong>Release:</strong> an Astro site with Svelte islands, PokéAPI data, your reflections as a
-            collection, and tests. Or use your own API, by proposal. You’ll also write your project’s own{' '}
-            <code>AGENTS.md</code> and one custom skill, and explain why. Brief out Mon Nov 16, intent brief in class
-            Wed Nov 18. Due <strong>Tue Dec 15, 11:59 pm</strong>; walkthrough at the open lab on{' '}
-            <strong>Wed Dec 16</strong> (the final-exam slot).
-          </li>
-          <li>
-            <strong>Reflections:</strong> “A time the agent was wrong,” due Mon Nov 9. “Accessibility when you aren’t
-            typing the markup,” due Mon Nov 30; it becomes the first entry in your Astro site. Optional: looking back
-            on your Release, due with it.
-          </li>
-        </ul>
+        <p>
+          An Astro site with Svelte islands, PokéAPI data, your <code>NOTES.md</code> files as a collection, and tests. Or
+          use your own API, by proposal. You’ll also write your project’s own <code>AGENTS.md</code> and one custom
+          skill, and explain why.
+        </p>
       )
     }
+    <ul>
+      <li>Brief out <strong>{fmtDay(r.released)}</strong>; intent brief in class <strong>{fmtDay(r.intentBrief)}</strong>.</li>
+      <li>
+        Due <strong>{fmtDay(r.due)}, {r.dueTime}</strong>; walkthrough at the open lab on{' '}
+        <strong>{fmtDay(r.openLab)}</strong> (the final-exam slot).
+      </li>
+      <li>
+        {release ? <a href={pageHref(release)}>Read the Release brief</a> : <>The brief goes up on {fmtDay(r.released)}.</>}
+      </li>
+    </ul>
   </section>
 
   <section aria-labelledby="skills">
@@ -262,6 +275,41 @@ const prototypeHrefs = Object.fromEntries(
 
   section {
     margin-block-start: 2.5rem;
+  }
+
+  /* The row under the title: where the lists live. */
+  .find {
+    margin-block-start: 1.5rem;
+  }
+
+  .find h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1.1rem;
+    color: var(--muted);
+  }
+
+  .find ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .find li {
+    margin: 0;
+    font-weight: 700;
+  }
+
+  .find a {
+    display: inline-block;
+    padding-block: 0.35rem;
+  }
+
+  .find .soon {
+    font-weight: 400;
+    color: var(--muted);
   }
 
   /* The setup guide: first, and the one thing to do. */

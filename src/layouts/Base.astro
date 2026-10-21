@@ -8,7 +8,7 @@ import '@fontsource-variable/fira-code';
 import '../styles/global.css';
 import Badge from '../components/Badge.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
-import { courses, otherCourse, type Course } from '../lib/courses';
+import { accent, courses, courseOrder, otherCourse, type Course } from '../lib/courses';
 
 interface Props {
   title: string;
@@ -22,29 +22,32 @@ const siteName = 'DIGHT 250 & 340';
 const pageTitle = title === siteName ? title : `${title} · ${siteName}`;
 const path = Astro.url.pathname;
 
-// The nav only offers links that make sense where you are (site v2, Oct 17).
-// Course pages: that course's pages, then How it works. Shared pages: the shared
-// pages, then both courses.
+// The nav only offers links that make sense where you are (site v2, Oct 17; course nav
+// changed Oct 21). Course pages: Course home · Schedule · Units · Sparks · Prototypes ·
+// Skills. Spark 0 and How it works moved to the course landing page and the footer.
+// Shared pages: the shared pages, then every listed course (src/data/courses.json).
 const nav = course
   ? [
       { href: `/${course}/`, label: 'Course home', exact: true },
-      { href: `/${course}/spark-0/`, label: 'Spark 0' },
+      { href: `/${course}/schedule/`, label: 'Schedule' },
+      { href: `/${course}/units/`, label: 'Units' },
+      { href: `/${course}/sparks/`, label: 'Sparks' },
+      { href: `/${course}/prototypes/`, label: 'Prototypes' },
       { href: `/${course}/skills/`, label: 'Skills' },
-      { href: '/how-it-works/', label: 'How it works' },
     ]
   : [
       { href: '/how-it-works/', label: 'How it works' },
       { href: '/notes/', label: 'NOTES' },
       { href: '/agents/', label: 'AGENTS' },
-      { href: '/250/', label: 'DIGHT 250' },
-      { href: '/340/', label: 'DIGHT 340' },
+      ...courseOrder.map((id) => ({ href: courses[id].href, label: courses[id].name })),
     ];
 const isCurrent = (href: string, exact = false) => (exact ? path === href : path.startsWith(href));
-const other = course && courses[otherCourse(course)];
+const otherId = course && otherCourse(course);
+const other = otherId ? courses[otherId] : undefined;
 ---
 
 <!doctype html>
-<html lang="en" data-course={course}>
+<html lang="en" data-course={course} style={course && `--accent: ${accent(course)}`}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -97,6 +100,14 @@ const other = course && courses[otherCourse(course)];
 
     <footer class="site-footer">
       <div class="wrap">
+        {
+          course && (
+            <p>
+              <a href={`/${course}/spark-0/`}>Spark 0 setup guide</a> · <a href="/how-it-works/">How it works</a> ·{' '}
+              <a href="/notes/">NOTES.md</a> · <a href="/agents/">AGENTS.md</a>
+            </p>
+          )
+        }
         <p>DIGHT 250 &amp; 340 · Fall 2026</p>
       </div>
     </footer>
