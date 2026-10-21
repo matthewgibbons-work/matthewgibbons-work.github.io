@@ -1,0 +1,167 @@
+---
+// /250/schedule/ and /340/schedule/ (Oct 21): one row per class day, from the first session to
+// the open lab. Dates come from the course registry (src/data/courses.json) joined to
+// `session:` in topics-<course>.yml; src/lib/schedule.ts builds the rows. A topic with no
+// `session` yet is listed at the end without a date. Published items link; unpublished
+// items show their title only.
+import Base from '../../../layouts/Base.astro';
+import PageMeta from '../../../components/PageMeta.astro';
+import { courses, courseOrder, fmtDay, type Course } from '../../../lib/courses';
+import { scheduleRows, type Item } from '../../../lib/schedule';
+
+export function getStaticPaths() {
+  return courseOrder.map((course) => ({ params: { course } }));
+}
+
+const course = Astro.params.course as Course;
+const c = courses[course];
+const rows = await scheduleRows(course);
+const undated = rows.some((row) => row.kind === 'undated');
+---
+
+<Base
+  title={`Schedule · ${c.name}`}
+  description={`${c.name}: every class, what's taught, what's due, and the Release dates.`}
+  course={course}
+>
+  <PageMeta courses={[`dight${course}`]} />
+  <h1>Schedule</h1>
+  <p>
+    Every class from Oct 19 to the open lab, with the unit, the Spark, and what's due that day. Items that are out
+    link to their page; the rest say when they are coming. The lists by type:
+    <a href={`/${course}/units/`}>Units</a>, <a href={`/${course}/sparks/`}>Sparks</a>,
+    <a href={`/${course}/prototypes/`}>Prototypes</a>.
+  </p>
+
+  <div class="table-wrap" tabindex="0" role="region" aria-label={`${c.name} schedule`}>
+    <table>
+      <caption class="visually-hidden">{c.name} schedule, in date order</caption>
+      <thead>
+        <tr>
+          <th scope="col">Day</th>
+          <th scope="col">Unit</th>
+          <th scope="col">Spark</th>
+          <th scope="col">Due and milestones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          rows.map((row) => (
+            <tr class={`row--${row.kind}`}>
+              <th scope="row">
+                {row.date ? <time datetime={row.date}>{fmtDay(row.date)}</time> : 'Date to come'}
+                {row.session && row.date && <span class="sub">Session {row.session}</span>}
+              </th>
+              {row.kind === 'noclass' ? (
+                <td colspan="3">{row.noClass}</td>
+              ) : row.kind === 'event' ? (
+                <td colspan="3">
+                  <ul class="milestones" role="list">
+                    {row.milestones.map((m) => (
+                      <li>{m.href ? <a href={m.href}>{m.text}</a> : m.text}</li>
+                    ))}
+                  </ul>
+                </td>
+              ) : (
+                <>
+                  <td>
+                    {row.unit && (row.unit.href ? <a href={row.unit.href}>{row.unit.title}</a> : row.unit.title)}
+                    {row.unit?.note && <span class="sub">{row.unit.note}</span>}
+                    {row.unit && !row.unit.href && row.unit.coming && (
+                      <span class="visually-hidden"> ({row.unit.coming})</span>
+                    )}
+                  </td>
+                  <td>
+                    {row.spark ? (
+                      <>
+                        {row.spark.href ? <a href={row.spark.href}>{row.spark.title}</a> : row.spark.title}
+                        {!row.spark.href && row.spark.coming && (
+                          <span class="visually-hidden"> ({row.spark.coming})</span>
+                        )}
+                      </>
+                    ) : (
+                      <span aria-label="None">–</span>
+                    )}
+                  </td>
+                  <td>
+                    {row.milestones.length > 0 ? (
+                      <ul class="milestones" role="list">
+                        {row.milestones.map((m) => (
+                          <li>{m.href ? <a href={m.href}>{m.text}</a> : m.text}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <span aria-label="None">–</span>
+                    )}
+                  </td>
+                </>
+              )}
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  {
+    undated && (
+      <p class="note">
+        Rows marked “Date to come” don't have a session date yet.
+      </p>
+    )
+  }
+  <p class="note">
+    Dates may shift as the term goes on. Learning Suite always has the current ones.
+  </p>
+</Base>
+
+<style>
+  .table-wrap {
+    overflow-x: auto;
+    margin-block-end: 1.25rem;
+  }
+
+  .table-wrap table {
+    margin: 0;
+  }
+
+  .table-wrap:focus-visible {
+    outline-offset: 2px;
+  }
+
+  th[scope='row'] {
+    font-weight: 400;
+    white-space: nowrap;
+  }
+
+  .sub {
+    display: block;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .milestones {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .milestones li {
+    margin: 0;
+  }
+
+  .milestones li + li {
+    margin-top: 0.2rem;
+  }
+
+  /* A day with no class reads as a gap, not a lecture. */
+  .row--noclass td {
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  .note {
+    color: var(--muted);
+    font-size: 1rem;
+  }
+</style>

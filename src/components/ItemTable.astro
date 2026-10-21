@@ -1,0 +1,75 @@
+---
+// The table on the units, Sparks, and Prototypes index pages (Oct 21): one row per item, in
+// session order. A published item links; an unpublished one shows its title and "Coming …"
+// with no link (src/lib/schedule.ts decides which).
+import { fmtDay } from '../lib/courses';
+import type { Item } from '../lib/schedule';
+
+interface Props {
+  items: Item[];
+  /** What the first column holds: 'Date' for units and Sparks, 'Out' for Prototypes. */
+  dateLabel: string;
+  /** What the second column holds: 'Unit', 'Spark', 'Prototype'. */
+  titleLabel: string;
+  /** Names the scrollable region and the table. */
+  label: string;
+}
+
+const { items, dateLabel, titleLabel, label } = Astro.props;
+---
+
+<div class="table-wrap" tabindex="0" role="region" aria-label={label}>
+  <table>
+    <caption class="visually-hidden">{label}, in order</caption>
+    <thead>
+      <tr>
+        <th scope="col">{dateLabel}</th>
+        <th scope="col">{titleLabel}</th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        items.map((item) => (
+          <tr>
+            <th scope="row">
+              {item.date ? <time datetime={item.date}>{fmtDay(item.date)}</time> : 'Date to come'}
+              {item.session && <span class="sub">Session {item.session}</span>}
+            </th>
+            <td>
+              {item.href ? <a href={item.href}>{item.title}</a> : item.title}
+              {item.note && <span class="sub">{item.note}</span>}
+            </td>
+            <td>{item.href ? 'Available' : item.coming}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .table-wrap {
+    overflow-x: auto;
+    margin-block-end: 1.25rem;
+  }
+
+  .table-wrap table {
+    margin: 0;
+  }
+
+  .table-wrap:focus-visible {
+    outline-offset: 2px;
+  }
+
+  th[scope='row'] {
+    font-weight: 400;
+    white-space: nowrap;
+  }
+
+  .sub {
+    display: block;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+</style>

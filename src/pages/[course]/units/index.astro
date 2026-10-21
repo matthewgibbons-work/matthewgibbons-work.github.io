@@ -1,0 +1,28 @@
+---
+// /<course>/units/: every Unit in session order, with its date and whether it's out yet (Oct 21).
+// Only published pages link; the rest show "Coming …" (see src/lib/schedule.ts). This route
+// is /<course>/units/ and the single pages are /<course>/units/<slug>/, so they don't clash.
+import Base from '../../../layouts/Base.astro';
+import ItemTable from '../../../components/ItemTable.astro';
+import PageMeta from '../../../components/PageMeta.astro';
+import { courses, courseOrder, type Course } from '../../../lib/courses';
+import { unitItems } from '../../../lib/schedule';
+
+export function getStaticPaths() {
+  return courseOrder.map((course) => ({ params: { course } }));
+}
+
+const course = Astro.params.course as Course;
+const c = courses[course];
+const items = await unitItems(course);
+---
+
+<Base title={`Units · ${c.name}`} description={`Every Unit in ${c.name}, in order, with dates.`} course={course}>
+  <PageMeta courses={[`dight${course}`]} />
+  <h1>Units</h1>
+  <p>The lecture for each session, in order. A unit introduces the new ideas, then you try them with the agent in class.</p>
+  <p>
+    The <a href={`/${course}/schedule/`}>schedule</a> shows everything due each week.
+  </p>
+  <ItemTable {items} dateLabel="Date" titleLabel="Unit" label={`${c.name} Units`} />
+</Base>
