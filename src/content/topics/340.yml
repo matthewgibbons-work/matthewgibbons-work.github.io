@@ -7,7 +7,7 @@
 - name: Onboarding and Spark 0
   summary: Rename your repo and set it up for the new system, with the agent walking you through it.
   tier: spark
-- name: DOM (re-run)
+- name: The DOM
   unit: dom
   summary: Render your Pokémon party to the page; semantic buttons and keyboard events.
 - name: Async 1
