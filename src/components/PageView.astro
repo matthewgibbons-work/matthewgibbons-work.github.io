@@ -1,0 +1,49 @@
+---
+// One unit page, Spark brief, Prototype brief, or Release brief, laid out the same way:
+// draft banner, the meta line, the Markdown body (with the Copy button on the "done" list),
+// and the "This session" panel. Shared by /<course>/<folder>/<slug>/ and /<course>/release/.
+import { render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import CopyButton from './CopyButton.astro';
+import DraftBanner from './DraftBanner.astro';
+import PageMeta from './PageMeta.astro';
+import MarkdownBody from './MarkdownBody.astro';
+import SessionPanel from './SessionPanel.astro';
+import { pageHref, parseId, sessionPair, unitsFeeding, type Page } from '../lib/published';
+import type { Course } from '../lib/courses';
+
+interface Props {
+  page: Page;
+  course: Course;
+}
+
+const { page, course } = Astro.props;
+const { Content } = await render(page);
+const { title, description, courses, tier, date, released, due, folder, session } = page.data;
+const { kind, slug } = parseId(page.id)!;
+
+// The meta line links a brief up to its unit(s): a Spark shares its unit's session, and a
+// Prototype's units name it in `prototype`. Only published pages are linked.
+const unitPages =
+  kind === 'spark' && session
+    ? [(await sessionPair(course, session)).unit].filter((unit) => unit !== undefined)
+    : kind === 'prototype'
+      ? await unitsFeeding(course, slug.toUpperCase())
+      : [];
+const units = unitPages.map((unit) => ({ href: pageHref(unit), title: unit.data.title }));
+---
+
+<Base title={title} description={description} course={course}>
+  <DraftBanner {page} />
+  <PageMeta {courses} {tier} {date} {released} {due} {folder} {units} />
+  <MarkdownBody>
+    <Content />
+    <CopyButton
+      slot="done"
+      target="done-list"
+      label="Copy the “done” list"
+      copied="Copied. Paste it into the chat when you run /check."
+    />
+  </MarkdownBody>
+  <SessionPanel {page} {course} />
+</Base>

@@ -18,7 +18,7 @@ export function getStaticPaths() {
   return import.meta.env.DEV ? [{ params: { path: undefined } }] : [];
 }
 
-const kinds: Kind[] = ['unit', 'spark', 'prototype'];
+const kinds: Kind[] = ['unit', 'spark', 'prototype', 'release'];
 const pages = (await Promise.all(kinds.map((kind) => shownPages(kind)))).flat();
 const statusOrder: Record<Status, number> = { draft: 0, scheduled: 1, published: 2 };
 const rows = pages
@@ -31,7 +31,7 @@ const rows = pages
   );
 
 const statusLabels: Record<Status, string> = { draft: 'Draft', scheduled: 'Ready, scheduled', published: 'Live' };
-const kindLabels: Record<Kind, string> = { unit: 'Unit', spark: 'Spark', prototype: 'Prototype' };
+const kindLabels: Record<Kind, string> = { unit: 'Unit', spark: 'Spark', prototype: 'Prototype', release: 'Release' };
 const fmt = (d: Date) =>
   d.toLocaleString('en-US', {
     weekday: 'short',
