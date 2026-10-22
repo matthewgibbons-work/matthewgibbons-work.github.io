@@ -49,7 +49,10 @@ const { items, dateLabel, titleLabel, label } = Astro.props;
 </div>
 
 <style>
+  /* position: so the visually-hidden spans inside the table scroll with it
+     instead of stretching the page at narrow widths. */
   .table-wrap {
+    position: relative;
     overflow-x: auto;
     margin-block-end: 1.25rem;
   }
