@@ -1,7 +1,8 @@
 ---
 // The table on the units, Sparks, and Prototypes index pages (Oct 21): one row per item, in
 // session order. A published item links; an unpublished one shows its title and "Coming …"
-// with no link (src/lib/schedule.ts decides which).
+// with no link (src/lib/schedule.ts decides which). Two columns, so it fits at 320px without
+// scrolling: the date, then the item with its status underneath.
 import { fmtDay } from '../lib/courses';
 import type { Item } from '../lib/schedule';
 
@@ -25,7 +26,6 @@ const { items, dateLabel, titleLabel, label } = Astro.props;
       <tr>
         <th scope="col">{dateLabel}</th>
         <th scope="col">{titleLabel}</th>
-        <th scope="col">Status</th>
       </tr>
     </thead>
     <tbody>
@@ -39,8 +39,8 @@ const { items, dateLabel, titleLabel, label } = Astro.props;
             <td>
               {item.href ? <a href={item.href}>{item.title}</a> : item.title}
               {item.note && <span class="sub">{item.note}</span>}
+              {!item.href && item.coming && <span class="sub coming">{item.coming}</span>}
             </td>
-            <td>{item.href ? 'Available' : item.coming}</td>
           </tr>
         ))
       }
@@ -74,5 +74,10 @@ const { items, dateLabel, titleLabel, label } = Astro.props;
     display: block;
     color: var(--muted);
     font-size: 0.9rem;
+  }
+
+  /* Status as words, not colour: "Coming Mon Nov 2" is what marks an item that isn't out. */
+  .coming {
+    font-style: italic;
   }
 </style>
