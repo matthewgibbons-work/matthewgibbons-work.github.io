@@ -2,7 +2,7 @@
 title: "Color"
 description: "How to read and write colors in hex, rgb(), and hsl(), backgrounds and gradients, and the two rules that keep color readable for everyone: enough contrast, and never color alone."
 courses: [dight250]
-ready: false # true once the S03 dry run passes, with the S03 brief (PLAN.md: Build order)
+ready: true # S03 dry run passed Oct 26
 session: 3
 prototype: P1
 date: 2026-10-26
