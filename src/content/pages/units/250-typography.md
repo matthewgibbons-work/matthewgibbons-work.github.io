@@ -93,7 +93,7 @@ Almost always layout. The text grew as it should. Something around it didn't mak
 
 ## Try it together
 
-Everyone runs the same prompt, then we check what came back. Copy your `sparks/s03-color-contrast/` folder to `try/s04/` (your `.gitignore` from last session keeps `try/` out of your commits). Open `try/s04/index.html` and paste this into the chat, with no units or zoom in the prompt on purpose:
+Everyone runs the same prompt, then we check what came back. Copy your `sparks/s03-theme-palette/` folder to `try/s04/` (your `.gitignore` from last session keeps `try/` out of your commits). Open `try/s04/index.html` and paste this into the chat, with no units or zoom in the prompt on purpose:
 
 ```text
 Pick fonts for this page and set up the type sizes.

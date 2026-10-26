@@ -1,6 +1,6 @@
 ---
 title: "Color"
-description: "Color formats, backgrounds, and gradients, and the two rules that keep color readable for everyone: enough contrast, and never color alone."
+description: "How to read and write colors in hex, rgb(), and hsl(), backgrounds and gradients, and the two rules that keep color readable for everyone: enough contrast, and never color alone."
 courses: [dight250]
 ready: false # true once the S03 dry run passes, with the S03 brief (PLAN.md: Build order)
 session: 3
@@ -10,13 +10,123 @@ date: 2026-10-26
 
 # Color
 
-**The big idea:** color only carries meaning if everyone can see it. That takes two rules: enough contrast, and never color alone.
+**The big idea:** color only carries meaning if everyone can see it. First you have to be able to read the colors the agent writes. Then two rules keep them readable: enough contrast, and never color alone.
 
 ## Writing colors
 
-CSS gives you several ways to write the same color. `#1d5fc2` (hex) and `rgb(29 95 194)` say how much red, green, and blue. `hsl(216 74% 44%)` says which hue, how saturated, and how light, which makes it easy to build a palette: keep the hue, change the lightness. Whatever format the agent picks, you should be able to read it and say roughly what color it is.
+CSS gives you several ways to write the same color, and the agent will use whichever it likes. You need to be able to read all of them.
 
-Backgrounds work the same way. `background-color` fills an element, and `linear-gradient()` blends between colors. A gradient is an image, so it goes in `background-image` (or the `background` shorthand), never in `background-color`.
+<figure class="diagram">
+<svg class="d-wide" viewBox="0 0 640 210" role="img" aria-labelledby="formats-wide-title">
+<title id="formats-wide-title">One blue, written three ways. Hex: #1d5fc2, where 1d is red 29, 5f is green 95, and c2 is blue 194. rgb(29 95 194): red, green, and blue, each from 0 to 255. hsl(216 74% 44%): hue from 0 to 360, saturation, and lightness.</title>
+<rect x="20" y="20" width="120" height="170" rx="6" style="fill:#1d5fc2;stroke:var(--border)" stroke-width="1.5" />
+<text class="d-code" x="170" y="52">#1d5fc2</text>
+<text class="d-muted" x="170" y="74">hex: red 1d (29), green 5f (95), blue c2 (194)</text>
+<text class="d-code" x="170" y="112">rgb(29 95 194)</text>
+<text class="d-muted" x="170" y="134">red, green, blue, each from 0 to 255</text>
+<text class="d-code" x="170" y="172">hsl(216 74% 44%)</text>
+<text class="d-muted" x="170" y="194">hue (0 to 360), saturation, lightness</text>
+</svg>
+<svg class="d-narrow" viewBox="0 0 280 330" role="img" aria-labelledby="formats-narrow-title">
+<title id="formats-narrow-title">One blue, written three ways. Hex: #1d5fc2, where 1d is red 29, 5f is green 95, and c2 is blue 194. rgb(29 95 194): red, green, and blue, each from 0 to 255. hsl(216 74% 44%): hue from 0 to 360, saturation, and lightness.</title>
+<rect x="20" y="10" width="240" height="50" rx="6" style="fill:#1d5fc2;stroke:var(--border)" stroke-width="1.5" />
+<text class="d-code" x="20" y="96">#1d5fc2</text>
+<text class="d-muted" x="20" y="116">hex: red 1d (29),</text>
+<text class="d-muted" x="20" y="134">green 5f (95), blue c2 (194)</text>
+<text class="d-code" x="20" y="184">rgb(29 95 194)</text>
+<text class="d-muted" x="20" y="204">red, green, blue,</text>
+<text class="d-muted" x="20" y="222">each from 0 to 255</text>
+<text class="d-code" x="20" y="272">hsl(216 74% 44%)</text>
+<text class="d-muted" x="20" y="292">hue (0 to 360),</text>
+<text class="d-muted" x="20" y="310">saturation, lightness</text>
+</svg>
+<figcaption>One color, three spellings. They all describe the same blue.</figcaption>
+</figure>
+
+- **Hex**, like `#1d5fc2`: three pairs of digits, one each for red, green, and blue. It counts in base 16, so the digits run 0–9 and then a–f, and `ff` is 255.
+- **`rgb()`**: the same three amounts, written as ordinary numbers from 0 to 255.
+- **`hsl()`**: a description instead of amounts. Which **hue** (a position on the color wheel, 0 to 360), how **saturated** (0% is gray, 100% is vivid), and how **light** (0% is black, 100% is white).
+
+### Reading a color
+
+You don't need to memorize numbers, just get a rough read:
+
+- In hex or `rgb()`, the biggest channel names the family: lots of red and little of the others is reddish. All three equal is gray. All high is light, all low is dark.
+- In `hsl()`, the hue is the family: 0 is red, 60 yellow, 120 green, 180 cyan, 240 blue, 300 magenta. So 216 is a blue leaning toward cyan. Low saturation is dull, and low lightness is dark.
+- `hsl()` is the easiest to adjust. For a lighter version of the same color, change only the last number.
+
+**Follow along (3 minutes):** open DevTools on this page (Cmd + Option + I on a Mac, Ctrl + Shift + I on Windows). In the **Styles** pane, find a color value with a small square beside it. Click the square to open the color picker and drag around. Shift-click the square to flip the value between hex, `rgb()`, and `hsl()`. You'll use this to check every color the agent writes.
+
+### Palettes from one hue
+
+Because `hsl()` keeps hue and lightness separate, a palette is easy to build: hold the hue and saturation, and step the lightness. It also settles the text color. Light text goes on the dark steps and dark text on the light ones.
+
+<figure class="diagram">
+<svg class="d-wide" viewBox="0 0 640 170" role="img" aria-labelledby="steps-wide-title">
+<title id="steps-wide-title">Five blues with hue 216 and saturation 74%, at lightness 15, 30, 50, 70, and 90 percent. White text on 15 percent is 16 to 1, on 30 percent 9.9 to 1, and on 50 percent 4.9 to 1. Dark text on 70 percent is 7.1 to 1, and on 90 percent 13.3 to 1.</title>
+<rect x="2" y="10" width="108" height="70" rx="6" style="fill:#0a2143;stroke:var(--border)" stroke-width="1.5" />
+<rect x="133" y="10" width="108" height="70" rx="6" style="fill:#144185;stroke:var(--border)" stroke-width="1.5" />
+<rect x="265" y="10" width="108" height="70" rx="6" style="fill:#216dde;stroke:var(--border)" stroke-width="1.5" />
+<rect x="396" y="10" width="108" height="70" rx="6" style="fill:#7aa7eb;stroke:var(--border)" stroke-width="1.5" />
+<rect x="528" y="10" width="108" height="70" rx="6" style="fill:#d3e2f8;stroke:var(--border)" stroke-width="1.5" />
+<text x="56" y="56" text-anchor="middle" style="fill:#fff;font-size:26px;font-weight:700">Aa</text>
+<text x="187" y="56" text-anchor="middle" style="fill:#fff;font-size:26px;font-weight:700">Aa</text>
+<text x="319" y="56" text-anchor="middle" style="fill:#fff;font-size:26px;font-weight:700">Aa</text>
+<text x="450" y="56" text-anchor="middle" style="fill:#1a1a1a;font-size:26px;font-weight:700">Aa</text>
+<text x="582" y="56" text-anchor="middle" style="fill:#1a1a1a;font-size:26px;font-weight:700">Aa</text>
+<text class="d-code" x="56" y="108" text-anchor="middle">L 15%</text>
+<text class="d-code" x="187" y="108" text-anchor="middle">L 30%</text>
+<text class="d-code" x="319" y="108" text-anchor="middle">L 50%</text>
+<text class="d-code" x="450" y="108" text-anchor="middle">L 70%</text>
+<text class="d-code" x="582" y="108" text-anchor="middle">L 90%</text>
+<text class="d-muted" x="56" y="130" text-anchor="middle">white text</text>
+<text class="d-muted" x="187" y="130" text-anchor="middle">white text</text>
+<text class="d-muted" x="319" y="130" text-anchor="middle">white text</text>
+<text class="d-muted" x="450" y="130" text-anchor="middle">dark text</text>
+<text class="d-muted" x="582" y="130" text-anchor="middle">dark text</text>
+<text x="56" y="152" text-anchor="middle">16:1</text>
+<text x="187" y="152" text-anchor="middle">9.9:1</text>
+<text x="319" y="152" text-anchor="middle">4.9:1</text>
+<text x="450" y="152" text-anchor="middle">7.1:1</text>
+<text x="582" y="152" text-anchor="middle">13.3:1</text>
+</svg>
+<svg class="d-narrow" viewBox="0 0 280 330" role="img" aria-labelledby="steps-narrow-title">
+<title id="steps-narrow-title">Five blues with hue 216 and saturation 74%, at lightness 15, 30, 50, 70, and 90 percent. White text on 15 percent is 16 to 1, on 30 percent 9.9 to 1, and on 50 percent 4.9 to 1. Dark text on 70 percent is 7.1 to 1, and on 90 percent 13.3 to 1.</title>
+<rect x="10" y="8" width="84" height="48" rx="6" style="fill:#0a2143;stroke:var(--border)" stroke-width="1.5" />
+<rect x="10" y="72" width="84" height="48" rx="6" style="fill:#144185;stroke:var(--border)" stroke-width="1.5" />
+<rect x="10" y="136" width="84" height="48" rx="6" style="fill:#216dde;stroke:var(--border)" stroke-width="1.5" />
+<rect x="10" y="200" width="84" height="48" rx="6" style="fill:#7aa7eb;stroke:var(--border)" stroke-width="1.5" />
+<rect x="10" y="264" width="84" height="48" rx="6" style="fill:#d3e2f8;stroke:var(--border)" stroke-width="1.5" />
+<text x="52" y="40" text-anchor="middle" style="fill:#fff;font-size:22px;font-weight:700">Aa</text>
+<text x="52" y="104" text-anchor="middle" style="fill:#fff;font-size:22px;font-weight:700">Aa</text>
+<text x="52" y="168" text-anchor="middle" style="fill:#fff;font-size:22px;font-weight:700">Aa</text>
+<text x="52" y="232" text-anchor="middle" style="fill:#1a1a1a;font-size:22px;font-weight:700">Aa</text>
+<text x="52" y="296" text-anchor="middle" style="fill:#1a1a1a;font-size:22px;font-weight:700">Aa</text>
+<text class="d-code" x="112" y="28">L 15%</text>
+<text class="d-code" x="112" y="92">L 30%</text>
+<text class="d-code" x="112" y="156">L 50%</text>
+<text class="d-code" x="112" y="220">L 70%</text>
+<text class="d-code" x="112" y="284">L 90%</text>
+<text class="d-muted" x="112" y="48">white text, 16:1</text>
+<text class="d-muted" x="112" y="112">white text, 9.9:1</text>
+<text class="d-muted" x="112" y="176">white text, 4.9:1</text>
+<text class="d-muted" x="112" y="240">dark text, 7.1:1</text>
+<text class="d-muted" x="112" y="304">dark text, 13.3:1</text>
+</svg>
+<figcaption>One hue (216) and one saturation (74%), five lightnesses. The middle of the scale is the tightest: white text on the 50% blue is 4.9:1, only just over the 4.5:1 body text needs.</figcaption>
+</figure>
+
+### Backgrounds and gradients
+
+`background-color` fills an element. `linear-gradient()` blends between colors: a direction, then two or more colors.
+
+```css
+header {
+  background-image: linear-gradient(135deg, hsl(216 74% 30%), hsl(190 70% 40%));
+}
+```
+
+`135deg` points toward the bottom right, and the two colors are where the blend starts and ends. A gradient is an image, so it goes in `background-image` (or the `background` shorthand), never in `background-color`.
 
 ## Contrast
 
@@ -74,16 +184,16 @@ About 1 in 12 men and 1 in 200 women have some form of color vision deficiency, 
 ## Predict, then reveal
 
 <details>
-<summary>Is gray <code>#777</code> on a white background enough contrast for body text?</summary>
+<summary>You want the same blue, but lighter, for a hover state. In <code>hsl(216 74% 44%)</code>, which number do you change?</summary>
 
-No, just. It's 4.48:1, a hair under the 4.5:1 AA needs. It looks fine to most people on a good screen, which is exactly why you check with a tool instead of your eyes. `#767676` is the lightest gray that passes on white.
+The last one, the lightness: try `hsl(216 74% 55%)`. Changing the hue would give you a different color, and changing the saturation would make it duller or more vivid. A lighter color also has less contrast against white text, so check the pair again.
 
 </details>
 
 <details>
-<summary>Your heading sits on a gradient from dark blue to light blue. Where do you measure its contrast?</summary>
+<summary>Is gray <code>#777</code> on a white background enough contrast for body text?</summary>
 
-At the worst point: wherever the text crosses the part of the gradient closest to its own color. If white text passes on the light end, it passes everywhere. A checker can't read a gradient for you, so pick that color from the gradient and check it.
+No, just. It's 4.48:1, a hair under the 4.5:1 AA needs. It looks fine to most people on a good screen, which is exactly why you check with a tool instead of your eyes. `#767676` is the lightest gray that passes on white.
 
 </details>
 
@@ -105,8 +215,8 @@ Give this page a bright, retro Saturday-morning color scheme, with a gradient be
 **How to check it**
 
 - Ask the agent for each text and background pair's contrast ratio. Check two of them yourself in the [WebAIM contrast checker](https://webaim.org/resources/contrastchecker/), including the heading at the lightest point of the gradient. Do the numbers match?
-- In Chrome DevTools, open **Rendering** (⋮ menu → More tools) and set **Emulate vision deficiencies** to *Achromatopsia*. Can you still find every link?
-- Are the links still underlined?
+- Pick one color the agent wrote in hex. In DevTools, Shift-click its swatch to see it as `hsl()`. Which number would you change to make it lighter?
+- In Chrome DevTools, open **Rendering** (⋮ menu → More tools) and set **Emulate vision deficiencies** to *Achromatopsia*. Can you still find every link, and are they still underlined?
 - Tab through the page. Can you see the focus outline on every background?
 
 **Dig deeper:** highlight one color value the agent wrote, like an `hsl()`, and run [`/dig-deeper`](/250/skills/dig-deeper/). Be ready to say roughly what color it is without looking at the page.
@@ -121,12 +231,27 @@ Requests like this often come back with one or more of these:
 - Links recolored with the underline removed, so color is the only way to spot them.
 - A note saying the colors "meet accessibility standards," with no ratio checked.
 
-The page looked great. The contrast checker didn't agree: we checked each text color against its background, including the worst point of the gradient, and turned the claim into numbers. In your Spark you'll ask again, with "every text color meets 4.5:1 (3:1 for large text), and links stay underlined" in the "done" list.
+The page looked great. The contrast checker didn't agree: we checked each text color against its background, including the worst point of the gradient, and turned the claim into numbers. In your Spark you'll choose a theme and build the palette yourself, with "every text color meets 4.5:1 (3:1 for large text), and links stay underlined" in the "done" list.
+
+</details>
+
+## More ways to write a color
+
+<details>
+<summary>Read later: hex shorthand, names, transparency, <code>currentColor</code>, <code>oklch()</code></summary>
+
+You won't be asked about these in class, but you'll see them in code the agent writes.
+
+- **Hex shorthand and length:** `#fff` is `#ffffff`, and `#000` is black. Eight digits add a transparency pair on the end.
+- **Named colors:** `tomato`, `rebeccapurple`, and about 140 others. Handy for a quick test, and rarely enough for a palette.
+- **Transparency:** `rgb(29 95 194 / 50%)` and `hsl(216 74% 44% / 0.5)`. A see-through color shows what's behind it, so its contrast depends on that. Check the pair as it really appears.
+- **`currentColor`:** reuses the element's text color, which is handy for borders and icons that should always match.
+- **`oklch()` and `color-mix()`:** newer ways to write and combine colors, and agents sometimes reach for them. `oklch(L C H)` is lightness, chroma (how vivid), and hue, so the same idea as `hsl()`. If you can't read what it wrote, ask the agent to give it to you in hex or `hsl()`.
 
 </details>
 
 ## Links
 
-- MDN: [`<color>` values](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/color_value), [`background-color`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/background-color), [`linear-gradient()`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/gradient/linear-gradient), [Color contrast](https://developer.mozilla.org/en-US/docs/Web/Accessibility/Guides/Understanding_WCAG/Perceivable/Color_contrast)
+- MDN: [`<color>` values](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/color_value), [`hsl()`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/color_value/hsl), [`rgb()`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/color_value/rgb), [hex colors](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/hex-color), [`oklch()`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/color_value/oklch), [`background-color`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/background-color), [`linear-gradient()`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/gradient/linear-gradient), [Color contrast](https://developer.mozilla.org/en-US/docs/Web/Accessibility/Guides/Understanding_WCAG/Perceivable/Color_contrast)
 - WCAG: [Understanding 1.4.3 Contrast (Minimum)](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html), [Understanding 1.4.1 Use of Color](https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html), [Understanding 1.4.11 Non-text Contrast](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html)
 - Tool: [WebAIM contrast checker](https://webaim.org/resources/contrastchecker/)

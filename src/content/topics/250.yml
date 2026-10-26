@@ -17,7 +17,7 @@
 - name: Color
   session: 3
   unit: color
-  summary: Color formats, backgrounds, and gradients; contrast, and never color alone.
+  summary: Reading and writing colors (hex, rgb(), hsl()), gradients; contrast, and never color alone.
   prototype: P1
 - name: Typography
   session: 4
