@@ -227,8 +227,8 @@ const findYourWay = [
     <ul>
       <li>Brief out <strong>{fmtDay(r.released)}</strong>; intent brief in class <strong>{fmtDay(r.intentBrief)}</strong>.</li>
       <li>
-        Due <strong>{fmtDay(r.due)}, {r.dueTime}</strong>; walkthrough at the open lab on{' '}
-        <strong>{fmtDay(r.openLab)}</strong> (the final-exam slot).
+        Due <strong>{fmtDay(r.due)}, {r.dueTime}</strong>, the day of the open lab (the final-exam slot), which is for final
+        help.
       </li>
       <li>
         {release ? <a href={pageHref(release)}>Read the Release brief</a> : <>The brief goes up on {fmtDay(r.released)}.</>}
