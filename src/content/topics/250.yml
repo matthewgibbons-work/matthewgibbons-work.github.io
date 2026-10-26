@@ -4,46 +4,72 @@
 # prototype (the Prototype this topic feeds, optional).
 # unit (slug of this topic's unit page, units/250-<slug>.md, optional; Oct 19).
 #   The landing page links the topic once that page is published, so it's safe to add early.
+# session (the session number, 1-14, this topic is taught in; optional; Oct 21).
+#   The site's schedule page joins it to the course calendar for dates. The Open lab has none.
 - name: Onboarding and Spark 0
+  session: 1
   summary: Set up your repo for the new system, with the agent walking you through it.
   tier: spark
 - name: Re-run in the loop
+  session: 2
   unit: re-run
   summary: Rebuild or extend the Episode Guide using what you already know.
 - name: Color
+  session: 3
   unit: color
   summary: Color formats, backgrounds, and gradients; contrast, and never color alone.
   prototype: P1
 - name: Typography
+  session: 4
   unit: typography
   summary: Web fonts, rem and em, line-height; readable at 200% zoom.
   prototype: P1
 - name: Box model and display
+  session: 5
+  unit: box-model
   summary: Spacing, sizing, and touch target size.
   prototype: P2
 - name: Flexbox
+  session: 6
+  unit: flexbox
   summary: One-dimensional layout; visual order versus source order.
   prototype: P2
 - name: Grid
+  session: 7
+  unit: grid
   summary: Two-dimensional layout with template areas and auto-fit.
   prototype: P3
 - name: Responsive design
+  session: 8
+  unit: responsive
   summary: Layouts that reflow down to 320px wide. The Release brief comes out.
   prototype: P4
 - name: Forms
+  session: 9
+  unit: forms
   summary: Labels, fieldsets, and validation; write your Release intent brief.
   prototype: P4
 - name: Multimedia and positioning
+  session: 10
+  unit: multimedia
   summary: Captions, no autoplay, and visually hidden text.
 - name: Modern CSS
+  session: 11
+  unit: modern-css
   summary: "`:has()`, custom properties, nesting, dark mode, and focus styles."
 - name: Transitions, animations, and an accessibility audit
+  session: 12
+  unit: motion-audit
   summary: Motion that respects reduced-motion settings; audit with the validator, axe, and the keyboard.
 - name: Big live build
+  session: 13
+  unit: big-build
   summary: A whole site, from intent brief to verified deploy.
   tier: release
 - name: Bridge to DIGHT 340
+  session: 14
+  unit: bridge-to-340
   summary: A first look at JavaScript and DOM events, through the agent.
 - name: Open lab
-  summary: Final help and Release walkthroughs.
+  summary: Final help, if you need it.
   tier: release

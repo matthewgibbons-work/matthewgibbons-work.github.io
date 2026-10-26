@@ -42,7 +42,7 @@ List the files and folders at the repo root, and say what each one seems to be (
 - **Stays at the root:** `.git/`, `.github/`, `.claude/`, `AGENTS.md`, `starter/`, `.gitignore`, and `README.md` if it exists.
 - **Moves to `archive/`:** everything else, including all `ex0N/` folders, loose practice files like `party.js`, and my current `index.html` if there is one (it becomes `archive/index.html`).
 
-Explain why moving everything together keeps my old pages working: the relative paths between them still point to the same places. Don't touch my `dight340-reflections` repo; reflections move into this repo later in the term.
+Explain why moving everything together keeps my old pages working: the relative paths between them still point to the same places. Don't touch my `dight340-reflections` repo.
 
 ## Step 4: Move old work into `archive/`
 

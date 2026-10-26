@@ -16,6 +16,7 @@ The assignment is the folder I've named after this prompt, or the folder of the 
 **"Done" requirements**
 
 - **Validator:** read the HTML and point out anything likely to fail the W3C validator. Then remind me to run the real check at https://validator.w3.org/nu/ with my live URL.
+- **Feedback checks:** if the repo has `.github/workflows/feedback.yml`, remind me to open the latest **Feedback checks** run in the repo's **Actions** tab on GitHub and read its Summary for this folder (validator and axe results). You can't see it from here, so don't guess what it says.
 - **The live page:** tell me the GitHub Pages URL this folder should have, and that I need to open it and see it load.
 - **Hub link:** the hub `index.html` links to this folder.
 - **Git:** run `git status` and `git log --oneline -- <folder>`. Tell me if anything isn't committed or pushed, and whether my commit messages say what changed (not "update" or "fix").

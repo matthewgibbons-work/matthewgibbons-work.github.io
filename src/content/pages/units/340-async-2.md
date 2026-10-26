@@ -71,6 +71,43 @@ An `async` function always returns a Promise, and inside it `await` pauses *that
 <figcaption>Two ways to fail. Offline, <code>fetch</code> rejects and lands in <code>catch</code> by itself. A 404 or 500 resolves, so it reaches <code>catch</code> only if you check <code>response.ok</code> and throw.</figcaption>
 </figure>
 
+## From a form to the page
+
+P1 adds one Pokémon by name, which needs two DOM pieces S02 didn't use: a form's `submit` event, and a live region that screen readers announce.
+
+```html
+<form id="add-form">
+  <label for="name">Pokémon name</label>
+  <input id="name" name="name" required>
+  <button>Add to party</button>
+</form>
+<p id="status" aria-live="polite"></p>
+```
+
+```js
+const form = document.querySelector('#add-form');
+const input = document.querySelector('#name');
+const button = form.querySelector('button');
+const status = document.querySelector('#status');
+
+form.addEventListener('submit', async (event) => {
+  event.preventDefault(); // stay on this page
+  const name = input.value.trim().toLowerCase();
+  button.disabled = true;
+  status.textContent = `Loading ${name}…`;
+  try {
+    // fetch, check response.ok, await .json(), add to the party, render()
+    status.textContent = `Added ${name}.`;
+  } catch (error) {
+    status.textContent = `Couldn't add ${name}: ${error.message}`;
+  } finally {
+    button.disabled = false;
+  }
+});
+```
+
+Listening for `submit` on the form, not `click` on the button, means Enter in the text box works too. `preventDefault()` stops the browser's normal form submission, which would reload the page. The `aria-live` paragraph is in the HTML from the start and empty: screen readers announce changes to its text, so it has to exist before the first message arrives.
+
 ## Predict, then reveal
 
 ```js
@@ -90,13 +127,24 @@ No, at least not where you'd expect. The server answers with a 404, so `fetch` r
 
 </details>
 
-## Live build
+## Try it together
 
-We'll ask Claude, in plan mode, with no "done" list:
+Everyone, in your `dight340` session, in plan mode, with no "done" list (`try/` is already ignored since Monday):
 
 ```text
-Fetch pikachu from PokéAPI and show its name, sprite, and types on the page.
+In try/s04/, fetch pikachu from PokéAPI and show its name, sprite, and types on a page. Load the script with defer.
 ```
+
+Open the page in your browser (double-click it in Finder) with the console open.
+
+**How to check it**
+
+- **Misspell it.** Change the name to `pikachuu` and reload. A clear message, or "undefined"?
+- **Slow it down.** DevTools → Network → **Slow 4G**, reload: is there a loading state? Then **Offline**, reload: a message? Set it back to **No throttling**.
+- **Listen to the sprite.** Find its `alt` in Elements. Would it make sense read aloud?
+- **Find the check.** Is `response.ok` checked before `.json()`? Point at the line, or at where it should be.
+
+**Dig deeper:** run [`/dig-deeper`](/340/skills/dig-deeper/) on the line with `await response.json()`, naming the file and line. Be ready to say what would happen there if the name had a typo.
 
 <details>
 <summary>What went wrong, and how we caught it</summary>
@@ -115,5 +163,5 @@ It worked on the first try, on fast Wi-Fi. Then we misspelled the name, set DevT
 
 ## Links
 
-- MDN: [`fetch()`](https://developer.mozilla.org/en-US/docs/Web/API/Window/fetch), [Using the Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch), [`Response.ok`](https://developer.mozilla.org/en-US/docs/Web/API/Response/ok), [`async function`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function), [`await`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await), [`try...catch`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch), [`aria-live`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-live)
+- MDN: [`fetch()`](https://developer.mozilla.org/en-US/docs/Web/API/Window/fetch), [Using the Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch), [`Response.ok`](https://developer.mozilla.org/en-US/docs/Web/API/Response/ok), [`async function`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function), [`await`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await), [`try...catch`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch), [`submit` event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement/submit_event), [`Event.preventDefault()`](https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault), [`aria-live`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-live)
 - API: [PokéAPI documentation](https://pokeapi.co/docs/v2)

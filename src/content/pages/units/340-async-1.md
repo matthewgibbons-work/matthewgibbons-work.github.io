@@ -2,7 +2,7 @@
 title: "Async 1: Promises"
 description: "The event loop, Promises, and Promise.all: code that waits for work that finishes later, without stopping the page."
 courses: [dight340]
-ready: false # true once the S03 dry run passes, with the S03 brief (PLAN.md: Build order)
+ready: true # S03 dry run passed Oct 26
 session: 3
 prototype: P1
 date: 2026-10-26
@@ -14,7 +14,7 @@ date: 2026-10-26
 
 ## In short
 
-JavaScript runs on one thread: one thing at a time. Anything slow (a timer, a network request) is handed off, and the **event loop** runs its callback once the current code has finished and nothing else is running. A **Promise** is the object you get back straight away. It starts *pending*, then settles once: *fulfilled* with a value, or *rejected* with an error. `.then()` runs when it fulfils, `.catch()` when it rejects, and a rejection nobody catches turns up as an "Uncaught (in promise)" error in the console. Promise callbacks get priority: they run before timers, even a 0 ms one. When you need several independent results, **`Promise.all`** starts them all at once and waits for the slowest. Three 1-second loads then take about 1 second, not 3. If any one rejects, `Promise.all` rejects straight away. That's P1's "fetch the party in parallel," before `fetch` arrives on Wednesday.
+JavaScript runs on one thread: one thing at a time. Anything slow (a timer, a network request) is handed off, and the **event loop** runs its callback once the current code has finished and nothing else is running. A **Promise** is the object you get back straight away. It starts *pending*, then settles once: *fulfilled* with a value, or *rejected* with an error. `.then()` runs when it fulfils, `.catch()` when it rejects, and a rejection nobody catches turns up as an "Uncaught (in promise)" error in the console. Promise callbacks get priority: they run before timers, even a 0 ms one. When you need several independent results, **`Promise.all`** starts them all at once and waits for the slowest. Three 1-second loads then take about 1 second, not 3. If any one rejects, `Promise.all` rejects straight away. That's P1's "fetch the party in parallel," before `fetch` arrives on Wednesday. Once the array arrives, getting it onto the page is S02's job: hand it to a `render()` that builds each item with `createElement` and `textContent`, and put any failure message in a paragraph's `textContent`, not just the console.
 
 <figure class="diagram">
 <svg class="d-wide" viewBox="0 0 640 210" role="img" aria-labelledby="all-wide-title">
@@ -90,9 +90,9 @@ console.log('D');
 
 </details>
 
-## Live build
+## Try it together
 
-There's no `fetch` until Wednesday, so we'll use a fake loader that takes a second (and fails for one name):
+There's no `fetch` until Wednesday, so we'll use a fake loader that takes a second (and fails for one name). Everyone: make a `try/s03/` folder at the top of your `dight340` repo and put this in `try/s03/load.js`. It's practice, so keep it out of your commits: in GitHub Desktop's **Changes** tab, right-click any file under `try/` and choose **Ignore folder (add to .gitignore)**, then commit the new `.gitignore`.
 
 ```js
 const loadPokemon = (name) =>
@@ -104,11 +104,22 @@ const loadPokemon = (name) =>
   });
 ```
 
-Then we'll ask Claude, in plan mode:
+Then, in plan mode, ask Claude:
 
 ```text
-Use loadPokemon to load pikachu, eevee, and snorlax, then log the party.
+In try/s03/load.js, use loadPokemon to load pikachu, eevee, and snorlax, then log the party. Add a try/s03/index.html that loads it with defer, so I can watch the console.
 ```
+
+Open `try/s03/index.html` in your browser (double-click it in Finder) with DevTools' console open.
+
+**How to check it**
+
+- **Time it.** Put `console.time('party')` before the loads and `console.timeEnd('party')` after them, and reload. About 1 second, or about 3?
+- **Break it.** Add `missingno` to the list. Is there a message, or a red "Uncaught (in promise)" error?
+- **Read the shape.** Is there a `.then()` inside another `.then()`? Did Claude change `loadPokemon` itself? (It shouldn't: it's the test case.)
+- **Compare** with your neighbour: same approach, same time?
+
+**Dig deeper:** run [`/dig-deeper`](/340/skills/dig-deeper/) on the line that waits for the party (`Promise.all`, or the first `await`), naming the file and line (for example, `/dig-deeper try/s03/load.js line 12`). Be ready to say what it waits for, and for how long.
 
 <details>
 <summary>What went wrong, and how we caught it</summary>
@@ -120,6 +131,8 @@ Requests like this often come back with one or more of these:
 - `.then()` nested inside `.then()` inside `.then()`, hard to read and easy to get wrong.
 
 It worked, which is why we timed it: `console.time('party')` and `console.timeEnd('party')` around the load showed about 3 seconds. With `Promise.all` it dropped to about 1. Then we added `missingno` to see what a failure looks like.
+
+Runs inside your repo, where `AGENTS.md` asks for readable code and visible errors, slip less often. That's the rules file doing its job, so compare yours with the run in a bare folder.
 
 </details>
 

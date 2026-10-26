@@ -94,13 +94,22 @@ Color is the only signal. Someone who can't tell that green from the other rows,
 
 </details>
 
-## Live build
+## Try it together
 
-We'll ask the agent for a color scheme, with no contrast requirement in the prompt:
+Everyone runs the same prompt, then we check what came back. Copy your `sparks/s02-episode-guide-rerun/` folder to `try/s03/` at the top of your repo (it's practice, so keep it out of your commits: in GitHub Desktop's **Changes** tab, right-click any file under `try/` and choose **Ignore folder (add to .gitignore)**, then commit the new `.gitignore`). Open `try/s03/index.html` and paste this into the chat, with no contrast requirement on purpose:
 
 ```text
-Give my Saturday Morning Archive page a bright, retro Saturday-morning color scheme.
+Give this page a bright, retro Saturday-morning color scheme, with a gradient behind the heading.
 ```
+
+**How to check it**
+
+- Ask the agent for each text and background pair's contrast ratio. Check two of them yourself in the [WebAIM contrast checker](https://webaim.org/resources/contrastchecker/), including the heading at the lightest point of the gradient. Do the numbers match?
+- In Chrome DevTools, open **Rendering** (⋮ menu → More tools) and set **Emulate vision deficiencies** to *Achromatopsia*. Can you still find every link?
+- Are the links still underlined?
+- Tab through the page. Can you see the focus outline on every background?
+
+**Dig deeper:** highlight one color value the agent wrote, like an `hsl()`, and run [`/dig-deeper`](/250/skills/dig-deeper/). Be ready to say roughly what color it is without looking at the page.
 
 <details>
 <summary>What went wrong, and how we caught it</summary>
@@ -112,7 +121,7 @@ Requests like this often come back with one or more of these:
 - Links recolored with the underline removed, so color is the only way to spot them.
 - A note saying the colors "meet accessibility standards," with no ratio checked.
 
-The page looked great. The contrast checker didn't agree: we checked each text color against its background, including the worst point of the gradient, and turned the claim into numbers. Then we asked again, with "every text color meets 4.5:1 (3:1 for large text), and links stay underlined" in the prompt.
+The page looked great. The contrast checker didn't agree: we checked each text color against its background, including the worst point of the gradient, and turned the claim into numbers. In your Spark you'll ask again, with "every text color meets 4.5:1 (3:1 for large text), and links stay underlined" in the "done" list.
 
 </details>
 

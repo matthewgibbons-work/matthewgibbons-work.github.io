@@ -91,13 +91,22 @@ Almost always layout. The text grew as it should. Something around it didn't mak
 
 </details>
 
-## Live build
+## Try it together
 
-We'll ask the agent to set up the type, with no units or zoom in the prompt:
+Everyone runs the same prompt, then we check what came back. Copy your `sparks/s03-color-contrast/` folder to `try/s04/` (your `.gitignore` from last session keeps `try/` out of your commits). Open `try/s04/index.html` and paste this into the chat, with no units or zoom in the prompt on purpose:
 
 ```text
-Pick fonts for my Saturday Morning Archive page and set up the type sizes.
+Pick fonts for this page and set up the type sizes.
 ```
+
+**How to check it**
+
+- Search the CSS for `px`. Is any `font-size` in pixels? Does any box that holds text have a fixed `height`?
+- Zoom to 200% (Cmd + on a Mac, Ctrl + on Windows) and scroll the whole page. Is anything cut off or overlapping?
+- In Chrome, go to **Settings → Appearance → Customize fonts**, set **Font size** to 20, and reload. Did the text grow? (Set it back to 16.)
+- Does every `font-family` end in a generic family like `sans-serif`? Does the font link load only the weights the CSS uses?
+
+**Dig deeper:** highlight the `line-height` line and run [`/dig-deeper`](/250/skills/dig-deeper/). Why does it work best with no unit?
 
 <details>
 <summary>What went wrong, and how we caught it</summary>
@@ -109,7 +118,7 @@ Requests like this often come back with one or more of these:
 - A web font with no fallback in the `font-family` list, or five weights loaded when the page uses two.
 - A decorative display font used for body text, or a cramped `line-height` like `1.1`.
 
-It looked right at 100%. Then we zoomed to 200% and changed the browser's default font size, and the slips showed up. We asked again with "sizes in `rem`, unitless `line-height`, no fixed heights, readable at 200% zoom" in the prompt.
+It looked right at 100%. Then we zoomed to 200% and changed the browser's default font size, and the slips showed up. In your Spark you'll ask again, with "sizes in `rem`, unitless `line-height`, no fixed heights, readable at 200% zoom" in the "done" list.
 
 </details>
 

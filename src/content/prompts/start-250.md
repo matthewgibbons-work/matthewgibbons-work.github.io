@@ -11,7 +11,7 @@ How to run this:
 
 ## Step 1: Check the kit is in place
 
-The repo root should have `AGENTS.md`, `.github/skills/` (with `dig-deeper/` and `check/`, each holding a `SKILL.md`), and `starter/` (with `index.html` and `NOTES.md`).
+The repo root should have `AGENTS.md`, `.gitignore`, `.github/skills/` (with `dig-deeper/` and `check/`, each holding a `SKILL.md`), `.github/workflows/feedback.yml`, and `starter/` (with `index.html` and `NOTES.md`).
 
 - If they're all at the root, say so.
 - If they're inside a subfolder (for example `dight250-starter/`), show me the moves to bring them to the root, then make them once I agree, and remove the empty subfolder.
@@ -21,7 +21,7 @@ The repo root should have `AGENTS.md`, `.github/skills/` (with `dig-deeper/` and
 
 List the files and folders at the repo root, and say what each one seems to be (for example: "`cartoon/` — your cartoon page exercise"). Then propose the plan:
 
-- **Stays at the root:** `.git/`, `.github/`, `AGENTS.md`, `starter/`, and `README.md`, `CNAME`, or `.nojekyll` if they exist.
+- **Stays at the root:** `.git/`, `.github/`, `.gitignore`, `AGENTS.md`, `starter/`, and `README.md`, `CNAME`, or `.nojekyll` if they exist.
 - **Moves to `archive/`:** everything else, including my current `index.html` (it becomes `archive/index.html`), all project folders, shared CSS and image folders, and `ai-notes.md`.
 
 Explain why moving everything together keeps my old pages working: the relative links between them (like `cartoon/` or `../css/style.css`) still point to the same places, because the files keep the same positions relative to each other.
@@ -56,7 +56,7 @@ Copy `starter/NOTES.md` to `sparks/s01-repo-restructure/NOTES.md` and replace `<
 
 ## Step 7: Commit and push
 
-Have me commit in GitHub Desktop, and suggest a meaningful summary (for example: "Add starter kit, new hub, and S01 notes"). Tell me to check that every changed file in the **Changes** tab is ticked, including the kit files from Step 1 (`AGENTS.md`, `.github/`, and `starter/`), which aren't committed yet. Then have me click **Push origin**, and explain that it sends both commits (this one and the archive commit) to GitHub. Wait until I tell you it's pushed. Then have me check that Desktop says "No local changes" and that both commits are in the **History** tab.
+Have me commit in GitHub Desktop, and suggest a meaningful summary (for example: "Add starter kit, new hub, and S01 notes"). Tell me to check that every changed file in the **Changes** tab is ticked, including the kit files from Step 1 (`AGENTS.md`, `.gitignore`, `.github/`, and `starter/`), which aren't committed yet. Then have me click **Push origin**, and explain that it sends both commits (this one and the archive commit) to GitHub. Wait until I tell you it's pushed. Then have me check that Desktop says "No local changes" and that both commits are in the **History** tab.
 
 ## Step 8: Verify it's live
 

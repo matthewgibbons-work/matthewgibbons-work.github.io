@@ -4,46 +4,73 @@
 # prototype (the Prototype this topic feeds, optional).
 # unit (slug of this topic's unit page, units/340-<slug>.md, optional; Oct 19).
 #   The landing page links the topic once that page is published, so it's safe to add early.
+# session (the session number, 1–14, from PLAN.md's calendar; Oct 21). The site's
+#   schedule page joins it to the course calendar for dates. Leave it off entries
+#   with no regular session (the Open lab).
 - name: Onboarding and Spark 0
+  session: 1
   summary: Rename your repo and set it up for the new system, with the agent walking you through it.
   tier: spark
 - name: The DOM
+  session: 2
   unit: dom
   summary: Render your Pokémon party to the page; semantic buttons and keyboard events.
 - name: Async 1
+  session: 3
   unit: async-1
   summary: The event loop, Promises, and Promise.all.
   prototype: P1
 - name: Async 2
+  session: 4
   unit: async-2
   summary: async/await, fetching PokéAPI, JSON, and error handling.
   prototype: P1
 - name: Modules, npm, Vite, and Vitest
+  unit: modules-vite
+  session: 5
   summary: Split code into modules, and set up a build and tests.
   prototype: P2
 - name: Svelte intro
+  unit: svelte-intro
+  session: 6
   summary: Components, $state, $derived, and $effect; reading TypeScript annotations.
   prototype: P2
 - name: Svelte logic and events
+  unit: svelte-logic
+  session: 7
   summary: if, each, and await blocks; fetching data; accessibility warnings.
   prototype: P3
 - name: Svelte components and props
+  unit: svelte-components
+  session: 8
   summary: Typed props, snippets, and callback props. The Release brief comes out.
   prototype: P4
 - name: Svelte forms and shared state
+  unit: svelte-forms
+  session: 9
   summary: bind:, shared state, labeled inputs, and announced errors; write your Release intent brief.
   prototype: P4
 - name: Astro intro and repo conversion
+  unit: astro-intro
+  session: 10
   summary: Routing, layouts, and deploying an Astro site.
 - name: Astro content collections
-  summary: Your reflections become a collection, with schemas and dynamic routes.
+  unit: astro-collections
+  session: 11
+  summary: Your NOTES.md files become a collection, with schemas and dynamic routes.
 - name: Astro islands and client-side data
+  unit: astro-islands
+  session: 12
   summary: Svelte inside Astro, client directives, and view transitions.
 - name: Testing and accessibility
+  unit: testing-a11y
+  session: 13
   summary: End-to-end tests with Playwright and axe.
 - name: Big live build
+  unit: big-build
+  session: 14
   summary: A whole Astro and Svelte app, from intent brief to verified deploy.
   tier: release
 - name: Open lab
-  summary: Final help and Release walkthroughs.
+  summary: Final help, if you need it.
   tier: release
