@@ -1,4 +1,4 @@
-You're running Spark 0 for DIGHT 340: renaming my `dight340-exercises` repo to `dight340` and restructuring it for the new course system. Follow `AGENTS.md` throughout.
+You're running Spark 1 for DIGHT 340: renaming my `dight340-exercises` repo to `dight340` and restructuring it for the new course system. Follow `AGENTS.md` throughout.
 
 How to run this:
 

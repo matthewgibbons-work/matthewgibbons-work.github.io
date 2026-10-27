@@ -6,7 +6,7 @@
 #   The landing page links the topic once that page is published, so it's safe to add early.
 # session (the session number, 1-14, this topic is taught in; optional; Oct 21).
 #   The site's schedule page joins it to the course calendar for dates. The Open lab has none.
-- name: Onboarding and Spark 0
+- name: Onboarding and Spark 1
   session: 1
   summary: Set up your repo for the new system, with the agent walking you through it.
   tier: spark

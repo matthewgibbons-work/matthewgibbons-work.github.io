@@ -7,7 +7,7 @@
 # session (the session number, 1–14, from PLAN.md's calendar; Oct 21). The site's
 #   schedule page joins it to the course calendar for dates. Leave it off entries
 #   with no regular session (the Open lab).
-- name: Onboarding and Spark 0
+- name: Onboarding and Spark 1
   session: 1
   summary: Rename your repo and set it up for the new system, with the agent walking you through it.
   tier: spark

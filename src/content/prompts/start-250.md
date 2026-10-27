@@ -1,4 +1,4 @@
-You're running Spark 0 for DIGHT 250: restructuring my `username.github.io` repo for the new course system. Follow `AGENTS.md` throughout.
+You're running Spark 1 for DIGHT 250: restructuring my `username.github.io` repo for the new course system. Follow `AGENTS.md` throughout.
 
 How to run this:
 
