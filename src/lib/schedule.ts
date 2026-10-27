@@ -56,15 +56,15 @@ interface Topic {
 async function topicRows(course: Course) {
   const c = courses[course];
   const topics = ((await getEntry('topics', course))?.data ?? []) as Topic[];
-  const spark0 = await getEntry('pages', `spark-0-${course}`);
+  const spark1 = await getEntry('pages', `spark-1-${course}`);
   return Promise.all(
     topics.map(async (topic) => {
       const date = topic.session ? c.sessions[topic.session] : undefined;
       const pair = topic.session ? await sessionPair(course, topic.session) : undefined;
       const unit: Page | undefined = (topic.unit && (await findPage(course, 'unit', topic.unit))) || pair?.unit;
-      // Session 1 is Onboarding: its Spark is Spark 0, the setup guide, which is always live.
+      // Session 1 is Onboarding: its Spark is Spark 1, the setup guide, which is always live.
       const spark = topic.session === 1 ? undefined : pair?.spark;
-      return { topic, date, unit, spark, spark0: topic.session === 1 && spark0 ? `/${course}/spark-0/` : undefined };
+      return { topic, date, unit, spark, spark1: topic.session === 1 && spark1 ? `/${course}/spark-1/` : undefined, spark1Title: spark1?.data.title };
     }),
   );
 }
@@ -77,28 +77,28 @@ export async function unitItems(course: Course): Promise<Item[]> {
   const rows = await topicRows(course);
   return rows
     .filter(({ topic }) => !isOpenLab(topic))
-    .map(({ topic, date, unit, spark0 }) => {
-      const href = unit ? pageHref(unit) : spark0;
+    .map(({ topic, date, unit, spark1 }) => {
+      const href = unit ? pageHref(unit) : spark1;
       return {
         title: topic.name,
         session: topic.session,
         date,
         href,
         coming: href ? undefined : comingLabel(date),
-        // Session 1 has no unit page: it links to the Spark 0 setup guide instead.
-        note: !unit && spark0 ? 'Setup guide' : undefined,
+        // Session 1 has no unit page: it links to the Spark 1 setup guide instead.
+        note: !unit && spark1 ? 'Setup guide' : undefined,
       };
     });
 }
 
-/** Sparks: one per session, in order. Session 1's Spark is Spark 0. */
+/** Sparks: one per session, in order. Session 1's Spark is Spark 1. */
 export async function sparkItems(course: Course): Promise<Item[]> {
   const rows = await topicRows(course);
   return rows
     .filter(({ topic }) => topic.session)
-    .map(({ topic, date, spark, spark0 }) => {
+    .map(({ topic, date, spark, spark1, spark1Title }) => {
       const session = topic.session!;
-      if (spark0) return { title: 'Spark 0', href: spark0, session, date, note: topic.name };
+      if (spark1) return { title: spark1Title ?? 'S01', href: spark1, session, date, note: topic.name };
       const due = spark?.data.due ? `Due ${fmtDay(spark.data.due)}` : undefined;
       return {
         title: spark ? spark.data.title : `S${pad(session)}`,

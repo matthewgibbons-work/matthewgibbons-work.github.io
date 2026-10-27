@@ -1,7 +1,7 @@
 // Page details for each skill. The skill text itself comes from the prompts collection
 // (synced from dight-refactor/starter-kits/dist/copy-paste/), the same text as the kit's SKILL.md.
 // URLs: /<course>/skills/<name>/ (Oct 19: renamed from prompts, since the kit ships them as skills).
-// The Start prompt isn't a skill: it lives only on each course's Spark 0 page.
+// The Start prompt isn't a skill: it lives only on each course's Spark 1 page.
 
 import type { Course } from './courses';
 

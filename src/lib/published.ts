@@ -26,7 +26,7 @@ export const buildTime = process.env.PUBLISH_AS_OF ? new Date(process.env.PUBLIS
 /** Dev shows drafts; production doesn't. */
 const showDrafts = import.meta.env.DEV;
 
-/** 'units/250-color' → { kind: 'unit', course: '250', slug: 'color' }. Spark 0 and other pages → null. */
+/** 'units/250-color' → { kind: 'unit', course: '250', slug: 'color' }. Spark 1 and other pages → null. */
 export function parseId(id: string): { kind: Kind; course: Course; slug: string } | null {
   const match = id.match(idPattern);
   if (!match) return null;

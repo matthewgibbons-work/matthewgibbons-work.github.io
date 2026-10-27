@@ -21,7 +21,7 @@ export function getStaticPaths() {
 const course = Astro.params.course as Course;
 const c = courses[course];
 const topics = (await getEntry('topics', course))?.data ?? [];
-const spark0 = await getEntry('pages', `spark-0-${course}`);
+const spark1 = await getEntry('pages', `spark-1-${course}`);
 
 // Links only to pages this build shows, so production never links a draft.
 const topicLinks = await Promise.all(
@@ -69,9 +69,9 @@ const findYourWay = [
   </nav>
 
   <section class="start" aria-labelledby="start">
-    <h2 id="start"><Badge kind="spark" /> Setup guide (Spark 0)</h2>
-    <p>{spark0?.data.description}</p>
-    <p class="go"><a href={`/${course}/spark-0/`}>Open the Spark 0 guide</a></p>
+    <h2 id="start"><Badge kind="spark" /> Setup guide (Spark 1)</h2>
+    <p>{spark1?.data.description}</p>
+    <p class="go"><a href={`/${course}/spark-1/`}>Open the Spark 1 guide</a></p>
   </section>
 
   <section aria-labelledby="setup">
@@ -89,7 +89,7 @@ const findYourWay = [
           </div>
           <div>
             <dt>Repo</dt>
-            <dd>Your <code>username.github.io</code> hub, restructured in Spark 0.</dd>
+            <dd>Your <code>username.github.io</code> hub, restructured in Spark 1.</dd>
           </div>
           <div>
             <dt>Running example</dt>
@@ -117,7 +117,7 @@ const findYourWay = [
             <div>
               <dt>Repo</dt>
               <dd>
-                <code>dight340-exercises</code>, renamed to <code>dight340</code> in Spark 0, which changes its address.
+                <code>dight340-exercises</code>, renamed to <code>dight340</code> in Spark 1, which changes its address.
                 Plain folders until the Astro unit, when your Final Project becomes an Astro site in <code>final-project/</code>.
               </dd>
             </div>
@@ -141,7 +141,7 @@ const findYourWay = [
           <h3>Working with Claude Code</h3>
           <ul>
             <li>
-              After Spark 0, the repo sets Claude to its <strong>Learning</strong> style: it leaves some decisions in the
+              After Spark 1, the repo sets Claude to its <strong>Learning</strong> style: it leaves some decisions in the
               code for you to make. From the Astro unit it switches to <strong>Explanatory</strong>.
             </li>
             <li>

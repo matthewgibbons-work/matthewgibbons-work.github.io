@@ -24,7 +24,7 @@ const path = Astro.url.pathname;
 
 // The nav only offers links that make sense where you are (site v2, Oct 17; course nav
 // changed Oct 21). Course pages: Course home · Schedule · Units · Sparks · Prototypes ·
-// Skills. Spark 0 and How it works moved to the course landing page and the footer.
+// Skills. Spark 1 and How it works moved to the course landing page and the footer.
 // Shared pages: the shared pages, then every listed course (src/data/courses.json).
 const nav = course
   ? [
@@ -103,7 +103,7 @@ const other = otherId ? courses[otherId] : undefined;
         {
           course && (
             <p>
-              <a href={`/${course}/spark-0/`}>Spark 0 setup guide</a> · <a href="/how-it-works/">How it works</a> ·{' '}
+              <a href={`/${course}/spark-1/`}>Spark 1 setup guide</a> · <a href="/how-it-works/">How it works</a> ·{' '}
               <a href="/notes/">NOTES.md</a> · <a href="/agents/">AGENTS.md</a>
             </p>
           )

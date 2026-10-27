@@ -1,6 +1,6 @@
 ---
-// Spark 0 for one course: /250/spark-0/ and /340/spark-0/ (site v2, Oct 17).
-// Source: dight-refactor/course-site-content/spark-0.md, split per course by npm run sync.
+// Spark 1 for one course: /250/spark-1/ and /340/spark-1/ (site v2, Oct 17).
+// Source: dight-refactor/course-site-content/spark-1.md, split per course by npm run sync.
 // The Markdown starts with its own h1. Its <!-- prompt:start --> marker becomes this
 // course's Start prompt with a Copy button, so students never leave the page (SP-2).
 import { getEntry, render } from 'astro:content';
@@ -15,8 +15,8 @@ export function getStaticPaths() {
 }
 
 const course = Astro.params.course as Course;
-const entry = await getEntry('pages', `spark-0-${course}`);
-if (!entry) throw new Error(`spark-0-${course}.md is missing: run npm run sync`);
+const entry = await getEntry('pages', `spark-1-${course}`);
+if (!entry) throw new Error(`spark-1-${course}.md is missing: run npm run sync`);
 const start = await getEntry('prompts', `start-${course}`);
 if (!start) throw new Error(`The ${course} Start prompt is missing: run npm run sync`);
 

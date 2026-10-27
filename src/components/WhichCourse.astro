@@ -1,14 +1,14 @@
 ---
 // A "Which course?" page for a root URL whose content is now course-specific
-// (/spark-0/, /skills/, /skills/dig-deeper/, /skills/check/). An empty state
+// (/spark-1/, /skills/, /skills/dig-deeper/, /skills/check/). An empty state
 // with one question, instead of a 404 (site v2, Oct 17).
 import Base from '../layouts/Base.astro';
 import CourseCards from './CourseCards.astro';
 
 interface Props {
-  /** What the student came for, e.g. "the Spark 0 guide". */
+  /** What the student came for, e.g. "the Spark 1 guide". */
   thing: string;
-  /** Path under the course, e.g. 'spark-0/'. */
+  /** Path under the course, e.g. 'spark-1/'. */
   to: string;
 }
 
