@@ -1,11 +1,11 @@
 ---
 // Course home: /250/ and /340/ (site v2, Oct 17). Nothing here needs a weekly edit:
 // the topic list has no dates and no "current" marker, and the setup guide stays all term.
-// Order: setup guide, your setup, the term (topics, Prototypes, Release), skills, reference.
+// Order: setup guide, your setup, the term (topics, Prototypes, Final Project), skills, reference.
 // Oct 19: a topic links to its unit page (via `unit:` in topics-NNN.yml) and that unit's
 // Spark, and each Prototype row links to its brief, once those pages are published.
-// Oct 21: a "Find your way" row links the Schedule, the three indexes, and the Release
-// brief; Prototype and Release dates come from the course registry (src/data/courses.json);
+// Oct 21: a "Find your way" row links the Schedule, the three indexes, and the Final Project
+// brief; Prototype and Final Project dates come from the course registry (src/data/courses.json);
 // reflections are gone (dropped Oct 21).
 import { getEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
@@ -46,13 +46,13 @@ const prototypeHrefs = Object.fromEntries(
 );
 const release = await releasePage(course);
 const r = c.release;
-// The row under the title. The Release brief links only once it's published.
+// The row under the title. The Final Project brief links only once it's published.
 const findYourWay = [
   { href: `/${course}/schedule/`, label: 'Schedule' },
   { href: `/${course}/units/`, label: 'Units' },
   { href: `/${course}/sparks/`, label: 'Sparks' },
   { href: `/${course}/prototypes/`, label: 'Prototypes' },
-  ...(release ? [{ href: pageHref(release), label: 'Release brief' }] : []),
+  ...(release ? [{ href: pageHref(release), label: 'Final Project brief' }] : []),
 ];
 ---
 
@@ -64,7 +64,7 @@ const findYourWay = [
     <h2 id="find">Find your way</h2>
     <ul role="list">
       {findYourWay.map(({ href, label }) => <li><a href={href}>{label}</a></li>)}
-      {!release && <li class="soon">Release brief: out {fmtDay(r.released)}</li>}
+      {!release && <li class="soon">Final Project brief: out {fmtDay(r.released)}</li>}
     </ul>
   </nav>
 
@@ -118,7 +118,7 @@ const findYourWay = [
               <dt>Repo</dt>
               <dd>
                 <code>dight340-exercises</code>, renamed to <code>dight340</code> in Spark 0, which changes its address.
-                Plain folders until the Astro unit, when your Release becomes an Astro site in <code>release/</code>.
+                Plain folders until the Astro unit, when your Final Project becomes an Astro site in <code>final-project/</code>.
               </dd>
             </div>
             <div>
@@ -210,7 +210,7 @@ const findYourWay = [
       </table>
     </div>
 
-    <h3>Release</h3>
+    <h3>Final Project</h3>
     {
       course === '250' ? (
         <p>
@@ -231,7 +231,7 @@ const findYourWay = [
         help.
       </li>
       <li>
-        {release ? <a href={pageHref(release)}>Read the Release brief</a> : <>The brief goes up on {fmtDay(r.released)}.</>}
+        {release ? <a href={pageHref(release)}>Read the Final Project brief</a> : <>The brief goes up on {fmtDay(r.released)}.</>}
       </li>
     </ul>
   </section>

@@ -37,7 +37,7 @@ const idAlternation = allIds.join('|');
 // The leading HTML comment (notes for editors) is dropped, and `courses:` is set to one course.
 // Single-course pages (Oct 19) live in these folders, named <course>-<slug>.md (250-color.md).
 // They get the same treatment for their own course, so {{course}} works in them too.
-// release/ holds each course's one Release brief, <course>-release.md (Oct 21).
+// release/ holds each course's one Final Project brief, <course>-release.md (Oct 21).
 const courseFolders = ['units', 'sparks', 'prototypes', 'release'];
 
 async function exists(p) {

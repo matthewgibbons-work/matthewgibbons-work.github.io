@@ -7,7 +7,7 @@ import { courseOrder } from './lib/courses';
 // The id is the path without .md: 'spark-0-250', 'units/250-color',
 // 'sparks/250-s02', 'prototypes/250-p1', 'release/250-release'. The folder says what kind of page it is.
 // A page goes live only when it's `ready` and its date has arrived (`date` for
-// units and Sparks, `released` for Prototypes and the Release brief); see src/lib/published.ts.
+// units and Sparks, `released` for Prototypes and the Final Project brief); see src/lib/published.ts.
 const pages = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/pages' }),
   schema: z

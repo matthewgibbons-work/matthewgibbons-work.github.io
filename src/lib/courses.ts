@@ -1,6 +1,6 @@
 // The course registry (Oct 21): the one place that says which courses exist. The data is
 // in src/data/courses.json; sync.mjs reads the same file. Every course page takes its
-// identity from here: name, colour, calendar, Prototype and Release dates, and URLs.
+// identity from here: name, colour, calendar, Prototype and Final Project dates, and URLs.
 // Course pages live under /<id>/ (site v2, Oct 17).
 //
 // Fields in courses.json:

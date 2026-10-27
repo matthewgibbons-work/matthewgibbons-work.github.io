@@ -21,6 +21,6 @@ The sync looks for `../dight-refactor`; set `DIGHT_REFACTOR=/path/to/it` if it l
 
 ## Courses, schedule, and indexes (Oct 21)
 
-`src/data/courses.json` is the course registry: each course's id, name, colour, `listed` flag, session calendar, Prototype dates, and Release dates. The hub cards, routes, `sync.mjs`, and the course-block splitting all read it. A course with `"listed": false` builds no pages and shows nowhere. `src/lib/courses.ts` has a comment on how to add one (350).
+`src/data/courses.json` is the course registry: each course's id, name, colour, `listed` flag, session calendar, Prototype dates, and Final Project dates. The hub cards, routes, `sync.mjs`, and the course-block splitting all read it. A course with `"listed": false` builds no pages and shows nowhere. `src/lib/courses.ts` has a comment on how to add one (350).
 
-Each listed course gets `/<id>/schedule/`, `/units/`, `/sparks/`, `/prototypes/`, and `/release/`. The schedule joins `session: N` in `topics-<id>.yml` to the calendar in `courses.json`; a topic with no `session` is listed without a date. Release briefs come from `course-site-content/release/<id>-release.md`. Dates in the registry (Prototype and Release) have to be kept in step with the briefs' frontmatter by hand.
+Each listed course gets `/<id>/schedule/`, `/units/`, `/sparks/`, `/prototypes/`, and `/final-project/`. The schedule joins `session: N` in `topics-<id>.yml` to the calendar in `courses.json`; a topic with no `session` is listed without a date. Final Project briefs come from `course-site-content/release/<id>-release.md`. Dates in the registry (Prototype and Final Project) have to be kept in step with the briefs' frontmatter by hand.

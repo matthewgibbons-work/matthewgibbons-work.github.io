@@ -3,8 +3,8 @@
 //   /<course>/units/<slug>/  /<course>/sparks/sNN/  /<course>/prototypes/pN/
 // Sources: dight-refactor/course-site-content/<folder>/<course>-<slug>.md, copied by npm run sync.
 // Production builds only make pages that are published (ready, and their date has come);
-// dev makes every page. See src/lib/published.ts. The Release brief has its own route,
-// /<course>/release/ (release/index.astro), because a course has just one.
+// dev makes every page. See src/lib/published.ts. The Final Project brief has its own route,
+// /<course>/final-project/ (final-project/index.astro), because a course has just one.
 import PageView from '../../../components/PageView.astro';
 import { parseId, shownPages, type Kind, type Page } from '../../../lib/published';
 import type { Course } from '../../../lib/courses';

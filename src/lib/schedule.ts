@@ -131,7 +131,7 @@ export async function prototypeItems(course: Course): Promise<Item[]> {
   );
 }
 
-/** Something that happens on a date besides class: a Prototype due, a Release milestone. */
+/** Something that happens on a date besides class: a Prototype due, a Final Project milestone. */
 export interface Milestone {
   text: string;
   href?: string;
@@ -163,9 +163,9 @@ export async function scheduleRows(course: Course): Promise<ScheduleRow[]> {
     const page = await prototypePage(course, p.id);
     add(p.due, { text: `${p.id} due`, href: page && pageHref(page) });
   }
-  add(c.release.released, { text: 'Release brief out', href: releaseHref });
-  add(c.release.intentBrief, { text: 'Release intent brief, in class', href: releaseHref });
-  add(c.release.due, { text: `Release due, ${c.release.dueTime}`, href: releaseHref });
+  add(c.release.released, { text: 'Final Project brief out', href: releaseHref });
+  add(c.release.intentBrief, { text: 'Final Project intent brief, in class', href: releaseHref });
+  add(c.release.due, { text: `Final Project due, ${c.release.dueTime}`, href: releaseHref });
   add(c.release.openLab, { text: 'Open lab: final help' });
 
   const rows: ScheduleRow[] = [];
@@ -196,7 +196,7 @@ export async function scheduleRows(course: Course): Promise<ScheduleRow[]> {
     });
   }
 
-  // Days with milestones but no class: Release due, the open lab.
+  // Days with milestones but no class: Final Project due, the open lab.
   for (const [date, list] of milestones) {
     if (!used.has(date)) rows.push({ key: `event-${date}`, kind: 'event', date, milestones: list });
   }

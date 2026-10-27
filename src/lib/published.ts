@@ -1,6 +1,6 @@
 // What's live: the one place the site decides whether a page is published (Oct 19).
 // A page is published when its frontmatter says `ready: true` and its go-live time has
-// passed: 13:00 UTC on its `date` (units, Sparks) or `released` (Prototypes and the Release brief), the same
+// passed: 13:00 UTC on its `date` (units, Sparks) or `released` (Prototypes and the Final Project brief), the same
 // hour as the daily rebuild in deploy.yml (6 am MST, 7 am MDT).
 // Production builds leave unpublished pages out entirely, along with every link to them.
 // `npm run dev` shows everything, so drafts can be checked; each one gets a banner.
@@ -35,9 +35,9 @@ export function parseId(id: string): { kind: Kind; course: Course; slug: string 
 
 export function pageHref(page: Page): string {
   const parsed = parseId(page.id);
-  if (!parsed) throw new Error(`${page.id} isn't a unit, Spark, Prototype, or Release page`);
-  // A course has one Release brief, so it has no slug in its URL: /250/release/.
-  if (parsed.kind === 'release') return `/${parsed.course}/release/`;
+  if (!parsed) throw new Error(`${page.id} isn't a unit, Spark, Prototype, or Final Project page`);
+  // A course has one Final Project brief, so it has no slug in its URL: /250/final-project/.
+  if (parsed.kind === 'release') return `/${parsed.course}/final-project/`;
   return `/${parsed.course}/${urlFolders[parsed.kind]}/${parsed.slug}/`;
 }
 
@@ -62,7 +62,7 @@ export function isShown(page: Page): boolean {
   return showDrafts || pageStatus(page) === 'published';
 }
 
-/** Every unit, Spark, Prototype, or Release page this build shows, for one course or both. */
+/** Every unit, Spark, Prototype, or Final Project page this build shows, for one course or both. */
 export async function shownPages(kind: Kind, course?: Course): Promise<Page[]> {
   const all = await getCollection('pages');
   return all.filter((page) => {
@@ -76,7 +76,7 @@ export async function findPage(course: Course, kind: Kind, slug: string): Promis
   return (await shownPages(kind, course)).find((page) => parseId(page.id)?.slug === slug);
 }
 
-/** The shown Release brief for a course, if any (sources are named release/250-release.md). */
+/** The shown Final Project brief for a course, if any (sources are named release/250-release.md). */
 export async function releasePage(course: Course): Promise<Page | undefined> {
   return findPage(course, 'release', 'release');
 }
