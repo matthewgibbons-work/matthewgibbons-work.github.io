@@ -13,7 +13,7 @@ date: 2026-12-07
 
 ## In short
 
-Vitest checked your logic without a browser. **Playwright** checks the whole site *in* one: it builds your Release, serves it, opens Chromium, and does what a visitor does: go to a page, find a button, press Enter, and `expect` what should happen. These are **end-to-end** tests: everything from the HTML to the island's JavaScript has to work for them to pass.
+Vitest checked your logic without a browser. **Playwright** checks the whole site *in* one: it builds your Final Project, serves it, opens Chromium, and does what a visitor does: go to a page, find a button, press Enter, and `expect` what should happen. These are **end-to-end** tests: everything from the HTML to the island's JavaScript has to work for them to pass.
 
 The way you find things matters. `page.getByRole('button', { name: 'Add bulbasaur' })` finds a button by its role and its accessible name, which is how a screen reader finds it too. If the test can't find your button that way, a screen-reader user probably can't either, so a role-based test is an accessibility check as well. Prefer `getByRole` and `getByLabel` to CSS selectors. Keyboard tests use `page.keyboard.press('Tab')` and `'Enter'`. For islands, wait until they've hydrated before you press anything (S12's race).
 
@@ -22,7 +22,7 @@ The way you find things matters. `page.getByRole('button', { name: 'Add bulbasau
 Today's **kit update** adds both to the **Checks** workflow: on every push, it installs Playwright's Chromium on GitHub, runs your tests, and marks the commit red if one fails. Feedback, as always: it doesn't block the deploy.
 
 ```js
-// release/playwright.config.js
+// final-project/playwright.config.js
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
@@ -39,7 +39,7 @@ export default defineConfig({
 ```
 
 ```js
-// release/tests/site.spec.js
+// final-project/tests/site.spec.js
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
@@ -133,7 +133,7 @@ No. Every image has *an* alt, and every button has *a* name, so the rules pass. 
 
 ## Try it together
 
-Everyone, in your `dight340` session, plan mode. Copy `release/` to `try/s13/` (without `node_modules`), and `npm install` there.
+Everyone, in your `dight340` session, plan mode. Copy `final-project/` to `try/s13/` (without `node_modules`), and `npm install` there.
 
 ```text
 In try/s13/, set up Playwright with @axe-core/playwright. Write tests that use role and label locators: one that the nav marks the current page, one that uses the island with only the keyboard, and an axe scan of each kind of page. Have Playwright build and preview the site itself.

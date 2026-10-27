@@ -13,7 +13,7 @@ date: 2026-12-09
 
 ## In short
 
-Today we build a whole small app together, start to finish, the way you'll finish your Release: an Astro site with one Svelte island, data from PokéAPI, tests, and a live deploy. Nothing in it is new. What's new is doing every step of the loop, in order, at full size, in one sitting, and noticing which steps are tempting to skip.
+Today we build a whole small app together, start to finish, the way you'll finish your Final Project: an Astro site with one Svelte island, data from PokéAPI, tests, and a live deploy. Nothing in it is new. What's new is doing every step of the loop, in order, at full size, in one sitting, and noticing which steps are tempting to skip.
 
 1. **Intent and spec first, by hand.** Two sentences of intent and a "done" list you could check in a minute each. The agent can't do these for you; it can only question them.
 2. **Plan before code.** Plan mode, with the intent and the list pasted in. Agree on pages, islands, where each piece of data comes from (build time or browser), and the tests, before a line is written.
@@ -21,7 +21,7 @@ Today we build a whole small app together, start to finish, the way you'll finis
 4. **Verify like CI does:** `npm run build`, `npx vitest run`, `npx playwright test`, then the things no test covers: the keyboard, VoiceOver, 200% zoom, and the live URL.
 5. **Explain:** what you accepted, changed, and rejected, while you still remember why.
 
-The second half of today is about the agent itself. All term, Claude Code has followed the course's `AGENTS.md`. A real project has its own: where things live, the commands that prove it works, and the rules its people learned the hard way. Claude Code reads a **subfolder's** `AGENTS.md` (your `release/AGENTS.md`) once it opens a file in that folder, alongside the course's root one. A **custom skill** is a `SKILL.md` file in `release/.claude/skills/<name>/`, written like `/check`: a `name`, a `description`, then instructions; it becomes a `/` command the first time Claude reads or edits a file in `release/`. Writing those two files is your Release's "configure your agent", and today's Spark.
+The second half of today is about the agent itself. All term, Claude Code has followed the course's `AGENTS.md`. A real project has its own: where things live, the commands that prove it works, and the rules its people learned the hard way. Claude Code reads a **subfolder's** `AGENTS.md` (your `final-project/AGENTS.md`) once it opens a file in that folder, alongside the course's root one. A **custom skill** is a `SKILL.md` file in `final-project/.claude/skills/<name>/`, written like `/check`: a `name`, a `description`, then instructions; it becomes a `/` command the first time Claude reads or edits a file in `final-project/`. Writing those two files is your Final Project's "configure your agent", and today's Spark.
 
 <figure class="diagram">
 <svg class="d-wide" viewBox="0 0 640 150" role="img" aria-labelledby="loop-wide-title">
@@ -66,14 +66,14 @@ The second half of today is about the agent itself. All term, Claude Code has fo
 ## Predict, then reveal
 
 ```markdown
-<!-- release/AGENTS.md -->
+<!-- final-project/AGENTS.md -->
 - Never use innerHTML. Build elements with Svelte markup or createElement.
 ```
 
 <details>
-<summary>You open a new session and ask Claude to add a new Svelte component in <code>release/src/components/</code>. Does it follow this rule?</summary>
+<summary>You open a new session and ask Claude to add a new Svelte component in <code>final-project/src/components/</code>. Does it follow this rule?</summary>
 
-Only once it has read a file in `release/`. Claude Code loads a subfolder's `AGENTS.md` on demand, when it opens a file in that folder, not when the session starts. A request that makes a brand-new file there without reading anything first can run before your rules are loaded. So start Release sessions with "Read release/AGENTS.md and follow it," or ask it to read the component it's changing first. (Your skill in `release/.claude/skills/` works the same way: it appears in the `/` menu once Claude has touched a file in `release/`.) Then test the rule: ask for something that would break it, and see whether Claude objects.
+Only once it has read a file in `final-project/`. Claude Code loads a subfolder's `AGENTS.md` on demand, when it opens a file in that folder, not when the session starts. A request that makes a brand-new file there without reading anything first can run before your rules are loaded. So start Final Project sessions with "Read final-project/AGENTS.md and follow it," or ask it to read the component it's changing first. (Your skill in `final-project/.claude/skills/` works the same way: it appears in the `/` menu once Claude has touched a file in `final-project/`.) Then test the rule: ask for something that would break it, and see whether Claude objects.
 
 </details>
 

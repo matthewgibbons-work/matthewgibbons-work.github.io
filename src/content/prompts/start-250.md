@@ -34,7 +34,7 @@ Then have me commit this step on its own in GitHub Desktop (no push yet), with a
 
 ## Step 4: Create the new structure
 
-Create `sparks/s01-repo-restructure/`. Explain the plan for the other folders: `sparks/` gets one folder per Spark (`s02-…`, `s03-…`), `prototypes/` starts with P1 on Oct 26, and `release/` comes later. Git doesn't track empty folders, so we'll create those when we need them.
+Create `sparks/s01-repo-restructure/`. Explain the plan for the other folders: `sparks/` gets one folder per Spark (`s02-…`, `s03-…`), `prototypes/` starts with P1 on Oct 26, and `final-project/` comes later. Git doesn't track empty folders, so we'll create those when we need them.
 
 ## Step 5: Build the new hub
 

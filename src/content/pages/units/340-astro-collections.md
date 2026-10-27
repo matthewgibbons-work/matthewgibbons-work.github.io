@@ -13,7 +13,7 @@ date: 2026-11-30
 
 ## In short
 
-You've written a `NOTES.md` for every Spark and Prototype this term. Today they become part of your Release: a page listing them all, and a page for each one. Astro's **content collections** are how a site treats a pile of files as data.
+You've written a `NOTES.md` for every Spark and Prototype this term. Today they become part of your Final Project: a page listing them all, and a page for each one. Astro's **content collections** are how a site treats a pile of files as data.
 
 A collection has two parts. A **loader** says where the entries come from. Astro's built-in `glob()` loader reads Markdown files with frontmatter; your `NOTES.md` files have no frontmatter, just five `## ` sections, so the course gives you a small loader that reads them from `sparks/` and `prototypes/` and splits each into `intent`, `aiUse`, `decisions`, `digDeeper`, and `openQuestions` (below; copy it as it is). A **schema** says what every entry must have, written with **zod**, a library for describing data, which Astro includes as `astro/zod`. You read a zod schema like a checklist: `z.object({ intent: z.string().min(1, 'Intent is empty') })` says "an object whose `intent` is a string with at least one character, or else say *Intent is empty*." If an entry breaks the rules, the **build stops** and names the file and the field. It's `/check`, enforced.
 
@@ -155,7 +155,7 @@ export const notesLoader = {
 ## Predict, then reveal
 
 <details>
-<summary>Your S04 <code>NOTES.md</code> has the <code>## Open questions</code> heading but nothing under it. You run <code>npm run build</code> in <code>release/</code>. What happens?</summary>
+<summary>Your S04 <code>NOTES.md</code> has the <code>## Open questions</code> heading but nothing under it. You run <code>npm run build</code> in <code>final-project/</code>. What happens?</summary>
 
 The build stops before any page is made:
 
@@ -164,13 +164,13 @@ The build stops before any page is made:
   openQuestions: Open questions is empty
 ```
 
-The schema's `.min(1, 'Open questions is empty')` caught it, and the message names the entry (the folder) and the field. Delete the heading entirely and it says `Dig deeper is missing` instead (or whichever section went). On GitHub, the **Build and deploy** run goes red, and your Release is missing from that deploy until you fix the note and push again. So build before you push.
+The schema's `.min(1, 'Open questions is empty')` caught it, and the message names the entry (the folder) and the field. Delete the heading entirely and it says `Dig deeper is missing` instead (or whichever section went). On GitHub, the **Build and deploy** run goes red, and your Final Project is missing from that deploy until you fix the note and push again. So build before you push.
 
 </details>
 
 ## Try it together
 
-Everyone, in your `dight340` session, plan mode. Copy your `release/` folder to `try/s11/` first, without `node_modules` (ask Claude to, then `npm install` there).
+Everyone, in your `dight340` session, plan mode. Copy your `final-project/` folder to `try/s11/` first, without `node_modules` (ask Claude to, then `npm install` there).
 
 ```text
 In try/s11/, add a notes collection. I'll paste the course's notes loader into src/notes-loader.js myself. Write src/content.config.js with a zod schema that requires all five NOTES.md sections, a notes index page that lists every note by title, and a page for each note at notes/<id>/. Use the layout and the url() helper.

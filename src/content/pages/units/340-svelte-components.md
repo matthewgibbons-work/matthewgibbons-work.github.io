@@ -1,6 +1,6 @@
 ---
 title: "Svelte components and props"
-description: "Typed $props, callback props, and snippets: split the page into components that pass data down and events up. The Release brief comes out."
+description: "Typed $props, callback props, and snippets: split the page into components that pass data down and events up. The Final Project brief comes out."
 courses: [dight340]
 ready: false # true once the S08 dry run passes, with the S08 brief (PLAN.md: Build order)
 session: 8

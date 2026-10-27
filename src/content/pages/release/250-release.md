@@ -1,27 +1,27 @@
 ---
-title: "Release · Your final project"
+title: "Final Project"
 description: "A small site for a real or realistic audience: expand the Saturday Morning Archive, or bring your own idea. Due Sat Dec 12, 11:59 pm, the day of the open lab, where you can get final help."
 courses: [dight250]
-ready: false # true once the Release brief is reviewed, before Mon Nov 16 (PLAN.md: Build order)
+ready: false # true once the Final Project brief is reviewed, before Mon Nov 16 (PLAN.md: Build order)
 tier: release
 released: 2026-11-16
 due: 2026-12-12
-folder: release/
+folder: final-project/
 ---
 
-# Release · Your final project
+# Final Project
 
 **Units:** everything this term. Your intent brief is Wednesday's Spark (S09). Due Sat Dec 12, 11:59 pm. The open lab that day is for final help.
 
 ## The brief
 
-A Spark is an idea and a Prototype is a working model. A **Release** is something shipped to real people. Make a small site, three to five pages, for a real or realistic audience, and take it through the loop one last time at full size: you decide what it's for and what "done" means, the agent writes most of the code, and you check it, fix it, and explain it.
+A Spark is an idea and a Prototype is a working model. A **Final Project** is something shipped to real people. Make a small site, three to five pages, for a real or realistic audience, and take it through the loop one last time at full size: you decide what it's for and what "done" means, the agent writes most of the code, and you check it, fix it, and explain it.
 
 **Default: expand the Saturday Morning Archive.** Turn what you've built this term into one small site, with a shared header, nav, and footer. For example: a home page (from P3), an episode guide or a page per show (from your Sparks), and a Suggest-a-show page (from P4). At least one page has to be new.
 
 **Your own choice:** a small site for a real or realistic audience: a club's events, a family recipe collection, a portfolio for a job you want, a guide to something you know well. It's still HTML and CSS only (`AGENTS.md` holds you to that), and your intent brief names who it's for.
 
-Either way, the site lives in `release/` in your repo, starting at `release/index.html`, and your hub links to it under **Release**.
+Either way, the site lives in `final-project/` in your repo, starting at `final-project/index.html`, and your hub links to it under **Final Project**.
 
 ## Timeline
 
@@ -29,9 +29,9 @@ Either way, the site lives in `release/` in your repo, starting at `release/inde
 | --- | --- |
 | Mon Nov 16 | This brief goes out. Start thinking about what you'd build. |
 | Wed Nov 18 | S09: write your intent brief in class. It's this project's Intent and Spec. |
-| Mon Nov 23 | No more Prototypes: from here, studio time goes to the Release. |
-| Wed Dec 2 | S12: audit your Release and fix two things. |
-| Mon Dec 7 | S13: the big live build, then check your Release against your own "done" list. |
+| Mon Nov 23 | No more Prototypes: from here, studio time goes to the Final Project. |
+| Wed Dec 2 | S12: audit your Final Project and fix two things. |
+| Mon Dec 7 | S13: the big live build, then check your Final Project against your own "done" list. |
 | **Sat Dec 12** | Open lab | **Due, 11:59 pm:** links in Learning Suite. Come for final help if you need it. |
 
 ## Spec: the "done" list
@@ -40,7 +40,7 @@ Either way, the site lives in `release/` in your repo, starting at `release/inde
 
 **The site**
 
-- [ ] Three to five pages in `release/`, joined by a nav that's the same on every page. The current page is marked with `aria-current="page"`, and styled so it doesn't rely on color alone.
+- [ ] Three to five pages in `final-project/`, joined by a nav that's the same on every page. The current page is marked with `aria-current="page"`, and styled so it doesn't rely on color alone.
 - [ ] One shared CSS file for the whole site (an extra file for one page's special parts is fine).
 - [ ] At least one page you didn't build in an earlier Spark or Prototype.
 - [ ] It uses at least four of this term's units, named in `NOTES.md`: color, typography, box model, Flexbox, Grid, responsive design, forms, multimedia, modern CSS, motion.
@@ -57,9 +57,9 @@ Either way, the site lives in `release/` in your repo, starting at `release/inde
 
 **The record**
 
-- [ ] `release/NOTES.md` covers every section, in your own words. **Accepted / changed / rejected** covers the whole project, with at least three real decisions and why.
+- [ ] `final-project/NOTES.md` covers every section, in your own words. **Accepted / changed / rejected** covers the whole project, with at least three real decisions and why.
 - [ ] Commits spread across at least two weeks, each with a message that says what changed.
-- [ ] Your hub links to `release/` under Release, and the live site loads.
+- [ ] Your hub links to `final-project/` under Final Project, and the live site loads.
 
 <!-- done:end -->
 
@@ -83,7 +83,7 @@ The same loop as every Spark, at full size:
 1. **Intent and Spec:** your S09 intent brief. Keep it open; it's what you verify against.
 2. **Generate:** page by page, in small requests. Ask for a plan first, every time.
 3. **Verify:** each page as you finish it: the Feedback checks on every push, then keyboard, 320px, 200%, and contrast by hand.
-4. **Explain:** write `release/NOTES.md` as you go, not the night before. Every rejected suggestion is worth a line.
+4. **Explain:** write `final-project/NOTES.md` as you go, not the night before. Every rejected suggestion is worth a line.
 
 Then run [`/check`](/250/skills/check/) `release` with the "done" list pasted (the **Copy** button copies it).
 
@@ -91,9 +91,9 @@ Then run [`/check`](/250/skills/check/) `release` with the "done" list pasted (t
 
 ## Submitting
 
-In the Learning Suite assignment **Release**, paste:
+In the Learning Suite assignment **Final Project**, paste:
 
-1. your live site's URL (`…/release/`), and
-2. a direct link to your `release/` folder on GitHub.
+1. your live site's URL (`…/final-project/`), and
+2. a direct link to your `final-project/` folder on GitHub.
 
 **Graded:** the rubric above, out of 25.

@@ -1,6 +1,6 @@
 ---
 title: "Svelte forms and shared state"
-description: "bind:, shared state in .svelte.js modules, labeled inputs, and errors people can perceive. Spark: your Release intent brief."
+description: "bind:, shared state in .svelte.js modules, labeled inputs, and errors people can perceive. Spark: your Final Project intent brief."
 courses: [dight340]
 ready: false # true once the S09 dry run passes, with the S09 brief (PLAN.md: Build order)
 session: 9

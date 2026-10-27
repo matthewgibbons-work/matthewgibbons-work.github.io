@@ -19,7 +19,7 @@ Today you'll reorganize your course repo for the new system. You won't do it alo
 At the end you'll have:
 
 - all your earlier work safe in an `archive/` folder, still live on GitHub Pages
-- a new hub page with sections for Sparks, Prototypes, Release, and Archive
+- a new hub page with sections for Sparks, Prototypes, Final Project, and Archive
 - your first `NOTES.md`, written by you: five short sections, about 10 minutes of writing in Part D ([what goes in each section](/notes/))
 - two commits, pushed, each with a message that says what changed: one for the move into `archive/`, one for the new hub and notes
 

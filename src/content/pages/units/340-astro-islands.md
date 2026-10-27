@@ -90,7 +90,7 @@ Nothing, and nothing in the console either. With no `client:` directive, Astro r
 
 ## Try it together
 
-Everyone, in your `dight340` session, plan mode. Copy `release/` to `try/s12/` (without `node_modules`), and `npm install` there.
+Everyone, in your `dight340` session, plan mode. Copy `final-project/` to `try/s12/` (without `node_modules`), and `npm install` there.
 
 ```text
 In try/s12/, add Svelte to the Astro site. On the Pokédex page, under the build-time list, add my P3 party builder (or P4 team planner) as an island. Pass it the Pokémon names from the page's frontmatter as a prop, keep its own PokéAPI lookups in the browser, and pick a client: directive. Explain the choice.

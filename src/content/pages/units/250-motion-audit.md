@@ -1,6 +1,6 @@
 ---
 title: "Motion and an accessibility audit"
-description: "Transitions and animations that explain rather than decorate and calm down when asked, then an audit of your Release with the tools and your own hands."
+description: "Transitions and animations that explain rather than decorate and calm down when asked, then an audit of your Final Project with the tools and your own hands."
 courses: [dight250]
 ready: false # true once the S12 dry run passes (PLAN.md: Build order)
 session: 12
@@ -9,7 +9,7 @@ date: 2026-12-02
 
 # Motion and an accessibility audit
 
-**The big idea:** motion should explain, not decorate, and it calms down for people who ask. Then audit your Release: the tools find some of the problems, and your own hands find the rest.
+**The big idea:** motion should explain, not decorate, and it calms down for people who ask. Then audit your Final Project: the tools find some of the problems, and your own hands find the rest.
 
 ## Transitions
 
@@ -180,7 +180,7 @@ Requests like this often come back with one or more of these:
 - `width`, `height`, or `margin` animated, so the text around them jumps.
 - A JavaScript scroll effect, out of scope here.
 
-It was fun for five seconds. Emulating reduced motion, Tabbing through, and watching for ten seconds found the problems. In your Spark you'll add one bit of motion to your Release, on purpose, with the reduced-motion version built in.
+It was fun for five seconds. Emulating reduced motion, Tabbing through, and watching for ten seconds found the problems. In your Spark you'll add one bit of motion to your Final Project, on purpose, with the reduced-motion version built in.
 
 </details>
 

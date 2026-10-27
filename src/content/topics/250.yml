@@ -42,12 +42,12 @@
 - name: Responsive design
   session: 8
   unit: responsive
-  summary: Layouts that reflow down to 320px wide. The Release brief comes out.
+  summary: Layouts that reflow down to 320px wide. The Final Project brief comes out.
   prototype: P4
 - name: Forms
   session: 9
   unit: forms
-  summary: Labels, fieldsets, and validation; write your Release intent brief.
+  summary: Labels, fieldsets, and validation; write your Final Project intent brief.
   prototype: P4
 - name: Multimedia and positioning
   session: 10

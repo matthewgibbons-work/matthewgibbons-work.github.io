@@ -52,7 +52,7 @@ Then have me commit this step on its own in GitHub Desktop (no push yet), with a
 
 ## Step 5: Create the new structure
 
-Create `sparks/s01-repo-restructure/`. Explain the plan for the other folders: `sparks/` gets one folder per Spark, `prototypes/` starts with P1 on Oct 26, and `release/` becomes an Astro site from Nov 23. Git doesn't track empty folders, so we'll create those when we need them.
+Create `sparks/s01-repo-restructure/`. Explain the plan for the other folders: `sparks/` gets one folder per Spark, `prototypes/` starts with P1 on Oct 26, and `final-project/` becomes an Astro site from Nov 23. Git doesn't track empty folders, so we'll create those when we need them.
 
 ## Step 6: Build the new hub
 

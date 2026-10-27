@@ -43,12 +43,12 @@
 - name: Svelte components and props
   unit: svelte-components
   session: 8
-  summary: Typed props, snippets, and callback props. The Release brief comes out.
+  summary: Typed props, snippets, and callback props. The Final Project brief comes out.
   prototype: P4
 - name: Svelte forms and shared state
   unit: svelte-forms
   session: 9
-  summary: bind:, shared state, labeled inputs, and announced errors; write your Release intent brief.
+  summary: bind:, shared state, labeled inputs, and announced errors; write your Final Project intent brief.
   prototype: P4
 - name: Astro intro and repo conversion
   unit: astro-intro

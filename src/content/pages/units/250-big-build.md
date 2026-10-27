@@ -9,7 +9,7 @@ date: 2026-12-07
 
 # Big live build
 
-**The big idea:** everything at once. One small site, from an intent brief to a verified deploy, in one session, with every check done out loud before moving on. It's your Release in miniature, and the order of work is the thing to take with you.
+**The big idea:** everything at once. One small site, from an intent brief to a verified deploy, in one session, with every check done out loud before moving on. It's your Final Project in miniature, and the order of work is the thing to take with you.
 
 ## The brief
 
@@ -102,7 +102,7 @@ We build in five steps. Each one ends with a **gate**: a check that has to pass 
 <figcaption>Five checkpoints. Each gate has to pass before the next prompt, so problems are found while they're still small.</figcaption>
 </figure>
 
-## What to take to your Release
+## What to take to your Final Project
 
 - **Structure, then layout, then looks.** Good HTML makes everything after it easier; CSS can't fix the wrong element.
 - **One small request at a time,** with a plan first. "Build the whole site" is how you get a lot of code nobody can explain.

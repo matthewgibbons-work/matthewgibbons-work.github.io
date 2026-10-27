@@ -1,6 +1,6 @@
 ---
 title: "Astro intro and repo conversion"
-description: "Your release/ folder becomes an Astro site: file-based routing, layouts, components that run at build time, and deploying under a base path."
+description: "Your final-project/ folder becomes an Astro site: file-based routing, layouts, components that run at build time, and deploying under a base path."
 courses: [dight340]
 ready: false # true once the S10 dry run passes, with the S10 brief (PLAN.md: Build order)
 session: 10
@@ -13,13 +13,13 @@ date: 2026-11-23
 
 ## In short
 
-From today, your repo's `release/` folder is an **Astro** site, and your Release grows inside it. In Astro, the files in `src/pages/` *are* the site's addresses: `src/pages/index.astro` is the home page and `src/pages/pokedex.astro` is `/pokedex/`. That's **file-based routing**: no router to set up.
+From today, your repo's `final-project/` folder is an **Astro** site, and your Final Project grows inside it. In Astro, the files in `src/pages/` *are* the site's addresses: `src/pages/index.astro` is the home page and `src/pages/pokedex.astro` is `/pokedex/`. That's **file-based routing**: no router to set up.
 
 An `.astro` file has two parts. Between the `---` fences at the top is the **frontmatter**, JavaScript that runs at **build time** on your computer or on GitHub, never in the visitor's browser. It can import components and even `await fetch(…)` PokéAPI. Below the fences is the template, HTML with `{expressions}`, and the build turns it into a finished `.html` file. Visitors get the HTML with no JavaScript at all, unless you ask for some (that's islands, on Dec 2).
 
 A **layout** is a component that wraps every page: the `<html>`, the `<head>`, the landmarks, the nav. It puts the page's own content where it says `<slot />`. Write the nav once, mark the current page with `aria-current="page"`, and every page gets it right.
 
-One thing to get right on day one is the **base path**. Your site doesn't live at the root of `github.io`; it lives at `/dight340/release/`. A link written `href="/pokedex/"` goes to the root and 404s. Every internal link goes through Astro's `import.meta.env.BASE_URL`, which the deploy workflow sets for you. A three-line helper keeps it tidy:
+One thing to get right on day one is the **base path**. Your site doesn't live at the root of `github.io`; it lives at `/dight340/final-project/`. A link written `href="/pokedex/"` goes to the root and 404s. Every internal link goes through Astro's `import.meta.env.BASE_URL`, which the deploy workflow sets for you. A three-line helper keeps it tidy:
 
 ```js
 // src/lib/url.js
@@ -27,9 +27,9 @@ export const url = (path = '') =>
   `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${path.replace(/^\//, '')}`;
 ```
 
-Then `<a href={url('pokedex/')}>` works at `/` in `npm run dev` and at `/dight340/release/` on GitHub Pages.
+Then `<a href={url('pokedex/')}>` works at `/` in `npm run dev` and at `/dight340/final-project/` on GitHub Pages.
 
-Today's **kit update** brings two changes. The deploy workflow now builds `release/` as an Astro site with the right base. And Claude switches from the **Learning** output style to **Explanatory**: it stops leaving `TODO(human)` gaps and instead explains its choices as it goes (look for `★ Insight`). You're building a whole site now, and you've shown you can write the small parts. Your job is reading every explanation and deciding.
+Today's **kit update** brings two changes. The deploy workflow now builds `final-project/` as an Astro site with the right base. And Claude switches from the **Learning** output style to **Explanatory**: it stops leaving `TODO(human)` gaps and instead explains its choices as it goes (look for `★ Insight`). You're building a whole site now, and you've shown you can write the small parts. Your job is reading every explanation and deciding.
 
 <figure class="diagram">
 <svg class="d-wide" viewBox="0 0 640 180" role="img" aria-labelledby="astro-wide-title">
@@ -88,9 +88,9 @@ Today's **kit update** brings two changes. The deploy workflow now builds `relea
 ```
 
 <details>
-<summary>This link is in your <code>release/</code> site's nav. It works in <code>npm run dev</code>. Where does it go on GitHub Pages?</summary>
+<summary>This link is in your <code>final-project/</code> site's nav. It works in <code>npm run dev</code>. Where does it go on GitHub Pages?</summary>
 
-To `https://<username>.github.io/pokedex/`: the root of *all* your Pages sites, not your Release. That's a 404, or someone else's page if you have a repo called `pokedex`. In dev the site lives at `/`, so the mistake hides until you deploy. Write it as `href={url('pokedex/')}`, which becomes `/dight340/release/pokedex/` once the workflow sets the base. The template's own `href="/favicon.svg"` has the same bug.
+To `https://<username>.github.io/pokedex/`: the root of *all* your Pages sites, not your Final Project. That's a 404, or someone else's page if you have a repo called `pokedex`. In dev the site lives at `/`, so the mistake hides until you deploy. Write it as `href={url('pokedex/')}`, which becomes `/dight340/final-project/pokedex/` once the workflow sets the base. The template's own `href="/favicon.svg"` has the same bug.
 
 </details>
 
@@ -99,7 +99,7 @@ To `https://<username>.github.io/pokedex/`: the root of *all* your Pages sites, 
 Everyone, in your `dight340` session (after the kit update, in a **new** session so Explanatory is on), plan mode:
 
 ```text
-In try/s10/, create an Astro site with the minimal template (no git repository of its own). Add a shared layout with a nav, a home page, and a Pokédex page that lists the first 12 Pokémon from PokéAPI at build time. The site will be served from /dight340/release/, so every internal link must work under that base.
+In try/s10/, create an Astro site with the minimal template (no git repository of its own). Add a shared layout with a nav, a home page, and a Pokédex page that lists the first 12 Pokémon from PokéAPI at build time. The site will be served from /dight340/final-project/, so every internal link must work under that base.
 ```
 
 Ask Claude to start `npm run dev`.
@@ -119,7 +119,7 @@ Ask Claude to start `npm run dev`.
 Requests like this often come back with one or more of these:
 
 - Root-relative links (`href="/pokedex/"`) that work in dev and 404 on Pages, including the template's own favicon link.
-- A `base` hard-coded in `astro.config.mjs` with the wrong repo name, or set as `/release` so dev breaks too. The deploy workflow passes the base; the config doesn't need one.
+- A `base` hard-coded in `astro.config.mjs` with the wrong repo name, or set as `/final-project` so dev breaks too. The deploy workflow passes the base; the config doesn't need one.
 - The fetch in a `<script>` tag, so it runs in every visitor's browser, when it could have run once at build time.
 - No `response.ok` check in the frontmatter, so a PokéAPI hiccup builds a page of "undefined".
 - No `aria-current`, or a nav that isn't in a `<nav>`.
