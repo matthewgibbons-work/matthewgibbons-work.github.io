@@ -31,11 +31,16 @@ const unitPages =
       ? await unitsFeeding(course, slug.toUpperCase())
       : [];
 const units = unitPages.map((unit) => ({ href: pageHref(unit), title: unit.data.title }));
+
+// A unit page's meta line also links its Spark, so the task is in reach without scrolling to
+// the "This session" panel at the foot (Oct 28). Published Sparks only, as everywhere.
+const sparkPage = kind === 'unit' && session ? (await sessionPair(course, session)).spark : undefined;
+const spark = sparkPage && { href: pageHref(sparkPage), title: sparkPage.data.title, due: sparkPage.data.due };
 ---
 
 <Base title={title} description={description} course={course}>
   <DraftBanner {page} />
-  <PageMeta {courses} {tier} {date} {released} {due} {folder} {units} />
+  <PageMeta {courses} {tier} {date} {released} {due} {folder} {units} {spark} />
   <MarkdownBody>
     <Content />
     <CopyButton

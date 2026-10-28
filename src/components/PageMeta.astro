@@ -1,6 +1,7 @@
 ---
 // The strip above a page's h1: course and tier badges, then the dates, and on briefs the
 // repo folder and the unit(s) it belongs to (Oct 19: briefs keep these out of their body).
+// On a unit page, its Spark and due date (Oct 28).
 import Badge from './Badge.astro';
 
 interface Props {
@@ -16,9 +17,11 @@ interface Props {
   folder?: string;
   /** A Spark's unit, or a Prototype's units; published pages only. */
   units?: { href: string; title: string }[];
+  /** A unit page's Spark; published pages only. */
+  spark?: { href: string; title: string; due?: Date };
 }
 
-const { courses, tier, date, released, due, folder, units = [] } = Astro.props;
+const { courses, tier, date, released, due, folder, units = [], spark } = Astro.props;
 
 // Frontmatter dates are midnight UTC; format in UTC so they don't slip a day.
 const fmt = (d: Date) =>
@@ -49,6 +52,16 @@ const iso = (d: Date) => d.toISOString().slice(0, 10);
             Due: <time datetime={iso(due)}>{fmt(due)}</time>
           </span>
         )}
+      </p>
+    )
+  }
+  {
+    spark && (
+      <p class="dates">
+        <span>
+          {/* One line, for the same reason as the units list below. */}
+          Spark: <a href={spark.href}>{spark.title}</a>{spark.due && <> · due <time datetime={iso(spark.due)}>{fmt(spark.due)}</time></>}
+        </span>
       </p>
     )
   }
