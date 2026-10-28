@@ -2,7 +2,7 @@
 title: "Typography"
 description: "Web fonts, rem and em, and line-height: type that grows when the reader asks it to, and a page that survives 200% zoom."
 courses: [dight250]
-ready: false # true once the S04 dry run passes, with the S04 brief (PLAN.md: Build order)
+ready: true # dry run counted as passing Oct 28
 session: 4
 prototype: P1
 date: 2026-10-28
@@ -14,7 +14,7 @@ date: 2026-10-28
 
 ## In short
 
-Size text in `rem`, so it follows the font size each reader chose, and let every box grow with its text, so the page still works at 200% zoom. For S04 you need one web font with a fallback stack, every `font-size` in `rem`, a unitless `line-height` of at least 1.5 on body text, text blocks capped at about `65ch`, and no fixed `height` on anything that holds text.
+Size text in `rem`, so it follows the font size each reader chose, and let every box grow with its text, so the page still works at 200% zoom. For S04 you make a new type specimen page for a theme, with a short section on why each choice fits it, and you need one web font with a fallback stack, every `font-size` in `rem`, a unitless `line-height` of at least 1.5 on body text, text blocks capped at about `65ch`, and no fixed `height` on anything that holds text.
 
 ## Web fonts, with a fallback
 
@@ -114,7 +114,7 @@ Then we put it under pressure, one step at a time. Each time, the question is wh
 
 **Dig deeper:** we highlight the `line-height` line and run [`/dig-deeper`](/250/skills/dig-deeper/). Why does it work best with no unit? Answer its predict question before the reveal.
 
-**On your own:** if you missed class or want another pass, copy your S03 folder to `try/s04/`, run the starting prompt above, try the same four pressure tests, and answer the questions in the box below.
+**On your own:** if you missed class or want another pass, copy any page of yours to `try/s04/` (it's practice, not your Spark), run the starting prompt above, try the same four pressure tests, and answer the questions in the box below.
 
 <details>
 <summary>Questions to ask your output</summary>

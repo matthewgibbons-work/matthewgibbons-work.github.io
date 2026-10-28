@@ -22,7 +22,7 @@
 - name: Typography
   session: 4
   unit: typography
-  summary: Set the type on your style tile in rem with a web font, and check it at 200% zoom.
+  summary: "Make a type specimen for a theme: a web font, sizes in rem, and why each choice fits, checked at 200% zoom."
   prototype: P1
 - name: Box model and display
   session: 5
