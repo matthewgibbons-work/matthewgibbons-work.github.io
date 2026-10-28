@@ -11,7 +11,18 @@ folder: final-project/
 
 # Final Project
 
-**Units:** everything this term, and the four sessions still to come (Astro intro, content collections, islands, and testing). Brief out Mon Nov 16; intent brief Wed Nov 18 (S09); due Wed Dec 16, 11:59 pm. The open lab that day is for final help. Rework doesn't apply to the Final Project: this is the finished piece.
+Build a small Astro website with Svelte islands for an audience you choose, using live API data (PokéAPI by default), with your term's `NOTES.md` files as a collection, tests that run on every push, and your own `AGENTS.md` and skill. It's due Wed Dec 16 at 11:59 pm. Submit by pasting two links in Learning Suite. It's graded on a 25-point rubric (25% of your grade), and AI use carries the most points. Rework doesn't apply: this is the finished piece.
+
+It draws on everything this term, including the four sessions from Nov 23 on (Astro intro, content collections, islands, and testing); from S10 on, each Spark is a piece of it, so it grows a layer a week. Your S09 intent brief is where you choose the audience and data, and propose your own API if you want one. The thing most people miss is the agent configuration: you write `final-project/AGENTS.md` and the skill yourself, and explain why each rule is there.
+
+**Key dates**
+
+- **Mon Nov 16:** brief out.
+- **Wed Nov 18:** intent brief (S09), due Mon Nov 23.
+- **Mon Nov 23:** `final-project/` becomes an Astro site and deploys (S10).
+- **Wed Dec 16, 11:59 pm:** due. The open lab that day is for final help.
+
+The full week-by-week list is under **Timeline**.
 
 ## The brief
 
@@ -22,7 +33,7 @@ A Final Project is something shipped to real users. Yours is a small website in 
 - **Tests.** Vitest for your logic, and Playwright with axe for the site (S13). They run on every push.
 - **Configure your agent.** You write your project's own `final-project/AGENTS.md` and one custom skill, and explain why (below).
 
-The work starts in Svelte this week (P4 is a good first piece), and moves into `final-project/` on Mon Nov 23, when it becomes an Astro site (S10). Each session after that adds a layer, and its Spark is a piece of your Final Project.
+The work starts in Svelte this week (P4 is a good first piece), and moves into `final-project/` on Mon Nov 23, when it becomes an Astro site (S10).
 
 **Own choice:** your own data source, by proposal in your S09 intent brief. It must be free and need no API key (a key in a public repo or a static site isn't secret), and it must return JSON your site can use. Everything else in the "done" list applies.
 
@@ -105,4 +116,4 @@ In the Learning Suite assignment **Final Project**, paste:
 1. your live Final Project URL (`…/dight340/final-project/`), and
 2. a direct link to your `final-project/` folder on GitHub.
 
-Then run [`/check`](/340/skills/check/) `release` with the "done" list above before you submit.
+Then run [`/check`](/340/skills/check/) `final-project` with the "done" list above before you submit (the **Copy** button copies it).

@@ -13,13 +13,17 @@ date: 2026-11-23
 
 ## In short
 
-From today, your repo's `final-project/` folder is an **Astro** site, and your Final Project grows inside it. In Astro, the files in `src/pages/` *are* the site's addresses: `src/pages/index.astro` is the home page and `src/pages/pokedex.astro` is `/pokedex/`. That's **file-based routing**: no router to set up.
+Astro runs your components once, when the site is built, and ships plain HTML: the files in `src/pages/` are the site's pages, and a layout wraps them all. For S10 you need your `final-project/` folder turned into a deployed Astro site with a layout, a home page, and one page of real data fetched at build time, with every internal link going through `BASE_URL` so it works at `/dight340/final-project/`.
 
-An `.astro` file has two parts. Between the `---` fences at the top is the **frontmatter**, JavaScript that runs at **build time** on your computer or on GitHub, never in the visitor's browser. It can import components and even `await fetch(…)` PokéAPI. Below the fences is the template, HTML with `{expressions}`, and the build turns it into a finished `.html` file. Visitors get the HTML with no JavaScript at all, unless you ask for some (that's islands, on Dec 2).
+## How it works
 
-A **layout** is a component that wraps every page: the `<html>`, the `<head>`, the landmarks, the nav. It puts the page's own content where it says `<slot />`. Write the nav once, mark the current page with `aria-current="page"`, and every page gets it right.
+**Pages are files.** `src/pages/index.astro` is the home page and `src/pages/pokedex.astro` is `/pokedex/`. That's **file-based routing**: no router to set up.
 
-One thing to get right on day one is the **base path**. Your site doesn't live at the root of `github.io`; it lives at `/dight340/final-project/`. A link written `href="/pokedex/"` goes to the root and 404s. Every internal link goes through Astro's `import.meta.env.BASE_URL`, which the deploy workflow sets for you. A three-line helper keeps it tidy:
+**Build time.** An `.astro` file has two parts. Between the `---` fences at the top is the **frontmatter**, JavaScript that runs at build time on your computer or on GitHub, never in the visitor's browser. It can import components and even `await fetch(…)` PokéAPI. Below the fences is the template, HTML with `{expressions}`, and the build turns it into a finished `.html` file with no JavaScript at all, unless you ask for some (that's islands, on Dec 2).
+
+**Layouts.** A layout wraps every page: the `<html>`, the `<head>`, the landmarks, the nav. It puts the page's own content where it says `<slot />`. Write the nav once, mark the current page with `aria-current="page"`, and every page gets it right.
+
+**The base path.** Your site lives at `/dight340/final-project/`, not the root of `github.io`, so `href="/pokedex/"` 404s. Every internal link goes through `import.meta.env.BASE_URL`, which the deploy workflow sets for you. A three-line helper keeps it tidy:
 
 ```js
 // src/lib/url.js
@@ -29,7 +33,7 @@ export const url = (path = '') =>
 
 Then `<a href={url('pokedex/')}>` works at `/` in `npm run dev` and at `/dight340/final-project/` on GitHub Pages.
 
-Today's **kit update** brings two changes. The deploy workflow now builds `final-project/` as an Astro site with the right base. And Claude switches from the **Learning** output style to **Explanatory**: it stops leaving `TODO(human)` gaps and instead explains its choices as it goes (look for `★ Insight`). You're building a whole site now, and you've shown you can write the small parts. Your job is reading every explanation and deciding.
+**The kit update.** The deploy workflow now builds `final-project/` as an Astro site with the right base. And Claude switches from the **Learning** output style to **Explanatory**: it stops leaving `TODO(human)` gaps and explains its choices as it goes (look for `★ Insight`). Your job is reading every explanation and deciding.
 
 <figure class="diagram">
 <svg class="d-wide" viewBox="0 0 640 180" role="img" aria-labelledby="astro-wide-title">
@@ -94,37 +98,46 @@ To `https://<username>.github.io/pokedex/`: the root of *all* your Pages sites, 
 
 </details>
 
+<details>
+<summary>Your Pokédex page's frontmatter does <code>await fetch('https://pokeapi.co/api/v2/pokemon?limit=12')</code>. A hundred people open the page. How many times does that fetch run?</summary>
+
+None of those hundred times. It ran once, when GitHub built the site, and the 12 names are already in the HTML they download. That's why View Source shows the names and no `<script>`, and why the page works with JavaScript off. It also means the list only changes when the site is rebuilt: fine for a Pokédex, wrong for anything that has to be live (that's what islands are for).
+
+</details>
+
 ## Try it together
 
-Everyone, in your `dight340` session (after the kit update, in a **new** session so Explanatory is on), plan mode:
+Pair programming, with the whole class, after the kit update (in a **new** session, so Explanatory is on). I drive Claude Code on the projector; you navigate. After each step you read the output and its `★ Insight`s with me, decide whether to keep it or revise it, and say what to ask for next. Your own run comes in studio, with S10.
+
+We start here, in plan mode:
 
 ```text
 In try/s10/, create an Astro site with the minimal template (no git repository of its own). Add a shared layout with a nav, a home page, and a Pokédex page that lists the first 12 Pokémon from PokéAPI at build time. The site will be served from /dight340/final-project/, so every internal link must work under that base.
 ```
 
-Ask Claude to start `npm run dev`.
+Then we put it under pressure, one step at a time. Each time, the question is what *our* code does, and which line does it:
 
-**How to check it**
-
-- **Hunt for slashes.** Search the project for `href="/` and `src="/`. Every internal link should go through `BASE_URL`.
+- **Hunt for slashes.** Search the project for `href="/` and `src="/`. Does every internal link go through `BASE_URL`?
 - **View Source** on the Pokédex page (in the browser, not DevTools). Are the 12 names in the HTML? Is there any `<script>`?
-- **Turn JavaScript off** (DevTools → Command menu, Cmd+Shift+P → "Disable JavaScript"), and reload. Does everything still work? Turn it back on.
-- **Find the landmarks and the nav.** Is there one `<main>`, a labelled `<nav>`, and `aria-current="page"` on the current link?
+- **Turn JavaScript off** (DevTools → Command menu, Cmd+Shift+P → "Disable JavaScript"), and reload. Does everything still work?
+- **Find the landmarks and the nav.** One `<main>`, a labelled `<nav>`, and `aria-current="page"` on the current link?
 
-**Dig deeper:** run [`/dig-deeper`](/340/skills/dig-deeper/) on the `await fetch` line in the Pokédex page's frontmatter, naming the file and line. Be ready to say *when* it runs, and how often.
+**Dig deeper:** we run [`/dig-deeper`](/340/skills/dig-deeper/) on the `await fetch` line in the Pokédex page's frontmatter. Answer its predict question before the reveal.
+
+**On your own:** if you missed class or want another pass, do the kit update (S10, step 0), open a new session, run the starting prompt above, try the same four pressure tests, and answer the questions in the box below.
 
 <details>
-<summary>What went wrong, and how we caught it</summary>
+<summary>Questions to ask your output</summary>
 
-Requests like this often come back with one or more of these:
+Use these in studio on your own S10, out loud or to Claude:
 
-- Root-relative links (`href="/pokedex/"`) that work in dev and 404 on Pages, including the template's own favicon link.
-- A `base` hard-coded in `astro.config.mjs` with the wrong repo name, or set as `/final-project` so dev breaks too. The deploy workflow passes the base; the config doesn't need one.
-- The fetch in a `<script>` tag, so it runs in every visitor's browser, when it could have run once at build time.
-- No `response.ok` check in the frontmatter, so a PokéAPI hiccup builds a page of "undefined".
-- No `aria-current`, or a nav that isn't in a `<nav>`.
+- Where does every internal link get its base from? Is there one that doesn't?
+- When does the PokéAPI fetch run, and how often?
+- Is a `base` set in `astro.config.mjs`? Why doesn't it need one?
+- What happens to the build if PokéAPI answers with an error? Which line checks?
+- Which element marks the current page in the nav?
 
-It looked complete in `npm run dev`. We searched for leading slashes, viewed the source, turned JavaScript off, and pushed it to see the real address.
+**Watch for:** root-relative links (`href="/pokedex/"`) that work in dev and 404 on Pages, including the template's own favicon link; a `base` hard-coded in `astro.config.mjs` (the workflow passes it); the fetch in a `<script>` tag, so it runs in every visitor's browser; no `response.ok` check, so a PokéAPI hiccup builds a page of "undefined"; no `aria-current`, or a nav that isn't in a `<nav>`.
 
 </details>
 

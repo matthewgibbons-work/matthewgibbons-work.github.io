@@ -14,11 +14,15 @@ date: 2026-11-16
 
 ## In short
 
-Once a page grows, you split it into components, each its own `.svelte` file: a `PartyList` that owns the party, and a `PartyMember` that shows one Pokémon. The parent passes data in as attributes, `<PartyMember {pokemon} onremove={removePokemon} />`, and the child takes them with `let { pokemon, onremove } = $props();`. A prop is the parent's data on loan: the child reads it and shows it. When something should *change* (remove this one, level it up), the child calls a **callback prop** (`onremove(pokemon.id)`), and the parent, which owns the party, makes the change. One owner per piece of data means one place to look when it's wrong.
+Data flows down, events flow up: a parent passes data to a child as **props**, and the child reports what happened through a **callback prop**, never changing the parent's data itself. For S08 you need your S07 list split into a `PartyList` that owns the party and a `PartyMember` that gets one Pokémon as a typed prop and calls `onremove`, with the page looking and sounding exactly as before.
 
-**Snippets** are chunks of markup you can pass around. Anything you put between a component's tags arrives as a snippet called `children`, and the component places it with `{@render children()}`. That's how you build layout components: a `Panel` with a heading and whatever you put inside it. `$props.id()` gives each component instance a unique id, which is exactly what `aria-labelledby` needs.
+## How it works
 
-Props are where you'll **read TypeScript** most. A typed component lists what it accepts:
+**Props and callbacks.** The parent passes data in as attributes, `<PartyMember {pokemon} onremove={removePokemon} />`, and the child takes them with `let { pokemon, onremove } = $props();`. A prop is the parent's data on loan: the child reads it and shows it. When something should *change*, the child calls `onremove(pokemon.id)`, and the parent, which owns the party, makes the change. One owner per piece of data means one place to look when it's wrong.
+
+**Snippets.** Anything you put between a component's tags arrives as a snippet called `children`, and the component places it with `{@render children()}`. That's how you build layout components: a `Panel` with a heading and whatever you put inside it. `$props.id()` gives each component instance a unique id, which is exactly what `aria-labelledby` needs.
+
+**Reading typed props.** A typed component lists what it accepts:
 
 ```svelte
 <script lang="ts">
@@ -99,34 +103,46 @@ Yes, and that's the problem. The party is reactive all the way down, so changing
 
 </details>
 
+<details>
+<summary>Before the split, a Remove press moved focus to the next member's button. Now the focus code lives in <code>PartyMember</code>. After a remove, where does focus go?</summary>
+
+Nowhere useful: it drops to the page. The member that held the focus code is the one that was just removed, and a child can't see its siblings anyway. Focus after a remove is the party's job, so it belongs in `PartyList`, which knows who's left: it removes the member, then focuses the next one's button (or the empty-party message).
+
+</details>
+
 ## Try it together
 
-Everyone, in your `dight340` session, plan mode. Copy your `try/s07/` folder to `try/s08/` first (or your S07 Spark folder).
+Pair programming, with the whole class. I drive Claude Code on the projector; you navigate. After each step you read the output with me, decide whether to keep it or revise it, and say what to ask for next. Your own run comes in studio, with S08.
+
+We start from a copy of `try/s07/` in `try/s08/`, in plan mode:
 
 ```text
 In try/s08/, split the party list into a PartyList component that owns the party and a PartyMember component for one Pokémon. PartyMember gets the Pokémon as a prop and calls an onremove callback prop; it never changes the party itself. Write PartyMember's props in TypeScript so I can read the types.
 ```
 
-**How to check it**
+Then we put it under pressure, one step at a time. Each time, the question is what *our* code does, and which line does it:
 
-- **Who changes the party?** Search `PartyMember.svelte` for `splice`, `filter`, `level++`, or `party`. The only changes should be in `PartyList`.
-- **Read the types aloud.** Take turns reading `interface Props` in plain words, like the unit page does.
-- **Check the console.** Open the browser console, use every button. Any `ownership_invalid_mutation`?
-- **Keyboard again.** Remove a member with Enter. Does focus still land somewhere sensible now that the button lives in another component?
+- **Who changes the party?** Search `PartyMember.svelte` for `splice`, `filter`, `level++`, or `party`.
+- **Read the types aloud.** Read `interface Props` in plain words, like the unit page does.
+- **Check the console.** Use every button with the browser console open. Any `ownership_invalid_mutation`?
+- **Keyboard again.** Remove a member with Enter. Where does focus land?
 
-**Dig deeper:** run [`/dig-deeper`](/340/skills/dig-deeper/) on the `let { … }: Props = $props();` line, naming the file and line. Be ready to say what the `?` would mean.
+**Dig deeper:** we run [`/dig-deeper`](/340/skills/dig-deeper/) on the `let { … }: Props = $props();` line. Answer its predict question before the reveal.
+
+**On your own:** if you missed class or want another pass, copy your S07 folder to `try/s08/`, run the starting prompt above, try the same four pressure tests, and answer the questions in the box below.
 
 <details>
-<summary>What went wrong, and how we caught it</summary>
+<summary>Questions to ask your output</summary>
 
-Requests like this often come back with one or more of these:
+Use these in studio on your own S08, out loud or to Claude:
 
-- The child changing the parent's data (`pokemon.level++`, or `party.splice` through a passed-in array). It works, with a warning in the browser console.
-- Svelte 4 patterns: `export let pokemon`, or `createEventDispatcher` and `on:remove` instead of a callback prop.
-- `any` as the type, or no types at all, so there's nothing to read.
-- Focus after a remove quietly broken by the split: the focus code stayed in the child, which can't see its siblings.
+- Which component owns the party? Is that the only one that changes it?
+- What does each component receive as props? Read one `interface Props` aloud.
+- When Remove is pressed, which function runs first, and in which file?
+- After a remove, which line moves focus, and can that component see the other members?
+- What would the `?` in `children?` mean if it weren't there?
 
-The page looked identical before and after the split, which is the goal and the trap. We searched the child for changes to data it doesn't own, watched the browser console while clicking, and redid the S07 keyboard check.
+**Watch for:** the child changing the parent's data (`pokemon.level++`, or `party.splice` through a passed-in array), which works with a warning in the console; Svelte 4 patterns (`export let`, `createEventDispatcher`, `on:remove`); `any` as the type, or no types; focus code left in the child. The page looking identical before and after the split is the goal and the trap.
 
 </details>
 

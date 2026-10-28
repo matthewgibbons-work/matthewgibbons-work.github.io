@@ -14,7 +14,15 @@ date: 2026-10-26
 
 ## In short
 
-JavaScript runs on one thread: one thing at a time. Anything slow (a timer, a network request) is handed off, and the **event loop** runs its callback once the current code has finished and nothing else is running. A **Promise** is the object you get back straight away. It starts *pending*, then settles once: *fulfilled* with a value, or *rejected* with an error. `.then()` runs when it fulfils, `.catch()` when it rejects, and a rejection nobody catches turns up as an "Uncaught (in promise)" error in the console. Promise callbacks get priority: they run before timers, even a 0 ms one. When you need several independent results, **`Promise.all`** starts them all at once and waits for the slowest. Three 1-second loads then take about 1 second, not 3. If any one rejects, `Promise.all` rejects straight away. That's P1's "fetch the party in parallel," before `fetch` arrives on Wednesday. Once the array arrives, getting it onto the page is S02's job: hand it to a `render()` that builds each item with `createElement` and `textContent`, and put any failure message in a paragraph's `textContent`, not just the console.
+Some work finishes later: a **Promise** is a placeholder for that result, and your code keeps running while it waits. For S03 you need the unit's fake `loadPokemon` to load a party in parallel with one `Promise.all` (about 1 second, not 3), a `.catch()` or `try`/`catch` that turns the `missingno` failure into a message on the page, and the party rendered as in S02.
+
+## How it works
+
+**The event loop.** JavaScript runs one thing at a time. Anything slow (a timer, a network request) is handed off, and the event loop runs its callback once the current code has finished. Promise callbacks get priority: they run before timers, even a 0 ms one.
+
+**Promises.** A Promise is the object you get back straight away. It starts *pending*, then settles once: *fulfilled* with a value, or *rejected* with an error. `.then()` runs when it fulfils, `.catch()` when it rejects, and a rejection nobody catches turns up as an "Uncaught (in promise)" error in the console.
+
+**`Promise.all`.** When you need several independent results, `Promise.all` starts them all at once and waits for the slowest, so three 1-second loads take about 1 second. If any one rejects, `Promise.all` rejects straight away. Once the array arrives, hand it to S02's `render()`, and put any failure message in a paragraph's `textContent`, not just the console.
 
 <figure class="diagram">
 <svg class="d-wide" viewBox="0 0 640 210" role="img" aria-labelledby="all-wide-title">
@@ -90,6 +98,13 @@ console.log('D');
 
 </details>
 
+<details>
+<summary><code>Promise.all</code> loads pikachu, missingno, and snorlax. missingno rejects after 1 second. What does the <code>.then()</code> get: two Pokémon, or none?</summary>
+
+None. `Promise.all` rejects as soon as any one of its Promises rejects, so `.then()` never runs and `.catch()` gets the missingno error. pikachu and snorlax did load, but their results are thrown away. For a party where the rest should still show, `Promise.allSettled` waits for all of them and reports each one's outcome (that's P1's stretch goal).
+
+</details>
+
 ## Try it together
 
 There's no `fetch` until Wednesday, so we'll use a fake loader that takes a second (and fails for one name). Everyone: make a `try/s03/` folder at the top of your `dight340` repo and put this in `try/s03/load.js`. It's practice, so keep it out of your commits: in GitHub Desktop's **Changes** tab, right-click any file under `try/` and choose **Ignore folder (add to .gitignore)**, then commit the new `.gitignore`.
@@ -121,18 +136,20 @@ Open `try/s03/index.html` in your browser (double-click it in Finder) with DevTo
 
 **Dig deeper:** run [`/dig-deeper`](/340/skills/dig-deeper/) on the line that waits for the party (`Promise.all`, or the first `await`), naming the file and line (for example, `/dig-deeper try/s03/load.js line 12`). Be ready to say what it waits for, and for how long.
 
+**On your own:** if you missed class or want another pass, set up `try/s03/load.js` as above, run the prompt, try the same checks, and answer the questions in the box below.
+
 <details>
-<summary>What went wrong, and how we caught it</summary>
+<summary>Questions to ask your output</summary>
 
-Requests like this often come back with one or more of these:
+Use these in studio on your own S03, out loud or to Claude:
 
-- The three loads one after another, each waiting for the last, though none depends on another.
-- No `.catch()` or `try`/`catch`, so adding `missingno` to the list gives an "Uncaught (in promise)" error instead of a message.
-- `.then()` nested inside `.then()` inside `.then()`, hard to read and easy to get wrong.
+- How long does the party take to load, and which line decides that?
+- Does any load wait for another? Does it need to?
+- What happens when `missingno` is in the list: a message on the page, or a red error in the console?
+- Which line catches the failure?
+- Is there a `.then()` inside another `.then()`?
 
-It worked, which is why we timed it: `console.time('party')` and `console.timeEnd('party')` around the load showed about 3 seconds. With `Promise.all` it dropped to about 1. Then we added `missingno` to see what a failure looks like.
-
-Runs inside your repo, where `AGENTS.md` asks for readable code and visible errors, slip less often. That's the rules file doing its job, so compare yours with the run in a bare folder.
+**Watch for:** the three loads one after another though none depends on another (about 3 seconds instead of 1); no `.catch()` or `try`/`catch`, so `missingno` gives "Uncaught (in promise)"; `.then()` nested three deep; `loadPokemon` itself changed (it's the test case). Runs inside your repo, where `AGENTS.md` asks for readable code and visible errors, slip less often: that's the rules file doing its job.
 
 </details>
 

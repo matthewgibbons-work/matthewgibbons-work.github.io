@@ -13,7 +13,11 @@ date: 2026-12-09
 
 ## In short
 
-Today we build a whole small app together, start to finish, the way you'll finish your Final Project: an Astro site with one Svelte island, data from PokéAPI, tests, and a live deploy. Nothing in it is new. What's new is doing every step of the loop, in order, at full size, in one sitting, and noticing which steps are tempting to skip.
+Today we build a whole small app together, the way you'll finish your Final Project, doing every step of the loop in order at full size; nothing in it is new. Then the agent itself: S14 asks you to write your Final Project's own `final-project/AGENTS.md` and one custom skill, yourself, and test that Claude Code picks them up (it loads both only once it has opened a file in `final-project/`).
+
+## How it works
+
+**The loop at full size.** The app is an Astro site with one Svelte island, data from PokéAPI, tests, and a live deploy. What's new is noticing which steps are tempting to skip:
 
 1. **Intent and spec first, by hand.** Two sentences of intent and a "done" list you could check in a minute each. The agent can't do these for you; it can only question them.
 2. **Plan before code.** Plan mode, with the intent and the list pasted in. Agree on pages, islands, where each piece of data comes from (build time or browser), and the tests, before a line is written.
@@ -21,7 +25,7 @@ Today we build a whole small app together, start to finish, the way you'll finis
 4. **Verify like CI does:** `npm run build`, `npx vitest run`, `npx playwright test`, then the things no test covers: the keyboard, VoiceOver, 200% zoom, and the live URL.
 5. **Explain:** what you accepted, changed, and rejected, while you still remember why.
 
-The second half of today is about the agent itself. All term, Claude Code has followed the course's `AGENTS.md`. A real project has its own: where things live, the commands that prove it works, and the rules its people learned the hard way. Claude Code reads a **subfolder's** `AGENTS.md` (your `final-project/AGENTS.md`) once it opens a file in that folder, alongside the course's root one. A **custom skill** is a `SKILL.md` file in `final-project/.claude/skills/<name>/`, written like `/check`: a `name`, a `description`, then instructions; it becomes a `/` command the first time Claude reads or edits a file in `final-project/`. Writing those two files is your Final Project's "configure your agent", and today's Spark.
+**Configuring the agent.** A real project has its own `AGENTS.md`: where things live, the commands that prove it works, and the rules its people learned the hard way. Claude Code reads a **subfolder's** `AGENTS.md` once it opens a file in that folder, alongside the course's root one. A **custom skill** is a `SKILL.md` file in `final-project/.claude/skills/<name>/`, written like `/check`: a `name`, a `description`, then instructions. It becomes a `/` command the first time Claude reads or edits a file in `final-project/`.
 
 <figure class="diagram">
 <svg class="d-wide" viewBox="0 0 640 150" role="img" aria-labelledby="loop-wide-title">
@@ -77,9 +81,16 @@ Only once it has read a file in `final-project/`. Claude Code loads a subfolder'
 
 </details>
 
+<details>
+<summary>The types page lists every result from PokéAPI's <code>/type</code> endpoint. A player opens the type picker. How many types do they see, and is that right?</summary>
+
+More than the 18 a player knows: the endpoint also returns `stellar`, `unknown`, and `shadow`, which aren't types you can pick in a game. Nothing errors and no test fails, because nobody looked at the data before building on it. Open the endpoint in the browser first, then filter those out in the tested module, not in the island.
+
+</details>
+
 ## Try it together: the live build
 
-We'll build **Type Matchups** together, in `try/s14/`: pick a type and see what it's strong and weak against. Everyone drives their own session; we check each step together before the next.
+We'll build **Type Matchups** together, in `try/s14/`: pick a type and see what it's strong and weak against. It's pair programming at full size: I drive Claude Code on the projector; you navigate, and we check each step against the "done" list before the next. Your own Final Project work comes in studio.
 
 **Intent and "done" list (write your own version first, 5 minutes):**
 
@@ -110,18 +121,20 @@ We'll build **Type Matchups** together, in `try/s14/`: pick a type and see what 
 
 **Dig deeper:** pick the one line from today you'd be least comfortable explaining if someone asked, and run [`/dig-deeper`](/340/skills/dig-deeper/) on it.
 
+**On your own:** if you missed class or want another pass, write your own intent and "done" list for Type Matchups, run the five prompts above in your kit, check after every step, and answer the questions in the box below.
+
 <details>
-<summary>What went wrong, and how we caught it</summary>
+<summary>Questions to ask your output</summary>
 
-At this size, the slips are mostly about order, not syntax:
+Use these in studio on your own Final Project, out loud or to Claude:
 
-- Generating before planning, so step 4 rewrote step 2.
-- `stellar`, `unknown`, and `shadow` listed as types, because nobody looked at the data before building on it.
-- The matchup logic written inside the island, where the Vitest tests can't reach it.
-- Tests added last and written to pass, instead of first and written to fail.
-- "It works" said before the build, the tests, the keyboard, or the live URL had been checked.
+- Did you plan before code? Which step, if any, rewrote an earlier one?
+- What does the data actually contain? Did you open the endpoint before building on it?
+- Where does the logic live, and can the Vitest tests reach it?
+- Which tests did you break on purpose, and which went red?
+- Which items on the "done" list are true right now, and how do you know?
 
-We caught them by refusing to start a step until the last one had been checked against the "done" list.
+**Watch for:** at this size, the slips are about order, not syntax: generating before planning; `stellar`, `unknown`, and `shadow` listed as types; the logic written inside the island; tests added last and written to pass; "it works" said before the build, the tests, the keyboard, or the live URL had been checked.
 
 </details>
 

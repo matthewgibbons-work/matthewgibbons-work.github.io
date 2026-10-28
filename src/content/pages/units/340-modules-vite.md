@@ -14,13 +14,17 @@ date: 2026-11-02
 
 ## In short
 
-A **module** is a JavaScript file with its own scope: nothing in it is visible to other files unless it says `export`, and other files take what they need with `import`. That lets you split the party into **logic** (`party.js`: plain functions that take data and return data, no DOM), **the page** (`main.js`: finds elements, listens, renders), and **tests**. Browsers load modules with `<script type="module">`, which is deferred automatically, but only from a web server, never from a file opened in Finder.
+A module is a JavaScript file that says what it shares (`export`) and takes what it needs (`import`); npm brings in tools, Vite runs and builds the project, and Vitest checks the logic. For S05 you need a Vite project with your party's rules in `party.js` (plain functions, no DOM) and at least three tests, a `main.js` that imports the rules and draws the page, and the Nov 2 kit update, which adds feedback checks on every push.
 
-**npm** installs tools from the npm registry. A project's `package.json` lists what it needs (`devDependencies` for tools you only use while building) and the commands it runs (`scripts`). `npm install` downloads them into `node_modules/`, which can be huge and is never committed: anyone can recreate it from `package.json` and `package-lock.json`.
+## How it works
 
-**Vite** is the build tool. `npm run dev` starts a local server that reloads the page as you save. `npm run build` bundles everything into a `dist/` folder of plain files a browser can load, and `base: './'` in `vite.config.js` makes its paths relative, so it works in a subfolder on GitHub Pages. **Vitest** runs tests: small functions that call your code and `expect` a result. A test is only worth having if it can fail, so break the code once and watch it go red.
+**Modules.** A module has its own scope: nothing in it is visible to other files unless it says `export`. That lets you split the party into **logic** (`party.js`: functions that take data and return data), **the page** (`main.js`: finds elements, listens, renders), and **tests**. Browsers load modules with `<script type="module">`, which is deferred automatically, but only from a web server, never from a file opened in Finder.
 
-Two more things arrive today, and neither is written by the agent. Your repo gets **feedback CI**: on every push, GitHub runs ESLint (the course's `const`/`let` and `===` rules) and your Vitest tests, and marks the commit green or red. It reports; it never blocks. And Claude Code gets a **scope-guard hook**: a small script that runs before every command, and stops an `npm install` of React, jQuery, or Tailwind before it happens. `AGENTS.md` *asks* the agent to stay in scope; the hook *enforces* it. That's how teams put rules on agents.
+**npm.** A project's `package.json` lists the tools it needs (`devDependencies` for tools you only use while building) and the commands it runs (`scripts`). `npm install` downloads them into `node_modules/`, which is never committed: anyone can recreate it from `package.json` and `package-lock.json`.
+
+**Vite and Vitest.** `npm run dev` starts a local server that reloads as you save. `npm run build` bundles everything into `dist/`, and `base: './'` in `vite.config.js` makes its paths relative, so it works in a subfolder on GitHub Pages. Vitest runs tests: small functions that call your code and `expect` a result. A test is only worth having if it can fail, so break the code once and watch it go red.
+
+**The kit update.** Your repo gets **feedback CI**: on every push, GitHub runs ESLint (the course's `const`/`let` and `===` rules) and your tests, and marks the commit green or red. It reports; it never blocks. Claude Code gets a **scope-guard hook**, a script that runs before every command and stops an `npm install` of React, jQuery, or Tailwind. `AGENTS.md` *asks* the agent to stay in scope; the hook *enforces* it.
 
 <figure class="diagram">
 <svg class="d-wide" viewBox="0 0 640 210" role="img" aria-labelledby="mod-wide-title">
@@ -87,6 +91,13 @@ Nothing runs. The console shows a CORS error about the origin `null`: a page ope
 
 </details>
 
+<details>
+<summary><code>npm run dev</code> shows the party perfectly. You build and push without <code>base: './'</code> in <code>vite.config.js</code>. What does the live page show?</summary>
+
+A blank page, and 404s in the console. Without `base: './'`, the built `index.html` loads its script from `/assets/…`, the root of the whole `github.io` site, not your project's folder. The dev server never shows this, because it serves your folder at the root. Open `dist/index.html` in a text editor after every build: the paths should start with `./`.
+
+</details>
+
 ## Try it together
 
 **First, the kit update** (once, about 3 minutes). Download [`dight340-update-nov02.zip`](/downloads/dight340-update-nov02.zip) and double-click it, so it unzips into your Downloads folder. Then, in your `dight340` session:
@@ -97,34 +108,37 @@ My instructor asked me to update the course kit. Copy everything in ~/Downloads/
 
 Commit it in GitHub Desktop ("Update course kit for Nov 2"), and push. Then start a **new** session in the Desktop app, so the hook loads, and ask Claude to `npm install jquery`. What happens?
 
-**Then the prompt**, in plan mode, in the new session:
+**Then pair programming,** with the whole class. I drive Claude Code on the projector; you navigate. After each step you read the output with me, decide whether to keep it or revise it, and say what to ask for next. Your own run comes in studio, with S05.
+
+We start here, in plan mode:
 
 ```text
 In try/s05/, set up a Vite project (vanilla JavaScript, no framework) with Vitest. Copy the party data from sparks/s02-render-party into a party.js module with an addMember function that won't add a seventh Pokémon, and write tests for it.
 ```
 
-**How to check it**
+Then we put it under pressure, one step at a time. Each time, the question is what *our* code does, and which line does it:
 
-- **Run it.** `npm run dev` in `try/s05/` (ask Claude to start it), and open the `localhost` address. Does the party show, with a clean console?
-- **Break it.** Run `npx vitest run`: green? Now change the 6 in `addMember` to 7 and run it again. Does a test go red? If nothing fails, the tests don't test the rule.
-- **Build it.** Run `npm run build`, and open `dist/index.html` in a text editor. Do the `src` paths start with `./`? If they start with `/`, `vite.config.js` is missing `base: './'`.
-- **Look at what's committed.** In GitHub Desktop's Changes tab, does anything from `node_modules/` appear? (It shouldn't: the kit's `.gitignore` keeps it out.)
+- **Run it.** `npm run dev` in `try/s05/`, and open the `localhost` address. Does the party show, with a clean console?
+- **Break it.** Run `npx vitest run`: green? Now change the 6 in `addMember` to 7 and run it again. Does a test go red?
+- **Build it.** Run `npm run build`, and open `dist/index.html` in a text editor. Do the `src` paths start with `./`?
+- **Look at what's committed.** In GitHub Desktop's Changes tab, does anything from `node_modules/` appear?
 
-**Dig deeper:** run [`/dig-deeper`](/340/skills/dig-deeper/) on one `expect(…)` line in the test file, naming the file and line. Be ready to say what would make it fail.
+**Dig deeper:** we run [`/dig-deeper`](/340/skills/dig-deeper/) on one `expect(…)` line in the test file. Answer its predict question before the reveal.
+
+**On your own:** if you missed class or want another pass, do the kit update above, run the starting prompt in a new session, try the same four pressure tests, and answer the questions in the box below.
 
 <details>
-<summary>What went wrong, and how we caught it</summary>
+<summary>Questions to ask your output</summary>
 
-Requests like this often come back with one or more of these:
+Use these in studio on your own S05, out loud or to Claude:
 
-- No `base: './'` in `vite.config.js`. The dev server works perfectly, and the built page is blank on GitHub Pages, because its script is at `/assets/…`, the root of the whole site.
-- Tests that can't fail: they check that `addMember` returns *something*, or copy the function's own logic into the test, so breaking the rule leaves them green.
-- The project template's leftovers kept: a counter button, logos, and a `public/` icon linked with `/icons.svg`, which breaks under GitHub Pages for the same reason.
-- Logic and DOM tangled together, so `party.js` touches `document` and the test needs a browser.
+- Which file holds the party's rules, and does it ever touch `document`?
+- Change the rule (6 to 7). Which test goes red? If none does, what are the tests actually checking?
+- In `dist/index.html`, where do the script paths point, and which line of `vite.config.js` decides that?
+- What's in `package.json`'s `devDependencies`, and why are they there and not in `dependencies`?
+- What stopped `npm install jquery`, and which file holds that rule?
 
-Everything passed on the dev server. We built it and read the paths in `dist/index.html`, then broke the rule on purpose and ran the tests again.
-
-The scope guard stopped `npm install jquery` before it ran, and Claude explained why and suggested `querySelector`. If yours didn't, your session started before the kit update: open a new one.
+**Watch for:** no `base: './'` (the dev server works and the live page is blank); tests that can't fail, because they only check that `addMember` returns something or copy its logic; the template's leftovers (a counter button, logos, a `/icons.svg` link that breaks on GitHub Pages); `party.js` reaching into `document`. If the scope guard didn't stop `npm install jquery`, your session started before the kit update: open a new one.
 
 </details>
 

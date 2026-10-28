@@ -14,7 +14,11 @@ date: 2026-10-28
 
 ## In short
 
-An `async` function always returns a Promise, and inside it `await` pauses *that function* until a Promise settles, while the rest of the page carries on. `fetch(url)` returns a Promise of a `Response`. It **rejects** only when the request can't happen at all: you're offline, or the server can't be reached. A server that answers "404 Not Found" or "500" is still an answer, so `fetch` **resolves**, with `response.ok` set to `false`. That's the second way to fail, and nothing throws unless you check `ok` and throw yourself. Once `ok` is true, `await response.json()` turns the body into objects. Put the whole thing in `try`/`catch`, show the error where people can see it (and hear it), and use `finally` to end the loading state either way. For a whole party, start every fetch and `await Promise.all(...)` once, exactly as on Monday.
+`fetch` can fail in two ways. Offline, it throws; with a wrong name, the server answers 404 and nothing throws unless you check `response.ok` yourself. For S04 you need one `async` function that awaits `fetch`, checks `ok`, awaits `.json()`, and wraps all of it in `try`/`catch`/`finally`, so people see a loading message and an error message.
+
+## How it works
+
+An `async` function always returns a Promise, and inside it `await` pauses *that function* until a Promise settles, while the rest of the page carries on. `fetch(url)` returns a Promise of a `Response`. It **rejects** only when the request can't happen at all: you're offline, or the server can't be reached. A 404 or 500 is still an answer, so `fetch` **resolves**, with `response.ok` set to `false`. Once `ok` is true, `await response.json()` turns the body into objects. Show the error where people can see it (and hear it), and use `finally` to end the loading state either way. For a whole party, start every fetch and `await Promise.all(...)` once, exactly as on Monday.
 
 <figure class="diagram">
 <svg class="d-wide" viewBox="0 0 640 220" role="img" aria-labelledby="fetch-wide-title">
@@ -127,6 +131,13 @@ No, at least not where you'd expect. The server answers with a 404, so `fetch` r
 
 </details>
 
+<details>
+<summary>Now you're offline, with the typo fixed and the <code>response.ok</code> check added. Which runs: the <code>if (!response.ok)</code> line, or <code>catch</code>?</summary>
+
+`catch`, and the `ok` line never runs. Offline, there's no answer at all, so `fetch` rejects and the code jumps straight from `await fetch(…)` to `catch`. That's why you need both: the `ok` check for answers that say no, and `catch` for no answer. A `finally` block would run in both cases, which is why it's where the loading message goes away.
+
+</details>
+
 ## Try it together
 
 Pair programming, with the whole class. I drive Claude Code on the projector; you navigate. After each step you read the output with me, decide whether to keep it or revise it, and say what to ask for next. Your own run comes in studio, with S04.
@@ -140,6 +151,8 @@ In try/s04/, fetch pikachu from PokéAPI and show its name and sprite on a page.
 Then we put it under pressure, one step at a time: a misspelled name (`pikachuu`), then DevTools → Network → **Slow 4G**, then **Offline**. Each time, the question is what *our* code does, and which line does it.
 
 **Dig deeper:** we run [`/dig-deeper`](/340/skills/dig-deeper/) on the line with `await response.json()`. Answer its predict question before the reveal.
+
+**On your own:** if you missed class or want another pass, run the starting prompt above in your kit's `try/s04/`, try the same three pressure tests, and answer the questions in the box below.
 
 <details>
 <summary>Questions to ask your output</summary>

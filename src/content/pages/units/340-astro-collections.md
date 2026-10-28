@@ -13,11 +13,15 @@ date: 2026-11-30
 
 ## In short
 
-You've written a `NOTES.md` for every Spark and Prototype this term. Today they become part of your Final Project: a page listing them all, and a page for each one. Astro's **content collections** are how a site treats a pile of files as data.
+A content collection turns a folder of files into data with rules: a **loader** reads the files, a **schema** stops the build if one breaks the rules, and a **dynamic route** makes a page for each entry. For S11 you need the course's notes loader (copy it from below), a zod schema that requires all five `NOTES.md` sections, a notes index, and a page for each note in your Final Project, and every old note fixed until the build passes.
 
-A collection has two parts. A **loader** says where the entries come from. Astro's built-in `glob()` loader reads Markdown files with frontmatter; your `NOTES.md` files have no frontmatter, just five `## ` sections, so the course gives you a small loader that reads them from `sparks/` and `prototypes/` and splits each into `intent`, `aiUse`, `decisions`, `digDeeper`, and `openQuestions` (below; copy it as it is). A **schema** says what every entry must have, written with **zod**, a library for describing data, which Astro includes as `astro/zod`. You read a zod schema like a checklist: `z.object({ intent: z.string().min(1, 'Intent is empty') })` says "an object whose `intent` is a string with at least one character, or else say *Intent is empty*." If an entry breaks the rules, the **build stops** and names the file and the field. It's `/check`, enforced.
+## How it works
 
-Pages come from the collection in two ways. `getCollection('notes')` gives you every entry, for an index page. A **dynamic route** is a page file whose name has brackets, like `src/pages/notes/[id].astro`: its `getStaticPaths()` returns one `{ params, props }` per entry, and Astro builds one page for each, at `/notes/s02-render-party/` and so on. `render(entry)` gives you a `<Content />` component for the entry's Markdown.
+**Loader.** Astro's built-in `glob()` loader reads Markdown files with frontmatter. Your `NOTES.md` files have no frontmatter, just five `## ` sections, so the course gives you a small loader that reads them from `sparks/` and `prototypes/` and splits each into `intent`, `aiUse`, `decisions`, `digDeeper`, and `openQuestions` (below; copy it as it is).
+
+**Schema.** A schema says what every entry must have, written with **zod**, which Astro includes as `astro/zod`. Read it like a checklist: `z.object({ intent: z.string().min(1, 'Intent is empty') })` says "an object whose `intent` is a string with at least one character, or else say *Intent is empty*." If an entry breaks the rules, the **build stops** and names the file and the field. It's `/check`, enforced.
+
+**Pages.** `getCollection('notes')` gives you every entry, for an index page. A **dynamic route** is a page file whose name has brackets, like `src/pages/notes/[id].astro`: its `getStaticPaths()` returns one `{ params, props }` per entry, and Astro builds one page for each, at `/notes/s02-render-party/` and so on. `render(entry)` gives you a `<Content />` component for the entry's Markdown.
 
 ```js
 // src/content.config.js
@@ -168,37 +172,46 @@ The schema's `.min(1, 'Open questions is empty')` caught it, and the message nam
 
 </details>
 
+<details>
+<summary>Claude's schema marks every section <code>.optional()</code>. You empty your S04 note's Open questions and build. What happens, and is that good?</summary>
+
+The build passes, and the note page goes live with an empty section. A schema where everything is optional can never fail, so it isn't checking anything: it's the same as a test that can't go red. Each section should be a required string with `.min(1, …)`, and you should break one note on purpose once to see the build stop.
+
+</details>
+
 ## Try it together
 
-Everyone, in your `dight340` session, plan mode. Copy your `final-project/` folder to `try/s11/` first, without `node_modules` (ask Claude to, then `npm install` there).
+Pair programming, with the whole class. I drive Claude Code on the projector; you navigate. After each step you read the output with me, decide whether to keep it or revise it, and say what to ask for next. Your own run comes in studio, with S11.
+
+We start from a copy of `final-project/` in `try/s11/` (without `node_modules`; then `npm install` there), in plan mode, and paste the loader in from this page before approving the plan:
 
 ```text
 In try/s11/, add a notes collection. I'll paste the course's notes loader into src/notes-loader.js myself. Write src/content.config.js with a zod schema that requires all five NOTES.md sections, a notes index page that lists every note by title, and a page for each note at notes/<id>/. Use the layout and the url() helper.
 ```
 
-Paste the loader in from this page before you approve the plan.
-
-**How to check it**
+Then we put it under pressure, one step at a time. Each time, the question is what *our* code does, and which line does it:
 
 - **Build it.** `npm run build` in `try/s11/`. How many notes pages did it make? Is every Spark there?
-- **Break a note.** Empty one section of a real `NOTES.md` and build again. Read the error aloud: which file, which field? Undo it.
+- **Break a note.** Empty one section of a real `NOTES.md` and build again. Which file, which field? Undo it.
 - **Read the schema aloud** like a checklist, one line each.
 - **Follow the links.** In `npm run preview`, open the index and every note. Do the links use `url()`? Are notes in a sensible order?
 
-**Dig deeper:** run [`/dig-deeper`](/340/skills/dig-deeper/) on `getStaticPaths` in `[id].astro`, naming the file and line. Be ready to say how many pages it makes, and when.
+**Dig deeper:** we run [`/dig-deeper`](/340/skills/dig-deeper/) on `getStaticPaths` in `[id].astro`. Answer its predict question before the reveal.
+
+**On your own:** if you missed class or want another pass, copy your `final-project/` to `try/s11/`, run the starting prompt above, try the same four pressure tests, and answer the questions in the box below.
 
 <details>
-<summary>What went wrong, and how we caught it</summary>
+<summary>Questions to ask your output</summary>
 
-Requests like this often come back with one or more of these:
+Use these in studio on your own S11, out loud or to Claude:
 
-- The built-in `glob()` loader, with a schema of frontmatter fields your notes don't have, and an offer to add frontmatter to every `NOTES.md`. (The course loader exists so you don't.)
-- A schema where every section is `.optional()`, so it can never fail: a test that can't go red, again.
-- `getCollection()` used without sorting, so the index comes out in whatever order the files were read.
-- Note links without the base (`href="/notes/…"`), or `[id].astro` with no `getStaticPaths` (Astro stops with an error that says so).
-- `<Content />` rendered inside an extra `<h1>`, so each note page has two first-level headings.
+- Which line of the schema would stop a note with an empty section? Can any section be left out?
+- How many pages does `getStaticPaths` make, and when does it run?
+- What order does the index list the notes in, and which line decides it?
+- Does every note link go through `url()`?
+- How many `<h1>`s does a note page have?
 
-The index looked fine. We emptied one section on purpose and built, counted pages against folders, and checked the headings with the accessibility tree.
+**Watch for:** the built-in `glob()` loader, with an offer to add frontmatter to every `NOTES.md` (the course loader exists so you don't); every section `.optional()`, so the schema can't fail; `getCollection()` unsorted; note links without the base, or `[id].astro` with no `getStaticPaths`; `<Content />` inside an extra `<h1>`.
 
 </details>
 

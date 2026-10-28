@@ -14,62 +14,62 @@
 - name: The DOM
   session: 2
   unit: dom
-  summary: Render your Pokémon party to the page; semantic buttons and keyboard events.
+  summary: Render your Pokémon party from an array, with real buttons that work from the keyboard.
 - name: Async 1
   session: 3
   unit: async-1
-  summary: The event loop, Promises, and Promise.all.
+  summary: Load a party in parallel with Promise.all, and show a message when one fails.
   prototype: P1
 - name: Async 2
   session: 4
   unit: async-2
-  summary: async/await, fetching PokéAPI, JSON, and error handling.
+  summary: Fetch a Pokémon from PokéAPI with async/await, and handle loading and both kinds of failure.
   prototype: P1
 - name: Modules, npm, Vite, and Vitest
   unit: modules-vite
   session: 5
-  summary: Split code into modules, and set up a build and tests.
+  summary: Split the party into a tested module and a page, built with Vite; feedback checks on every push.
   prototype: P2
 - name: Svelte intro
   unit: svelte-intro
   session: 6
-  summary: Components, $state, $derived, and $effect; reading TypeScript annotations.
+  summary: Your first Svelte component, with $state and $derived; reading TypeScript annotations.
   prototype: P2
 - name: Svelte logic and events
   unit: svelte-logic
   session: 7
-  summary: if, each, and await blocks; fetching data; accessibility warnings.
+  summary: A party list with keyed each, await, and if blocks, and zero accessibility warnings.
   prototype: P3
 - name: Svelte components and props
   unit: svelte-components
   session: 8
-  summary: Typed props, snippets, and callback props. The Final Project brief comes out.
+  summary: Split the party into components with typed props and callbacks. The Final Project brief comes out.
   prototype: P4
 - name: Svelte forms and shared state
   unit: svelte-forms
   session: 9
-  summary: bind:, shared state, labeled inputs, and announced errors; write your Final Project intent brief.
+  summary: Forms with labels and announced errors, and shared state (for P4); write your Final Project intent brief.
   prototype: P4
 - name: Astro intro and repo conversion
   unit: astro-intro
   session: 10
-  summary: Routing, layouts, and deploying an Astro site.
+  summary: Your Final Project becomes a deployed Astro site, with a layout and build-time data.
 - name: Astro content collections
   unit: astro-collections
   session: 11
-  summary: Your NOTES.md files become a collection, with schemas and dynamic routes.
+  summary: Your NOTES.md files become pages on your Final Project, checked by a schema.
 - name: Astro islands and client-side data
   unit: astro-islands
   session: 12
-  summary: Svelte inside Astro, client directives, and view transitions.
+  summary: A Svelte component becomes an island on your Final Project, with view transitions.
 - name: Testing and accessibility
   unit: testing-a11y
   session: 13
-  summary: End-to-end tests with Playwright and axe.
+  summary: Playwright and axe tests for your Final Project, run on every push.
 - name: Big live build
   unit: big-build
   session: 14
-  summary: A whole Astro and Svelte app, from intent brief to verified deploy.
+  summary: A whole app built together, then your Final Project's own AGENTS.md and skill.
   tier: release
 - name: Open lab
   summary: Final help, if you need it.

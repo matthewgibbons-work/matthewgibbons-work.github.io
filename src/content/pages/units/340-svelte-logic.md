@@ -14,9 +14,15 @@ date: 2026-11-09
 
 ## In short
 
-Svelte has three **blocks** for logic in markup. `{#if party.length === 0}…{:else}…{/if}` shows one thing or another. `{#each party as pokemon (pokemon.id)}…{/each}` repeats markup for every item, and the part in brackets is the **key**: it tells Svelte which piece of the page belongs to which item, so when one is removed Svelte removes *that* row, instead of shuffling text between rows. An `{:else}` inside `{#each}` covers the empty list. `{#await request}…{:then pokemon}…{:catch error}…{/await}` shows a loading state, the result, or the error for a Promise, so a component can fetch data the way P1 did without managing three flags by hand. To fetch again, assign a new Promise to the `$state` that holds the request.
+Svelte's blocks put logic in markup: `{#if}` chooses, `{#each}` repeats, and `{#await}` shows loading, the result, or the error for a Promise. For S07 you need a party fetched in parallel and shown with a **keyed** `{#each}`, an `{#await}` with a `{:catch}`, an empty-party message, and real `<button>`s to remove members, with no `a11y_…` warnings in the terminal.
 
-Events are attributes: `onclick`, `onsubmit`, `onkeydown`, each given a function. And because the compiler reads all your markup, it catches accessibility problems before anyone opens the page: a `<div>` with an `onclick` gets `a11y_click_events_have_key_events` and `a11y_no_static_element_interactions` ("consider a `<button>`"), and an `<img>` with no `alt` gets `a11y_missing_attribute`. They show in the terminal running `npm run dev`. Treat every one as a bug.
+## How it works
+
+**Choosing and repeating.** `{#if party.length === 0}…{:else}…{/if}` shows one thing or another. `{#each party as pokemon (pokemon.id)}…{/each}` repeats markup for every item, and the part in brackets is the **key**: it tells Svelte which piece of the page belongs to which item, so when one is removed Svelte removes *that* row, instead of shuffling text between rows. An `{:else}` inside `{#each}` covers the empty list.
+
+**Waiting.** `{#await request}…{:then pokemon}…{:catch error}…{/await}` shows a loading state, the result, or the error, so a component can fetch the way P1 did without managing three flags by hand. To fetch again, assign a new Promise to the `$state` that holds the request.
+
+**Events and warnings.** Events are attributes: `onclick`, `onsubmit`, `onkeydown`, each given a function. Because the compiler reads all your markup, it catches accessibility problems before anyone opens the page: a `<div>` with an `onclick` gets `a11y_click_events_have_key_events` ("consider a `<button>`"), and an `<img>` with no `alt` gets `a11y_missing_attribute`. They show in the terminal running `npm run dev`. Treat every one as a bug.
 
 <figure class="diagram">
 <svg class="d-wide" viewBox="0 0 640 230" role="img" aria-labelledby="each-wide-title">
@@ -95,37 +101,46 @@ In Eevee's box. With no key, Svelte keeps the first two rows and updates their t
 
 </details>
 
+<details>
+<summary>The Remove control is <code>&lt;span onclick={remove}&gt;✕&lt;/span&gt;</code>. It works with the mouse. What happens with the keyboard, and where would you find out first?</summary>
+
+Nothing: Tab skips straight past it, because a `<span>` can't take focus and doesn't respond to Enter. You'd find out first in the terminal running `npm run dev`, where Svelte warns `a11y_click_events_have_key_events` and `a11y_no_static_element_interactions` the moment it compiles. The fix is a `<button>`, with words a screen reader can say: "Remove Pikachu", not "✕".
+
+</details>
+
 ## Try it together
 
-Everyone, in your `dight340` session, plan mode:
+Pair programming, with the whole class. I drive Claude Code on the projector; you navigate. After each step you read the output with me, decide whether to keep it or revise it, and say what to ask for next. Your own run comes in studio, with S07.
+
+We start here, in plan mode:
 
 ```text
 In try/s07/, make a Svelte 5 page that fetches pikachu, eevee, and snorlax from PokéAPI and lists them, each with a Remove button. Show a loading message, an error if the fetch fails, and a message when the party is empty.
 ```
 
-Ask Claude to start `npm run dev`.
+Then we put it under pressure, one step at a time. Each time, the question is what *our* code does, and which line does it:
 
-**How to check it**
-
-- **Read the terminal.** Any `a11y_…` warnings where `npm run dev` is running? Each one is a bug to fix, not noise.
-- **Find the key.** Is there a `(…)` after `as pokemon` in the `{#each}`? If not, ask Claude what would go wrong without one, then compare its answer with the predict check.
-- **Break the fetch.** Change `eevee` to `eeveee`. Does `{:catch}` (or your error state) show a message on the page?
+- **Read the terminal.** Any `a11y_…` warnings where `npm run dev` is running?
+- **Type, then remove.** Type a nickname in one row and remove the row above it. Where did the text go?
+- **Break the fetch.** Change `eevee` to `eeveee`. Is there a message on the page?
 - **Empty it.** Remove all three with the keyboard. Is there a message, and where is focus?
 
-**Dig deeper:** run [`/dig-deeper`](/340/skills/dig-deeper/) on the `{#each}` line, naming the file and line. Be ready to say what the key is for.
+**Dig deeper:** we run [`/dig-deeper`](/340/skills/dig-deeper/) on the `{#each}` line. Answer its predict question before the reveal.
+
+**On your own:** if you missed class or want another pass, run the starting prompt above in your kit, ask Claude to start `npm run dev`, try the same four pressure tests, and answer the questions in the box below.
 
 <details>
-<summary>What went wrong, and how we caught it</summary>
+<summary>Questions to ask your output</summary>
 
-Requests like this often come back with one or more of these:
+Use these in studio on your own S07, out loud or to Claude:
 
-- An `{#each}` with no key. It looks fine until a row holds something of its own, like typed text or focus.
-- A clickable `<div>` or `<span>` for Remove. Svelte warns about it in the terminal, and the warning scrolls past while the page reloads.
-- `{#await}` with no `{:catch}`, or three separate `loading`, `error`, and `data` variables that can disagree.
-- The fetch inside an `$effect` that writes to `$state`, instead of a Promise held in state and an `{#await}` block.
-- Focus dropped on the page after the last Remove, exactly as in S02.
+- What's the key in the `{#each}`, and what goes wrong without it?
+- Which block shows the loading message, and which shows the error?
+- How many places hold "is it loading?" Could two of them disagree?
+- What does the terminal say while `npm run dev` runs?
+- After the last Remove, where is focus, and which line put it there?
 
-The mouse test passed. We read the terminal, typed into a row and removed the one above it, misspelled a name, and emptied the list with Enter.
+**Watch for:** an `{#each}` with no key; a clickable `<div>` or `<span>` for Remove (the warning scrolls past while the page reloads); `{#await}` with no `{:catch}`, or separate `loading`, `error`, and `data` variables that can disagree; the fetch inside an `$effect` that writes to `$state`; focus dropped on the page after the last Remove, as in S02.
 
 </details>
 

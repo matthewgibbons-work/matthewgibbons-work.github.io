@@ -13,19 +13,21 @@ date: 2026-12-02
 
 ## In short
 
-`npx astro add svelte` lets an Astro page use your Svelte components, P3's and P4's included. Drop one into a page and Astro renders it to HTML **at build time**, like everything else: it looks right, but it's a picture of a component. Its buttons do nothing, because no JavaScript was sent.
+An island is one interactive component in a page of static HTML: without a `client:` directive, a Svelte component on an Astro page is rendered at build time and sends no JavaScript, so its buttons do nothing. For S12 you need one of your Svelte components (P3, P4, or what your intent brief needs) on a Final Project page as an island with a directive you can explain, fed data the page fetched at build time, plus view transitions between pages.
 
-A **`client:` directive** turns it into an **island**: Astro sends that component's JavaScript, and the browser **hydrates** it (attaches the Svelte code to the HTML that's already there). The directive says *when*:
+## How it works
+
+**Islands.** `npx astro add svelte` lets an Astro page use your Svelte components. With no directive, Astro renders the component to HTML at build time: it looks right, but it's a picture of a component. A **`client:` directive** makes it an island: Astro sends that component's JavaScript, and the browser **hydrates** it (attaches the Svelte code to the HTML that's already there). The directive says *when*:
 
 - `client:load`: as soon as the page loads. For something people use straight away.
 - `client:idle`: once the page has finished loading and the browser is idle. For things that can wait a moment.
 - `client:visible`: when it scrolls into view. For things further down the page; nobody downloads what they never see.
 
-Everything else on the page stays plain HTML. That's why Astro sites are fast: a page with one small island ships one small script.
+Everything else on the page stays plain HTML, so a page with one small island ships one small script.
 
-That gives you two places to get **data**. **At build time**, in the page's frontmatter: the same for every visitor, fetched once (a Pokédex list). **In the browser**, inside the island: data that depends on what this person does (look up the name they typed). The page passes build-time data to the island as **props**, and only data crosses: strings, numbers, arrays, plain objects. A function passed from an `.astro` page to an island arrives as `null`, with no warning; callbacks between Svelte components *inside* the island work as before.
+**Two places for data.** **At build time**, in the page's frontmatter: the same for every visitor, fetched once (a Pokédex list). **In the browser**, inside the island: data that depends on what this person does (look up the name they typed). The page passes build-time data to the island as **props**, and only data crosses: strings, numbers, arrays, plain objects. A function passed from an `.astro` page arrives as `null`, with no warning; callbacks between Svelte components *inside* the island work as before.
 
-Two things to know about hydration. There's a moment between the HTML appearing and the island waking up, when a button looks ready but does nothing; keep islands small, and use `client:load` for anything people reach for first. And **view transitions**: `<ClientRouter />` from `astro:transitions`, in your layout's `<head>`, animates between pages instead of reloading. It turns its animations off for anyone whose system asks for reduced motion (`prefers-reduced-motion`), and an island starts fresh on each page unless you give it `transition:persist`.
+**Hydration and transitions.** There's a moment between the HTML appearing and the island waking up when a button looks ready but does nothing; keep islands small, and use `client:load` for anything people reach for first. `<ClientRouter />` from `astro:transitions`, in your layout's `<head>`, animates between pages instead of reloading. It turns its animations off for anyone whose system asks for reduced motion, and an island starts fresh on each page unless you give it `transition:persist`.
 
 <figure class="diagram">
 <svg class="d-wide" viewBox="0 0 640 230" role="img" aria-labelledby="island-wide-title">
@@ -88,35 +90,46 @@ Nothing, and nothing in the console either. With no `client:` directive, Astro r
 
 </details>
 
+<details>
+<summary>The page passes <code>onadd={(name) =&gt; console.log(name)}</code> to a <code>client:load</code> island. The island calls <code>onadd('pikachu')</code> when you press Add. What happens?</summary>
+
+A TypeError on the first press: `onadd is not a function`. Only data crosses from an `.astro` page into an island, and a function arrives as `null`, with no warning at build time. Keep the callback inside the island: a Svelte parent component that owns the state and passes `onadd` to its children, as in P4.
+
+</details>
+
 ## Try it together
 
-Everyone, in your `dight340` session, plan mode. Copy `final-project/` to `try/s12/` (without `node_modules`), and `npm install` there.
+Pair programming, with the whole class. I drive Claude Code on the projector; you navigate. After each step you read the output with me, decide whether to keep it or revise it, and say what to ask for next. Your own run comes in studio, with S12.
+
+We start from a copy of `final-project/` in `try/s12/` (without `node_modules`; then `npm install` there), in plan mode:
 
 ```text
 In try/s12/, add Svelte to the Astro site. On the Pokédex page, under the build-time list, add my P3 party builder (or P4 team planner) as an island. Pass it the Pokémon names from the page's frontmatter as a prop, keep its own PokéAPI lookups in the browser, and pick a client: directive. Explain the choice.
 ```
 
-**How to check it**
+Then we put it under pressure, one step at a time. Each time, the question is what *our* code does, and which line does it:
 
 - **Read the directive.** Which one did it choose, and does the reason fit where the island sits on the page?
 - **Watch it wake up.** DevTools → Network, filter "JS", reload, scroll down. When does the island's script load?
-- **JavaScript off.** What still works? What's left on the page where the island was?
+- **JavaScript off.** What still works? What's left where the island was?
 - **Reduced motion.** Click between pages, then turn on Reduce motion (macOS: System Settings → Accessibility → Display) and click again. Any animation?
 
-**Dig deeper:** run [`/dig-deeper`](/340/skills/dig-deeper/) on the line with the `client:` directive, naming the file and line. Be ready to say what would change with each of the other two.
+**Dig deeper:** we run [`/dig-deeper`](/340/skills/dig-deeper/) on the line with the `client:` directive. Answer its predict question before the reveal.
+
+**On your own:** if you missed class or want another pass, copy your `final-project/` to `try/s12/`, run the starting prompt above, try the same four pressure tests, and answer the questions in the box below.
 
 <details>
-<summary>What went wrong, and how we caught it</summary>
+<summary>Questions to ask your output</summary>
 
-Requests like this often come back with one or more of these:
+Use these in studio on your own S12, out loud or to Claude:
 
-- No directive at all, so the island renders and does nothing.
-- `client:load` on everything, "to be safe," which ships every component's JavaScript up front and throws away the point of islands.
-- A callback passed from the `.astro` page into the island (`onadd={…}`), which arrives as `null` and breaks on the first click.
-- The whole page turned into one big island, list and all, so the build-time data is fetched again in the browser.
-- A test, or a fast keyboard user, pressing a button before the island had hydrated. Our own Playwright test did exactly that on a `client:visible` island, and had to wait for the island first.
+- Which `client:` directive did you use, and what would change with each of the other two?
+- What crosses from the page into the island as props? Is any of it a function?
+- Which data is fetched at build time, and which in the browser? Is anything fetched twice?
+- What's on the page where the island is, with JavaScript off?
+- Could someone press a button before the island wakes up?
 
-It looked the same as the static version, which is the trap. We clicked every control, watched the Network tab while scrolling, and turned JavaScript off.
+**Watch for:** no directive at all, so the island does nothing; `client:load` on everything, "to be safe"; a callback passed from the `.astro` page (it arrives as `null`); the whole page turned into one big island, so the build-time data is fetched again in the browser; a fast keyboard user, or a test, pressing a button before the island had hydrated.
 
 </details>
 

@@ -13,13 +13,17 @@ date: 2026-12-07
 
 ## In short
 
-Vitest checked your logic without a browser. **Playwright** checks the whole site *in* one: it builds your Final Project, serves it, opens Chromium, and does what a visitor does: go to a page, find a button, press Enter, and `expect` what should happen. These are **end-to-end** tests: everything from the HTML to the island's JavaScript has to work for them to pass.
+Playwright drives a real browser through your built site the way a person would, finding things by role and name, and axe scans each page for the accessibility failures a machine can find. For S13 you need the Dec 7 kit update, then Playwright tests in your Final Project that check the nav marks the current page, that the main island works from the keyboard, and that axe finds nothing on each kind of page, each one broken once on purpose to prove it can fail.
 
-The way you find things matters. `page.getByRole('button', { name: 'Add bulbasaur' })` finds a button by its role and its accessible name, which is how a screen reader finds it too. If the test can't find your button that way, a screen-reader user probably can't either, so a role-based test is an accessibility check as well. Prefer `getByRole` and `getByLabel` to CSS selectors. Keyboard tests use `page.keyboard.press('Tab')` and `'Enter'`. For islands, wait until they've hydrated before you press anything (S12's race).
+## How it works
 
-**axe** (`@axe-core/playwright`) scans a page for rule failures a machine can detect: missing labels and alt text, colour contrast, invalid ARIA, duplicate ids, landmarks. One test per kind of page, expecting no violations, catches regressions on every push. What axe *can't* judge is meaning: whether alt text is useful, whether two buttons can be told apart, where focus goes after a remove. That's what your keyboard tests and your screen-reader pass are for.
+**End-to-end tests.** Vitest checked your logic without a browser. Playwright builds your Final Project, serves it, opens Chromium, and does what a visitor does: go to a page, find a button, press Enter, and `expect` what should happen. Everything from the HTML to the island's JavaScript has to work for a test to pass.
 
-Today's **kit update** adds both to the **Checks** workflow: on every push, it installs Playwright's Chromium on GitHub, runs your tests, and marks the commit red if one fails. Feedback, as always: it doesn't block the deploy.
+**Find things the way people do.** `page.getByRole('button', { name: 'Add bulbasaur' })` finds a button by its role and accessible name, which is how a screen reader finds it too. If the test can't find your button that way, a screen-reader user probably can't either. Prefer `getByRole` and `getByLabel` to CSS selectors. Keyboard tests use `page.keyboard.press('Tab')` and `'Enter'`. For islands, wait until they've hydrated before you press anything (S12's race).
+
+**axe.** `@axe-core/playwright` scans a page for rule failures a machine can detect: missing labels and alt text, colour contrast, invalid ARIA, duplicate ids, landmarks. One scan per kind of page catches regressions on every push. What axe *can't* judge is meaning: whether alt text is useful, whether two buttons can be told apart, where focus goes after a remove. That's what your keyboard tests and screen-reader pass are for.
+
+**The kit update** adds both to the **Checks** workflow: on every push, it installs Playwright's Chromium on GitHub, runs your tests, and marks the commit red if one fails. It reports; it doesn't block the deploy.
 
 ```js
 // final-project/playwright.config.js
@@ -131,37 +135,46 @@ No. Every image has *an* alt, and every button has *a* name, so the rules pass. 
 
 </details>
 
+<details>
+<summary>A test finds the Add button with <code>page.locator('.btn-add')</code> and passes. Someone changes the button's text to a "+" icon with no label. Does the test still pass?</summary>
+
+Yes. The class is still there, so the test finds the button, presses it, and the party still changes. But a screen reader now hears just "button." Written as `page.getByRole('button', { name: 'Add bulbasaur' })`, the same test would go red the moment the name disappeared, which is the point: a role-based locator is an accessibility check too.
+
+</details>
+
 ## Try it together
 
-Everyone, in your `dight340` session, plan mode. Copy `final-project/` to `try/s13/` (without `node_modules`), and `npm install` there.
+Pair programming, with the whole class. I drive Claude Code on the projector; you navigate. After each step you read the output with me, decide whether to keep it or revise it, and say what to ask for next. Your own run comes in studio, with S13.
+
+We start from a copy of `final-project/` in `try/s13/` (without `node_modules`; then `npm install` there), in plan mode:
 
 ```text
 In try/s13/, set up Playwright with @axe-core/playwright. Write tests that use role and label locators: one that the nav marks the current page, one that uses the island with only the keyboard, and an axe scan of each kind of page. Have Playwright build and preview the site itself.
 ```
 
-Then `npx playwright install chromium` (once), and `npx playwright test`.
+Then `npx playwright install chromium` (once), and `npx playwright test`. Then we put it under pressure, one step at a time. Each time, the question is what *our* code does, and which line does it:
 
-**How to check it**
-
-- **Run it, then break it.** All green? Now remove a `<label>` or an `aria-current` and run again. Which test goes red? Put it back.
+- **Run it, then break it.** All green? Remove a `<label>` or an `aria-current` and run again. Which test goes red?
 - **Read a locator aloud.** Would a screen-reader user find that element by the same role and name?
-- **Find the wait.** Does the island test wait for hydration, or does it pass only sometimes?
-- **What isn't tested?** Name one thing from your "done" list that no test here covers.
+- **Find the wait.** Does the island test wait for hydration? Run it ten times (`--repeat-each 10`).
+- **What isn't tested?** Name one thing from the "done" list that no test here covers.
 
-**Dig deeper:** run [`/dig-deeper`](/340/skills/dig-deeper/) on the `AxeBuilder` line, naming the file and line. Be ready to say one thing axe would catch and one it wouldn't.
+**Dig deeper:** we run [`/dig-deeper`](/340/skills/dig-deeper/) on the `AxeBuilder` line. Answer its predict question before the reveal.
+
+**On your own:** if you missed class or want another pass, do the kit update (S13, step 0), copy your `final-project/` to `try/s13/`, run the starting prompt above, try the same four pressure tests, and answer the questions in the box below.
 
 <details>
-<summary>What went wrong, and how we caught it</summary>
+<summary>Questions to ask your output</summary>
 
-Requests like this often come back with one or more of these:
+Use these in studio on your own S13, out loud or to Claude:
 
-- CSS selectors (`page.locator('.btn-add')`) instead of roles and names, so the tests pass even when the button has no accessible name.
-- An island test that presses a button before the island has hydrated, and fails one run in five. Ours did, until it waited for `astro-island:not([ssr])`.
-- `waitForTimeout(2000)` to "fix" that: slower, and still flaky.
-- An axe scan of the home page only, or with rules disabled to make it pass.
-- No `webServer` in the config, so the tests need you to start the site by hand, and fail in CI.
+- Which test goes red when you remove a label? If none does, what are the tests checking?
+- Does every locator use a role or a label? Which one doesn't, and why?
+- How does the island test know the island has woken up?
+- Which pages does axe scan? Are any rules turned off?
+- How does Playwright start the site, locally and in CI?
 
-Everything was green on the first run, which proves nothing yet. We broke a label on purpose and watched which test noticed, read each locator as a screen reader would, and ran the island test ten times (`--repeat-each 10`).
+**Watch for:** CSS selectors instead of roles and names, so tests pass when a button has no name; an island test that presses before hydration and fails one run in five; `waitForTimeout(2000)` to "fix" that; an axe scan of the home page only, or with rules disabled; no `webServer` in the config, so the tests fail in CI. Green on the first run proves nothing yet.
 
 </details>
 

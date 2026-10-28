@@ -14,11 +14,15 @@ date: 2026-11-18
 
 ## In short
 
-`bind:value={nickname}` ties an input to a `$state` variable both ways: typing changes `nickname`, and setting `nickname` changes what's in the box. There's `bind:checked` for a checkbox and `bind:group` for a set of radio buttons or checkboxes. Handle the form's `onsubmit` (so Enter works), call `event.preventDefault()`, then check the values yourself.
+`bind:value` keeps an input and your state in step, a shared `.svelte.js` module lets two components see the same party, and every form error has to reach the person in words, not just in red or in the console. Today's Spark, S09, is your Final Project intent brief and doesn't use this; P4 does: a labelled form whose errors are announced and focused, and a party shared between components.
 
-When a value is wrong, the person has to find out, whatever way they use the page. Each input has a visible `<label>`. The error is text, not just a red border; it sits in an element that's on the page from the start, so a screen reader announces it when it fills in (`role="alert"` or `aria-live`); the input points at it with `aria-describedby` and says it's invalid with `aria-invalid`; and focus goes back to the first field that needs fixing.
+## How it works
 
-Sometimes two components need the same data: a form that renames a party member, and a summary that lists the party. Put the state in its own module, a file ending `.svelte.js` so runes work in it, and import it in both: `export const party = $state({ members: [] })`. Components **change its properties** (`party.members.push(…)`), and every importer sees the change. You can't export a `$state` variable and then reassign it; Svelte refuses to build (the predict check shows why).
+**Binding.** `bind:value={nickname}` ties an input to a `$state` variable both ways: typing changes `nickname`, and setting `nickname` changes what's in the box. There's `bind:checked` for a checkbox and `bind:group` for a set of radio buttons or checkboxes. Handle the form's `onsubmit` (so Enter works), call `event.preventDefault()`, then check the values yourself.
+
+**Errors people can find.** Each input has a visible `<label>`. The error is text, not just a red border, in an element that's on the page from the start, so a screen reader announces it when it fills in (`role="alert"` or `aria-live`). The input points at it with `aria-describedby` and says it's invalid with `aria-invalid`, and focus goes back to the first field that needs fixing.
+
+**Shared state.** Put state two components need in its own module, a file ending `.svelte.js` so runes work in it, and import it in both: `export const party = $state({ members: [] })`. Components **change its properties** (`party.members.push(…)`), and every importer sees the change. You can't export a `$state` variable and then reassign it; Svelte refuses to build (the predict check shows why).
 
 ```svelte
 <form onsubmit={save} novalidate>
@@ -96,35 +100,46 @@ Neither shows anything: the project won't build. Svelte stops with `state_invali
 
 </details>
 
+<details>
+<summary>The nickname input has <code>placeholder="Nickname"</code> and no <code>&lt;label&gt;</code>. A sighted mouse user types a name and it works. What does a screen-reader user hear, and what does anyone see once they start typing?</summary>
+
+Many screen readers don't treat a placeholder as the input's name, so they may hear just "edit text." And once anyone types, the placeholder disappears, so nobody can check what the box was for. A visible `<label for="…">` fixes both, and it makes the label clickable, which is a bigger target.
+
+</details>
+
 ## Try it together
 
-Everyone, in your `dight340` session, plan mode. Copy `try/s08/` to `try/s09/` first.
+Pair programming, with the whole class. I drive Claude Code on the projector; you navigate. After each step you read the output with me, decide whether to keep it or revise it, and say what to ask for next. Your own run comes in studio; it's practice for P4, since S09 is your intent brief.
+
+We start from a copy of `try/s08/` in `try/s09/`, in plan mode:
 
 ```text
 In try/s09/, add a form to rename a party member: a nickname input, up to 12 characters, required. Move the party into a shared party.svelte.js module, and add a TeamSummary component that lists everyone by nickname.
 ```
 
-**How to check it**
+Then we put it under pressure, one step at a time. Each time, the question is what *our* code does, and which line does it:
 
 - **Submit it empty, keyboard only.** Is there an error in words? Where's focus? Does VoiceOver (Cmd+F5) read the error?
+- **Submit 13 characters, then only spaces.** Same questions.
 - **Inspect the input.** In Elements: a `<label>`? `aria-invalid` and `aria-describedby` pointing at the error?
 - **Rename someone.** Does the summary update without a reload? Find the line that changes the shared party.
-- **Read the module.** Is the party exported as an object whose properties change, or as something reassigned?
 
-**Dig deeper:** run [`/dig-deeper`](/340/skills/dig-deeper/) on the `bind:value` line, naming the file and line. Be ready to say which way the data flows, and when.
+**Dig deeper:** we run [`/dig-deeper`](/340/skills/dig-deeper/) on the `bind:value` line. Answer its predict question before the reveal.
+
+**On your own:** if you missed class or want another pass, copy your S08 folder to `try/s09/`, run the starting prompt above, try the same four pressure tests, and answer the questions in the box below.
 
 <details>
-<summary>What went wrong, and how we caught it</summary>
+<summary>Questions to ask your output</summary>
 
-Requests like this often come back with one or more of these:
+Use these in studio as you start P4, out loud or to Claude:
 
-- A `placeholder` instead of a `<label>`: it disappears as soon as you type, and many screen readers don't treat it as a name.
-- The error shown only as a red border, or added to the page at the moment of the error, so it's never announced.
-- Errors checked on every keystroke and shouted at people mid-word.
-- The browser's own `required` bubble left to do the work, with nothing for the 12-character rule.
-- The shared state exported as a `let` and reassigned (Svelte refuses to build), or "fixed" with `$effect`s that copy one component's state into another.
+- What names each input? Is it still there after you type?
+- Where does the error message live before there's an error?
+- Which line moves focus back to the field, and when does it run?
+- When are errors checked: on submit, or on every keystroke?
+- Is the shared party an object whose properties change, or something reassigned?
 
-It worked when we typed a good nickname. We submitted it empty, with 13 characters, and with only spaces, using the keyboard and VoiceOver, and read the input's attributes in Elements.
+**Watch for:** a `placeholder` instead of a `<label>`; the error shown only as a red border, or added to the page at the moment of the error, so it's never announced; errors shouted at people mid-word; the browser's `required` bubble left to do the work, with nothing for the 12-character rule; shared state exported as a `let` and reassigned, or "fixed" with `$effect`s that copy one component's state into another.
 
 </details>
 

@@ -14,13 +14,17 @@ date: 2026-11-04
 
 ## In short
 
-A Svelte **component** is one `.svelte` file with three parts: a `<script>` for its logic, markup that's HTML with `{expressions}` in it, and a `<style>` that applies to this component only. Vite's Svelte plugin compiles it into plain JavaScript at build time, so the browser never sees Svelte itself.
+In Svelte you change the data and Svelte updates the page: `$state` holds data that can change, `$derived` computes a value from it, and `$effect` is only for reaching outside the component. For S06 you need one `PokemonCard.svelte` with the level as `$state`, at least one `$derived` value, and buttons that say what they do, with no `$effect` setting state.
 
-Svelte 5 uses **runes**, special functions that start with `$`. `let level = $state(14)` makes `level` **reactive**: change it (`level++`) and every `{level}` on the page updates. Arrays and objects are reactive all the way down, so `party.push(…)` or `party[0].level++` works too. `let toEvolve = $derived(16 - level)` is a value **computed** from state, and Svelte recalculates it whenever `level` changes; you never set it yourself. `$effect(() => { … })` runs code after the page updates, again whenever the state it reads changes. It's the escape hatch for reaching *outside* the component (the tab title, `localStorage`, a canvas), and the docs warn against using it to keep one piece of state in step with another: that's what `$derived` is for. Events are ordinary attributes: `onclick={() => level++}`. (`on:click`, `export let`, and `$:` are Svelte 4; `AGENTS.md` rules them out.)
+## How it works
 
-Compare S02. There's no `render()`, no `replaceChildren()`, and no hand-written `.focus()`: Svelte updates the one text node that changed, so the button you pressed is still there and still focused.
+**Components.** A Svelte component is one `.svelte` file with three parts: a `<script>` for its logic, markup that's HTML with `{expressions}` in it, and a `<style>` that applies to this component only. Vite's Svelte plugin compiles it into plain JavaScript at build time.
 
-You'll also start **reading TypeScript**, because Svelte and Astro examples use it. In `<script lang="ts">`, an annotation after a colon says what kind of value something holds: `let level: number = $state(5)` reads "level holds a number." `function levelUp(by: number = 1): void` reads "takes a number called `by`, 1 if you leave it out, and returns nothing." The types are checked by your editor and removed at build time; they don't change what runs. You only need to read them.
+**Runes.** `let level = $state(14)` makes `level` reactive: change it (`level++`) and every `{level}` on the page updates. Arrays and objects are reactive all the way down, so `party.push(…)` works too. `let toEvolve = $derived(16 - level)` is recalculated whenever `level` changes; you never set it yourself. `$effect(() => { … })` runs after the page updates, whenever the state it reads changes. It's the escape hatch for reaching *outside* the component (the tab title, `localStorage`), and the docs warn against using it to keep one piece of state in step with another: that's `$derived`'s job. Events are ordinary attributes: `onclick={() => level++}`. (`on:click`, `export let`, and `$:` are Svelte 4; `AGENTS.md` rules them out.)
+
+**Compared with S02:** there's no `render()`, no `replaceChildren()`, and no hand-written `.focus()`. Svelte updates the one text node that changed, so the button you pressed is still there and still focused.
+
+**Reading TypeScript.** Svelte and Astro examples use it. In `<script lang="ts">`, `let level: number = $state(5)` reads "level holds a number." `function levelUp(by: number = 1): void` reads "takes a number called `by`, 1 if you leave it out, and returns nothing." The types are checked by your editor and removed at build time. You only need to read them.
 
 <figure class="diagram">
 <svg class="d-wide" viewBox="0 0 640 150" role="img" aria-labelledby="sv-wide-title">
@@ -88,37 +92,46 @@ Still "Keep training." `ready` is derived, so it becomes `true`. But `message` i
 
 </details>
 
+<details>
+<summary>A card has <code>let toEvolve = $state(1)</code> and <code>$effect(() =&gt; { toEvolve = 16 - level; })</code>. It shows the right number. Is anything wrong?</summary>
+
+It works, a moment late, and it's the pattern the Svelte docs warn against. The effect runs *after* the page updates, so for one update `toEvolve` is stale, and now two pieces of state can disagree. `let toEvolve = $derived(16 - level)` says the same thing in one line, is never out of date, and can't be set by mistake. Keep `$effect` for reaching outside the component.
+
+</details>
+
 ## Try it together
 
-Everyone, in your `dight340` session, plan mode:
+Pair programming, with the whole class. I drive Claude Code on the projector; you navigate. After each step you read the output with me, decide whether to keep it or revise it, and say what to ask for next. Your own run comes in studio, with S06.
+
+We start here, in plan mode:
 
 ```text
 In try/s06/, create a Svelte 5 project with Vite, in JavaScript. Make a PokemonCard component that shows one Pokémon's name and level, with buttons to level it up and down, and a line saying how many levels until it evolves at level 16.
 ```
 
-Ask Claude to start `npm run dev`, and open the `localhost` address.
-
-**How to check it**
+Then we put it under pressure, one step at a time. Each time, the question is what *our* code does, and which line does it:
 
 - **Keyboard only.** Tab to the level-up button and press Enter until it's ready to evolve. Does the line update? Is focus still on the button?
-- **Name the runes.** Point at each `$state`, `$derived`, and `$effect`. Is any `$effect` setting state that a `$derived` could compute instead?
-- **Listen to the buttons.** Are they labelled with words a screen reader can say ("Level up Charmander"), or just `+` and `−`?
-- **Spot old syntax.** Any `on:click`, `export let`, or `$:`? That's Svelte 4.
+- **Level down** to 1, then press it again. What happens?
+- **Listen to the buttons.** In DevTools → Elements → **Accessibility**, what's each button's name?
+- **Name the runes.** Point at each `$state`, `$derived`, and `$effect`, and search for `on:click`, `export let`, or `$:`.
 
-**Dig deeper:** run [`/dig-deeper`](/340/skills/dig-deeper/) on the `$derived` line, naming the file and line. Be ready to say when it recalculates.
+**Dig deeper:** we run [`/dig-deeper`](/340/skills/dig-deeper/) on the `$derived` line. Answer its predict question before the reveal.
+
+**On your own:** if you missed class or want another pass, run the starting prompt above in your kit, ask Claude to start `npm run dev`, try the same four pressure tests, and answer the questions in the box below.
 
 <details>
-<summary>What went wrong, and how we caught it</summary>
+<summary>Questions to ask your output</summary>
 
-Requests like this often come back with one or more of these:
+Use these in studio on your own S06, out loud or to Claude:
 
-- An `$effect` doing a `$derived`'s job: `$effect(() => { toEvolve = 16 - level; })`, with `toEvolve` as its own `$state`. It works, a moment late, and it's the pattern the Svelte docs warn against.
-- Buttons labelled `+` and `−`, so a screen reader hears "plus, button" with no Pokémon and no verb.
-- No lower limit: Level down goes to 0, then −1.
-- Svelte 4 syntax (`on:click`, `export let`) in a project that isn't covered by `AGENTS.md`.
-- The template's demo counter, logos, and a `/icons.svg` link left in, which breaks on GitHub Pages.
+- Which values are `$state`, and which are worked out from them? Is each worked-out value a `$derived`?
+- Is there an `$effect`? What outside the component does it reach? If nothing, what should it be instead?
+- What will a screen reader say for each button?
+- Which line stops the level going below 1?
+- When does the `$derived` line recalculate?
 
-It looked right with the mouse. We tabbed to the buttons, read their names in the accessibility tree, pressed Level down until it went negative, and searched the file for `$effect`.
+**Watch for:** an `$effect` doing a `$derived`'s job; buttons labelled `+` and `−` ("plus, button", with no Pokémon and no verb); no lower limit on the level; Svelte 4 syntax (`on:click`, `export let`); the template's demo counter, logos, and a `/icons.svg` link that breaks on GitHub Pages.
 
 </details>
 
