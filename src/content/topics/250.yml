@@ -8,68 +8,68 @@
 #   The site's schedule page joins it to the course calendar for dates. The Open lab has none.
 - name: Onboarding and Spark 1
   session: 1
-  summary: Set up your repo for the new system, with the agent walking you through it.
+  summary: Set up your repo for the new system, with the agent walking you through it one step at a time.
   tier: spark
 - name: Re-run in the loop
   session: 2
   unit: re-run
-  summary: Rebuild or extend the Episode Guide using what you already know.
+  summary: Rebuild your Episode Guide with the agent, running the whole loop on ground you know.
 - name: Color
   session: 3
   unit: color
-  summary: Reading and writing colors (hex, rgb(), hsl()), gradients; contrast, and never color alone.
+  summary: "Build a style tile for a theme: four colors written three ways, with every pair's contrast checked."
   prototype: P1
 - name: Typography
   session: 4
   unit: typography
-  summary: Web fonts, rem and em, line-height; readable at 200% zoom.
+  summary: Set the type on your style tile in rem with a web font, and check it at 200% zoom.
   prototype: P1
 - name: Box model and display
   session: 5
   unit: box-model
-  summary: Spacing, sizing, and touch target size.
+  summary: Update your kit for feedback checks, and add a nav with links big enough to tap.
   prototype: P2
 - name: Flexbox
   session: 6
   unit: flexbox
-  summary: One-dimensional layout; visual order versus source order.
+  summary: Lay out a header and a row of cards with Flexbox, keeping the order you see the HTML order.
   prototype: P2
 - name: Grid
   session: 7
   unit: grid
-  summary: Two-dimensional layout with template areas and auto-fit.
+  summary: Give your page a header, sidebar, and footer with Grid, and cards that choose their own columns.
   prototype: P3
 - name: Responsive design
   session: 8
   unit: responsive
-  summary: Layouts that reflow down to 320px wide. The Final Project brief comes out.
+  summary: Make your page work from 320px up, mobile first. The Final Project brief comes out.
   prototype: P4
 - name: Forms
   session: 9
   unit: forms
-  summary: Labels, fieldsets, and validation; write your Final Project intent brief.
+  summary: Write your Final Project intent brief, and learn the labelled, accessible forms P4 needs.
   prototype: P4
 - name: Multimedia and positioning
   session: 10
   unit: multimedia
-  summary: Captions, no autoplay, and visually hidden text.
+  summary: Add an image, a video with captions you write, a positioned badge, and a named icon link.
 - name: Modern CSS
   session: 11
   unit: modern-css
-  summary: "`:has()`, custom properties, nesting, dark mode, and focus styles."
+  summary: Turn your colors and spacing into tokens, and add a dark mode where every pair still passes.
 - name: Transitions, animations, and an accessibility audit
   session: 12
   unit: motion-audit
-  summary: Motion that respects reduced-motion settings; audit with the validator, axe, and the keyboard.
+  summary: Add one bit of motion to your Final Project that calms down on request, then audit it and fix two things.
 - name: Big live build
   session: 13
   unit: big-build
-  summary: A whole site, from intent brief to verified deploy.
+  summary: Build a small site in class, from intent brief to verified deploy, checking at every step.
   tier: release
 - name: Bridge to DIGHT 340
   session: 14
   unit: bridge-to-340
-  summary: A first look at JavaScript and DOM events, through the agent.
+  summary: Add a Watched button with your first JavaScript, and check it works from the keyboard.
 - name: Open lab
   summary: Final help, if you need it.
   tier: release

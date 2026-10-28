@@ -12,6 +12,10 @@ date: 2026-10-28
 
 **The big idea:** text has to grow when the reader asks it to. Size it in `rem`, give it room to breathe, and check that the page still works at 200% zoom.
 
+## In short
+
+Size text in `rem`, so it follows the font size each reader chose, and let every box grow with its text, so the page still works at 200% zoom. For S04 you need one web font with a fallback stack, every `font-size` in `rem`, a unitless `line-height` of at least 1.5 on body text, text blocks capped at about `65ch`, and no fixed `height` on anything that holds text.
+
 ## Web fonts, with a fallback
 
 A web font is a file the browser downloads, linked from a service like Google Fonts or served from your own folder with `@font-face`. Until it arrives, the browser shows the next font in your `font-family` list, so always end the list with a fallback: `font-family: "Atkinson Hyperlegible", system-ui, sans-serif;`. `font-display: swap` shows the fallback straight away and swaps in the web font when it's ready, instead of showing no text at all. Every weight and style is its own file, so load only the ones you use.
@@ -93,32 +97,37 @@ Almost always layout. The text grew as it should. Something around it didn't mak
 
 ## Try it together
 
-Everyone runs the same prompt, then we check what came back. Copy your `sparks/s03-theme-palette/` folder to `try/s04/` (your `.gitignore` from last session keeps `try/` out of your commits). Open `try/s04/index.html` and paste this into the chat, with no units or zoom in the prompt on purpose:
+Pair programming, with the whole class. I drive Copilot on the projector; you navigate. After each step you read the output with me, decide whether to keep it or revise it, and say what to ask for next. Your own run comes in studio, with S04.
+
+We start from a copy of an S03 theme palette page in `try/s04/` (your `.gitignore` keeps `try/` out of your commits), with no units or zoom in the prompt on purpose:
 
 ```text
 Pick fonts for this page and set up the type sizes.
 ```
 
-**How to check it**
+Then we put it under pressure, one step at a time. Each time, the question is what *our* CSS does, and which line does it:
 
-- Search the CSS for `px`. Is any `font-size` in pixels? Does any box that holds text have a fixed `height`?
-- Zoom to 200% (Cmd + on a Mac, Ctrl + on Windows) and scroll the whole page. Is anything cut off or overlapping?
-- In Chrome, go to **Settings → Appearance → Customize fonts**, set **Font size** to 20, and reload. Did the text grow? (Set it back to 16.)
-- Does every `font-family` end in a generic family like `sans-serif`? Does the font link load only the weights the CSS uses?
+- **Search for `px`.** Is any `font-size` in pixels? Does any box that holds text have a fixed `height`?
+- **Zoom to 200%** (Cmd + on a Mac, Ctrl + on Windows) and scroll the whole page. Is anything cut off or overlapping?
+- **Change the default size.** In Chrome, **Settings → Appearance → Customize fonts**, set **Font size** to 20, and reload. Did the text grow? (Set it back to 16.)
+- **Read the font lines.** Does every `font-family` end in a generic family like `sans-serif`? Does the font link load only the weights the CSS uses?
 
-**Dig deeper:** highlight the `line-height` line and run [`/dig-deeper`](/250/skills/dig-deeper/). Why does it work best with no unit?
+**Dig deeper:** we highlight the `line-height` line and run [`/dig-deeper`](/250/skills/dig-deeper/). Why does it work best with no unit? Answer its predict question before the reveal.
+
+**On your own:** if you missed class or want another pass, copy your S03 folder to `try/s04/`, run the starting prompt above, try the same four pressure tests, and answer the questions in the box below.
 
 <details>
-<summary>What went wrong, and how we caught it</summary>
+<summary>Questions to ask your output</summary>
 
-Requests like this often come back with one or more of these:
+Use these in studio on your own S04, out loud or to the agent:
 
-- Every size in `px`, so the reader's font-size setting does nothing.
-- A header or card with a fixed `height` that text spills out of at 200%.
-- A web font with no fallback in the `font-family` list, or five weights loaded when the page uses two.
-- A decorative display font used for body text, or a cramped `line-height` like `1.1`.
+- Which `font-size` lines would ignore a reader who set their browser to 20px?
+- At 200% zoom, which box runs out of room first, and which line sets its size?
+- If the web font never arrives, what does the page show instead?
+- Which font weights does the link load, and which ones does the CSS use?
+- Why is `line-height` written with no unit?
 
-It looked right at 100%. Then we zoomed to 200% and changed the browser's default font size, and the slips showed up. In your Spark you'll ask again, with "sizes in `rem`, unitless `line-height`, no fixed heights, readable at 200% zoom" in the "done" list.
+**Watch for:** every size in `px`, so the reader's font-size setting does nothing; a header or card with a fixed `height` that text spills out of at 200%; a web font with no fallback, or five weights loaded when the page uses two; a decorative display font for body text, or a cramped `line-height` like `1.1`.
 
 </details>
 

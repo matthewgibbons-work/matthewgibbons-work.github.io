@@ -12,6 +12,10 @@ date: 2026-11-04
 
 **The big idea:** Flexbox lays out boxes in one direction, a row or a column, and shares out the space between them. It can also change the order you see, which is exactly what it shouldn't do.
 
+## In short
+
+Flexbox lines boxes up in a row or a column, spaces them with `gap`, and wraps them onto new lines when there isn't room. It can also reorder what you see, which leaves keyboard and screen-reader users following the HTML order instead. For S06 you need two flex rows (the title and nav, and a row of featured cards that wraps), spaced with `gap`, and no `order` or `-reverse`: if you want a different order, change the HTML.
+
 ## A row or a column
 
 Put `display: flex` on a container, and its children become **flex items** that line up along the **main axis**: a row by default, or a column with `flex-direction: column`. The other direction is the **cross axis**. Every Flexbox property works along one of the two.
@@ -23,7 +27,7 @@ nav ul {
 }
 ```
 
-That's the whole nav bar from Monday, without `inline-block`: the list items sit in a row with 1rem between them.
+That's the whole nav bar from Box model (S05), without `inline-block`: the list items sit in a row with 1rem between them.
 
 ## Spacing and alignment
 
@@ -120,33 +124,37 @@ The same width: `flex: 1` shares the space equally, whatever is inside. And the 
 
 ## Try it together
 
-Everyone runs the same prompt, then we check what came back. Copy your `sparks/s05-box-model/` folder to `try/s06/`, open `try/s06/index.html`, and paste:
+Pair programming, with the whole class. I drive Copilot on the projector; you navigate. After each step you read the output with me, decide whether to keep it or revise it, and say what to ask for next. Your own run comes in studio, with S06.
+
+We start from a copy of an S05 page in `try/s06/`:
 
 ```text
 Use Flexbox to add a row of featured-episode cards above the table, one for each of my episodes, each with a title, one sentence, and a link to that episode's row in the table. Show the newest episode first.
 ```
 
-**How to check it**
+Then we put it under pressure, one step at a time. Each time, the question is what *our* code does, and which line does it:
 
 - Tab through the cards. Does focus move in the order you see them?
 - Search the CSS for `order` and `reverse`. If either is there, is the order in the HTML the same as the order on screen?
 - Zoom to 200%. Do the cards wrap onto new lines, or squash and overflow?
 - Is the space between cards a `gap` on the container, or margins on each card?
 
-**Dig deeper:** highlight the cards' `flex` line (or `flex-wrap`) and run [`/dig-deeper`](/250/skills/dig-deeper/). Ask what happens if you remove it.
+**Dig deeper:** we highlight the cards' `flex` line (or `flex-wrap`) and run [`/dig-deeper`](/250/skills/dig-deeper/). We ask what happens if you remove it. Answer its predict question before the reveal.
+
+**On your own:** if you missed class or want another pass, copy your `sparks/s05-box-model/` folder to `try/s06/`, run the starting prompt above, try the same four pressure tests, and answer the questions in the box below.
 
 <details>
-<summary>What went wrong, and how we caught it</summary>
+<summary>Questions to ask your output</summary>
 
-Requests like this often come back with one or more of these:
+Use these in studio on your own S06, out loud or to the agent:
 
-- "Newest first" done with `order` or `flex-direction: row-reverse`, so Tab runs against what you see.
-- No `flex-wrap`, so the cards squash to slivers or overflow at 200% zoom.
-- A fixed `width` in `px` on each card, so they don't fit a narrow window.
-- Margins on every card instead of `gap`, leaving extra space after the last one.
-- Every link reading "Read more," so a screen reader's list of links is three identical lines.
+- Which elements are flex containers, and in which direction does each one run?
+- How did it put the newest episode first: in the HTML, or in the CSS?
+- If you Tab through the cards, does focus follow what you see?
+- What happens to the cards when the window is too narrow for all of them?
+- What will a screen reader's list of links say for these cards?
 
-The row looked right. Tabbing through it didn't feel right: focus jumped from the right-hand card to the left. Searching the CSS for `order` found why. In your Spark you'll ask again, with "the order you see is the HTML order" in the "done" list.
+**Watch for:** "Newest first" done with `order` or `flex-direction: row-reverse`, so Tab runs against what you see; no `flex-wrap`, so the cards squash to slivers or overflow at 200% zoom; a fixed `width` in `px` on each card, so they don't fit a narrow window; margins on every card instead of `gap`, leaving extra space after the last one; every link reading "Read more," so a screen reader's list of links is three identical lines.
 
 </details>
 

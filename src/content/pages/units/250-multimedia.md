@@ -11,6 +11,10 @@ date: 2026-11-23
 
 **The big idea:** media has to work for people who can't see or hear it: text alternatives, captions, and nothing that starts on its own. Positioning lets you layer things on top of each other, and visually hidden text gives screen readers words that eyes don't need.
 
+## In short
+
+Media has to work for people who can't see or hear it: `alt` text, captions, `controls`, and nothing that plays on its own. `position: absolute` places something inside the nearest positioned ancestor, and a `.visually-hidden` class gives screen readers words that eyes don't need. For S10 you need a captioned image, a video with `controls`, no autoplay, and a captions file you wrote by listening, a "New" badge positioned in its own card's corner and written in words, and an icon link named by hidden text.
+
 ## Images, revisited
 
 - **`alt` says what the image is *for*,** not what it looks like pixel by pixel. A show's title card next to its name can be `alt=""` (decorative: the name is already there); the same card as the only content of a link needs the link's destination.
@@ -150,33 +154,37 @@ Just "link", or the URL read out letter by letter, because `display: none` hides
 
 ## Try it together
 
-Everyone runs the same prompt, then we check what came back. Copy your `sparks/s08-responsive/` folder to `try/s10/`. Download MDN's free sample clip, [friday.mp4](https://developer.mozilla.org/shared-assets/videos/friday.mp4) (six seconds from the 1940 film *His Girl Friday*), into `try/s10/`. Open `try/s10/index.html`, and paste:
+Pair programming, with the whole class. I drive Copilot on the projector; you navigate. After each step you read the output with me, decide whether to keep it or revise it, and say what to ask for next. Your own run comes in studio, with S10.
+
+We start from a copy of an S08 page in `try/s10/`, with MDN's free sample clip, [friday.mp4](https://developer.mozilla.org/shared-assets/videos/friday.mp4) (six seconds from the 1940 film *His Girl Friday*), saved in the same folder:
 
 ```text
 Add the video friday.mp4 from this folder to the page, and put a "New" badge in the corner of each featured card.
 ```
 
-**How to check it**
+Then we put it under pressure, one step at a time. Each time, the question is what *our* code does, and which line does it:
 
 - Reload the page. Does the video start on its own? Does it have controls? Is there a captions (CC) button?
 - Is each badge in its own card's corner, or are they all piled up in one corner of the page?
 - Is "New" in words, not just a colored dot? Turn on VoiceOver (Cmd + F5) for a card: does it say "New"?
 - Zoom to 200%. Does a badge cover a heading or a link?
 
-**Dig deeper:** highlight `position: absolute` (or the `.visually-hidden` rule, if it wrote one) and run [`/dig-deeper`](/250/skills/dig-deeper/). Ask what it's measured from.
+**Dig deeper:** we highlight `position: absolute` (or the `.visually-hidden` rule, if it wrote one) and run [`/dig-deeper`](/250/skills/dig-deeper/). We ask what it's measured from. Answer its predict question before the reveal.
+
+**On your own:** if you missed class or want another pass, copy your `sparks/s08-responsive/` folder to `try/s10/`, download the clip into it, run the starting prompt above, try the same pressure tests, and answer the questions in the box below.
 
 <details>
-<summary>What went wrong, and how we caught it</summary>
+<summary>Questions to ask your output</summary>
 
-Requests like this often come back with one or more of these:
+Use these in studio on your own S10, out loud or to the agent:
 
-- `autoplay` (often with `muted` and `loop`), or no `controls`.
-- No captions track at all. Or, when asked for captions, a `.vtt` file of words the agent made up: it can't hear the clip.
-- Badges with `position: absolute` and no `position: relative` on the card, so they all land in one corner of the page.
-- A badge that's only a colored dot, or the word "New" hidden with `display: none` "for screen readers."
-- No `width` and `height` on the video, so the page jumps as it loads.
+- Does anything play on its own when the page loads? Which attribute would make it?
+- Where do the captions come from, and could the agent have heard the clip?
+- What is each badge positioned against, and which line sets that?
+- What will a screen reader say for the badge, and for the icon link?
+- Is anything hidden with `display: none` that a screen reader needs?
 
-Reloading the page caught the autoplay; scrolling caught the piled-up badges; VoiceOver caught the missing words. In your Spark you'll write the captions yourself, by listening.
+**Watch for:** `autoplay` (often with `muted` and `loop`), or no `controls`; no captions track at all. Or, when asked for captions, a `.vtt` file of words the agent made up: it can't hear the clip; badges with `position: absolute` and no `position: relative` on the card, so they all land in one corner of the page; a badge that's only a colored dot, or the word "New" hidden with `display: none` "for screen readers."; no `width` and `height` on the video, so the page jumps as it loads.
 
 </details>
 

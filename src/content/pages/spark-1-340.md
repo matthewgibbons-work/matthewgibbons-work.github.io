@@ -10,11 +10,9 @@ due: 2026-10-21
 
 # S01 · Set up your repo
 
-Today you'll reorganize your course repo for the new system. You won't do it alone: an AI agent walks you through it one step at a time and stops so you can check each step. Your job is to read what it proposes, check it, and say "next" only when you understand what happened.
+Set up your repo for the new system, with an agent walking you through it one step at a time. Plan on about 45 minutes, in five parts. It was due before class on Wed Oct 21; you can still finish it until Dec 9. It's graded Complete / Not yet straight from your repo, so there's nothing to submit.
 
-**Time:** about 45 minutes in studio, in five parts. **Due:** before class on Wed Oct 21.
-
-**Why do it this way?** You could reorganize a repo by hand in ten minutes. The point of Spark 1 is to practice the loop you'll use all term with an agent that does the typing: **read what it proposes, check it, and be able to explain it.** If you said "next" without knowing what happened, that's the habit to break now, while the stakes are low.
+The agent stops after each step so you can check it: read what it proposes, and say "next" only when you understand what happened. **Why do it this way?** You could reorganize a repo by hand in ten minutes. The point of Spark 1 is to practice the loop you'll use all term with an agent that does the typing: **read what it proposes, check it, and be able to explain it.** If you said "next" without knowing what happened, that's the habit to break now, while the stakes are low.
 
 At the end you'll have:
 
@@ -97,9 +95,8 @@ Then run [`/check`](/340/skills/check/) on the folder: `/check sparks/s01-repo-r
 
 When every box in Part E is true, Spark 1 is complete. There's nothing to submit in Learning Suite: Sparks are graded straight from your repo. Complete means the folder exists, its `NOTES.md` covers every section, and the live page loads.
 
-**Reworking an old assignment before Oct 28?** Your old pages moved, so their links changed.
+**Looking for an old page?** Your old pages moved, so their links changed.
 The repo rename changed every link: `…github.io/dight340-exercises/ex03/` is now `…github.io/dight340/archive/ex03/`.
-Resubmit the new link in that assignment in Learning Suite. A resubmission now just means "new URL." Say so in the comment if it's also rework ready for grading.
 
 **Next:** back to [your course page](/340/) for what's coming this term.
 

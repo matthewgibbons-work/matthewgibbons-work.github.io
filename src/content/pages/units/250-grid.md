@@ -12,6 +12,10 @@ date: 2026-11-09
 
 **The big idea:** Grid lays out rows and columns at once. Name the areas of your page, and let the columns fit whatever space there is.
 
+## In short
+
+Grid places boxes in rows and columns at once: `grid-template-areas` draws the page as named areas, and `repeat(auto-fit, minmax(…, 1fr))` lets a set of cards choose its own number of columns. For S07 you need the page drawn with named areas (header, main, an `<aside>` sidebar, footer) and the featured cards in an `auto-fit` grid with `gap`, with no fixed column count and no media queries. The order you see still has to match the HTML.
+
 ## Rows and columns at once
 
 Flexbox handles one direction: a row *or* a column. Grid handles both. Put `display: grid` on a container, describe its columns (and, if you need to, its rows), and its children drop into the cells.
@@ -126,33 +130,37 @@ Percentages are measured from the container's whole width, so 3 × 33% is 99% *b
 
 ## Try it together
 
-Everyone runs the same prompt, then we check what came back. Copy your `sparks/s06-flexbox/` folder to `try/s07/`, open `try/s07/index.html`, and paste:
+Pair programming, with the whole class. I drive Copilot on the projector; you navigate. After each step you read the output with me, decide whether to keep it or revise it, and say what to ask for next. Your own run comes in studio, with S07.
+
+We start from a copy of an S06 page in `try/s07/`:
 
 ```text
 Turn the featured-episode cards into a grid that fits as many columns as the screen allows, and give the page a sidebar.
 ```
 
-**How to check it**
+Then we put it under pressure, one step at a time. Each time, the question is what *our* code does, and which line does it:
 
 - Drag the window narrower, slowly. Do the cards drop one column at a time, down to one?
 - Search the CSS for `repeat(`. Is the number of columns fixed? Are any column widths in `px`?
 - Is the sidebar an `<aside>`? Tab through: does focus follow the order you see?
 - Zoom to 200%. Does anything overlap or get cut off?
 
-**Dig deeper:** highlight the `minmax()` and run [`/dig-deeper`](/250/skills/dig-deeper/). Ask what happens if the minimum is wider than the screen.
+**Dig deeper:** we highlight the `minmax()` and run [`/dig-deeper`](/250/skills/dig-deeper/). We ask what happens if the minimum is wider than the screen. Answer its predict question before the reveal.
+
+**On your own:** if you missed class or want another pass, copy your `sparks/s06-flexbox/` folder to `try/s07/`, run the starting prompt above, try the same pressure tests, and answer the questions in the box below.
 
 <details>
-<summary>What went wrong, and how we caught it</summary>
+<summary>Questions to ask your output</summary>
 
-Requests like this often come back with one or more of these:
+Use these in studio on your own S07, out loud or to the agent:
 
-- A fixed `repeat(3, 1fr)`, so the cards squash to slivers on a narrow window.
-- `grid-column: span 2` on a "featured" card, which forces a second column even when only one fits, so the page scrolls sideways.
-- The sidebar drawn on the left with `grid-template-areas` while it comes after `main` in the HTML, so Tab jumps right, then left.
-- The sidebar in a `<div>`, with no `<aside>`.
-- One area string with a missing word, so the whole layout rule was ignored and everything stacked.
+- Read the area strings out loud. Do they match the page you see, and the order in the HTML?
+- How many columns do the cards get at this width, and which line decides?
+- What's the narrowest a card can be, and what happens on a screen narrower than that?
+- Is the sidebar an `<aside>`, and what's in it?
+- Is there a media query, or a fixed number of columns, that `auto-fit` should be doing instead?
 
-On a wide screen it looked finished. Dragging the window narrower showed the slivers and the sideways scroll; DevTools' Grid badge (click **grid** next to the element in the Elements panel) drew the lines and the area names on the page. In your Spark you'll ask again, with `auto-fit` and "the order you see is the HTML order" in the "done" list.
+**Watch for:** a fixed `repeat(3, 1fr)`, so the cards squash to slivers on a narrow window; `grid-column: span 2` on a "featured" card, which forces a second column even when only one fits, so the page scrolls sideways; the sidebar drawn on the left with `grid-template-areas` while it comes after `main` in the HTML, so Tab jumps right, then left; the sidebar in a `<div>`, with no `<aside>`; one area string with a missing word, so the whole layout rule was ignored and everything stacked.
 
 </details>
 

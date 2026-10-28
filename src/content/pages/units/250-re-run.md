@@ -11,9 +11,13 @@ date: 2026-10-21
 
 **The big idea:** you can only judge an agent's work on ground you know. So your first full loop rebuilds something you've already made by hand.
 
+## In short
+
+A "done" list is a spec you can check line by line, and the agent only does the Generate step: the intent, the spec, the checking, and the explaining are yours. For S02 you need to rebuild your Episode Guide that way, with your intent written first and a "done" list that puts the episodes in a real `<table>` (with a `<caption>` and `scope`), inside `header`, `main`, and `footer`, passing the validator.
+
 ## Why a re-run
 
-On Monday you set up the loop: **Intent → Spec → Generate → Verify → Explain**. Today you run all five steps for the first time, on your Episode Guide. You wrote that page yourself before the restart, so when the agent hands you a table, you already know what a good one looks like.
+In S01 you set up the loop: **Intent → Spec → Generate → Verify → Explain**. In S02 you run all five steps for the first time, on your Episode Guide. You wrote that page yourself before the restart, so when the agent hands you a table, you already know what a good one looks like.
 
 Two of the five steps carry most of the weight, and they're a pair. The **Spec** is a "done" list: short, concrete lines like "the episodes are in a `<table>` with a `<caption>`." **Verify** means going down that list, line by line, and checking each one on the real page. If a line can't be checked, it isn't a spec yet. "Make it accessible" can't be checked. "Header cells use `<th>` with `scope`" can.
 
@@ -91,23 +95,28 @@ Not necessarily. A page built entirely from `<div>`s, with no table, no landmark
 
 ## Live build
 
-We'll give the agent this prompt, with no intent and no spec, and see what comes back:
+We gave the agent this prompt, with no intent and no spec, and saw what came back:
 
 ```text
 Make an HTML page listing these episodes with their air date and a one-line summary, and make it look nice.
 ```
 
-<details>
-<summary>What went wrong, and how we caught it</summary>
-
-Prompts like this often come back with one or more of these:
-
-- Episodes in `<div>`s styled to look like a table, or a `<table>` with no `<caption>` and no `scope` on its header cells.
-- The whole page in `<div>`s, with no `header`, `main`, or `footer`.
-- A CSS framework linked from a CDN "to make it look nice," which `AGENTS.md` rules out.
-- Episodes, air dates, or summaries we never gave it, filled in without asking. Two runs gave the same episode two different air dates, both stated just as confidently.
-
 The validator and axe can pass a page like this, because neither knows a table should be there. The "done" list does: going down it line by line turned up each slip. Then we ran the loop properly, with an intent and the "done" list in the prompt, and compared the two versions.
+
+**On your own:** if you missed class or want another pass, run the prompt above in a new chat in a practice folder you don't commit, then run it again with your intent and the S02 "done" list, compare the two, and answer the questions in the box below.
+
+<details>
+<summary>Questions to ask your output</summary>
+
+Use these on your own S02, out loud or to the agent:
+
+- Are the episodes in a real `<table>`, with a `<caption>` and `scope` on the header cells?
+- Where are `header`, `main`, and `footer`? Is there one `<h1>`?
+- Is anything linked from outside your repo, like a CSS framework?
+- Where did each air date and summary come from: you, or the agent?
+- Which line of the "done" list would have caught each slip?
+
+**Watch for:** episodes in `<div>`s styled to look like a table, or a `<table>` with no `<caption>` and no `scope`; the whole page in `<div>`s, with no landmarks; a CSS framework linked from a CDN "to make it look nice", which `AGENTS.md` rules out; episodes, air dates, or summaries you never gave it, filled in without asking (two runs gave the same episode two different air dates, both stated just as confidently).
 
 </details>
 

@@ -11,6 +11,10 @@ date: 2026-12-02
 
 **The big idea:** motion should explain, not decorate, and it calms down for people who ask. Then audit your Final Project: the tools find some of the problems, and your own hands find the rest.
 
+## In short
+
+Motion should help someone notice or understand something, and it calms down for anyone whose system asks for reduced motion. An audit checks every page twice: with the tools (the validator, axe, your Feedback checks) and by hand (keyboard, 200% zoom, 320px, contrast, a short screen-reader pass). For S12 you need one bit of motion in your Final Project with a reason and a reduced-motion version, hover effects that also work on focus, and an audit table of what you found, with at least two fixes.
+
 ## Transitions
 
 A transition animates a change between two states, like a link's color on hover:
@@ -154,33 +158,37 @@ WCAG 2.2.2: it starts on its own, lasts more than five seconds, and sits next to
 
 ## Try it together
 
-Everyone runs the same prompt, then we check what came back. Copy your `sparks/s11-modern-css/` folder to `try/s12/`, open `try/s12/index.html`, and paste:
+Pair programming, with the whole class. I drive Copilot on the projector; you navigate. After each step you read the output with me, decide whether to keep it or revise it, and say what to ask for next. Your own run comes in studio, with S12.
+
+We start from a copy of an S11 page in `try/s12/`:
 
 ```text
 Add some fun Saturday-morning animations to this page.
 ```
 
-**How to check it**
+Then we put it under pressure, one step at a time. Each time, the question is what *our* code does, and which line does it:
 
 - DevTools → **Rendering** → emulate `prefers-reduced-motion: reduce`. Does the motion stop or calm down?
 - Does anything loop forever, or flash?
 - Does every hover effect also happen on keyboard focus?
 - While it moves, can you still read everything? Does any text jump around?
 
-**Dig deeper:** highlight the `@media (prefers-reduced-motion …)` rule (or, if there isn't one, an `animation` line) and run [`/dig-deeper`](/250/skills/dig-deeper/).
+**Dig deeper:** we highlight the `@media (prefers-reduced-motion …)` rule (or, if there isn't one, an `animation` line) and run [`/dig-deeper`](/250/skills/dig-deeper/). Answer its predict question before the reveal.
+
+**On your own:** if you missed class or want another pass, copy your `sparks/s11-modern-css/` folder to `try/s12/`, run the starting prompt above, try the same pressure tests, and answer the questions in the box below.
 
 <details>
-<summary>What went wrong, and how we caught it</summary>
+<summary>Questions to ask your output</summary>
 
-Requests like this often come back with one or more of these:
+Use these in studio on your own S12, out loud or to the agent:
 
-- Bouncing, wobbling, or spinning with `infinite`, and nothing to stop it.
-- No `prefers-reduced-motion` at all, or a rule that only shortens the motion a little.
-- Effects on `:hover` only, never on `:focus-visible`.
-- `width`, `height`, or `margin` animated, so the text around them jumps.
-- A JavaScript scroll effect, out of scope here.
+- What is each animation for? What does it help someone notice?
+- With reduced motion switched on, what still moves, and which rule stops the rest?
+- Does anything loop forever, or flash?
+- Which hover effects also happen on keyboard focus?
+- Which property is animated, and does the text around it move?
 
-It was fun for five seconds. Emulating reduced motion, Tabbing through, and watching for ten seconds found the problems. In your Spark you'll add one bit of motion to your Final Project, on purpose, with the reduced-motion version built in.
+**Watch for:** bouncing, wobbling, or spinning with `infinite`, and nothing to stop it; no `prefers-reduced-motion` at all, or a rule that only shortens the motion a little; effects on `:hover` only, never on `:focus-visible`; `width`, `height`, or `margin` animated, so the text around them jumps; a JavaScript scroll effect, out of scope here.
 
 </details>
 

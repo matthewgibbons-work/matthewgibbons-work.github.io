@@ -12,6 +12,10 @@ date: 2026-10-26
 
 **The big idea:** color only carries meaning if everyone can see it. First you have to be able to read the colors the agent writes. Then two rules keep them readable: enough contrast, and never color alone.
 
+## In short
+
+Read the colors the agent writes (hex, `rgb()`, and `hsl()` are three spellings of the same thing), then check them: every text color needs enough contrast with its background (4.5:1 for body text, 3:1 for large text), and nothing can rely on color alone. For S03 you need four colors for a theme, each written all three ways, a gradient heading, links that stay underlined, and an on-page table of every pair's ratio, checked in WebAIM rather than taken from the agent.
+
 ## Writing colors
 
 CSS gives you several ways to write the same color, and the agent will use whichever it likes. You need to be able to read all of them.
@@ -221,17 +225,22 @@ Give this page a bright, retro Saturday-morning color scheme, with a gradient be
 
 **Dig deeper:** highlight one color value the agent wrote, like an `hsl()`, and run [`/dig-deeper`](/250/skills/dig-deeper/). Be ready to say roughly what color it is without looking at the page.
 
+The page looked great. The contrast checker didn't agree: we checked each text color against its background, including the worst point of the gradient, and turned the claim into numbers.
+
+**On your own:** if you missed class or want another pass, copy your S02 folder to `try/s03/` as above, run the prompt, do the same four checks, and answer the questions in the box below.
+
 <details>
-<summary>What went wrong, and how we caught it</summary>
+<summary>Questions to ask your output</summary>
 
-Requests like this often come back with one or more of these:
+Use these on your own S03, out loud or to the agent:
 
-- Pastel or mid-tone text on a bright background, well under 4.5:1.
-- A heading on a gradient that's fine at one end and unreadable at the other.
-- Links recolored with the underline removed, so color is the only way to spot them.
-- A note saying the colors "meet accessibility standards," with no ratio checked.
+- For each text color, what's its background, and what ratio did WebAIM give? Does it match what the agent said?
+- Where is the gradient lightest, and can you read the heading there?
+- Pick one `hsl()` the agent wrote. Roughly what color is it, and which number would make it lighter?
+- If the page were black and white, how would someone find the links?
+- Can you see focus on every background?
 
-The page looked great. The contrast checker didn't agree: we checked each text color against its background, including the worst point of the gradient, and turned the claim into numbers. In your Spark you'll choose a theme and build the palette yourself, with "every text color meets 4.5:1 (3:1 for large text), and links stay underlined" in the "done" list.
+**Watch for:** pastel or mid-tone text on a bright background, well under 4.5:1; a heading on a gradient that's fine at one end and unreadable at the other; links recolored with the underline removed; a note saying the colors "meet accessibility standards", with no ratio checked.
 
 </details>
 

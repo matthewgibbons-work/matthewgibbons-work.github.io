@@ -11,7 +11,18 @@ folder: final-project/
 
 # Final Project
 
-**Units:** everything this term. Your intent brief is Wednesday's Spark (S09). Due Sat Dec 12, 11:59 pm. The open lab that day is for final help.
+Make a small site, three to five pages, for a real or realistic audience: expand the Saturday Morning Archive, or bring your own idea, in HTML and CSS only. It's due Sat Dec 12 at 11:59 pm. Submit by pasting two links in Learning Suite. It's graded on a 25-point rubric (25% of your grade), and AI use (`NOTES.md`) carries the most points. Rework doesn't apply: this is the finished piece.
+
+It draws on everything this term, and from Mon Nov 23 your studio time goes to it. Your S09 intent brief is its Intent and Spec: who it's for, its pages, and the "done" list you check it against. Write `final-project/NOTES.md` as you go, not the night before. The thing most people miss is checking every page, not just the home page: the validator, contrast, keyboard, 320px, and 200% zoom, on each one.
+
+**Key dates**
+
+- **Mon Nov 16:** brief out.
+- **Wed Nov 18:** intent brief (S09), due Mon Nov 23.
+- **Mon Nov 23:** no more Prototypes; studio time goes to the Final Project.
+- **Sat Dec 12, 11:59 pm:** due. The open lab that day is for final help.
+
+The full week-by-week list is under **Timeline**.
 
 ## The brief
 
@@ -32,7 +43,7 @@ Either way, the site lives in `final-project/` in your repo, starting at `final-
 | Mon Nov 23 | No more Prototypes: from here, studio time goes to the Final Project. |
 | Wed Dec 2 | S12: audit your Final Project and fix two things. |
 | Mon Dec 7 | S13: the big live build, then check your Final Project against your own "done" list. |
-| **Sat Dec 12** | Open lab | **Due, 11:59 pm:** links in Learning Suite. Come for final help if you need it. |
+| **Sat Dec 12** | Open lab. **Due, 11:59 pm:** links in Learning Suite. Come for final help if you need it. |
 
 ## Spec: the "done" list
 
@@ -85,7 +96,7 @@ The same loop as every Spark, at full size:
 3. **Verify:** each page as you finish it: the Feedback checks on every push, then keyboard, 320px, 200%, and contrast by hand.
 4. **Explain:** write `final-project/NOTES.md` as you go, not the night before. Every rejected suggestion is worth a line.
 
-Then run [`/check`](/250/skills/check/) `release` with the "done" list pasted (the **Copy** button copies it).
+Then run [`/check`](/250/skills/check/) `final-project` with the "done" list pasted (the **Copy** button copies it).
 
 **Watch for:** the agent rewriting pages you've already checked when you ask for something small, styles copied into every page instead of one shared file, facts or dates it made up, and JavaScript (`AGENTS.md` rules it out here).
 

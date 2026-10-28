@@ -12,6 +12,10 @@ date: 2026-11-02
 
 **The big idea:** every element is a box. Layout starts with knowing how big each box really is, how boxes sit next to each other, and giving the things people tap enough room.
 
+## In short
+
+Every element is a box of content, padding, border, and margin, and `box-sizing: border-box` makes the width you set include the padding and border. For S05 you need `border-box` on everything, and a `<nav>` with a list of links set side by side with `display: inline-block`, each padded to at least 24 × 24 pixels (aim for 44 tall), with spacing in `rem` or `em`.
+
 ## Every element is a box
 
 The browser draws every element as a rectangle in four layers, from the inside out:
@@ -83,7 +87,7 @@ By default, `width` sets only the **content**. Padding and border are added on t
 - **`inline-block`** flows like text but behaves like a box: `width`, `height`, and padding all take up real room.
 - **`none`** removes the element completely: it isn't drawn, it can't be focused, and screen readers skip it. Use it for things that truly shouldn't be there, not to hide a label.
 
-Wednesday's Flexbox is another `display` value, `display: flex`, for laying out a row or column of boxes.
+Flexbox (S06, Wed Nov 4) is another `display` value, `display: flex`, for laying out a row or column of boxes.
 
 ## Room to tap
 
@@ -116,33 +120,37 @@ Padding: about 13px above and below (or `0.8rem`) adds up to 44, and with `inlin
 
 ## Try it together
 
-Everyone runs the same prompt, then we check what came back. Copy your `sparks/s04-type-scale/` folder to `try/s05/` (the kit update in today's Spark adds a `.gitignore` that keeps `try/` out of your commits; until then, yours from S03 does). Open `try/s05/index.html` and paste:
+Pair programming, with the whole class. I drive Copilot on the projector; you navigate. After each step you read the output with me, decide whether to keep it or revise it, and say what to ask for next. Your own run comes in studio, with S05.
+
+We start from a copy of an S04 page in `try/s05/`:
 
 ```text
 Add a navigation bar at the top of this page with links to my hub, my S04 page, and my archive, and give the whole page more breathing room.
 ```
 
-**How to check it**
+Then we put it under pressure, one step at a time. Each time, the question is what *our* code does, and which line does it:
 
 - Hover each nav link in DevTools' **Elements** panel. Is every one at least 24 × 24, and close to 44 tall?
 - Find `box-sizing` in the CSS. Is it `border-box`? Is there a `width: 100%` with padding that makes the page scroll sideways?
 - Are the links inside a `<nav>`, in a list? Does Tab show focus on each one?
 - Zoom to 200%. Do the nav links wrap neatly, or crash into each other?
 
-**Dig deeper:** highlight the rule that sets the nav links' `display` and padding and run [`/dig-deeper`](/250/skills/dig-deeper/). Ask what would change if it were `inline`.
+**Dig deeper:** we highlight the rule that sets the nav links' `display` and padding and run [`/dig-deeper`](/250/skills/dig-deeper/). We ask what would change if it were `inline`. Answer its predict question before the reveal.
+
+**On your own:** if you missed class or want another pass, copy your `sparks/s04-type-scale/` folder to `try/s05/` (your `.gitignore` keeps `try/` out of your commits), run the starting prompt above, try the same four pressure tests, and answer the questions in the box below.
 
 <details>
-<summary>What went wrong, and how we caught it</summary>
+<summary>Questions to ask your output</summary>
 
-Requests like this often come back with one or more of these:
+Use these in studio on your own S05, out loud or to the agent:
 
-- Nav links with no padding: text-sized targets, 18–20px tall, under 24 × 24.
-- Padding on `inline` links, so their backgrounds overlap the content below at 200% zoom.
-- `width: 100%` plus padding with no `border-box`, so the page scrolls sideways.
-- A fixed `height` on the nav that the links spill out of when they wrap.
-- Links in a `<div>`, with no `<nav>` and no list.
+- How big is each nav link, in pixels? Which layer of the box made it that big?
+- What does `box-sizing` say, and what would the page do without it?
+- Which `display` value do the links have, and what happens to their padding if it's `inline`?
+- Where are the links in the HTML: in a `<nav>`, in a list?
+- At 200% zoom, where do the links go when they don't fit on one line?
 
-The page looked tidy, and "more breathing room" sounded done. Hovering each link in DevTools turned "looks fine" into a size we could compare with 24 × 24. In your Spark you'll ask again, with the target size and `border-box` in the "done" list.
+**Watch for:** nav links with no padding: text-sized targets, 18–20px tall, under 24 × 24; padding on `inline` links, so their backgrounds overlap the content below at 200% zoom; `width: 100%` plus padding with no `border-box`, so the page scrolls sideways; a fixed `height` on the nav that the links spill out of when they wrap; links in a `<div>`, with no `<nav>` and no list.
 
 </details>
 

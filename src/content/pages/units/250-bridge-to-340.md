@@ -11,11 +11,15 @@ date: 2026-12-09
 
 **The big idea:** HTML is the content, CSS is the look, and JavaScript is the behavior. A script listens for something to happen and changes the page in response, and everything you've learned about checking still applies to it.
 
+## In short
+
+HTML is the content, CSS is the look, and JavaScript is the behavior: a script finds an element, listens for an event, and changes the page in response. Everything you've checked all term still applies, so a button has to be a real `<button>` that works from the keyboard and tells screen readers its state. For S14 you need one `.js` file loaded with `defer`, a real `<button>` per episode whose `aria-pressed` flips between `"false"` and `"true"`, the state shown in more than color, and no console errors.
+
 ## Where JavaScript fits
 
 All term, `AGENTS.md` has kept JavaScript out of your repo, and you've done a lot without it: `<details>` that opens and closes, forms the browser checks, dark mode, layouts that respond to the screen. Use HTML and CSS first. Reach for a script when the page has to *remember* or *react* in a way they can't, like marking an episode as watched.
 
-Today is the one exception, written into `AGENTS.md` all term: plain JavaScript, no libraries, only in `sparks/s14-bridge/`.
+This session is the one exception, written into `AGENTS.md` all term: plain JavaScript, no libraries, only in `sparks/s14-bridge/`.
 
 A script lives in its own file, loaded from the HTML with `defer`, so it waits until the page's HTML has been read:
 
@@ -136,33 +140,37 @@ No. A `<div>` isn't in the Tab order, so they can't reach it, and Enter and Spac
 
 ## Try it together
 
-Everyone runs the same prompt, then we check what came back. JavaScript is allowed only in `sparks/s14-bridge/`, so this time copy your `sparks/s02-episode-guide-rerun/` folder to `sparks/s14-bridge/try/` (your `.gitignore` still keeps any folder called `try` out of your commits). Open `sparks/s14-bridge/try/index.html`, and paste:
+Pair programming, with the whole class. I drive Copilot on the projector; you navigate. After each step you read the output with me, decide whether to keep it or revise it, and say what to ask for next. Your own run comes in studio, with S14.
+
+JavaScript is allowed only in `sparks/s14-bridge/`, so we start from a copy of an S02 Episode Guide in `sparks/s14-bridge/try/` (your `.gitignore` keeps any folder called `try` out of your commits):
 
 ```text
 Add a button that shows and hides the episode summaries, using JavaScript.
 ```
 
-**How to check it**
+Then we put it under pressure, one step at a time. Each time, the question is what *our* code does, and which line does it:
 
 - Is it a real `<button>`? Tab to it and press Enter, then Space. Does it work both ways?
 - With VoiceOver on (Cmd + F5), does it say "expanded" and "collapsed"? Is there an `aria-expanded` that changes?
 - Open DevTools' **Console**. Any red errors? Is the script loaded with `defer`, and does it use `const` or `let` and `===`?
 - Could `<details>` have done this with no JavaScript?
 
-**Dig deeper:** highlight the `addEventListener` line and run [`/dig-deeper`](/250/skills/dig-deeper/). Ask what each part of it means.
+**Dig deeper:** we highlight the `addEventListener` line and run [`/dig-deeper`](/250/skills/dig-deeper/). We ask what each part of it means. Answer its predict question before the reveal.
+
+**On your own:** if you missed class or want another pass, copy your `sparks/s02-episode-guide-rerun/` folder to `sparks/s14-bridge/try/`, run the starting prompt above, try the same pressure tests, and answer the questions in the box below.
 
 <details>
-<summary>What went wrong, and how we caught it</summary>
+<summary>Questions to ask your output</summary>
 
-Requests like this often come back with one or more of these:
+Use these in studio on your own S14, out loud or to the agent:
 
-- A `<div>` or `<span>` with a click listener instead of a `<button>`, so the keyboard can't reach it.
-- No `aria-expanded`, so a screen reader can't tell whether the summaries are showing.
-- The script in `<head>` without `defer`, so it can't find the button, and the console shows an error.
-- Summaries hidden with an inline style the script flips, when `<details>` would have done it with no script at all.
-- `var` and `==`, which `AGENTS.md` asks the agent not to use.
+- Which element does the script listen to, and for which event?
+- Is it a real `<button>`? What happens with Tab, then Enter, then Space?
+- What will a screen reader say before and after a press? Which attribute changes?
+- Where is the script loaded, and what would go wrong without `defer`?
+- Could `<details>` have done this with no JavaScript at all?
 
-It worked with the mouse. Tab, Enter, Space, VoiceOver, and the console each found something. In your Spark you'll build a "watched" toggle, with all of those checks in its "done" list.
+**Watch for:** a `<div>` or `<span>` with a click listener instead of a `<button>`, so the keyboard can't reach it; no `aria-expanded`, so a screen reader can't tell whether the summaries are showing; the script in `<head>` without `defer`, so it can't find the button, and the console shows an error; summaries hidden with an inline style the script flips, when `<details>` would have done it with no script at all; `var` and `==`, which `AGENTS.md` asks the agent not to use.
 
 </details>
 

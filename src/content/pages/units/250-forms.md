@@ -12,6 +12,10 @@ date: 2026-11-18
 
 **The big idea:** a form is a conversation. Every field has a visible label, related choices are grouped under their question, and errors say what's wrong in words, with HTML doing the checking.
 
+## In short
+
+A form is a conversation: every field has a visible `<label>`, related choices sit in a `<fieldset>` under a `<legend>` that asks the question, and HTML's own checks (`required`, the right `type`, `:user-invalid`) say what's wrong in words. S09, your Final Project intent brief, doesn't use this unit; P4 does, and its Suggest-a-show form needs every one of these.
+
 ## Labels first
 
 Every field needs a visible `<label>`, joined to its field by `for` and `id`:
@@ -170,33 +174,37 @@ Something like "1980s, radio button, 2 of 3", and nothing about the question. A 
 
 ## Try it together
 
-Everyone runs the same prompt, then we check what came back. Copy your `sparks/s08-responsive/` folder to `try/s09/`, open `try/s09/index.html`, and paste:
+Pair programming, with the whole class. I drive Copilot on the projector; you navigate. After each step you read the output with me, decide whether to keep it or revise it, and say what to ask for next. S09 is your intent brief, so your own run of a form comes in P4.
+
+We start from a copy of an S08 page in `try/s09/`:
 
 ```text
 Add a form where visitors can suggest a cartoon for the archive: their name, email, the show, the decade it first aired, and why.
 ```
 
-**How to check it**
+Then we put it under pressure, one step at a time. Each time, the question is what *our* code does, and which line does it:
 
 - Click each label. Does the cursor jump into its field?
 - Are the decade choices in a `<fieldset>` with the question as the `<legend>`?
 - Submit it empty. Does the browser say what's wrong in words? Do any fields turn red before you've touched them?
 - Is any `placeholder` doing a label's job? Is the email field `type="email"` with `autocomplete="email"`?
 
-**Dig deeper:** highlight `:user-invalid` (or an `autocomplete` attribute) and run [`/dig-deeper`](/250/skills/dig-deeper/).
+**Dig deeper:** we highlight `:user-invalid` (or an `autocomplete` attribute) and run [`/dig-deeper`](/250/skills/dig-deeper/). Answer its predict question before the reveal.
+
+**On your own:** if you missed class or want another pass, copy your `sparks/s08-responsive/` folder to `try/s09/`, run the starting prompt above, try the same pressure tests, and answer the questions in the box below.
 
 <details>
-<summary>What went wrong, and how we caught it</summary>
+<summary>Questions to ask your output</summary>
 
-Requests like this often come back with one or more of these:
+Use these on your own P4 form, out loud or to the agent:
 
-- Placeholders instead of labels, especially for name and email.
-- The decade as radio buttons with no `<fieldset>` or `<legend>`, or as a free-text box.
-- Errors shown only by a red border, or `:invalid` so the form is red from the start.
-- A JavaScript validation script, which `AGENTS.md` rules out here, when the HTML attributes already do the job.
-- `action="#"` or a made-up URL, so the form goes nowhere you can see.
+- Click each label. Does it put the cursor in its field?
+- Which question do the radio buttons answer, and where is that question in the HTML?
+- Submit it empty. What does the page say, and where do those words come from?
+- Which `type` and `autocomplete` does each field have, and why that one?
+- Where does the form go when it's sent, and with which `method`?
 
-It looked like a form. Clicking the labels, submitting it empty, and reading the HTML for `fieldset` showed which parts were only drawn as a form. In P4 you'll build one with labels, a fieldset, and `:user-invalid` in the "done" list.
+**Watch for:** placeholders instead of labels, especially for name and email; the decade as radio buttons with no `<fieldset>` or `<legend>`, or as a free-text box; errors shown only by a red border, or `:invalid` so the form is red from the start; a JavaScript validation script, which `AGENTS.md` rules out here, when the HTML attributes already do the job; `action="#"` or a made-up URL, so the form goes nowhere you can see.
 
 </details>
 

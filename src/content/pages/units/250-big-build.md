@@ -11,6 +11,10 @@ date: 2026-12-07
 
 **The big idea:** everything at once. One small site, from an intent brief to a verified deploy, in one session, with every check done out loud before moving on. It's your Final Project in miniature, and the order of work is the thing to take with you.
 
+## In short
+
+Build one small site, the Rewatch Club, through the whole loop in one class: intent and "done" list first, then five checkpoints (structure, layout, look, form, ship), each with a gate you check before moving on. It's also S13: what you build here is the Spark, so S13 only asks you to finish any checkpoint you didn't reach, ship it, and check the live site against the brief's "done" list.
+
 ## The brief
 
 We'll all build the same site, so we can check it together.
@@ -134,7 +138,7 @@ Treat it as a claim and check it against the "done" list, line by line, on the l
 
 ## Try it together
 
-Today, Try it together *is* the build, about 40 minutes. Create `sparks/s13-big-build/` (it's also today's Spark, so it gets committed and pushed), and run these five prompts in order. Don't start the next prompt until the gate passes, and help your neighbour if theirs doesn't.
+In class, Try it together *is* the build, about 40 minutes. Create `sparks/s13-big-build/` (it's also the S13 Spark, so it gets committed and pushed), and run these five prompts in order. Don't start the next prompt until the gate passes, and help your neighbour if theirs doesn't.
 
 **1. Structure.** Paste the intent and "done" list above, then:
 
@@ -172,21 +176,24 @@ Build the sign-up form on signup.html: name, email, which party (radio buttons),
 
 *Gate:* the **Feedback checks** Summary for all four pages, then Tab through the live site.
 
-**How to check it,** at the end: go down the "done" list above, line by line, on the live site. **Dig deeper:** pick one line in the site you couldn't explain yet and run [`/dig-deeper`](/250/skills/dig-deeper/) on it.
+**How to check it,** at the end: go down the "done" list above, line by line, on the live site.
+
+**Dig deeper:** pick one line in the site you couldn't explain yet and run [`/dig-deeper`](/250/skills/dig-deeper/) on it.
+
+**On your own:** if you missed class, create `sparks/s13-big-build/`, run the five prompts in order, check each gate before the next prompt, and answer the questions in the box below.
 
 <details>
-<summary>What went wrong, and how we caught it</summary>
+<summary>Questions to ask your output</summary>
 
-Builds like this usually turn up a few of these, and each gate is where they show:
+Use these at each gate, out loud or to the agent:
 
-- At **structure:** the schedule as cards instead of a table, or the nav different on each page.
-- At **layout:** a `grid-column: span 2` card or a fixed width that scrolls sideways at 320px.
-- At **look:** a dark-mode link color under 4.5:1, or a focus ring that disappears in dark mode.
-- At **form:** placeholders instead of labels, or the parties with no `<legend>`.
-- At **ship:** a page left out of the nav, or `thanks.html` with no way back.
-- And at any point: the agent "helpfully" rewriting a page that had already passed its gate. Small requests and checking the diff in Desktop caught it.
+- **Structure:** is the schedule a table, with a `<caption>` and `scope`? Is the nav the same on every page?
+- **Layout:** at 320px, does anything make the page scroll sideways? Which line?
+- **Look:** which pairs did you check in each mode, and what did WebAIM say? Can you see focus in dark mode?
+- **Form:** does every label put the cursor in its field? What does a screen reader say for the radio group?
+- **Ship:** is every page in the nav, and is there a way back from `thanks.html`?
 
-None of these were hard to fix where they were found. That's the point of the gates.
+**Watch for:** the schedule as cards instead of a table, or a different nav on each page; a `grid-column: span 2` card or a fixed width that scrolls sideways at 320px; a dark-mode link color under 4.5:1, or a focus ring that disappears in dark mode; placeholders instead of labels, or the parties with no `<legend>`; a page left out of the nav, or `thanks.html` with no way back; and at any point, the agent "helpfully" rewriting a page that already passed its gate (small requests, and the diff in Desktop's **Changes** tab, catch it).
 
 </details>
 

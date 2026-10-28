@@ -12,6 +12,10 @@ date: 2026-11-16
 
 **The big idea:** one page, every screen. Build for the narrowest screen first, so it reflows down to 320px with no sideways scrolling, then add layout as space allows.
 
+## In short
+
+Build the one-column layout first, for every screen, and add columns with `min-width` media queries in `em` only when there's room, so the page reflows down to 320px with nothing hidden and no sideways scrolling. For S08 you need a one-column base, at least one `min-width` query in `em` that brings back the sidebar, the table in its own scrolling box that works from the keyboard, and nothing hidden on small screens.
+
 ## Fluid first
 
 A page is responsive before you write any CSS: block boxes fill whatever width they're given, and text wraps. Layouts stop being responsive when we pin things down.
@@ -22,7 +26,7 @@ A page is responsive before you write any CSS: block boxes fill whatever width t
 
 ## Mobile first, with `min-width`
 
-Write the base CSS, with no media query at all, for the narrowest screen: usually one column. Then add layout only when there's room, with a `min-width` media query. Here's last week's page layout, mobile first:
+Write the base CSS, with no media query at all, for the narrowest screen: usually one column. Then add layout only when there's room, with a `min-width` media query. Here's the S07 Grid page layout, mobile first:
 
 ```css
 body {
@@ -155,32 +159,37 @@ Yes. 1280 ÷ 4 = 320 CSS pixels, so the page gets the same width and the same me
 
 ## Try it together
 
-Everyone runs the same prompt, then we check what came back. Copy your `sparks/s07-grid/` folder to `try/s08/`, open `try/s08/index.html`, and paste the shortest prompt of the term, on purpose:
+Pair programming, with the whole class. I drive Copilot on the projector; you navigate. After each step you read the output with me, decide whether to keep it or revise it, and say what to ask for next. Your own run comes in studio, with S08.
+
+We start from a copy of an S07 page in `try/s08/`, with the shortest prompt of the term, on purpose:
 
 ```text
 Make this page responsive.
 ```
 
-**How to check it**
+Then we put it under pressure, one step at a time. Each time, the question is what *our* code does, and which line does it:
 
 - Open the device toolbar and set the width to 320. Does anything make the whole page scroll sideways?
 - Read the media queries. `min-width` or `max-width`? `px` or `em`?
 - Search for `display: none`. Is anything hidden from small screens that big screens get?
 - At 320px, does the table scroll on its own, inside a box you can reach with Tab and scroll with the arrow keys?
 
-**Dig deeper:** highlight the first `@media` rule and run [`/dig-deeper`](/250/skills/dig-deeper/). Ask what would change if it were written in `em`, or the other way round.
+**Dig deeper:** we highlight the first `@media` rule and run [`/dig-deeper`](/250/skills/dig-deeper/). We ask what would change if it were written in `em`, or the other way round. Answer its predict question before the reveal.
+
+**On your own:** if you missed class or want another pass, copy your `sparks/s07-grid/` folder to `try/s08/`, run the starting prompt above, try the same pressure tests, and answer the questions in the box below.
 
 <details>
-<summary>What went wrong, and how we caught it</summary>
+<summary>Questions to ask your output</summary>
 
-"Make this page responsive" often comes back with one or more of these:
+Use these in studio on your own S08, out loud or to the agent:
 
-- Desktop-first `max-width` queries in `px`, undoing the layout for phones.
-- The sidebar (or the table) hidden with `display: none` on small screens "to save space," so phone users lose content.
-- The table left as it was, so the whole page scrolls sideways at 320px.
-- Fixed widths left in place, with breakpoints added around them.
+- With every media query switched off, what does the page look like? Is that one column?
+- Is each media query `min-width` or `max-width`, and in which unit?
+- At 320px in the device toolbar, does anything make the page scroll sideways? Which line?
+- Is anything hidden on a phone that a laptop shows?
+- Can you scroll the table from the keyboard, and what will a screen reader call its box?
 
-It looked fine in a narrow browser window. The device toolbar at 320px showed the sideways scroll, and reading the media queries showed what was undone and what was hidden. In your Spark you'll ask again, with "mobile first, `min-width` in `em`, nothing hidden, no sideways scroll at 320px" in the "done" list.
+**Watch for:** desktop-first `max-width` queries in `px`, undoing the layout for phones; the sidebar (or the table) hidden with `display: none` on small screens "to save space," so phone users lose content; the table left as it was, so the whole page scrolls sideways at 320px; fixed widths left in place, with breakpoints added around them.
 
 </details>
 

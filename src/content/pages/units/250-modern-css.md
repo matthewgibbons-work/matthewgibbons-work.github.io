@@ -11,6 +11,10 @@ date: 2026-11-30
 
 **The big idea:** name your design decisions once, with custom properties; respond to the reader's own settings, like dark mode; and select elements by what they contain. All of it in CSS, with no JavaScript.
 
+## In short
+
+Name each design decision once, as a custom property, and dark mode becomes new values for the same names, chosen by the reader's own setting with `prefers-color-scheme`. `:focus-visible` keeps focus easy to see, and `:has()` selects an element by what it contains, all with no JavaScript. For S11 you need every color and spacing size as a token on `:root`, a dark-mode block that changes only the color tokens, every pair passing AA in both modes, a visible `:focus-visible` style, and one useful `:has()` rule.
+
 ## Custom properties
 
 A custom property is a value with a name. Define it once, usually on `:root` (the `<html>` element, so everything inherits it), and use it anywhere with `var()`:
@@ -171,33 +175,37 @@ The card. `:has()` picks the element *before* it, if something inside matches. T
 
 ## Try it together
 
-Everyone runs the same prompt, then we check what came back. Copy your `sparks/s10-multimedia/` folder to `try/s11/`, open `try/s11/index.html`, and paste:
+Pair programming, with the whole class. I drive Copilot on the projector; you navigate. After each step you read the output with me, decide whether to keep it or revise it, and say what to ask for next. Your own run comes in studio, with S11.
+
+We start from a copy of an S10 page in `try/s11/`:
 
 ```text
 Add a dark mode to this page.
 ```
 
-**How to check it**
+Then we put it under pressure, one step at a time. Each time, the question is what *our* code does, and which line does it:
 
 - In DevTools, open **Rendering** and set **Emulate CSS media feature prefers-color-scheme** to *dark*. Does the page switch?
 - Read the CSS: are the colors custom properties that change in one place, or is every color written out twice?
 - Check two text/background pairs in dark mode in the [WebAIM contrast checker](https://webaim.org/resources/contrastchecker/). Then Tab through in both modes: can you always see focus?
 - Did it add a JavaScript toggle button? (`AGENTS.md` rules it out. What does the CSS-only version give up, and what does it keep?)
 
-**Dig deeper:** highlight a `var()` and run [`/dig-deeper`](/250/skills/dig-deeper/). Ask what happens if the token isn't defined.
+**Dig deeper:** we highlight a `var()` and run [`/dig-deeper`](/250/skills/dig-deeper/). We ask what happens if the token isn't defined. Answer its predict question before the reveal.
+
+**On your own:** if you missed class or want another pass, copy your `sparks/s10-multimedia/` folder to `try/s11/`, run the starting prompt above, try the same pressure tests, and answer the questions in the box below.
 
 <details>
-<summary>What went wrong, and how we caught it</summary>
+<summary>Questions to ask your output</summary>
 
-Requests like this often come back with one or more of these:
+Use these in studio on your own S11, out loud or to the agent:
 
-- A light/dark toggle button with a script and `localStorage`, out of scope for this course.
-- Every color written out twice, once per mode, instead of tokens.
-- Dark-mode pairs that fail contrast: a link color that was fine on cream and isn't on near-black, or mid-gray text.
-- The focus outline in the light-mode color, invisible on the dark background.
-- `color-scheme` missing, so form fields stay glaring white.
+- Where is each color defined, and how many places would you edit to change the accent?
+- What changes in dark mode: the tokens, or every rule that uses a color?
+- Which pairs did you check in dark mode, and what did WebAIM say?
+- Where is focus in dark mode, and what color is the outline?
+- Is there any JavaScript, and what would the CSS-only version give up?
 
-The page looked moody and finished. Emulating dark mode in DevTools, checking two pairs, and Tabbing through found the gaps. In your Spark the tokens come first, and dark mode is just new values for them.
+**Watch for:** a light/dark toggle button with a script and `localStorage`, out of scope for this course; every color written out twice, once per mode, instead of tokens; dark-mode pairs that fail contrast: a link color that was fine on cream and isn't on near-black, or mid-gray text; the focus outline in the light-mode color, invisible on the dark background; `color-scheme` missing, so form fields stay glaring white.
 
 </details>
 
