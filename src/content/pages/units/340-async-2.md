@@ -2,7 +2,7 @@
 title: "Async 2: fetch and errors"
 description: "async/await, fetching PokéAPI, JSON, and error handling: a request can fail in two ways, and only one of them throws."
 courses: [dight340]
-ready: false # true once the S04 dry run passes, with the S04 brief (PLAN.md: Build order)
+ready: true # S04 dry run passed Oct 28
 session: 4
 prototype: P1
 date: 2026-10-28
@@ -129,35 +129,30 @@ No, at least not where you'd expect. The server answers with a 404, so `fetch` r
 
 ## Try it together
 
-Everyone, in your `dight340` session, in plan mode, with no "done" list (`try/` is already ignored since Monday):
+Pair programming, with the whole class. I drive Claude Code on the projector; you navigate. After each step you read the output with me, decide whether to keep it or revise it, and say what to ask for next. Your own run comes in studio, with S04.
+
+We start here, in plan mode:
 
 ```text
-In try/s04/, fetch pikachu from PokéAPI and show its name, sprite, and types on a page. Load the script with defer.
+In try/s04/, fetch pikachu from PokéAPI and show its name and sprite on a page. Load the script with defer.
 ```
 
-Open the page in your browser (double-click it in Finder) with the console open.
+Then we put it under pressure, one step at a time: a misspelled name (`pikachuu`), then DevTools → Network → **Slow 4G**, then **Offline**. Each time, the question is what *our* code does, and which line does it.
 
-**How to check it**
-
-- **Misspell it.** Change the name to `pikachuu` and reload. A clear message, or "undefined"?
-- **Slow it down.** DevTools → Network → **Slow 4G**, reload: is there a loading state? Then **Offline**, reload: a message? Set it back to **No throttling**.
-- **Listen to the sprite.** Find its `alt` in Elements. Would it make sense read aloud?
-- **Find the check.** Is `response.ok` checked before `.json()`? Point at the line, or at where it should be.
-
-**Dig deeper:** run [`/dig-deeper`](/340/skills/dig-deeper/) on the line with `await response.json()`, naming the file and line. Be ready to say what would happen there if the name had a typo.
+**Dig deeper:** we run [`/dig-deeper`](/340/skills/dig-deeper/) on the line with `await response.json()`. Answer its predict question before the reveal.
 
 <details>
-<summary>What went wrong, and how we caught it</summary>
+<summary>Questions to ask your output</summary>
 
-Requests like this often come back with one or more of these:
+Use these in studio on your own S04, out loud or to Claude:
 
-- No `response.ok` check, so a typo shows "undefined" instead of a message.
-- Errors only in `console.error`, with nothing on the page and nothing announced.
-- No loading state, so on a slow connection the page just sits there.
-- The sprite with no `alt`, or `alt="sprite"`.
-- For a party, `await` inside a `for` loop, one Pokémon at a time.
+- Where does this code wait, and what is it waiting for?
+- If the name is misspelled, which line notices? (A 404 still resolves.)
+- What does someone see while it loads, and which line takes that away?
+- When the network is offline, which line runs?
+- What will a screen reader say for the sprite?
 
-It worked on the first try, on fast Wi-Fi. Then we misspelled the name, set DevTools to Network → Slow 4G, and switched to Offline, and each test found a gap. Then we pasted in P1's "done" list and asked again.
+**Watch for:** no `response.ok` check before `.json()`; errors only in `console.error`; `alt="sprite"` or no `alt`; for a party, `await` inside a `for` loop, one Pokémon at a time.
 
 </details>
 
