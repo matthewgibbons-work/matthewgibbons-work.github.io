@@ -54,20 +54,20 @@
         {
           "id": "P2",
           "topic": "Box model + Flexbox",
-          "due": "2026-11-09",
-          "released": "2026-11-02"
+          "due": "2026-11-10",
+          "released": "2026-11-04"
         },
         {
           "id": "P3",
           "topic": "Grid",
-          "due": "2026-11-16",
+          "due": "2026-11-17",
           "released": "2026-11-09"
         },
         {
           "id": "P4",
           "topic": "Responsive + Forms",
-          "due": "2026-11-23",
-          "released": "2026-11-16"
+          "due": "2026-11-24",
+          "released": "2026-11-18"
         }
       ]
     },
@@ -96,20 +96,20 @@
         {
           "id": "P2",
           "topic": "Modules/Vite + Svelte intro",
-          "due": "2026-11-09",
-          "released": "2026-11-02"
+          "due": "2026-11-10",
+          "released": "2026-11-04"
         },
         {
           "id": "P3",
           "topic": "Svelte logic + events",
-          "due": "2026-11-16",
+          "due": "2026-11-17",
           "released": "2026-11-09"
         },
         {
           "id": "P4",
           "topic": "Svelte components + forms/shared state",
-          "due": "2026-11-23",
-          "released": "2026-11-16"
+          "due": "2026-11-24",
+          "released": "2026-11-18"
         }
       ]
     }

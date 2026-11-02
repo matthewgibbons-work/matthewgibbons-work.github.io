@@ -54,7 +54,7 @@ You've worked all term under the course's `AGENTS.md`. Now write the rules for *
 | --- | --- | --- |
 | Mon Nov 16 | S08 | Brief out. Start thinking about audience and data. |
 | Wed Nov 18 | S09 | **Intent brief** (the S09 Spark): audience, problem, data, features, your "done" list. |
-| Mon Nov 23 | S10 | `final-project/` becomes an Astro site and deploys. P4 due. |
+| Mon Nov 23 | S10 | `final-project/` becomes an Astro site and deploys. P4 is due Tue Nov 24. |
 | Mon Nov 30 | S11 | Your `NOTES.md` files become a collection. |
 | Wed Dec 2 | S12 | Svelte islands and client-side data. |
 | Mon Dec 7 | S13 | Playwright + axe tests run in CI. |

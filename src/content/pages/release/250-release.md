@@ -19,7 +19,7 @@ It draws on everything this term, and from Mon Nov 23 your studio time goes to i
 
 - **Mon Nov 16:** brief out.
 - **Wed Nov 18:** intent brief (S09), due Mon Nov 23.
-- **Mon Nov 23:** no more Prototypes; studio time goes to the Final Project.
+- **Mon Nov 23:** studio time goes to the Final Project. P4, the last Prototype, is due Tue Nov 24.
 - **Sat Dec 12, 11:59 pm:** due. The open lab that day is for final help.
 
 The full week-by-week list is under **Timeline**.
@@ -40,7 +40,7 @@ Either way, the site lives in `final-project/` in your repo, starting at `final-
 | --- | --- |
 | Mon Nov 16 | This brief goes out. Start thinking about what you'd build. |
 | Wed Nov 18 | S09: write your intent brief in class. It's this project's Intent and Spec. |
-| Mon Nov 23 | No more Prototypes: from here, studio time goes to the Final Project. |
+| Mon Nov 23 | From here, studio time goes to the Final Project. P4, the last Prototype, is due Tue Nov 24. |
 | Wed Dec 2 | S12: audit your Final Project and fix two things. |
 | Mon Dec 7 | S13: the big live build, then check your Final Project against your own "done" list. |
 | **Sat Dec 12** | Open lab. **Due, 11:59 pm:** links in Learning Suite. Come for final help if you need it. |
