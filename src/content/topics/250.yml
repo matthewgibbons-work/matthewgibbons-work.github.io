@@ -27,7 +27,7 @@
 - name: Box model and display
   session: 5
   unit: box-model
-  summary: Update your kit for feedback checks, and add a nav with links big enough to tap.
+  summary: Update your kit for feedback checks, and make a new page with a nav whose links are big enough to tap.
   prototype: P2
 - name: Flexbox
   session: 6

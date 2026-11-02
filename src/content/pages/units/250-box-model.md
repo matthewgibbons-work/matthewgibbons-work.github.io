@@ -2,7 +2,7 @@
 title: "Box model and display"
 description: "Every element is a box of content, padding, border, and margin. How big the box really is, how boxes sit together, and why the things people tap need room."
 courses: [dight250]
-ready: false # true once the S05 dry run passes (PLAN.md: Build order)
+ready: true # rehearsal passed Nov 2 (cheat sheet in practice-250)
 session: 5
 prototype: P2
 date: 2026-11-02
@@ -14,7 +14,7 @@ date: 2026-11-02
 
 ## In short
 
-Every element is a box of content, padding, border, and margin, and `box-sizing: border-box` makes the width you set include the padding and border. For S05 you need `border-box` on everything, and a `<nav>` with a list of links set side by side with `display: inline-block`, each padded to at least 24 × 24 pixels (aim for 44 tall), with spacing in `rem` or `em`.
+Every element is a box of content, padding, border, and margin, and `box-sizing: border-box` makes the width you set include the padding and border. For S05 you make a new page with `border-box` on everything, two padded, bordered sections, and a `<nav>` with a list of links set side by side with `display: inline-block`, each padded to at least 24 × 24 pixels (aim for 44 tall), with spacing in `rem` or `em`.
 
 ## Every element is a box
 
@@ -122,10 +122,10 @@ Padding: about 13px above and below (or `0.8rem`) adds up to 44, and with `inlin
 
 Pair programming, with the whole class. I drive Copilot on the projector; you navigate. After each step you read the output with me, decide whether to keep it or revise it, and say what to ask for next. Your own run comes in studio, with S05.
 
-We start from a copy of an S04 page in `try/s05/`:
+We start from an empty `try/s05/` folder:
 
 ```text
-Add a navigation bar at the top of this page with links to my hub, my S04 page, and my archive, and give the whole page more breathing room.
+Make a new page in this folder: a navigation bar at the top with links to my hub, my S04 page, and my archive, then two short sections about Saturday morning cartoons. Give the whole page some breathing room.
 ```
 
 Then we put it under pressure, one step at a time. Each time, the question is what *our* code does, and which line does it:
@@ -137,7 +137,7 @@ Then we put it under pressure, one step at a time. Each time, the question is wh
 
 **Dig deeper:** we highlight the rule that sets the nav links' `display` and padding and run [`/dig-deeper`](/250/skills/dig-deeper/). We ask what would change if it were `inline`. Answer its predict question before the reveal.
 
-**On your own:** if you missed class or want another pass, copy your `sparks/s04-type-scale/` folder to `try/s05/` (your `.gitignore` keeps `try/` out of your commits), run the starting prompt above, try the same four pressure tests, and answer the questions in the box below.
+**On your own:** if you missed class or want another pass, make an empty `try/s05/` folder (your `.gitignore` keeps `try/` out of your commits), run the starting prompt above with a topic of your own, try the same four pressure tests, and answer the questions in the box below.
 
 <details>
 <summary>Questions to ask your output</summary>
