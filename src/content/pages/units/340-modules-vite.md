@@ -2,7 +2,7 @@
 title: "Modules, npm, Vite, and Vitest"
 description: "Split your code into modules that say what they share, bring in tools with npm, run and build with Vite, and test your logic with Vitest."
 courses: [dight340]
-ready: false # true once the S05 dry run passes, with the S05 brief (PLAN.md: Build order)
+ready: true # published Nov 2; dry run counted as passing (PLAN.md Decision log, Nov 2)
 session: 5
 prototype: P2
 date: 2026-11-02
