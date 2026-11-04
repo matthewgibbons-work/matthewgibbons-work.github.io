@@ -14,7 +14,7 @@ date: 2026-11-04
 
 ## In short
 
-Flexbox lines boxes up in a row or a column, spaces them with `gap`, and wraps them onto new lines when there isn't room. It can also reorder what you see, which leaves keyboard and screen-reader users following the HTML order instead. For S06 you need two flex rows (the title and nav, and a row of featured cards that wraps), spaced with `gap`, and no `order` or `-reverse`: if you want a different order, change the HTML.
+Flexbox lines boxes up in a row or a column, spaces them with `gap`, and wraps them onto new lines when there isn't room. It can also reorder what you see, which leaves keyboard and screen-reader users following the HTML order instead. For S06 you make a new page with two flex rows (the title and nav, and a row of featured cards that wraps, each jumping to its section below), spaced with `gap`, and no `order` or `-reverse`: if you want a different order, change the HTML.
 
 ## A row or a column
 
@@ -126,10 +126,10 @@ The same width: `flex: 1` shares the space equally, whatever is inside. And the 
 
 Pair programming, with the whole class. I drive Copilot on the projector; you navigate. After each step you read the output with me, decide whether to keep it or revise it, and say what to ask for next. Your own run comes in studio, with S06.
 
-We start from a copy of an S05 page in `try/s06/`:
+We start from an empty `try/s06/` folder:
 
 ```text
-Use Flexbox to add a row of featured-episode cards above the table, one for each of my episodes, each with a title, one sentence, and a link to that episode's row in the table. Show the newest episode first.
+Make a new page in this folder with Flexbox: a header with the site's title and a nav linking to my hub, my S05 page, and my archive; a row of featured cards for four Saturday morning cartoon episodes, each with a title, one sentence, and a link to that episode's section further down the page; then those sections. Show the newest episode first.
 ```
 
 Then we put it under pressure, one step at a time. Each time, the question is what *our* code does, and which line does it:
@@ -141,7 +141,7 @@ Then we put it under pressure, one step at a time. Each time, the question is wh
 
 **Dig deeper:** we highlight the cards' `flex` line (or `flex-wrap`) and run [`/dig-deeper`](/250/skills/dig-deeper/). We ask what happens if you remove it. Answer its predict question before the reveal.
 
-**On your own:** if you missed class or want another pass, copy your `sparks/s05-box-model/` folder to `try/s06/`, run the starting prompt above, try the same four pressure tests, and answer the questions in the box below.
+**On your own:** if you missed class or want another pass, make an empty `try/s06/` folder (your `.gitignore` keeps `try/` out of your commits), run the starting prompt above with a topic of your own, try the same four pressure tests, and answer the questions in the box below.
 
 <details>
 <summary>Questions to ask your output</summary>

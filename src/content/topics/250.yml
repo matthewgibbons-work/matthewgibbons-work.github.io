@@ -32,7 +32,7 @@
 - name: Flexbox
   session: 6
   unit: flexbox
-  summary: Lay out a header and a row of cards with Flexbox, keeping the order you see the HTML order.
+  summary: Make a new page with a Flexbox header and a row of cards that jump to sections below, keeping the order you see the HTML order.
   prototype: P2
 - name: Grid
   session: 7
