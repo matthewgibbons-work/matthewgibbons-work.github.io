@@ -1,0 +1,70 @@
+# DIGHT 340 feedback checks, with end-to-end tests (ships Dec 7, replaces the Nov 2 file).
+# On every push: ESLint (the course conventions in eslint.config.mjs), the Vitest tests
+# in every folder that has them, then Playwright + axe in every folder that has
+# @playwright/test (your final-project/ site, from S13). Feedback only: a red mark on a commit
+# means "look at this", and nothing is blocked. Your page still deploys.
+# Your instructor wrote this file; don't edit it, and don't ask the agent to.
+name: Checks
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: ESLint (const/let, ===)
+        run: npx --yes eslint@10 .
+
+      - name: Vitest (every folder with tests)
+        if: ${{ !cancelled() }}
+        run: |
+          status=0
+          found=0
+          while IFS= read -r pkg; do
+            dir=$(dirname "$pkg")
+            grep -q '"vitest"' "$pkg" || continue
+            found=1
+            echo "::group::$dir"
+            if (cd "$dir" && npm install --no-audit --no-fund && npx vitest run); then
+              echo "::endgroup::"
+            else
+              echo "::endgroup::"
+              echo "::error title=Tests failed::$dir"
+              status=1
+            fi
+          done < <(find . -name package.json -not -path '*/node_modules/*' -not -path './archive/*' -not -path './try/*' | sort)
+          [ "$found" = 1 ] || echo "No folders with Vitest yet."
+          exit $status
+
+      - name: Playwright + axe (every folder with end-to-end tests)
+        if: ${{ !cancelled() }}
+        run: |
+          status=0
+          found=0
+          while IFS= read -r pkg; do
+            dir=$(dirname "$pkg")
+            grep -q '"@playwright/test"' "$pkg" || continue
+            found=1
+            echo "::group::$dir"
+            if (cd "$dir" && npm install --no-audit --no-fund && npx playwright install --with-deps chromium && npx playwright test); then
+              echo "::endgroup::"
+            else
+              echo "::endgroup::"
+              echo "::error title=End-to-end tests failed::$dir (open the run's log for which test and which axe rule)"
+              status=1
+            fi
+          done < <(find . -name package.json -not -path '*/node_modules/*' -not -path './archive/*' -not -path './try/*' | sort)
+          [ "$found" = 1 ] || echo "No folders with Playwright yet."
+          exit $status

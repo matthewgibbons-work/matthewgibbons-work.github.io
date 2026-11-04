@@ -1,0 +1,8 @@
+# Files Git should never commit (DIGHT 250 kit, from Nov 2).
+# Finder's hidden folder settings
+.DS_Store
+# Try it together practice in class: yours to keep, not to submit
+try/
+# The kit itself, if you unzip a new copy into your repo
+dight250-starter/
+dight250-starter.zip

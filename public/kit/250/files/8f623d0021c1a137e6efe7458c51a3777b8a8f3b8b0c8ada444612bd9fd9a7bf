@@ -1,0 +1,131 @@
+# Feedback checks for DIGHT 250 (from Mon Nov 2). Your instructor wrote this file: don't
+# edit it, and don't ask the agent to.
+#
+# On every push to main, this checks your pages with the W3C validator and an axe
+# accessibility scan, then writes a report on the run's Summary page (GitHub → Actions →
+# the latest "Feedback checks" run). It never fails and never blocks anything: it's
+# feedback, a second pair of eyes. archive/ and try/ are skipped.
+name: Feedback checks
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  feedback:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Find your pages
+        run: |
+          find . -name '*.html' \
+            -not -path './.git/*' -not -path './archive/*' -not -path './try/*' \
+            -not -path './starter/*' -not -path './dight250-starter/*' -not -path '*/node_modules/*' \
+            | sed 's|^\./||' | sort > pages.txt
+          echo "Checking $(wc -l < pages.txt) pages:"
+          cat pages.txt
+
+      # The Nu validator (the same checker as validator.w3.org), run here rather than through
+      # the web service, which can turn away requests from shared GitHub runners.
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: W3C validator
+        continue-on-error: true
+        run: |
+          mkdir -p reports
+          [ -s pages.txt ] || exit 0
+          npm install --no-save --silent vnu-jar@26.9.30
+          mapfile -t pages < pages.txt
+          java -jar node_modules/vnu-jar/build/dist/vnu.jar --format json --exit-zero-always "${pages[@]}" 2> reports/vnu.json || true
+
+      - name: axe accessibility scan
+        continue-on-error: true
+        run: |
+          python3 -m http.server 8000 > /dev/null 2>&1 &
+          sleep 2
+          urls=$(sed 's|^|http://localhost:8000/|' pages.txt | tr '\n' ' ')
+          # The runner's ChromeDriver matches its Chrome, so use it rather than a downloaded one.
+          npx --yes @axe-core/cli@4.13.0 $urls \
+            --chromedriver-path "$CHROMEWEBDRIVER/chromedriver" \
+            --dir reports --save axe.json > /dev/null || true
+
+      - name: Write the report
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json, os, pathlib
+
+          pages = pathlib.Path('pages.txt').read_text().split()
+          lines = ['# Feedback checks', '',
+                   'These checks never block your push. Fix what you can, and ask about the rest. '
+                   'They can\'t check everything: you still Tab through, zoom to 200%, and check contrast yourself.', '',
+                   f'Checked {len(pages)} pages (`archive/` and `try/` are skipped).', '']
+
+          def esc(text):
+              return text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+
+          def warn(page, line, msg):
+              where = f'file={page}' + (f',line={line}' if line else '')
+              print(f'::warning {where}::{msg}')
+
+          lines += ['## W3C validator', '', '| Page | Result |', '| --- | --- |']
+          details = []
+          try:
+              messages = json.loads(pathlib.Path('reports/vnu.json').read_text())['messages']
+          except Exception:
+              messages = None
+          errors_by_page = {}
+          for m in messages or []:
+              if m.get('type') == 'error' and m.get('url', '').startswith('file:'):
+                  page = os.path.relpath(m['url'][5:], os.getcwd())
+                  errors_by_page.setdefault(page, []).append(m)
+          for page in pages:
+              if messages is None:
+                  lines.append(f'| `{page}` | ⚠️ The validator didn\'t run. Check it by hand at https://validator.w3.org/nu/ |')
+                  continue
+              errors = errors_by_page.get(page, [])
+              if not errors:
+                  lines.append(f'| `{page}` | ✅ No errors |')
+                  continue
+              lines.append(f'| `{page}` | ❌ {len(errors)} error{"s" if len(errors) != 1 else ""} |')
+              details += ['', f'**`{page}`**', '']
+              for m in errors:
+                  details.append(f'- Line {m.get("lastLine", "?")}: {esc(m.get("message", ""))}')
+                  warn(page, m.get('lastLine'), 'Validator: ' + m.get('message', ''))
+          lines += details
+
+          lines += ['', '## axe accessibility scan', '', '| Page | Result |', '| --- | --- |']
+          details = []
+          try:
+              results = json.loads(pathlib.Path('reports/axe.json').read_text())
+          except Exception:
+              results = None
+          if results is None:
+              lines.append('| (all) | ⚠️ The scan didn\'t run. Try **Re-run jobs**, or ask your instructor. |')
+          else:
+              for r in results:
+                  page = r['url'].replace('http://localhost:8000/', '')
+                  v = r.get('violations', [])
+                  if not v:
+                      lines.append(f'| `{page}` | ✅ No issues found |')
+                      continue
+                  lines.append(f'| `{page}` | ❌ {len(v)} issue{"s" if len(v) != 1 else ""} |')
+                  details += ['', f'**`{page}`**', '']
+                  for i in v:
+                      n = len(i.get('nodes', []))
+                      details.append(f'- **{esc(i["help"])}** ({i.get("impact", "")}, {n} place{"s" if n != 1 else ""}): [{i["id"]}]({i["helpUrl"]})')
+                      warn(page, None, f'axe: {i["help"]} ({i["id"]})')
+          lines += details
+
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as out:
+              out.write('\n'.join(lines) + '\n')
+          PY

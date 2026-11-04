@@ -1,0 +1,95 @@
+{
+  "course": "340",
+  "about": "DIGHT course kit versions for /update-kit. A version is out once its date arrives.",
+  "versions": [
+    {
+      "version": "2026-11-04",
+      "files": {
+        ".claude/hooks/scope-guard.mjs": "14613903c52ed9fc7dd5fe71de63c234f87dfb13eb258dcd854123eec1c9287b",
+        ".claude/kit/update.mjs": "9ba41d4e4bc1c37da965e7c131c9b73d808da2a46ef5c177cec40bdf0fdc4d03",
+        ".claude/settings.json": "3718f89983f274de48c4e4062ca749012608fc2cfc41a0eabe8c832e9f5c9ddc",
+        ".claude/skills/check/SKILL.md": "55d5a55fb69dc8ea135d99790af1aecc1a1cd6d2814834240d484f61f534f006",
+        ".claude/skills/dig-deeper/SKILL.md": "8222526167f273dd4a4dcbef1e07cd8429cb59a5fe7cb786ca6a7504afe05519",
+        ".claude/skills/update-kit/SKILL.md": "4197cfb66dbb9f25c45db79f6af1bb1ed1867ad5bde208b527b2060e93fafe61",
+        ".github/workflows/check.yml": "0acefe1f8fca85533d28485073146f05bdca573f34d77d71bb487d35917f7a94",
+        ".github/workflows/deploy.yml": "8a4c6b4da2c96d2ac17fa39a82fd7a509c4990fb7c88433e46f3994097b8940c",
+        ".gitignore": "a37996c0d81abe8b1488a013fed984862052428cd045849aa21dbdde3da3c2d0",
+        "AGENTS.md": "be95cd7662be8e71b73fba540015fc15512a2988e45a04b5c35ec87b977e58b7",
+        "eslint.config.mjs": "89b6ed73c2edfee1588eebb997f9bcaac57d0f2dbe8fac8fd440f582225fb828"
+      },
+      "notes": "If you haven't yet: on GitHub, Settings → Pages → Source → GitHub Actions. Then commit \"Update course kit for Nov 4\", push, and watch Build and deploy go green in the Actions tab. Open a new session so the new settings load."
+    },
+    {
+      "version": "2026-11-23",
+      "files": {
+        ".claude/hooks/scope-guard.mjs": "14613903c52ed9fc7dd5fe71de63c234f87dfb13eb258dcd854123eec1c9287b",
+        ".claude/kit/update.mjs": "9ba41d4e4bc1c37da965e7c131c9b73d808da2a46ef5c177cec40bdf0fdc4d03",
+        ".claude/settings.json": "7cc92d3ffe4dc127445dd397e6a56bd9fac9fd54d71cf8e276d6324066cd6c67",
+        ".claude/skills/check/SKILL.md": "55d5a55fb69dc8ea135d99790af1aecc1a1cd6d2814834240d484f61f534f006",
+        ".claude/skills/dig-deeper/SKILL.md": "8222526167f273dd4a4dcbef1e07cd8429cb59a5fe7cb786ca6a7504afe05519",
+        ".claude/skills/update-kit/SKILL.md": "4197cfb66dbb9f25c45db79f6af1bb1ed1867ad5bde208b527b2060e93fafe61",
+        ".github/workflows/check.yml": "0acefe1f8fca85533d28485073146f05bdca573f34d77d71bb487d35917f7a94",
+        ".github/workflows/deploy.yml": "8d8d00e9962813f2838db99514773aec5e9731bd92d91c5ada4b4766b798f5b1",
+        ".gitignore": "a37996c0d81abe8b1488a013fed984862052428cd045849aa21dbdde3da3c2d0",
+        "AGENTS.md": "be95cd7662be8e71b73fba540015fc15512a2988e45a04b5c35ec87b977e58b7",
+        "eslint.config.mjs": "89b6ed73c2edfee1588eebb997f9bcaac57d0f2dbe8fac8fd440f582225fb828"
+      },
+      "notes": "Commit \"Update course kit for Nov 23\", push, and open a new session so the Explanatory output style loads."
+    },
+    {
+      "version": "2026-12-07",
+      "files": {
+        ".claude/hooks/scope-guard.mjs": "14613903c52ed9fc7dd5fe71de63c234f87dfb13eb258dcd854123eec1c9287b",
+        ".claude/kit/update.mjs": "9ba41d4e4bc1c37da965e7c131c9b73d808da2a46ef5c177cec40bdf0fdc4d03",
+        ".claude/settings.json": "7cc92d3ffe4dc127445dd397e6a56bd9fac9fd54d71cf8e276d6324066cd6c67",
+        ".claude/skills/check/SKILL.md": "55d5a55fb69dc8ea135d99790af1aecc1a1cd6d2814834240d484f61f534f006",
+        ".claude/skills/dig-deeper/SKILL.md": "8222526167f273dd4a4dcbef1e07cd8429cb59a5fe7cb786ca6a7504afe05519",
+        ".claude/skills/update-kit/SKILL.md": "4197cfb66dbb9f25c45db79f6af1bb1ed1867ad5bde208b527b2060e93fafe61",
+        ".github/workflows/check.yml": "92a28b3b73f92c6ce9ac642704301d451306c3e7dcea07924948a3997c81b450",
+        ".github/workflows/deploy.yml": "8d8d00e9962813f2838db99514773aec5e9731bd92d91c5ada4b4766b798f5b1",
+        ".gitignore": "a37996c0d81abe8b1488a013fed984862052428cd045849aa21dbdde3da3c2d0",
+        "AGENTS.md": "be95cd7662be8e71b73fba540015fc15512a2988e45a04b5c35ec87b977e58b7",
+        "eslint.config.mjs": "89b6ed73c2edfee1588eebb997f9bcaac57d0f2dbe8fac8fd440f582225fb828"
+      },
+      "notes": "Commit \"Update course kit for Dec 7\" and push. Playwright tests now run on GitHub on every push."
+    }
+  ],
+  "known": {
+    ".claude/hooks/scope-guard.mjs": [
+      "14613903c52ed9fc7dd5fe71de63c234f87dfb13eb258dcd854123eec1c9287b"
+    ],
+    ".claude/kit/update.mjs": [
+      "9ba41d4e4bc1c37da965e7c131c9b73d808da2a46ef5c177cec40bdf0fdc4d03"
+    ],
+    ".claude/settings.json": [
+      "3718f89983f274de48c4e4062ca749012608fc2cfc41a0eabe8c832e9f5c9ddc",
+      "7cc92d3ffe4dc127445dd397e6a56bd9fac9fd54d71cf8e276d6324066cd6c67"
+    ],
+    ".claude/skills/check/SKILL.md": [
+      "55d5a55fb69dc8ea135d99790af1aecc1a1cd6d2814834240d484f61f534f006"
+    ],
+    ".claude/skills/dig-deeper/SKILL.md": [
+      "8222526167f273dd4a4dcbef1e07cd8429cb59a5fe7cb786ca6a7504afe05519"
+    ],
+    ".claude/skills/update-kit/SKILL.md": [
+      "4197cfb66dbb9f25c45db79f6af1bb1ed1867ad5bde208b527b2060e93fafe61"
+    ],
+    ".github/workflows/check.yml": [
+      "0acefe1f8fca85533d28485073146f05bdca573f34d77d71bb487d35917f7a94",
+      "92a28b3b73f92c6ce9ac642704301d451306c3e7dcea07924948a3997c81b450"
+    ],
+    ".github/workflows/deploy.yml": [
+      "8a4c6b4da2c96d2ac17fa39a82fd7a509c4990fb7c88433e46f3994097b8940c",
+      "8d8d00e9962813f2838db99514773aec5e9731bd92d91c5ada4b4766b798f5b1"
+    ],
+    ".gitignore": [
+      "a37996c0d81abe8b1488a013fed984862052428cd045849aa21dbdde3da3c2d0"
+    ],
+    "AGENTS.md": [
+      "be95cd7662be8e71b73fba540015fc15512a2988e45a04b5c35ec87b977e58b7"
+    ],
+    "eslint.config.mjs": [
+      "89b6ed73c2edfee1588eebb997f9bcaac57d0f2dbe8fac8fd440f582225fb828"
+    ]
+  }
+}

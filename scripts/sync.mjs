@@ -6,6 +6,7 @@
 //                                      → src/content/pages/<same folder>/NNN-<slug>.md (one course each)
 //   course-site-content/topics-NNN.yml → src/content/topics/NNN.yml
 //   starter-kits/dist/*.zip            → public/downloads/
+//   starter-kits/dist/kit/<course>/   → public/kit/<course>/ (manifest.json + files/<sha256>, for /update-kit)
 //   starter-kits/dist/copy-paste/*.md  → src/content/prompts/
 //   starter-kits/src/templates/NOTES.md → src/content/templates/NOTES.md
 //
@@ -143,6 +144,17 @@ const dist = path.join(source, 'starter-kits/dist');
 const downloadsTo = path.join(site, 'public/downloads');
 await fresh(downloadsTo);
 await copyAll(dist, await listFiles(dist, '.zip'), downloadsTo);
+
+// /update-kit sources (Nov 4): live as soon as they're pushed; a version only counts as out
+// once its date arrives, so nothing here needs the ready gate.
+const kitTo = path.join(site, 'public/kit');
+await fresh(kitTo);
+for (const course of courses) {
+  const from = path.join(dist, 'kit', course);
+  if (!(await exists(from))) continue;
+  await cp(from, path.join(kitTo, course), { recursive: true });
+  console.log(`  ${path.relative(source, from)}/ → ${path.relative(site, path.join(kitTo, course))}/`);
+}
 
 const promptsFrom = path.join(dist, 'copy-paste');
 const promptsTo = path.join(site, 'src/content/prompts');

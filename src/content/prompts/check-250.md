@@ -1,6 +1,6 @@
 Run a pre-submission self-check on one of my assignments. Be a reviewer: find gaps and tell me about them, but don't fill them. Follow `AGENTS.md` throughout.
 
-The assignment is the folder I've named after this prompt, or the folder of the file I have open. If you can't tell which folder I mean, ask me and stop. If I've pasted or linked the assignment brief, check against its spec too.
+The assignment is the folder I've named after this prompt, or the folder of the file I have open. If you can't tell which folder I mean, ask me and stop. If the folder is in `try/`, stop: tell me that `try/` is in-class practice, not an assignment, so there's nothing to check there. If I've pasted or linked the assignment brief, check against its spec too.
 
 ## What to check
 

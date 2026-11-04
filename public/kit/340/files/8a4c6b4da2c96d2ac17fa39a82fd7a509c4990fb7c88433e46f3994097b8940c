@@ -1,0 +1,79 @@
+# DIGHT 340 build and deploy (ships Nov 4, added through Spark S06).
+# One workflow builds the whole repo into one GitHub Pages site:
+#   - plain folders (archive/, the early Sparks, the hub) are copied as they are;
+#   - every folder with a package.json and a "build" script is built with npm, and
+#     its dist/ output replaces the folder at the same path (Vite needs base: './').
+# A folder that fails to build is left out of the deploy (the rest still deploys), and the run
+# ends red so you notice. Run npm run build in a folder before you push it.
+# Before the first run: Settings → Pages → Source → GitHub Actions.
+# Your instructor wrote this file; don't edit it, and don't ask the agent to.
+name: Build and deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      failed: ${{ steps.build.outputs.failed }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Copy the plain folders
+        run: rsync -a --exclude .git --exclude .github --exclude .claude --exclude node_modules --exclude try --exclude _site ./ _site/
+
+      - name: Build every folder with a package.json
+        id: build
+        run: |
+          failed=""
+          while IFS= read -r pkg; do
+            dir=$(dirname "$pkg"); dir=${dir#./}
+            grep -q '"build"' "$pkg" || continue
+            echo "::group::Build $dir"
+            if (cd "$dir" && npm install --no-audit --no-fund && npm run build); then
+              rm -rf "_site/$dir" && mkdir -p "_site/$dir" && cp -R "$dir/dist/." "_site/$dir/"
+              echo "::endgroup::"
+            else
+              echo "::endgroup::"
+              rm -rf "_site/$dir"
+              echo "::error title=Build failed::$dir didn't build, so it's missing from this deploy. Run npm run build in that folder to see why."
+              failed="$failed $dir"
+            fi
+          done < <(find . -name package.json -not -path '*/node_modules/*' -not -path './_site/*' -not -path './try/*' | sort)
+          echo "failed=$failed" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
+
+      - name: Report folders that didn't build
+        if: ${{ needs.build.outputs.failed != '' }}
+        run: |
+          echo "::error::These folders didn't build: ${{ needs.build.outputs.failed }}. Everything else deployed."
+          exit 1

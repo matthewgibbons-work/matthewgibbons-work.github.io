@@ -5,7 +5,7 @@
 
 import type { Course } from './courses';
 
-export type SkillName = 'dig-deeper' | 'check';
+export type SkillName = 'dig-deeper' | 'check' | 'update-kit';
 
 export interface SkillInfo {
   title: string;
@@ -19,9 +19,9 @@ export interface SkillInfo {
   byCourse?: Partial<Record<Course, Partial<Pick<SkillInfo, 'description' | 'howTo'>>>>;
 }
 
-export const skillOrder: SkillName[] = ['dig-deeper', 'check'];
+export const skillOrder: SkillName[] = ['dig-deeper', 'check', 'update-kit'];
 
-/** The synced file each course's page shows: dig-deeper (shared), check-250, check-340. */
+/** The synced file each course's page shows: dig-deeper (shared), check-250/340, update-kit-250/340. */
 export function skillFile(name: SkillName, course: Course): string {
   return name === 'dig-deeper' ? name : `${name}-${course}`;
 }
@@ -68,6 +68,26 @@ export const skills: Record<SkillName, SkillInfo> = {
       'If you have the assignment brief, paste or link it too, so it checks against the “done” list.',
       'Fix what it flags yourself. It won’t write your NOTES.md.',
     ],
+  },
+  // Nov 4: replaces the download-and-paste kit updates.
+  'update-kit': {
+    title: 'Update kit',
+    command: '/update-kit',
+    description: 'Brings the course kit files up to date from the course site, and tells you what it will change before it changes anything.',
+    howTo: [
+      'Type /update-kit in the chat and send it, when a brief says there’s a kit update.',
+      'Read what it says it will add, replace, or remove. If it asks about a file you changed, choose keep mine, take the course’s, or show me the difference.',
+      'Commit the changes in GitHub Desktop and push. It never commits for you.',
+    ],
+    byCourse: {
+      '340': {
+        howTo: [
+          'Type /update-kit in the chat and send it. A new session tells you when an update is out.',
+          'Read what it says it will add, replace, or remove. If it asks about a file you changed, choose keep mine, take the course’s, or show me the difference.',
+          'Commit the changes in GitHub Desktop, push, and open a new session if it says settings changed.',
+        ],
+      },
+    },
   },
 };
 

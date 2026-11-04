@@ -1,0 +1,16 @@
+# DIGHT 340 (Nov 2 kit update). Git leaves these out of your commits.
+# Installed packages: npm install recreates them from package.json.
+node_modules/
+# Build output: the deploy workflow builds it on GitHub (from Nov 4).
+dist/
+.astro/
+# Test reports (from Dec 7).
+test-results/
+playwright-report/
+# In-class Try it together folders: practice, never submitted.
+try/
+# macOS Finder files.
+.DS_Store
+# The kit and its updates, if you unzip one inside your repo
+dight340-starter/
+dight340-update-*/

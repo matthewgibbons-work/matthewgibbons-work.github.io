@@ -1,5 +1,5 @@
 ---
-// /skills/dig-deeper/ and /skills/check/ ask which course. The shared pages
+// /skills/dig-deeper/, /skills/check/, and /skills/update-kit/ ask which course. The shared pages
 // (How it works, NOTES, AGENTS) link here, so they never need a course.
 // The old /prompts/ URLs redirect in astro.config.mjs.
 import WhichCourse from '../../components/WhichCourse.astro';
@@ -8,6 +8,7 @@ export function getStaticPaths() {
   return [
     { params: { name: 'dig-deeper' }, props: { thing: 'the /dig-deeper skill' } },
     { params: { name: 'check' }, props: { thing: 'the /check skill' } },
+    { params: { name: 'update-kit' }, props: { thing: 'the /update-kit skill' } },
   ];
 }
 
