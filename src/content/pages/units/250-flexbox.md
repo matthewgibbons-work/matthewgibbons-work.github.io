@@ -2,7 +2,7 @@
 title: "Flexbox"
 description: "Lay out a row or a column of boxes: spacing, alignment, wrapping, and why the order people see must match the order in the HTML."
 courses: [dight250]
-ready: false # true once the S06 dry run passes (PLAN.md: Build order)
+ready: true
 session: 6
 prototype: P2
 date: 2026-11-04

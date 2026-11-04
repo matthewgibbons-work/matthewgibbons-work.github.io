@@ -2,7 +2,7 @@
 title: "Svelte intro"
 description: "Components and runes: $state, $derived, and $effect. Change the data and Svelte updates the page, with no render() of your own. Plus reading TypeScript annotations."
 courses: [dight340]
-ready: false # true once the S06 dry run passes, with the S06 brief (PLAN.md: Build order)
+ready: true
 session: 6
 prototype: P2
 date: 2026-11-04
