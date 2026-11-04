@@ -1,5 +1,5 @@
 ---
-// Renders a Markdown page's content, with two fixes:
+// Renders a Markdown page's content, with these fixes:
 // - "- [ ]" lists come out as disabled, unlabeled checkboxes, which screen readers announce
 //   as nameless "checkbox, dimmed" controls. Students can't tick them anyway, so each
 //   becomes a decorative box and the item is read as a plain list item.
@@ -8,15 +8,30 @@
 // - A brief's "done" list sits between <!-- done:start --> and <!-- done:end --> (Oct 19).
 //   It's wrapped in #done-list, with the "done" slot (a Copy button) just above it, so
 //   students can paste the whole list into the chat when they run /check.
+// - Every code block gets a Copy button above it (Nov 3). A ```text block is a prompt:
+//   "Copy prompt", and it wraps (pre.prompt in global.css), so it never scrolls sideways.
+//   Other code says "Copy code" and keeps its line layout. The bar is the same markup as
+//   CopyButton.astro, which can't be used here because these blocks are an HTML string.
 // - A code block that scrolls sideways has to be reachable by keyboard (axe
-//   scrollable-region-focusable), so every <pre> gets tabindex="0" (Oct 19).
+//   scrollable-region-focusable), so every code <pre> gets tabindex="0" (Oct 19). Prompts
+//   don't scroll, so they don't.
 const html = await Astro.slots.render('default');
 const prompt = Astro.slots.has('prompt') ? await Astro.slots.render('prompt') : '';
 const done = Astro.slots.has('done') ? await Astro.slots.render('done') : '';
 const hasDone = done && html.includes('<!-- done:start -->') && html.includes('<!-- done:end -->');
+
+let blocks = 0;
+const copyBar = (id: string, label: string, copied: string) =>
+  `<div class="copy-bar"><button type="button" class="copy-button" data-copy-target="${id}" data-copied="${copied}" hidden>${label}</button><p class="copy-status" role="status"></p></div>`;
+
 let fixed = html
   .replace(/<input\b[^>]*type="checkbox"[^>]*>/g, '<span class="task-box" aria-hidden="true"></span>')
-  .replace(/<pre(?=[\s>])/g, '<pre tabindex="0"')
+  .replace(/<pre(?:\s[^>]*)?>(?=<code(?: class="language-([\w-]+)")?>)/g, (_, lang?: string) => {
+    const id = `code-${++blocks}`;
+    return lang === 'text'
+      ? copyBar(id, 'Copy prompt', 'Copied. Paste it into the chat.') + `<pre class="prompt" id="${id}">`
+      : copyBar(id, 'Copy code', 'Copied.') + `<pre tabindex="0" id="${id}">`;
+  })
   .replace('<!-- prompt:start -->', prompt);
 if (hasDone) {
   fixed = fixed
@@ -26,3 +41,7 @@ if (hasDone) {
 ---
 
 <Fragment set:html={fixed} />
+
+<script>
+  import '../lib/copy';
+</script>

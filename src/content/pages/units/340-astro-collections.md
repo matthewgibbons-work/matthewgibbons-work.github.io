@@ -163,7 +163,7 @@ export const notesLoader = {
 
 The build stops before any page is made:
 
-```text
+```console
 [InvalidContentEntryDataError] notes → s04-fetch-one data does not match collection schema.
   openQuestions: Open questions is empty
 ```

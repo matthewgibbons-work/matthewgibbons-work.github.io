@@ -218,6 +218,48 @@ pre {
   line-height: 1.5;
 }
 
+/* A prompt (```text) wraps, so it never scrolls sideways and the box is as tall as the
+   prompt. Code keeps its line layout and scrolls if it must (Nov 3). Copying keeps the
+   original line breaks. */
+pre.prompt {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* ==========================================================================
+   Copy buttons (CopyButton.astro, and the bars MarkdownBody adds above code)
+   ========================================================================== */
+
+.copy-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-block-end: 0.75rem;
+}
+
+.copy-button {
+  font: inherit;
+  font-weight: 700;
+  min-block-size: 2.75rem;
+  padding: 0.5rem 1.25rem;
+  color: var(--bg);
+  background: var(--teal);
+  border: 2px solid var(--teal);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.copy-button:hover {
+  background: var(--text);
+  border-color: var(--text);
+}
+
+.copy-status {
+  margin: 0;
+  color: var(--muted);
+}
+
 /* ==========================================================================
    Tables
    ========================================================================== */

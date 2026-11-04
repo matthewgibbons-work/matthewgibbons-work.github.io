@@ -33,7 +33,7 @@ Media has to work for people who can't see or hear it: `alt` text, captions, `co
 - **`controls`** gives the browser's own play, pause, volume, and captions buttons, which already work with a keyboard.
 - **Captions** come from a WebVTT (`.vtt`) file: plain text, one cue per line of speech, each with a start and end time. You write them by listening; nobody else can check them for you.
 
-```text
+```vtt
 WEBVTT
 
 00:00:00.000 --> 00:00:01.000
