@@ -158,7 +158,29 @@ Use these in studio on your own S06, out loud or to the agent:
 
 </details>
 
+## At a glance
+
+The properties on this page in one place, plus `margin-top: auto`, which P2 uses. "Container" means the element with `display: flex`; "item" means one of its direct children.
+
+| Property | Goes on | Common values | What it does |
+| --- | --- | --- | --- |
+| `display: flex` | container | | Lines up its direct children (the items) along the main axis |
+| `flex-direction` | container | `row` (default), `column` | Sets the main axis: across, or down |
+| `gap` | container | `1rem` | Space between items, never at the ends |
+| `justify-content` | container | `flex-start` (default), `center`, `space-between` | Shares out space along the main axis |
+| `align-items` | container | `stretch` (default), `center`, `flex-start` | Lines items up across the cross axis |
+| `flex-wrap` | container | `nowrap` (default), `wrap` | Lets items move onto a new line when there isn't room |
+| `flex` | item | `1`, `1 1 15rem` | How an item grows and shrinks, from a starting size |
+| `margin-top: auto` | item | | Pushes the item to the far end of a column (a card's link to the bottom, in P2) |
+| `order`, `row-reverse`, `column-reverse` | item, container | | Change only what you see, not the Tab order. **Don't use them:** change the HTML instead |
+
+## Practice: Flexbox Froggy
+
+[Flexbox Froggy](https://flexboxfroggy.com/) is a short game: you write the Flexbox CSS that moves each frog onto its lily pad. We do the first few levels together in class; finish the rest whenever you like (about 20 minutes, ungraded). Several later levels ask for `order`, `row-reverse`, or `wrap-reverse`: they're real CSS and worth recognizing, but in your own pages, change the HTML instead. And it never uses `gap` or `flex`, so keep the table above handy.
+
 ## Links
 
 - MDN: [Flexbox (Learn)](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/CSS_layout/Flexbox), [Basic concepts of flexbox](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Flexible_box_layout/Basic_concepts), [`gap`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/gap), [`justify-content`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/justify-content), [`align-items`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/align-items), [`flex-wrap`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/flex-wrap), [`flex`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/flex), [Ordering flex items](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Flexible_box_layout/Ordering_items)
+- Visual reference: CSS-Tricks, [A Complete Guide to Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) (every property, with a picture of each value)
+- Practice: [Flexbox Froggy](https://flexboxfroggy.com/)
 - WCAG: [Understanding 1.3.2 Meaningful Sequence](https://www.w3.org/WAI/WCAG22/Understanding/meaningful-sequence.html), [Understanding 2.4.3 Focus Order](https://www.w3.org/WAI/WCAG22/Understanding/focus-order.html)
