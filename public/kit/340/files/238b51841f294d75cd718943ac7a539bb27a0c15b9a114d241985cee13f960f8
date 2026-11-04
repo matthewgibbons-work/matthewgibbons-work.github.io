@@ -59,16 +59,18 @@ async function load() {
 
 async function plan({ manifest, target, mine }) {
   const known = manifest.known;
+  const mineV = manifest.versions.find((v) => v.version === mine);
   const p = { add: [], replace: [], remove: [], edited: [], same: [] };
   for (const [rel, sha] of Object.entries(target.files)) {
     const text = await readLocal(rel);
     if (text === null) p.add.push(rel);
     else if (hash(text) === sha) p.same.push(rel);
+    // The course didn't change this file since the student's version: leave their copy alone.
+    else if (mineV?.files[rel] === sha) p.same.push(rel);
     else if (known[rel]?.includes(hash(text))) p.replace.push(rel);
     else p.edited.push({ path: rel, action: 'replace' });
   }
   // Files the student's version had (or, with no version, any earlier one) that the target drops.
-  const mineV = manifest.versions.find((v) => v.version === mine);
   const earlier = mineV ? [mineV] : manifest.versions.filter((v) => v.version <= target.version);
   const had = new Set(earlier.flatMap((v) => Object.keys(v.files)));
   for (const rel of had) {

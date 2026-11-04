@@ -7,7 +7,7 @@
       "files": {
         ".github/skills/check/SKILL.md": "5ae32b861706f716a9754fddd6c62b8714d49e2a40b96b16422f7f50362ffefc",
         ".github/skills/dig-deeper/SKILL.md": "fd9a066fde145890d07b4bef88ad87e8696f6c7506f198e6b8b4b19c41d3bccc",
-        ".github/skills/update-kit/SKILL.md": "464f7d3f469f3d05fffa2c5dfa5f72f46a7e94dc2e7690f831b481797ee29ab2",
+        ".github/skills/update-kit/SKILL.md": "06338bb6c7e54ddb573909f83bfebdd5f03e58be593b5b876e72eacc71f5b10a",
         ".github/workflows/feedback.yml": "8f623d0021c1a137e6efe7458c51a3777b8a8f3b8b0c8ada444612bd9fd9a7bf",
         ".gitignore": "8593f7eb11a2dc6055ba06cf93d2681fc22fe7182680133375098bb3fb9d35a2",
         "AGENTS.md": "88888d18e56b339a6ace30e1eaea132d5f17285813fadfcc2c307b3745b865ab"
@@ -23,7 +23,7 @@
       "fd9a066fde145890d07b4bef88ad87e8696f6c7506f198e6b8b4b19c41d3bccc"
     ],
     ".github/skills/update-kit/SKILL.md": [
-      "464f7d3f469f3d05fffa2c5dfa5f72f46a7e94dc2e7690f831b481797ee29ab2"
+      "06338bb6c7e54ddb573909f83bfebdd5f03e58be593b5b876e72eacc71f5b10a"
     ],
     ".github/workflows/feedback.yml": [
       "8f623d0021c1a137e6efe7458c51a3777b8a8f3b8b0c8ada444612bd9fd9a7bf"

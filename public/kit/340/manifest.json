@@ -6,7 +6,7 @@
       "version": "2026-11-04",
       "files": {
         ".claude/hooks/scope-guard.mjs": "14613903c52ed9fc7dd5fe71de63c234f87dfb13eb258dcd854123eec1c9287b",
-        ".claude/kit/update.mjs": "9ba41d4e4bc1c37da965e7c131c9b73d808da2a46ef5c177cec40bdf0fdc4d03",
+        ".claude/kit/update.mjs": "238b51841f294d75cd718943ac7a539bb27a0c15b9a114d241985cee13f960f8",
         ".claude/settings.json": "3718f89983f274de48c4e4062ca749012608fc2cfc41a0eabe8c832e9f5c9ddc",
         ".claude/skills/check/SKILL.md": "55d5a55fb69dc8ea135d99790af1aecc1a1cd6d2814834240d484f61f534f006",
         ".claude/skills/dig-deeper/SKILL.md": "8222526167f273dd4a4dcbef1e07cd8429cb59a5fe7cb786ca6a7504afe05519",
@@ -23,7 +23,7 @@
       "version": "2026-11-23",
       "files": {
         ".claude/hooks/scope-guard.mjs": "14613903c52ed9fc7dd5fe71de63c234f87dfb13eb258dcd854123eec1c9287b",
-        ".claude/kit/update.mjs": "9ba41d4e4bc1c37da965e7c131c9b73d808da2a46ef5c177cec40bdf0fdc4d03",
+        ".claude/kit/update.mjs": "238b51841f294d75cd718943ac7a539bb27a0c15b9a114d241985cee13f960f8",
         ".claude/settings.json": "7cc92d3ffe4dc127445dd397e6a56bd9fac9fd54d71cf8e276d6324066cd6c67",
         ".claude/skills/check/SKILL.md": "55d5a55fb69dc8ea135d99790af1aecc1a1cd6d2814834240d484f61f534f006",
         ".claude/skills/dig-deeper/SKILL.md": "8222526167f273dd4a4dcbef1e07cd8429cb59a5fe7cb786ca6a7504afe05519",
@@ -40,7 +40,7 @@
       "version": "2026-12-07",
       "files": {
         ".claude/hooks/scope-guard.mjs": "14613903c52ed9fc7dd5fe71de63c234f87dfb13eb258dcd854123eec1c9287b",
-        ".claude/kit/update.mjs": "9ba41d4e4bc1c37da965e7c131c9b73d808da2a46ef5c177cec40bdf0fdc4d03",
+        ".claude/kit/update.mjs": "238b51841f294d75cd718943ac7a539bb27a0c15b9a114d241985cee13f960f8",
         ".claude/settings.json": "7cc92d3ffe4dc127445dd397e6a56bd9fac9fd54d71cf8e276d6324066cd6c67",
         ".claude/skills/check/SKILL.md": "55d5a55fb69dc8ea135d99790af1aecc1a1cd6d2814834240d484f61f534f006",
         ".claude/skills/dig-deeper/SKILL.md": "8222526167f273dd4a4dcbef1e07cd8429cb59a5fe7cb786ca6a7504afe05519",
@@ -59,7 +59,7 @@
       "14613903c52ed9fc7dd5fe71de63c234f87dfb13eb258dcd854123eec1c9287b"
     ],
     ".claude/kit/update.mjs": [
-      "9ba41d4e4bc1c37da965e7c131c9b73d808da2a46ef5c177cec40bdf0fdc4d03"
+      "238b51841f294d75cd718943ac7a539bb27a0c15b9a114d241985cee13f960f8"
     ],
     ".claude/settings.json": [
       "3718f89983f274de48c4e4062ca749012608fc2cfc41a0eabe8c832e9f5c9ddc",
