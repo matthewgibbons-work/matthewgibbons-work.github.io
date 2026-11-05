@@ -6,15 +6,21 @@ ready: false # true once the S07 dry run passes (PLAN.md: Build order)
 session: 7
 prototype: P3
 date: 2026-11-09
+sticky_assignments: true # experiment 6 (PLAN.md, "Experiments")
 ---
 
 # Grid
 
-**The big idea:** Grid lays out rows and columns at once. Name the areas of your page, and let the columns fit whatever space there is.
+<details>
+<summary>Key takeaways</summary>
 
-## In short
+- Grid lays out **rows and columns at once**; Flexbox handles one direction. Rough rule: Flexbox for a row of things sized by their content, Grid for a layout you draw first and fill in.
+- **`fr`** is a share of the space left *after* the gaps, so `1fr` columns always fit; percentages plus a gap overflow.
+- **`grid-template-areas`** draws the page as named areas, one string per row; each element picks its area with `grid-area`. One string with a missing word and the whole rule is ignored, so the areas pile on top of each other.
+- **`repeat(auto-fit, minmax(15rem, 1fr))`** lets the space choose the number of columns: one on a phone, three or four on a laptop, with no media queries.
+- **The order you see must match the HTML.** Tab and screen readers follow the HTML, so draw the areas in the order it already reads.
 
-Grid places boxes in rows and columns at once: `grid-template-areas` draws the page as named areas, and `repeat(auto-fit, minmax(…, 1fr))` lets a set of cards choose its own number of columns. For S07 you need the page drawn with named areas (header, main, an `<aside>` sidebar, footer) and the featured cards in an `auto-fit` grid with `gap`, with no fixed column count and no media queries. The order you see still has to match the HTML.
+</details>
 
 ## Rows and columns at once
 
@@ -50,7 +56,7 @@ aside  { grid-area: aside; }
 footer { grid-area: footer; }
 ```
 
-Every row needs the same number of words. If one doesn't, the browser ignores the whole rule, quietly, and everything stacks: DevTools shows it struck through.
+Every row needs the same number of words. If one doesn't, the browser ignores the whole rule, quietly. The areas no longer exist, so every element that asked for one lands in the same spare cell, piled on top of the others: DevTools shows the rule struck through.
 
 Areas can go anywhere, in any order, which is the same trap as Flexbox's `order`: the keyboard and screen readers still follow the HTML. Draw the areas in the order the HTML already reads.
 
@@ -105,66 +111,44 @@ A gallery shouldn't need you to decide how many columns there are. Let the brows
 
 Read it from the inside out: each column is at least `15rem` and at most `1fr`; `auto-fit` makes as many columns as fit. On a phone that's one column, on a laptop three or four, with no media queries. (`auto-fill` is the same, except it keeps empty columns when there are only a few cards; `auto-fit` lets the cards stretch into the space.)
 
-## Predict, then reveal
+## At a glance
 
-<details>
-<summary>At 320px wide, what happens to <code>repeat(3, 1fr)</code>? And to <code>repeat(auto-fit, minmax(15rem, 1fr))</code>?</summary>
+The properties on this page in one place. "Container" means the element with `display: grid`; "item" means one of its direct children.
 
-`repeat(3, 1fr)` always makes three columns, so each card is about 90px wide: slivers of text, a word to a line. The `auto-fit` version makes one column, because a second 15rem column won't fit. The first decides the number of columns; the second lets the space decide.
+| Property or value | Goes on | Common values | What it does |
+| --- | --- | --- | --- |
+| `display: grid` | container | | Places its direct children (the items) in rows and columns; with no columns set, that's one column |
+| `gap` | container | `1rem` | Space between rows and columns, never at the edges |
+| `grid-template-columns` | container | `1fr 16rem`, `repeat(3, 1fr)` | How many columns, and how wide each one is |
+| `fr` | a column size | `1fr`, `2fr` | A share of the space left after the gaps |
+| `repeat()` | a column size | `repeat(3, 1fr)` | Writes the same column several times |
+| `minmax()` | a column size | `minmax(15rem, 1fr)` | A column at least the first size, at most the second |
+| `auto-fit` | inside `repeat()` | `repeat(auto-fit, minmax(15rem, 1fr))` | As many columns as fit; the items stretch to fill the row |
+| `grid-template-areas` | container | `"header header" "main aside"` | Draws the layout as named areas, one string per row |
+| `grid-area` | item | `main`, `aside` | Puts the item in the area with that name |
+| `grid-column: span 2` | item | | Makes one item two columns wide. **Not in an `auto-fit` grid:** at one column it forces a second, and the page scrolls sideways |
 
-</details>
+## Live demo
 
-<details>
-<summary>The areas put <code>aside</code> on the left and <code>main</code> on the right, but in the HTML <code>main</code> comes first. Which does Tab reach first?</summary>
+The whole class, one page: I change the CSS on the projector, you call what happens next. The sandbox is a plain page of colored boxes with no Grid yet, so each step is one change you can see. [Open the Grid sandbox](/sandbox/250-s07/index.html) in your browser, or <a href="/sandbox/250-s07/index.html" download="grid-sandbox.html">download it</a> to edit your own copy in VS Code. The CSS is in the `<style>` at the top.
 
-`main`, because Tab follows the HTML. A keyboard user's focus starts on the right-hand side and jumps back left: the same mismatch as Flexbox's `order`. Put the `aside` first in the HTML, or draw it on the right.
+1. **`display: grid` and `gap`** on `.cards`. Nothing moves until we add `gap`: Grid with no columns is one column.
+2. **`grid-template-columns: 1fr 1fr 1fr`**, then `1fr 2fr 1fr`. Then `33% 33% 33%`: why do the cards spill past the dashed outline?
+3. **`repeat(3, 1fr)`**: the same three columns, shorter. Drag the window narrow. Slivers.
+4. **`repeat(auto-fit, minmax(15rem, 1fr))`**: drag it narrow again. The columns drop one at a time, down to one.
+5. **`grid-column: span 2`** on the first card, still narrow. A sliver second column appears, the cards spill past the outline, and at 320px the page scrolls sideways. Take it out again.
+6. **`grid-template-areas`** on `.page`, and **`grid-area`** on the header, main, aside, and footer. Turn on DevTools' **grid** badge and "Show area names."
+7. **Break a string:** delete one word from a row. The rule is ignored, and all four areas pile on top of each other in one cell.
+8. **Swap `main` and `aside`** in the strings, then Tab through the links. Focus starts on the right and jumps back left.
 
-</details>
+**On your own:** in your copy of the sandbox (a few minutes each):
 
-<details>
-<summary>Three columns of <code>33%</code> and a <code>1rem</code> gap. Why does the row overflow?</summary>
-
-Percentages are measured from the container's whole width, so 3 × 33% is 99% *before* the two gaps are added: 99% + 2rem is wider than the container. `1fr` is measured from what's left after the gaps, so `repeat(3, 1fr)` always fits.
-
-</details>
-
-## Try it together
-
-Pair programming, with the whole class. I drive Copilot on the projector; you navigate. After each step you read the output with me, decide whether to keep it or revise it, and say what to ask for next. Your own run comes in studio, with S07.
-
-We start from a copy of an S06 page in `try/s07/`:
-
-```text
-Turn the featured-episode cards into a grid that fits as many columns as the screen allows, and give the page a sidebar.
-```
-
-Then we put it under pressure, one step at a time. Each time, the question is what *our* code does, and which line does it:
-
-- Drag the window narrower, slowly. Do the cards drop one column at a time, down to one?
-- Search the CSS for `repeat(`. Is the number of columns fixed? Are any column widths in `px`?
-- Is the sidebar an `<aside>`? Tab through: does focus follow the order you see?
-- Zoom to 200%. Does anything overlap or get cut off?
-
-**Dig deeper:** we highlight the `minmax()` and run [`/dig-deeper`](/250/skills/dig-deeper/). We ask what happens if the minimum is wider than the screen. Answer its predict question before the reveal.
-
-**On your own:** if you missed class or want another pass, copy your `sparks/s06-flexbox/` folder to `try/s07/`, run the starting prompt above, try the same pressure tests, and answer the questions in the box below.
-
-<details>
-<summary>Questions to ask your output</summary>
-
-Use these in studio on your own S07, out loud or to the agent:
-
-- Read the area strings out loud. Do they match the page you see, and the order in the HTML?
-- How many columns do the cards get at this width, and which line decides?
-- What's the narrowest a card can be, and what happens on a screen narrower than that?
-- Is the sidebar an `<aside>`, and what's in it?
-- Is there a media query, or a fixed number of columns, that `auto-fit` should be doing instead?
-
-**Watch for:** a fixed `repeat(3, 1fr)`, so the cards squash to slivers on a narrow window; `grid-column: span 2` on a "featured" card, which forces a second column even when only one fits, so the page scrolls sideways; the sidebar drawn on the left with `grid-template-areas` while it comes after `main` in the HTML, so Tab jumps right, then left; the sidebar in a `<div>`, with no `<aside>`; one area string with a missing word, so the whole layout rule was ignored and everything stacked.
-
-</details>
+- Get exactly two card columns on a laptop-width window, then three, by changing only the `minmax()` minimum.
+- Put the sidebar on the left *and* keep the Tab order right. (Change the HTML, not just the strings.)
+- Add a fourth area, `nav`, across the top under the header, without breaking the layout.
 
 ## Links
 
 - MDN: [Grids (Learn)](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/CSS_layout/Grids), [Basic concepts of grid layout](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Grid_layout/Basic_concepts), [`grid-template-columns`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/grid-template-columns), [`grid-template-areas`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/grid-template-areas), [`grid-area`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/grid-area), [`repeat()`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/repeat), [`minmax()`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/minmax), [the `fr` unit](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/flex_value), [Grid layout and accessibility](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Grid_layout/Accessibility), [`<aside>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/aside)
+- Dig deeper: highlight the `minmax()` in your own CSS and run [`/dig-deeper`](/250/skills/dig-deeper/). What happens if the minimum is wider than the screen?
 - WCAG: [Understanding 1.3.2 Meaningful Sequence](https://www.w3.org/WAI/WCAG22/Understanding/meaningful-sequence.html), [Understanding 2.4.3 Focus Order](https://www.w3.org/WAI/WCAG22/Understanding/focus-order.html)

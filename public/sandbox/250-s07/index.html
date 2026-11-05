@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grid sandbox · DIGHT 250</title>
+<!--
+  Live demo sandbox for the Grid unit (session 7). Experiment 2 in PLAN.md, "Experiments".
+  No Grid yet: the empty rules at the top of the <style> are where each demo step goes.
+  Synced to the course site at /sandbox/250-s07/ by the site's `npm run sync`.
+-->
+<style>
+  /* ============ Your Grid CSS goes here (demo steps in the unit page) ============ */
+
+  /* Steps 1–4: the cards */
+  .cards {
+
+  }
+
+  /* Step 5 (then take it out) */
+  .card:first-child {
+
+  }
+
+  /* Steps 6–8: the page layout */
+  .page {
+
+  }
+
+  header { }
+  main   { }
+  aside  { }
+  footer { }
+
+  /* ============ Look and feel only: no layout below this line ============ */
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 1rem;
+    font: 1.125rem/1.5 system-ui, sans-serif;
+    color: #111;
+    background: #fafafa;
+  }
+
+  header, main, aside, footer {
+    padding: 1rem;
+    border: 3px solid #333;
+    border-radius: 0.5rem;
+  }
+
+  header { background: #dbe8ff; }
+  main   { background: #fff; }
+  aside  { background: #fff1c2; }
+  footer { background: #e6e6e6; }
+
+  h1, h2 { margin: 0 0 0.5rem; line-height: 1.2; }
+
+  /* A dashed outline shows the cards' container, so overflow is easy to see. */
+  .cards { outline: 2px dashed #555; outline-offset: 4px; }
+
+  .card {
+    min-block-size: 7rem;
+    padding: 0.75rem;
+    border: 3px solid #111;
+    border-radius: 0.5rem;
+  }
+
+  .card .num { display: block; font-size: 2.5rem; font-weight: 800; line-height: 1; }
+
+  .card:nth-child(1) { background: #ffb3b3; }
+  .card:nth-child(2) { background: #ffd59e; }
+  .card:nth-child(3) { background: #fff08a; }
+  .card:nth-child(4) { background: #b8f0b0; }
+  .card:nth-child(5) { background: #a8dcff; }
+  .card:nth-child(6) { background: #d9c2ff; }
+
+  a { color: #0a3d91; font-weight: 600; }
+  a:focus-visible { outline: 4px solid #111; outline-offset: 3px; background: #ffef5c; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <h1>Grid sandbox</h1>
+    <a href="#top">Header link</a>
+  </header>
+
+  <main>
+    <h2>Main</h2>
+    <div class="cards">
+      <div class="card"><span class="num">1</span> <a href="#card-1">Card one</a></div>
+      <div class="card"><span class="num">2</span> <a href="#card-2">Card two</a></div>
+      <div class="card"><span class="num">3</span> <a href="#card-3">Card three</a></div>
+      <div class="card"><span class="num">4</span> <a href="#card-4">Card four</a></div>
+      <div class="card"><span class="num">5</span> <a href="#card-5">Card five</a></div>
+      <div class="card"><span class="num">6</span> <a href="#card-6">Card six</a></div>
+    </div>
+  </main>
+
+  <aside>
+    <h2>Aside</h2>
+    <a href="#aside-1">Aside link one</a><br>
+    <a href="#aside-2">Aside link two</a>
+  </aside>
+
+  <footer>
+    <a href="#footer">Footer link</a>
+  </footer>
+</div>
+</body>
+</html>
