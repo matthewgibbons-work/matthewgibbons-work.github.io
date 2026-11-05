@@ -1,9 +1,10 @@
 ---
 // One unit page, Spark brief, Prototype brief, or Final Project brief, laid out the same way:
 // draft banner, the meta line, the Markdown body (with the Copy button on the "done" list),
-// and the "This session" panel. Shared by /<course>/<folder>/<slug>/ and /<course>/final-project/.
+// the sticky assignment bar (opt-in unit pages only), and the "This session" panel. Shared by /<course>/<folder>/<slug>/ and /<course>/final-project/.
 import { render } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import AssignmentBar from './AssignmentBar.astro';
 import CopyButton from './CopyButton.astro';
 import DraftBanner from './DraftBanner.astro';
 import PageMeta from './PageMeta.astro';
@@ -50,5 +51,6 @@ const spark = sparkPage && { href: pageHref(sparkPage), title: sparkPage.data.ti
       copied="Copied. Paste it into the chat when you run /check."
     />
   </MarkdownBody>
+  {kind === 'unit' && page.data.sticky_assignments && <AssignmentBar {page} {course} />}
   <SessionPanel {page} {course} />
 </Base>

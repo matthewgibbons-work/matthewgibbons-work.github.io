@@ -7,6 +7,7 @@
 //   course-site-content/topics-NNN.yml → src/content/topics/NNN.yml
 //   starter-kits/dist/*.zip            → public/downloads/
 //   starter-kits/dist/kit/<course>/   → public/kit/<course>/ (manifest.json + files/<sha256>, for /update-kit)
+//   course-site-content/sandbox/<course>-sNN/ → public/sandbox/<course>-sNN/ (Live demo sandboxes)
 //   starter-kits/dist/copy-paste/*.md  → src/content/prompts/
 //   starter-kits/src/templates/NOTES.md → src/content/templates/NOTES.md
 //
@@ -154,6 +155,25 @@ for (const course of courses) {
   if (!(await exists(from))) continue;
   await cp(from, path.join(kitTo, course), { recursive: true });
   console.log(`  ${path.relative(source, from)}/ → ${path.relative(site, path.join(kitTo, course))}/`);
+}
+
+// Live demo sandboxes (experiment 2, session 7, Nov 4): one folder per session, built in
+// prep and served as-is at /sandbox/<course>-sNN/. Like the kit, no ready gate: a sandbox is
+// a demo page, not an assignment, and nothing links it until its unit page is published.
+const sandboxFrom = path.join(pagesFrom, 'sandbox');
+const sandboxTo = path.join(site, 'public/sandbox');
+await fresh(sandboxTo);
+if (await exists(sandboxFrom)) {
+  for (const name of (await readdir(sandboxFrom)).sort()) {
+    const match = name.match(/^([0-9]+)-s[0-9]{2}$/);
+    if (!match) {
+      if (!name.startsWith('.')) console.warn(`  Skipped sandbox/${name}: name it <course>-sNN, like 250-s07`);
+      continue;
+    }
+    if (!courses.includes(match[1])) continue;
+    await cp(path.join(sandboxFrom, name), path.join(sandboxTo, name), { recursive: true });
+    console.log(`  ${path.relative(source, path.join(sandboxFrom, name))}/ → ${path.relative(site, path.join(sandboxTo, name))}/`);
+  }
 }
 
 const promptsFrom = path.join(dist, 'copy-paste');

@@ -29,6 +29,8 @@ const pages = defineCollection({
       released: z.coerce.date().optional(),
       due: z.coerce.date().optional(),
       folder: z.string().optional(),
+      /** Unit pages: show the sticky assignment bar (experiment 6, session 7; PLAN.md "Experiments"). */
+      sticky_assignments: z.boolean().default(false),
     })
     .refine((page) => !page.ready || page.date || page.released, {
       message: 'A ready page needs a `date` or `released` to go live on.',
