@@ -6,15 +6,21 @@ ready: false # true once the S07 dry run passes, with the S07 brief (PLAN.md: Bu
 session: 7
 prototype: P3
 date: 2026-11-09
+sticky_assignments: true # experiment 6 (PLAN.md, "Experiments")
 ---
 
 # Svelte logic and events
 
-**The big idea:** markup can branch, repeat, and wait. Svelte's blocks say what the page shows in each case, and its compiler warns you when a case would shut someone out.
+<details>
+<summary>Key takeaways</summary>
 
-## In short
+- Markup can **branch, repeat, and wait**: `{#if}` chooses, `{#each}` repeats, and `{#await}` shows loading, the result, or the error for a Promise.
+- **Key every `{#each}`** that can change: `(pokemon.id)` tells Svelte which row belongs to which item, so removing one removes *that* row, not the last one with its text shifted up.
+- **`{#await}` replaces three flags.** Hold the Promise in `$state`; assign a new one to fetch again. Always give it a `{:catch}`.
+- **Events are attributes**: `onclick`, `onsubmit`, `onkeydown`, each given a function.
+- **The compiler checks accessibility as it builds**: a clickable `<span>` or an `<img>` with no `alt` is an `a11y_…` warning. Treat every one as a bug, and reach for a `<button>`.
 
-Svelte's blocks put logic in markup: `{#if}` chooses, `{#each}` repeats, and `{#await}` shows loading, the result, or the error for a Promise. For S07 you need a party fetched in parallel and shown with a **keyed** `{#each}`, an `{#await}` with a `{:catch}`, an empty-party message, and real `<button>`s to remove members, with no `a11y_…` warnings in the terminal.
+</details>
 
 ## How it works
 
@@ -81,70 +87,42 @@ Svelte's blocks put logic in markup: `{#if}` chooses, `{#each}` repeats, and `{#
 <figcaption>Remove Pikachu after typing a nickname in its row. Without a key, the rows stay and their text shifts up, so Eevee inherits "Sparky." With <code>(pokemon.id)</code>, Svelte removes Pikachu's own row.</figcaption>
 </figure>
 
-## Predict, then reveal
+## At a glance
 
-```svelte
-{#each party as pokemon}
-  <li>
-    <label>Nickname for {pokemon.name} <input /></label>
-    <button onclick={() => (party = party.filter((p) => p !== pokemon))}>
-      Remove {pokemon.name}
-    </button>
-  </li>
-{/each}
-```
+The syntax on this page in one place.
 
-<details>
-<summary>You type "Sparky" into Pikachu's nickname box, then press Remove Pikachu. Where is "Sparky" now?</summary>
+| Syntax | Example | What it does |
+| --- | --- | --- |
+| `{#if}` … `{:else}` … `{/if}` | `{#if party.length === 0}` | Shows one piece of markup or another |
+| `{#each}` … `{/each}` | `{#each party as pokemon}` | Repeats markup for every item in a list |
+| a key, in brackets | `{#each party as pokemon (pokemon.id)}` | Ties each row to its item, so a remove takes the right row (and what's typed in it) |
+| `{:else}` inside `{#each}` | `{:else}<li>Your party is empty.</li>` | Shown when the list is empty |
+| `{#await}` … `{:then}` … `{:catch}` … `{/await}` | `{#await request}` | Loading, then the result, or the error, for one Promise |
+| a new Promise in `$state` | `request = lookUp('mew')` | Fetches again: `{#await}` starts over at loading |
+| event attributes | `onclick={() => remove(pokemon)}`, `onsubmit`, `onkeydown` | Runs a function when the event happens |
+| `a11y_click_events_have_key_events` | on a `<span onclick>` | The compiler's "this can't be used with a keyboard": use a `<button>` |
+| `a11y_missing_attribute` | on an `<img>` with no `alt` | The compiler's "a screen reader can't describe this": add `alt` |
 
-In Eevee's box. With no key, Svelte keeps the first two rows and updates their text by position: row 1 now says Eevee, but the `<input>` in it is the same element, still holding what you typed. The fix is a key, `{#each party as pokemon (pokemon.id)}`, so Svelte removes Pikachu's own row. Anything a row keeps for itself (typed text, focus, an open `<details>`) needs one.
+## Live demo
 
-</details>
+The whole class, one component: I change the markup on the projector, you call what happens next. The sandbox is a Svelte Playground with a party already in `$state` and a `lookUp()` function ready, so each step is one change to the markup, and the Playground's warnings show up the moment you type. [Open the Svelte sandbox in the Playground](https://svelte.dev/playground/untitled#H4sIAAAAAAAAE22VXW7bRhDHrzJmA1gKRNKSbBigZQMBGqQFnMRA0qcoiFfcIbnRcne7M5TEGgZyh5yiJ-h7e5OcpFhSH47tF4mYmf9v54vLu8iIGqMs-vX3N799hOnpCfz7D3w4OQcSRi7sJhpFLJReKyOjrBCacBQVSiNF2ae7iFsXxMEQjXaoV84ltELNwbYQhM_Zc2sYDVOURbOjOJ4bgGu1QpBY293ZUFgPHzoFaFuqHISRgKugg8H09GQEhETKGjgfJvB649CrGg3DBJSBm-tX75JajgJ7Hh28NI8SeO_QoASuvG3KChTT7qQbLdrS28ZI0MosYcAVQmMUgxMlQiUIFA8vQBSMPrBRKlamBK4UQWjFCDyWaNALRgjqwMnAWImQ28YTxqQY420P0m25qdufHAdFUn-lwP9YIVDulWNQBB6FbC86bN8rRkdQ2lBxMPLaQi38EiU4LXKknSMYG5fMTRxfzc2sJ16FAzSG2jy3cAkviAXj4FOwA9yBkhlMzkYQZpjBsVNLkVfNMdyPHkaMp9N9COIK8UnA6SGAjPVabHYhn4cXcxMeisbkHIbpsbYrHDi7xNqaIdz1pF2K3X9SKM3oBwM3hMsrcHB0eQk7xUUQ3PfUNIX3JuyPXTYuAwE33taKcAQVahma05cMZEEQqdKEWQowuAZrEArkvEICUQplkkAU1Jr8kG0g_-EGobh9qrk1xOCRnDWEcAliLRT3rMFtxewoS9OQrnAqyW0qnEpXk3RbQPriLuDub_tKAFQBg6MdLrHLYbe46y7J195bP7h9Z-HGLv_7u7YGcqE1SphHW848SvYoj9x4s88t-UrWDH7qWFgHj382SHxYiG2Vx1Ix2-NhEMzS_Q7NzawaX71t-9nM0mrcGxvdLVh4w-FDt6jjH9--n2bdQvbzLC0SVOgR-r1MO00ATq6urV12Q2jcLK0mvf3AOvvx7ft5z-rH-xgW1pxbjV0S6UvoeOEOKRA1WKPbBN5ouxB6FMbfxVJ363i7pi5y0TBbQ9DaBiqxQnPMIKRECS1y31GQNli9UISQE31pTEMovxBqzNl6WAsflooSeJkGSVZ2Zw4WVrb7lSms4QzGyXhy5rFOx8kZUEuMddyoUbgRKSb0qng4qR2o0Q9eEimVKTM42c5bK-K4qyzcQAaf02u110tF4RrKoNC42SLCY7z2wmUQfrdWoVVpYsVYUwY5Gka_9ZQh8iQ5D4VsTbXwpTLxQtt8GXwPXIeMO-sj4cJ6iT6DidsAWa0k_DKdTn9yxl5I1dAjLOOGY_bCUGF9nUEunGKh1V_PdqAf86NhKFOhV_w0z8mTRB_hssLmDcUrRWqhD9eCbVgrgxmcHqoZj8cXP3ljWxSEnMHUbXbsWbrb4_A9xg1HGfsG7z_f_w_oIJa6wQcAAA). It runs in your browser with nothing to install; to keep your changes, use the Playground's **Save** (it asks you to sign in with GitHub) or <a href="/sandbox/340-s07/App.svelte" download="App.svelte">download the starting file</a>.
 
-<details>
-<summary>The Remove control is <code>&lt;span onclick={remove}&gt;✕&lt;/span&gt;</code>. It works with the mouse. What happens with the keyboard, and where would you find out first?</summary>
+1. **`{#each party as pokemon}`** inside the `<ul>`, one `<li>` per member with its name.
+2. **Remove as a `<span onclick>✕</span>`.** Hover the underline: two `a11y_` warnings. Tab through: it's skipped. Change it to `<button>Remove {pokemon.name}</button>`; the warnings go.
+3. **`{:else}`** inside the `{#each}`: "Your party is empty." Remove all three with the keyboard.
+4. **The key.** Add `<label>Nickname <input /></label>` to each row, type "Sparky" for Pikachu, remove Pikachu. Eevee has it now. Add `(pokemon.id)` and try again.
+5. **`{#await request}`** under "Look one up": loading, then `{:then pokemon}` with its name and `<img src={pokemon.sprites.front_default}>`. Hover the warning; add `alt`.
+6. **Break it:** change `'ditto'` to `'dittoo'` in the script. The loading message goes, nothing replaces it, and the error lands in the Playground's console, where no visitor will see it. Add `{:catch error}` with `{error.message}`.
+7. **Fetch again:** a `<button onclick={() => (request = lookUp('mew'))}>Look up Mew</button>`. Press it and watch `{#await}` start over at loading.
 
-Nothing: Tab skips straight past it, because a `<span>` can't take focus and doesn't respond to Enter. You'd find out first in the terminal running `npm run dev`, where Svelte warns `a11y_click_events_have_key_events` and `a11y_no_static_element_interactions` the moment it compiles. The fix is a `<button>`, with words a screen reader can say: "Remove Pikachu", not "✕".
+**On your own:** in your own Playground copy (a few minutes each):
 
-</details>
-
-## Try it together
-
-Pair programming, with the whole class. I drive Claude Code on the projector; you navigate. After each step you read the output with me, decide whether to keep it or revise it, and say what to ask for next. Your own run comes in studio, with S07.
-
-We start here, in plan mode:
-
-```text
-In try/s07/, make a Svelte 5 page that fetches pikachu, eevee, and snorlax from PokéAPI and lists them, each with a Remove button. Show a loading message, an error if the fetch fails, and a message when the party is empty.
-```
-
-Then we put it under pressure, one step at a time. Each time, the question is what *our* code does, and which line does it:
-
-- **Read the terminal.** Any `a11y_…` warnings where `npm run dev` is running?
-- **Type, then remove.** Type a nickname in one row and remove the row above it. Where did the text go?
-- **Break the fetch.** Change `eevee` to `eeveee`. Is there a message on the page?
-- **Empty it.** Remove all three with the keyboard. Is there a message, and where is focus?
-
-**Dig deeper:** we run [`/dig-deeper`](/340/skills/dig-deeper/) on the `{#each}` line. Answer its predict question before the reveal.
-
-**On your own:** if you missed class or want another pass, run the starting prompt above in your kit, ask Claude to start `npm run dev`, try the same four pressure tests, and answer the questions in the box below.
-
-<details>
-<summary>Questions to ask your output</summary>
-
-Use these in studio on your own S07, out loud or to Claude:
-
-- What's the key in the `{#each}`, and what goes wrong without it?
-- Which block shows the loading message, and which shows the error?
-- How many places hold "is it loading?" Could two of them disagree?
-- What does the terminal say while `npm run dev` runs?
-- After the last Remove, where is focus, and which line put it there?
-
-**Watch for:** an `{#each}` with no key; a clickable `<div>` or `<span>` for Remove (the warning scrolls past while the page reloads); `{#await}` with no `{:catch}`, or separate `loading`, `error`, and `data` variables that can disagree; the fetch inside an `$effect` that writes to `$state`; focus dropped on the page after the last Remove, as in S02.
-
-</details>
+- Show "Party full" instead of the list's last row once there are six, with `{#if}`. (Add three more to `party` to test it.)
+- Turn "Look up Mew" into a labeled form with a text box and `onsubmit`, so you can look up anyone.
+- After the last Remove, where is focus? Make it land on the heading instead.
 
 ## Links
 
 - Svelte: [`{#if}`](https://svelte.dev/docs/svelte/if), [`{#each}`](https://svelte.dev/docs/svelte/each) (keyed each blocks), [`{#await}`](https://svelte.dev/docs/svelte/await), [Basic markup](https://svelte.dev/docs/svelte/basic-markup) (event attributes), [Compiler warnings](https://svelte.dev/docs/svelte/compiler-warnings) (the `a11y_` list)
+- Dig deeper: run [`/dig-deeper`](/340/skills/dig-deeper/) on the `{#each}` line of your own S07. What goes wrong without its key?
 - MDN: [`<button>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/button), [`HTMLElement.focus()`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus), [`Promise.all()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all)

@@ -164,7 +164,10 @@ const sandboxFrom = path.join(pagesFrom, 'sandbox');
 const sandboxTo = path.join(site, 'public/sandbox');
 await fresh(sandboxTo);
 if (await exists(sandboxFrom)) {
-  for (const name of (await readdir(sandboxFrom)).sort()) {
+  for (const entry of (await readdir(sandboxFrom, { withFileTypes: true })).sort((a, b) => a.name.localeCompare(b.name))) {
+    // Files at the top (playground-link.mjs) are tools, not sandboxes.
+    if (!entry.isDirectory()) continue;
+    const name = entry.name;
     const match = name.match(/^([0-9]+)-s[0-9]{2}$/);
     if (!match) {
       if (!name.startsWith('.')) console.warn(`  Skipped sandbox/${name}: name it <course>-sNN, like 250-s07`);
