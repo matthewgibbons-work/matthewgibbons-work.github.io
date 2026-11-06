@@ -2,7 +2,7 @@
 title: "Svelte logic and events"
 description: "if, each, and await blocks; fetching data in a component; and the accessibility warnings Svelte gives you for free."
 courses: [dight340]
-ready: false # true once the S07 dry run passes, with the S07 brief (PLAN.md: Build order)
+ready: true
 session: 7
 prototype: P3
 date: 2026-11-09

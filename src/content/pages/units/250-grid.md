@@ -2,7 +2,7 @@
 title: "Grid"
 description: "Two-dimensional layout: name the areas of your page, and let columns fit the space with auto-fit and minmax()."
 courses: [dight250]
-ready: false # true once the S07 dry run passes (PLAN.md: Build order)
+ready: true
 session: 7
 prototype: P3
 date: 2026-11-09
