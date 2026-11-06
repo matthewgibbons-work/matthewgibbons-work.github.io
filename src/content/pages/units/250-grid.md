@@ -124,6 +124,7 @@ The properties on this page in one place. "Container" means the element with `di
 | `repeat()` | a column size | `repeat(3, 1fr)` | Writes the same column several times |
 | `minmax()` | a column size | `minmax(15rem, 1fr)` | A column at least the first size, at most the second |
 | `auto-fit` | inside `repeat()` | `repeat(auto-fit, minmax(15rem, 1fr))` | As many columns as fit; the items stretch to fill the row |
+| `min()` | inside `minmax()` | `minmax(min(15rem, 100%), 1fr)` | Lets the minimum shrink when the space is narrower than `15rem` (beside a sidebar, or at 200% zoom), so one column still fits |
 | `grid-template-areas` | container | `"header header" "main aside"` | Draws the layout as named areas, one string per row |
 | `grid-area` | item | `main`, `aside` | Puts the item in the area with that name |
 | `grid-column: span 2` | item | | Makes one item two columns wide. **Not in an `auto-fit` grid:** at one column it forces a second, and the page scrolls sideways |
