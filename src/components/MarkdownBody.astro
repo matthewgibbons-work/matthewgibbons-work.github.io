@@ -15,6 +15,9 @@
 // - A code block that scrolls sideways has to be reachable by keyboard (axe
 //   scrollable-region-focusable), so every code <pre> gets tabindex="0" (Oct 19). Prompts
 //   don't scroll, so they don't.
+// - Tables scroll inside their own box (Nov 6): a four-column table (At a glance) is wider
+//   than a 320px screen, and it pushed the whole page sideways. Each <table> is wrapped in
+//   a focusable, labelled region, for the same axe rule as the code blocks.
 const html = await Astro.slots.render('default');
 const prompt = Astro.slots.has('prompt') ? await Astro.slots.render('prompt') : '';
 const done = Astro.slots.has('done') ? await Astro.slots.render('done') : '';
@@ -32,6 +35,8 @@ let fixed = html
       ? copyBar(id, 'Copy prompt', 'Copied. Paste it into the chat.') + `<pre class="prompt" id="${id}">`
       : copyBar(id, 'Copy code', 'Copied.') + `<pre tabindex="0" id="${id}">`;
   })
+  .replace(/<table>/g, '<div class="table-scroll" role="region" aria-label="Table, scrolls sideways" tabindex="0"><table>')
+  .replace(/<\/table>/g, '</table></div>')
   .replace('<!-- prompt:start -->', prompt);
 if (hasDone) {
   fixed = fixed
