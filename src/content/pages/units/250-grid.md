@@ -133,14 +133,72 @@ The properties on this page in one place. "Container" means the element with `di
 
 The whole class, one page: I change the CSS on the projector, you call what happens next. The sandbox is a plain page of colored boxes with no Grid yet, so each step is one change you can see. [Open the Grid sandbox](/sandbox/250-s07/index.html) in your browser, or <a href="/sandbox/250-s07/index.html" download="grid-sandbox.html">download it</a> to edit your own copy in VS Code. The CSS is in the `<style>` at the top.
 
-1. **`display: grid` and `gap`** on `.cards`. Nothing moves until we add `gap`: Grid with no columns is one column.
-2. **`grid-template-columns: 1fr 1fr 1fr`**, then `1fr 2fr 1fr`. Then `33% 33% 33%`: why do the cards spill past the dashed outline?
-3. **`repeat(3, 1fr)`**: the same three columns, shorter. Drag the window narrow. Slivers.
-4. **`repeat(auto-fit, minmax(15rem, 1fr))`**: drag it narrow again. The columns drop one at a time, down to one.
-5. **`grid-column: span 2`** on the first card, still narrow. A sliver second column appears, the cards spill past the outline, and at 320px the page scrolls sideways. Take it out again.
-6. **`grid-template-areas`** on `.page`, and **`grid-area`** on the header, main, aside, and footer. Turn on DevTools' **grid** badge and "Show area names."
-7. **Break a string:** delete one word from a row. The rule is ignored, and all four areas pile on top of each other in one cell.
-8. **Swap `main` and `aside`** in the strings, then Tab through the links. Focus starts on the right and jumps back left.
+Each step says which rule to type in, what to type, and what to look for. Save after every change (Cmd S) and look at the browser.
+
+**Narrow and wide:** in Chrome, open DevTools (Cmd Option I) and turn on the device toolbar (Cmd Shift M). Set Dimensions to **Responsive** and type a width, such as `320`, or drag the edge of the page. Turn the toolbar off to go back to the full window. (In VS Code's Live Preview, drag the divider between the editor and the preview instead.)
+
+1. **`display: grid`, then `gap`.** In the empty `.cards { }` rule, type:
+
+   ```css
+   display: grid;
+   ```
+
+   Nothing moves. Grid with no columns set is one column, and the cards were already stacked in one. Now add `gap: 1rem;` on the next line. Space opens between the cards, but not around the outside.
+
+2. **Columns with `fr`.** Add a third line to `.cards`:
+
+   ```css
+   grid-template-columns: 1fr 1fr 1fr;
+   ```
+
+   Six cards, three equal columns, two rows. Change the value to `1fr 2fr 1fr`: the middle column is twice as wide as each side. Now change it to `33% 33% 33%`. The third column runs past the dashed outline. Why? 99% of the width plus two `1rem` gaps is more than 100%. `fr` shares out only the space left after the gaps, so it always fits.
+
+3. **`repeat()`, then go narrow.** Change the value to `repeat(3, 1fr)`: the same three columns, shorter to write. Now go narrow, to 320px. The three columns stay, about 70px each, and the words in them wrap one per line. Go back to wide.
+
+4. **`auto-fit` and `minmax()`.** Change the line to:
+
+   ```css
+   grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+   ```
+
+   Wide, you get as many columns at least `15rem` (240px) wide as fit: four on a typical laptop window, with cards 5 and 6 stretched across a second row. Narrow it slowly. Four columns, then three, two, one: the drops come at about 1080, 820, and 570px wide. At 320px there's one column and nothing spills.
+
+   `.cards` now holds three lines: `display`, `gap`, and `grid-template-columns`.
+
+5. **`span 2` on one card, then take it out.** In the empty `.card:first-child { }` rule, type:
+
+   ```css
+   grid-column: span 2;
+   ```
+
+   Wide, card 1 is two columns wide. Now go narrow, to 320px (it shows anywhere under about 570px). One column isn't enough for card 1, so the grid adds a thin second one, and card 3 squeezes in beside card 2. The cards spill past the dashed outline, and the page scrolls sideways. Delete the line.
+
+6. **Name the areas.** Go back to wide. In the empty `.page { }` rule, type:
+
+   ```css
+   display: grid;
+   grid-template-columns: 1fr 16rem;
+   grid-template-areas:
+     "header header"
+     "main   aside"
+     "footer footer";
+   gap: 1rem;
+   ```
+
+   Then fill in the four empty rules under it:
+
+   ```css
+   header { grid-area: header; }
+   main   { grid-area: main; }
+   aside  { grid-area: aside; }
+   footer { grid-area: footer; }
+   ```
+
+   The header runs across the top, main and aside sit side by side, and the footer runs across the bottom. Main is narrower now, so the cards drop a column. In DevTools' **Elements** panel, click the **grid** badge beside `<div class="page">` to outline the grid. In the **Layout** pane, under Overlay display settings, check **Show area names**.
+
+7. **Break a string.** In `grid-template-areas`, delete `aside` from the middle row, so it reads `"main"`. All four areas pile on top of each other in one column on the right, and the two columns you drew sit empty on the left. In DevTools' **Styles** pane, `grid-template-areas` is struck through, with a warning icon. The rows don't all have the same number of words, so the browser ignored the whole rule. Put `aside` back.
+
+8. **Swap `main` and `aside`.** Change the middle row to `"aside  main"`, and the columns to `16rem 1fr` so the aside stays narrow. The aside is on the left now. Click the page just above the header, then press Tab, again and again. Focus goes from the header link to the cards on the *right*, and only then jumps back left to the aside's links. The keyboard follows the HTML, where `<main>` comes before `<aside>`.
 
 **On your own:** in your copy of the sandbox (a few minutes each):
 
