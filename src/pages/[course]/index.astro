@@ -12,7 +12,7 @@ import Base from '../../layouts/Base.astro';
 import Badge from '../../components/Badge.astro';
 import { courses, courseOrder, fmtDay, type Course } from '../../lib/courses';
 import { skillInfo, skillOrder, skillHref } from '../../lib/skills';
-import { findPage, pageHref, parseId, prototypePage, releasePage, sessionPair } from '../../lib/published';
+import { findPage, isShown, pageHref, parseId, prototypePage, releasePage, sessionPair } from '../../lib/published';
 
 export function getStaticPaths() {
   return courseOrder.map((course) => ({ params: { course } }));
@@ -45,6 +45,8 @@ const prototypeHrefs = Object.fromEntries(
   ),
 );
 const release = await releasePage(course);
+// Kit updates (experiment 1, session 8): linked once that page is published.
+const kitUpdates = await getEntry('pages', `kit-updates-${course}`);
 const r = c.release;
 // The row under the title. The Final Project brief links only once it's published.
 const findYourWay = [
@@ -53,6 +55,7 @@ const findYourWay = [
   { href: `/${course}/sparks/`, label: 'Sparks' },
   { href: `/${course}/prototypes/`, label: 'Prototypes' },
   ...(release ? [{ href: pageHref(release), label: 'Final Project brief' }] : []),
+  ...(kitUpdates && isShown(kitUpdates) ? [{ href: `/${course}/kit/`, label: 'Kit updates' }] : []),
 ];
 ---
 

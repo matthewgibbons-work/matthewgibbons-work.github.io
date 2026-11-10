@@ -1,0 +1,30 @@
+---
+// Kit updates for one course: /250/kit/ and /340/kit/ (experiment 1, session 8, Nov 9;
+// dight-refactor PLAN.md "Experiments"). Source: dight-refactor/course-site-content/kit-updates.md,
+// split per course by npm run sync, like Spark 1. It follows the publish rule: no page until
+// it's `ready: true` and its `date` has come (npm run dev shows it as a draft).
+import { getEntry, render } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import MarkdownBody from '../../../components/MarkdownBody.astro';
+import { isShown } from '../../../lib/published';
+import { courseOrder, type Course } from '../../../lib/courses';
+
+export async function getStaticPaths() {
+  const found = await Promise.all(
+    courseOrder.map(async (course) => ({ course, entry: await getEntry('pages', `kit-updates-${course}`) })),
+  );
+  return found.flatMap(({ course, entry }) => (entry && isShown(entry) ? [{ params: { course } }] : []));
+}
+
+const course = Astro.params.course as Course;
+const entry = await getEntry('pages', `kit-updates-${course}`);
+if (!entry) throw new Error(`kit-updates-${course}.md is missing: run npm run sync`);
+const { Content } = await render(entry);
+const { title, description } = entry.data;
+---
+
+<Base title={title} description={description} course={course}>
+  <MarkdownBody>
+    <Content />
+  </MarkdownBody>
+</Base>
