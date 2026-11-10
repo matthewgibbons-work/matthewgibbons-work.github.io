@@ -2,7 +2,7 @@
 title: "Kit updates"
 description: "What each course kit update added, how to check it's working, and how to read the results."
 courses: [dight250]
-ready: false
+ready: true
 date: 2026-11-09
 ---
 
