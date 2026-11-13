@@ -81,11 +81,18 @@ const iso = (d: Date) => d.toISOString().slice(0, 10);
     gap: 0.5rem 1.5rem;
   }
 
+  .assignment-bar ul {
+    align-items: center;
+  }
+
+  /* The prose rule `li + li` adds a top margin, which pushed the Prototype link below the
+     Spark link (Nov 13). */
   .assignment-bar li {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 0.5rem;
+    margin: 0;
   }
 
   /* 44px tall targets, like the header nav. */

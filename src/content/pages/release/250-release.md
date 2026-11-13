@@ -1,8 +1,8 @@
 ---
 title: "Final Project"
-description: "A small site for a real or realistic audience: expand the Saturday Morning Archive, or bring your own idea. Due Sat Dec 12, 11:59 pm, the day of the open lab, where you can get final help."
+description: "A small site for a real or realistic audience: grow one of this term's topics into a site, or bring your own idea. Due Sat Dec 12, 11:59 pm, the day of the open lab, where you can get final help."
 courses: [dight250]
-ready: false # true once the Final Project brief is reviewed, before Mon Nov 16 (PLAN.md: Build order)
+ready: true
 tier: release
 released: 2026-11-16
 due: 2026-12-12
@@ -11,7 +11,7 @@ folder: final-project/
 
 # Final Project
 
-Make a small site, three to five pages, for a real or realistic audience: expand the Saturday Morning Archive, or bring your own idea, in HTML and CSS only. It's due Sat Dec 12 at 11:59 pm. Submit by pasting two links in Learning Suite. It's graded on a 25-point rubric (25% of your grade), and AI use (`NOTES.md`) carries the most points. Rework doesn't apply: this is the finished piece.
+Make a small site, three to five pages, for a real or realistic audience: grow one of the topics you've built this term into a site, or bring your own idea, in HTML and CSS only. It's due Sat Dec 12 at 11:59 pm. Submit by pasting two links in Learning Suite. It's graded on a 25-point rubric (25% of your grade), and AI use (`NOTES.md`) carries the most points. Rework doesn't apply: this is the finished piece.
 
 It draws on everything this term, and from Mon Nov 23 your studio time goes to it. Your S09 intent brief is its Intent and Spec: who it's for, its pages, and the "done" list you check it against. Write `final-project/NOTES.md` as you go, not the night before. The thing most people miss is checking every page, not just the home page: the validator, contrast, keyboard, 320px, and 200% zoom, on each one.
 
@@ -28,9 +28,16 @@ The full week-by-week list is under **Timeline**.
 
 A Spark is an idea and a Prototype is a working model. A **Final Project** is something shipped to real people. Make a small site, three to five pages, for a real or realistic audience, and take it through the loop one last time at full size: you decide what it's for and what "done" means, the agent writes most of the code, and you check it, fix it, and explain it.
 
-**Default: expand the Saturday Morning Archive.** Turn what you've built this term into one small site, with a shared header, nav, and footer. For example: a home page (from P3), an episode guide or a page per show (from your Sparks), and a Suggest-a-show page (from P4). At least one page has to be new.
+**Default: grow one of your topics into a site.** Pick one topic you've built pages for this term and turn it into one small site, with a shared header, nav, and footer. Reuse your own earlier pages on that topic where they fit (a home page from P3, a form from P4, a Spark page), and make at least one page new. Any of this term's topics works:
 
-**Your own choice:** a small site for a real or realistic audience: a club's events, a family recipe collection, a portfolio for a job you want, a guide to something you know well. It's still HTML and CSS only (`AGENTS.md` holds you to that), and your intent brief names who it's for.
+- the **Saturday Morning Archive**: a home page, a page per show, the broadcast schedule, and Suggest a show,
+- a farmers market: what's in season, the vendors, hours and location, and a stall application,
+- a trail guide: the trails, current conditions, getting there, and a conditions report,
+- a campus club or club fair: what the club does, events, meeting times, and sign-up,
+- a band: news, tour dates, and a waitlist for sold-out shows,
+- a recipe collection: recipes by course, a pantry list, and a "suggest a recipe" form.
+
+**Your own choice:** a small site for a real or realistic audience: a portfolio for a job you want, a family business, a guide to something you know well. It's still HTML and CSS only (`AGENTS.md` holds you to that), and your intent brief names who it's for.
 
 Either way, the site lives in `final-project/` in your repo, starting at `final-project/index.html`, and your hub links to it under **Final Project**.
 

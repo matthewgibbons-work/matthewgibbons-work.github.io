@@ -2,7 +2,7 @@
 title: "Final Project"
 description: "An Astro site with Svelte islands: live PokéAPI data, your NOTES.md files as a collection, tests, and an agent you've configured. Due Wed Dec 16, 11:59 pm, the day of the open lab, where you can get final help."
 courses: [dight340]
-ready: false # true once the Final Project brief is reviewed (PLAN.md: Build order)
+ready: true
 tier: release
 released: 2026-11-16
 due: 2026-12-16

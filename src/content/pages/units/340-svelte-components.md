@@ -2,19 +2,26 @@
 title: "Svelte components and props"
 description: "Typed $props, callback props, and snippets: split the page into components that pass data down and events up. The Final Project brief comes out."
 courses: [dight340]
-ready: false # true once the S08 dry run passes, with the S08 brief (PLAN.md: Build order)
+ready: true
 session: 8
 prototype: P4
 date: 2026-11-16
+sticky_assignments: true # experiment 6, kept Nov 13 (PLAN.md, "Experiments")
 ---
 
 # Svelte components and props
 
-**The big idea:** data flows down, events flow up. A component takes **props** from its parent and tells the parent what happened through a **callback**; it never reaches up and changes the parent's data itself.
+<details>
+<summary>Key takeaways</summary>
 
-## In short
+- **Data flows down, events flow up.** A parent passes data to a child as **props**; the child reports what happened through a **callback prop**.
+- **One owner per piece of data.** Only the component that holds the `$state` changes it. A child that does `pokemon.level++` on its prop works, but the browser console warns `ownership_invalid_mutation`.
+- **`let { … } = $props()`** is how a component takes its props. `<PartyMember {pokemon} />` is short for `pokemon={pokemon}`.
+- **`interface Props`** lists what a component accepts, in TypeScript. Read it aloud: each prop, its type, and `?` for optional.
+- **Snippets fill layout components:** whatever goes between a component's tags arrives as `children`, placed with `{@render children()}`. `$props.id()` gives each instance a unique id for `aria-labelledby`.
+- **Focus after a remove belongs to the parent**, the only component that can see who's left.
 
-Data flows down, events flow up: a parent passes data to a child as **props**, and the child reports what happened through a **callback prop**, never changing the parent's data itself. For S08 you need your S07 list split into a `PartyList` that owns the party and a `PartyMember` that gets one Pokémon as a typed prop and calls `onremove`, with the page looking and sounding exactly as before.
+</details>
 
 ## How it works
 
@@ -85,69 +92,117 @@ Read it as: "This component takes a `pokemon` (an object with a number `id`, a s
 <figcaption>One owner. Each Pokémon goes down to its <code>PartyMember</code> as a prop; a Remove press comes back up as <code>onremove(id)</code>, and only <code>PartyList</code> changes the party.</figcaption>
 </figure>
 
-## Predict, then reveal
+## At a glance
 
-```svelte
-<!-- PartyMember.svelte -->
-<script>
-  let { pokemon } = $props();
-</script>
+The syntax on this page in one place.
 
-<button onclick={() => pokemon.level++}>Level up {pokemon.name}</button>
-```
+| Syntax | Example | What it does |
+| --- | --- | --- |
+| `$props()` | `let { pokemon } = $props();` | Takes the props the parent passed in |
+| passing a prop | `<PartyMember {pokemon} />` | Gives the child data; `{pokemon}` is short for `pokemon={pokemon}` |
+| a callback prop | `onremove={remove}`, then `onremove(pokemon.id)` in the child | The child says what happened; the parent makes the change |
+| `ownership_invalid_mutation` | `onclick={() => pokemon.level++}` in the child | The browser console's "this child changed data it doesn't own": use a callback |
+| `interface Props` | `onremove: (id: number) => void;` | Lists each prop and its type, so the editor can check the parent |
+| `children` and `{@render}` | `<Panel title="My party">…</Panel>`, then `{@render children()}` | Places whatever the parent put between the tags |
+| `$props.id()` | `const id = $props.id();` | A unique id per instance, for `aria-labelledby` |
 
-<details>
-<summary><code>pokemon</code> comes from the parent's <code>$state</code> party, and the parent shows the party's total level. You press the button. Does the total go up?</summary>
+## Live demo
 
-Yes, and that's the problem. The party is reactive all the way down, so changing `pokemon.level` inside the child changes the parent's data, and the total updates. But the browser console shows Svelte's `ownership_invalid_mutation` warning: "Mutating unbound props … is strongly discouraged." The child changed data it doesn't own, so when the total is wrong next week, there are now two places to look. Give the child an `onlevelup` callback prop and let the parent do `pokemon.level++`.
+The whole class, three components: I change them on the projector, you call what happens next. The sandbox is a Svelte Playground where `App.svelte` already owns a party of three in `$state`, with `remove` and `levelUp` functions ready, and `PartyMember.svelte` and `Panel.svelte` are empty. Switch files with the tabs above the editor. [Open the Svelte sandbox in the Playground](https://svelte.dev/playground/untitled#H4sIAAAAAAAAE41W247bNhD9lYlTYO1Eku31brrQehcoWiAtkCIBkj5lg4AWRxa7FElwRr7UMNB_6Mf0vZ_SLylIyZf1umhfbGEuh4eHwxluekbU2Mt7P_z09sdPMLkawV9_wsfRDZAwcmZXvaTHQumlMrKXl0ITJr1SaaRe_nnT47ULycHQS3ZQ3zmX0QI1B9tMEJ6zF9YwGqZe3pu-SNMHA_BOLRAk1na3NpTWw8eYAYWtnTUhA4SR4Lx1BP3J1SgBQiJlDdwMMnjv0KAErrxt5hUopoDcYXzQYj33tjEStDKP0OcKoTGKwYk5QiUIFA9uQZSMHlAqVmYOwqwhbBCUAa4UQWm1RJ8EYI9zNOgFIwSsgJqDsTLwbTxhSoox7fY67LY1dHseacjI6l8pKJ_S6CaAfucc2KWhCOmE53UGH8Lfz1jP0HcaRhk-CIN6ZyAWngFrx-vbmBu1LJXWEarOHkya3j-YKRVeOb4Pa6naWc_H8FB6W8NFNny-5MXtkxSD-ij4QCSEhUCN3NKHO_iGWDD2Pwc7wAaUzOHyOoFQGjlcOPUoiqq5SEDjAnUO40vYJsfB48lkH424QDzE3pyGXh1CyVivxeoQPBl10V8GRzTZstDvQkTgKtGrBcp-q71H2RTY71NTJ-AGcHcP1NTwGlwWMRMYDXZYwyG8N3odj7CohJnjk1P8vlJaejRQCK2Dg3BfqsE0E8VjW9pZQCsbU3CobI-1XWBfyQFs2p3udG2BS6UZfb_fsnOZkvDi7g6UHMQT27bk9nCR9i_uGV5WKiOfoNy1KO1GX7_eoU2H-xJ6MNNqfP_JC2XQx3s0HVbj1uHuPwVdd9JvDipvp0PXxjQ61uHmJYqi6rYlCJx9xNoa6HcfmZKDbUt1qtX9ZmcOx7wNLSuuAXu77lbRqoUfBvjIPC4YLgGvNUbn8BW8s_YxXqgSUYM1ep3BW21nQidAFmIsxXbk7bLtQLOG2XaXNF60SpC5YBBSooQ1cssWpA1WLxQhFERfG9MQyq-EGgu2HpbCG2XmlERUsgFwDT7KEbCLUDNH7S-DV8MAnc8jv_7MyvX-GEtrOIdxNr689lgPx9k10JoY67RRSWirlBJ6VR6XxQ6o0UfVIKUy8xxGt61BK-I0qhDam8Fz-Vrt86Wi0ONyKDWuOojwmS69cDmE384qtJqbVDHWlEOBhtF3nnmIHGXfho10plr4uTLpTNviMfiOXAfG0XqSOLNeos_h0q2ArFYSXk4mkyfO1AupGjqBZVxxyl4YKq2vcyiEUyy0-u2sAoTxfp2RMYvnAePzlKSgCiW8fPPmzX9yOlmyrcKT81emQq_4uTSXz7Q5gctLWzSULhSpmcY9rG1YK4M5XB0EHI_Ht0-8qS1LQs5h4lZHjaK7ZuEdgSvu5ewb3Cb_8nQ4HiNPHw8nnpPnA3xkdHCdgwAX59JScQUCKhSyneESlpVgXKCHuUWCGfIS0YQXArCYUwZxNv5fmqej8ZTsGf85ygTjv3__4yoHa7ohAXU7hSPJCj2eJfZl-w-OfboMuQkAAA). It runs in your browser with nothing to install; to keep your changes, use the Playground's **Save** (it asks you to sign in with GitHub) or download the starting files: <a href="/sandbox/340-s08/App.svelte" download="App.svelte">App.svelte</a>, <a href="/sandbox/340-s08/PartyMember.svelte" download="PartyMember.svelte">PartyMember.svelte</a>, <a href="/sandbox/340-s08/Panel.svelte" download="Panel.svelte">Panel.svelte</a>.
 
-</details>
+Each step says which file, what to type, and what to look for. Three things to know first:
 
-<details>
-<summary>Before the split, a Remove press moved focus to the next member's button. Now the focus code lives in <code>PartyMember</code>. After a remove, where does focus go?</summary>
+- **Every edit restarts the app.** The party is back to three, at their starting levels.
+- **The console** is under the result: click **Console** to open it. Ownership warnings show there, not in the editor.
+- **Total level** is at the top of the result. It's how you'll see whether the party's data changed.
 
-Nowhere useful: it drops to the page. The member that held the focus code is the one that was just removed, and a child can't see its siblings anyway. Focus after a remove is the party's job, so it belongs in `PartyList`, which knows who's left: it removes the member, then focuses the next one's button (or the empty-party message).
+1. **Move one row into a component.** In `PartyMember.svelte`, replace the comment with:
 
-</details>
+   ```svelte
+   <script>
+     let { pokemon } = $props();
+   </script>
 
-## Try it together
+   <li>{pokemon.name} · level {pokemon.level}</li>
+   ```
 
-Pair programming, with the whole class. I drive Claude Code on the projector; you navigate. After each step you read the output with me, decide whether to keep it or revise it, and say what to ask for next. Your own run comes in studio, with S08.
+   Then in `App.svelte`, replace the `<li>` line inside `{#each}` with:
 
-We start from a copy of `try/s07/` in `try/s08/`, in plan mode:
+   ```svelte
+   <PartyMember {pokemon} />
+   ```
 
-```text
-In try/s08/, split the party list into a PartyList component that owns the party and a PartyMember component for one Pokémon. PartyMember gets the Pokémon as a prop and calls an onremove callback prop; it never changes the party itself. Write PartyMember's props in TypeScript so I can read the types.
-```
+   The page looks exactly the same. That's the point: the row now lives in its own file, and `App` hands each one its Pokémon.
 
-Then we put it under pressure, one step at a time. Each time, the question is what *our* code does, and which line does it:
+2. **Events up, with a callback prop.** In `PartyMember.svelte`, change the props line to `let { pokemon, onremove } = $props();`, and inside the `<li>`, after the text, add:
 
-- **Who changes the party?** Search `PartyMember.svelte` for `splice`, `filter`, `level++`, or `party`.
-- **Read the types aloud.** Read `interface Props` in plain words, like the unit page does.
-- **Check the console.** Use every button with the browser console open. Any `ownership_invalid_mutation`?
-- **Keyboard again.** Remove a member with Enter. Where does focus land?
+   ```svelte
+   <button onclick={() => onremove(pokemon.id)}>Remove {pokemon.name}</button>
+   ```
 
-**Dig deeper:** we run [`/dig-deeper`](/340/skills/dig-deeper/) on the `let { … }: Props = $props();` line. Answer its predict question before the reveal.
+   Press a Remove button. Nothing happens, and the console has a `TypeError`: `App` never passed an `onremove`. In `App.svelte`, change the component line to:
 
-**On your own:** if you missed class or want another pass, copy your S07 folder to `try/s08/`, run the starting prompt above, try the same four pressure tests, and answer the questions in the box below.
+   ```svelte
+   <PartyMember {pokemon} onremove={remove} />
+   ```
 
-<details>
-<summary>Questions to ask your output</summary>
+   Press Remove again: the row goes, and the total drops. The child only said *which* Pokémon; `App`'s `remove` changed the party.
 
-Use these in studio on your own S08, out loud or to Claude:
+3. **A child that changes data it doesn't own.** In `PartyMember.svelte`, before the Remove button, add:
 
-- Which component owns the party? Is that the only one that changes it?
-- What does each component receive as props? Read one `interface Props` aloud.
-- When Remove is pressed, which function runs first, and in which file?
-- After a remove, which line moves focus, and can that component see the other members?
-- What would the `?` in `children?` mean if it weren't there?
+   ```svelte
+   <button onclick={() => pokemon.level++}>Level up {pokemon.name}</button>
+   ```
 
-**Watch for:** the child changing the parent's data (`pokemon.level++`, or `party.splice` through a passed-in array), which works with a warning in the console; Svelte 4 patterns (`export let`, `createEventDispatcher`, `on:remove`); `any` as the type, or no types; focus code left in the child. The page looking identical before and after the split is the goal and the trap.
+   Press Level up Pikachu. Pikachu's level and the total both go up, so it works. Now open the console: `ownership_invalid_mutation`, "Mutating unbound props … is strongly discouraged." When the total is wrong next week, there are now two places to look. Fix it the way Remove works: add `onlevelup` to the props line, change the button to `onclick={() => onlevelup(pokemon.id)}`, and in `App.svelte` add `onlevelup={levelUp}` to the component line. Clear the console and press Level up again: same result, no warning.
 
-</details>
+4. **Read the types.** In `PartyMember.svelte`, change `<script>` to `<script lang="ts">` and replace the props line with:
+
+   ```ts
+   interface Props {
+     pokemon: { id: number; name: string; level: number };
+     onremove: (id: number) => void;
+     onlevelup: (id: number) => void;
+   }
+
+   let { pokemon, onremove, onlevelup }: Props = $props();
+   ```
+
+   Nothing on the page changes. Read it aloud together: "a `pokemon` with a number `id`, a string `name`, and a number `level`; an `onremove` that takes a number and returns nothing; the same for `onlevelup`." The Playground doesn't check types; in VS Code, passing `onremove="oops"` from the parent gets underlined before you run anything.
+
+5. **A layout component with a snippet.** In `Panel.svelte`, replace the comment with:
+
+   ```svelte
+   <script>
+     let { title, children } = $props();
+     const id = $props.id();
+   </script>
+
+   <section aria-labelledby={id}>
+     <h2 {id}>{title}</h2>
+     {@render children()}
+   </section>
+   ```
+
+   In `App.svelte`, wrap the "Total level" paragraph and the whole `<ul>` in:
+
+   ```svelte
+   <Panel title="My party">
+     …
+   </Panel>
+   ```
+
+   A dashed panel with a "My party" heading now holds the total and the list. Everything between the tags arrived as `children`. Right-click the heading and choose **Inspect**: the `<section>`'s `aria-labelledby` matches the `<h2>`'s `id`, so a screen reader announces the region as "My party."
+
+**On your own:** in your own Playground copy (a few minutes each):
+
+- Add a second `<Panel title="Box">` under the first, with a short list of its own. You don't change `Panel.svelte` at all.
+- Tab to a Remove button and press Enter. Where does focus go? Make it land on the next member's Remove button, and decide which component has to do it.
+- Give `PartyMember` an optional `nickname` prop (`nickname?: string` in `Props`) and show it after the name only when it's set.
 
 ## Links
 
 - Svelte: [`$props`](https://svelte.dev/docs/svelte/$props) (read "Updating props" and "Type safety"), [Snippets](https://svelte.dev/docs/svelte/snippet), [`{@render}`](https://svelte.dev/docs/svelte/@render), [TypeScript](https://svelte.dev/docs/svelte/typescript)
 - TypeScript: [Object types](https://www.typescriptlang.org/docs/handbook/2/objects.html) (interfaces and optional properties), [Function type expressions](https://www.typescriptlang.org/docs/handbook/2/functions.html#function-type-expressions)
+- Dig deeper: run [`/dig-deeper`](/340/skills/dig-deeper/) on the `let { … }: Props = $props();` line of your own S08. Answer its predict question before the reveal.
 - MDN: [`aria-labelledby`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-labelledby)

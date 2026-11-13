@@ -17,13 +17,15 @@
 //   don't scroll, so they don't.
 // - Tables scroll inside their own box (Nov 6): a four-column table (At a glance) is wider
 //   than a 320px screen, and it pushed the whole page sideways. Each <table> is wrapped in
-//   a focusable, labelled region, for the same axe rule as the code blocks.
+//   a focusable, labelled region, for the same axe rule as the code blocks. The label
+//   names the nearest heading above it (Nov 13), so each region's name is unique.
 const html = await Astro.slots.render('default');
 const prompt = Astro.slots.has('prompt') ? await Astro.slots.render('prompt') : '';
 const done = Astro.slots.has('done') ? await Astro.slots.render('done') : '';
 const hasDone = done && html.includes('<!-- done:start -->') && html.includes('<!-- done:end -->');
 
 let blocks = 0;
+const tableNames = new Map<string, number>();
 const copyBar = (id: string, label: string, copied: string) =>
   `<div class="copy-bar"><button type="button" class="copy-button" data-copy-target="${id}" data-copied="${copied}" hidden>${label}</button><p class="copy-status" role="status"></p></div>`;
 
@@ -35,7 +37,21 @@ let fixed = html
       ? copyBar(id, 'Copy prompt', 'Copied. Paste it into the chat.') + `<pre class="prompt" id="${id}">`
       : copyBar(id, 'Copy code', 'Copied.') + `<pre tabindex="0" id="${id}">`;
   })
-  .replace(/<table>/g, '<div class="table-scroll" role="region" aria-label="Table, scrolls sideways" tabindex="0"><table>')
+  .replace(/<table>/g, (_, offset: number, all: string) => {
+    // Name each table's region after the nearest heading above it, so two tables on one
+    // page (the Final Project's Timeline and Rubric) aren't two landmarks with the same
+    // name (axe landmark-unique, Nov 13).
+    const before = all.slice(0, offset);
+    const headings = [...before.matchAll(/<h[2-4][^>]*>([\s\S]*?)<\/h[2-4]>/g)];
+    const heading = headings.length
+      ? headings[headings.length - 1][1].replace(/<[^>]+>/g, '').replace(/"/g, '&quot;').trim()
+      : '';
+    const base = heading ? `${heading}, table` : 'Table';
+    const n = (tableNames.get(base) ?? 0) + 1;
+    tableNames.set(base, n);
+    const label = `${base}${n > 1 ? ` ${n}` : ''}, scrolls sideways`;
+    return `<div class="table-scroll" role="region" aria-label="${label}" tabindex="0"><table>`;
+  })
   .replace(/<\/table>/g, '</table></div>')
   .replace('<!-- prompt:start -->', prompt);
 if (hasDone) {
