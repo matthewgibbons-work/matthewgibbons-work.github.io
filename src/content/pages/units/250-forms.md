@@ -2,19 +2,26 @@
 title: "Forms"
 description: "Forms as a conversation: visible labels, grouped choices, the right input types, and errors that make sense without color."
 courses: [dight250]
-ready: false # true once the S09 dry run passes (PLAN.md: Build order)
+ready: true
 session: 9
 prototype: P4
 date: 2026-11-18
+sticky_assignments: true # experiment 6, kept Nov 13 (PLAN.md, "Experiments")
 ---
 
 # Forms
 
-**The big idea:** a form is a conversation. Every field has a visible label, related choices are grouped under their question, and errors say what's wrong in words, with HTML doing the checking.
+<details>
+<summary>Key takeaways</summary>
 
-## In short
+- **A form is a conversation:** it asks in words, groups the choices under their question, and says what's wrong in words.
+- **Every field gets a visible `<label>`,** joined by `for` and `id`. A `placeholder` disappears when you type; never use it as the label.
+- **The right `type` and `autocomplete`** bring up the right phone keyboard, let the browser check the format, and fill in what it already knows.
+- **Radio buttons and checkboxes go in a `<fieldset>`,** with the question as its `<legend>`, so a screen reader hears the question with the choices.
+- **Let HTML check** (`required`, `type="email"`, `minlength`), style problems with `:user-invalid` (not `:invalid`, which is red before anyone types), and put the error in words with `aria-describedby`, never color alone.
+- **Today's Spark doesn't use this.** S09 is your Final Project intent brief; P4 is where your form comes in.
 
-A form is a conversation: every field has a visible `<label>`, related choices sit in a `<fieldset>` under a `<legend>` that asks the question, and HTML's own checks (`required`, the right `type`, `:user-invalid`) say what's wrong in words. S09, your Final Project intent brief, doesn't use this unit; P4 does, and its Suggest-a-show form needs every one of these.
+</details>
 
 ## Labels first
 
@@ -149,67 +156,101 @@ input:user-invalid + .hint::before {
 
 A form sends its answers to the URL in `action`. GitHub Pages can't store anything, so for this course, send it to a thank-you page in the same folder: `<form action="thanks.html" method="get">`. With `get`, the answers appear in the URL of the thank-you page, which is a good way to see what a form sends, and a good reason to practise only with made-up details. Real sites send forms to a server, which is DIGHT 340's territory.
 
-## Predict, then reveal
+## At a glance
 
-<details>
-<summary>An email field has <code>placeholder="Email"</code> and no label. What happens as soon as someone starts typing?</summary>
+The elements and attributes on this page in one place.
 
-The placeholder disappears, so the field no longer says what it's for. Anyone who looks away, or who checks their answers before submitting, has to guess. Placeholders are usually pale gray, below 4.5:1, and some screen readers don't read them. A visible `<label>` fixes all of it.
+| Element or attribute | Goes on | Example | What it does |
+| --- | --- | --- | --- |
+| `<label for>` | before its field | `<label for="email">Email (required)</label>` | Names the field, stays visible, and makes the label clickable; `for` matches the field's `id` |
+| `id` | a field | `id="email"` | What the label's `for` (and `aria-describedby`) points at |
+| `name` | a field | `name="email"` | What the answer is called when the form is sent |
+| `type` | `<input>` | `email`, `url`, `tel`, `number`, `date` | The right phone keyboard, and the browser checks the format |
+| `autocomplete` | a field | `name`, `email`, `tel` | Lets the browser fill in what it already knows |
+| `<fieldset>` + `<legend>` | around radios or checkboxes | `<legend>Which decade did it first air?</legend>` | Groups the choices under their question |
+| `required`, `minlength` | a field | `required minlength="20"` | Checks the browser runs on submit, with its own message in words |
+| `:user-invalid` | a CSS selector | `input:user-invalid { … }` | Matches a field with a problem, but only after someone has changed it or tried to submit |
+| `:invalid` | a CSS selector | | Matches from the moment the page loads. **Not for error styles:** empty required fields are red before anyone types |
+| `aria-describedby` | a field | `aria-describedby="email-hint"` | A screen reader reads that element's words along with the field |
+| `action`, `method` | `<form>` | `action="thanks.html" method="get"` | Where the answers go, and how (`get` puts them in the URL) |
 
-</details>
+## Live demo
 
-<details>
-<summary>A required field is styled with <code>input:invalid { border-color: red; }</code>. What does the form look like when the page first loads?</summary>
+The whole class, one form: I change the HTML and CSS on the projector, you call what happens next. The sandbox is a "Suggest a show" form for the Saturday Morning Archive that looks fine with a mouse and fails nearly everyone else: placeholders instead of labels, a plain text box for the email, radio buttons with no question, red borders before anyone types, and nowhere to send it. [Open the Forms sandbox](/sandbox/250-s09/index.html) in your browser, or download <a href="/sandbox/250-s09/index.html" download="index.html">index.html</a> and <a href="/sandbox/250-s09/thanks.html" download="thanks.html">thanks.html</a> into one folder to edit your own copy in VS Code. The CSS is in the `<style>` at the top; each comment in the form says which step changes it.
 
-Every required field is already red, before anyone has typed anything, because an empty required field is invalid. It reads as "you've done something wrong" to someone who hasn't started. `:user-invalid` waits until they've touched the field or tried to submit.
+Each step says what to change, what to type, and what to look for. Save after every change (Cmd S) and look at the browser.
 
-</details>
+1. **Labels, not placeholders.** Click in the first box and type your name: "Your name" is gone, and nothing says what the box was for. Replace the two `<input>` lines with:
 
-<details>
-<summary>Three radio buttons with labels but no <code>fieldset</code>. What does a screen reader say on the second one?</summary>
+   ```html
+   <label for="name">Your name (required)</label>
+   <input type="text" id="name" name="name" required>
+   <label for="email">Email (required)</label>
+   <input type="text" id="email" name="email" required>
+   ```
 
-Something like "1980s, radio button, 2 of 3", and nothing about the question. A sighted person sees the question above the buttons; a screen-reader user gets the choices without it. Put them in a `<fieldset>` with the question as its `<legend>`.
+   The labels stay while you type. Click the word "Email": the cursor jumps into its box.
 
-</details>
+2. **The right field for the answer.** Type your name, `abc` in the email box, and press Send: the browser skips the email and complains about the empty "Why" box instead, because a text box takes anything. Change the email `<input>` to `type="email"`, and add `autocomplete="email"` to it and `autocomplete="name"` to the name field. Save, type your name and `abc` again, and press Send: now the browser stops at the email and says, in words, that it needs an `@`. On a phone, the email keyboard now has an `@` key.
 
-## Try it together
+3. **Group the choices under their question.** The three radio buttons say "1970s, 1980s, 1990s", but nothing asks a question; a screen reader says "1980s, radio button, 2 of 3", and that's all. Wrap the three `<div class="choice">` blocks in:
 
-Pair programming, with the whole class. I drive Copilot on the projector; you navigate. After each step you read the output with me, decide whether to keep it or revise it, and say what to ask for next. S09 is your intent brief, so your own run of a form comes in P4.
+   ```html
+   <fieldset>
+     <legend>Which decade did it first air?</legend>
+     …
+   </fieldset>
+   ```
 
-We start from a copy of an S08 page in `try/s09/`:
+   The question sits in the box's border, and a screen reader reads it as you enter the group.
 
-```text
-Add a form where visitors can suggest a cartoon for the archive: their name, email, the show, the decade it first aired, and why.
-```
+4. **Red before anyone's typed.** Reload the page: every required field is already red, and you haven't done anything wrong. That's the `:invalid` rule at the top of the `<style>`: an empty required field is invalid from the start. Change both selectors to `:user-invalid`:
 
-Then we put it under pressure, one step at a time. Each time, the question is what *our* code does, and which line does it:
+   ```css
+   input:user-invalid,
+   textarea:user-invalid {
+     border-color: #b3261e;
+   }
+   ```
 
-- Click each label. Does the cursor jump into its field?
-- Are the decade choices in a `<fieldset>` with the question as the `<legend>`?
-- Submit it empty. Does the browser say what's wrong in words? Do any fields turn red before you've touched them?
-- Is any `placeholder` doing a label's job? Is the email field `type="email"` with `autocomplete="email"`?
+   Reload: no red. Press Send with everything empty: the browser stops at the first problem and says what's wrong, and now the empty fields turn red.
 
-**Dig deeper:** we highlight `:user-invalid` (or an `autocomplete` attribute) and run [`/dig-deeper`](/250/skills/dig-deeper/). Answer its predict question before the reveal.
+5. **Say it in words, not just red.** A red border means nothing to someone who can't see red. Replace the `<textarea>` line with a label, the field, and a hint tied to it:
 
-**On your own:** if you missed class or want another pass, copy your `sparks/s08-responsive/` folder to `try/s09/`, run the starting prompt above, try the same pressure tests, and answer the questions in the box below.
+   ```html
+   <label for="why">Why should we add it? (required)</label>
+   <textarea id="why" name="why" required minlength="20" aria-describedby="why-hint"></textarea>
+   <p class="hint" id="why-hint">At least 20 characters.</p>
+   ```
 
-<details>
-<summary>Questions to ask your output</summary>
+   Then add a hint after the email field (`<p class="hint" id="email-hint">An address like name@example.com.</p>`, and `aria-describedby="email-hint"` on the email `<input>`), and under the step 4 rule, add:
 
-Use these on your own P4 form, out loud or to the agent:
+   ```css
+   :user-invalid + .hint::before {
+     content: "Check this: ";
+     font-weight: bold;
+   }
+   ```
 
-- Click each label. Does it put the cursor in its field?
-- Which question do the radio buttons answer, and where is that question in the HTML?
-- Submit it empty. What does the page say, and where do those words come from?
-- Which `type` and `autocomplete` does each field have, and why that one?
-- Where does the form go when it's sent, and with which `method`?
+   Press Send with "Why" too short: "**Check this:** At least 20 characters." The words change, not only the color, and a screen reader reads the hint with the field.
 
-**Watch for:** placeholders instead of labels, especially for name and email; the decade as radio buttons with no `<fieldset>` or `<legend>`, or as a free-text box; errors shown only by a red border, or `:invalid` so the form is red from the start; a JavaScript validation script, which `AGENTS.md` rules out here, when the HTML attributes already do the job; `action="#"` or a made-up URL, so the form goes nowhere you can see.
+6. **Where does it go?** Fill in everything (made-up details) and press Send: the page just reloads, because `action="#"` sends it right back here. Change the form's opening tag to:
 
-</details>
+   ```html
+   <form action="thanks.html" method="get">
+   ```
+
+   Send again: the thank-you page. Look at the address bar: everything you typed is in the URL, after the `?`. That's `method="get"`, and it's why you only ever practise with made-up details.
+
+**On your own:** in your copy of the sandbox (a few minutes each):
+
+- Add a "Which channel?" `<select>` with three channels and a visible label. Does it need a `<fieldset>`?
+- Add an optional "Episode link" field. Which `type` makes the browser check it, and what does it say for `abc`?
+- Tab through the whole form without the mouse, and fill it in with only the keyboard (arrow keys move between radio buttons). Is anything unreachable?
 
 ## Links
 
 - MDN: [Your first form](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Your_first_form), [How to structure a web form](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/How_to_structure_a_web_form), [Client-side form validation](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Form_validation), [`<form>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/form), [`<label>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/label), [`<input>` types](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input), [`<fieldset>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/fieldset), [`<legend>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/legend), [`autocomplete`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/autocomplete), [`:user-invalid`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/:user-invalid), [`aria-describedby`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-describedby)
 - WCAG: [Understanding 1.3.1 Info and Relationships](https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html), [Understanding 1.3.5 Identify Input Purpose](https://www.w3.org/WAI/WCAG22/Understanding/identify-input-purpose.html), [Understanding 3.3.1 Error Identification](https://www.w3.org/WAI/WCAG22/Understanding/error-identification.html), [Understanding 3.3.2 Labels or Instructions](https://www.w3.org/WAI/WCAG22/Understanding/labels-or-instructions.html)
 - W3C: [Forms tutorial](https://www.w3.org/WAI/tutorials/forms/) (Web Accessibility Initiative)
+- Dig deeper: when you start P4, highlight `:user-invalid` (or an `autocomplete` attribute) in your own form and run [`/dig-deeper`](/250/skills/dig-deeper/). Answer its predict question before the reveal.
