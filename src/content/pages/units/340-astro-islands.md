@@ -13,7 +13,7 @@ date: 2026-12-02
 
 ## In short
 
-An island is one interactive component in a page of static HTML: without a `client:` directive, a Svelte component on an Astro page is rendered at build time and sends no JavaScript, so its buttons do nothing. For S12 you need one of your Svelte components (P3, P4, or what your intent brief needs) on a Final Project page as an island with a directive you can explain, fed data the page fetched at build time, plus view transitions between pages.
+An island is one interactive component in a page of static HTML: without a `client:` directive, a Svelte component on an Astro page is rendered at build time and sends no JavaScript, so its buttons do nothing. For S12 you need one of your Svelte components (from P3 or P4, or a new one) on your practice site's party page as an island with a directive you can explain, fed data the page fetched at build time, plus view transitions between pages.
 
 ## How it works
 
@@ -101,7 +101,7 @@ A TypeError on the first press: `onadd is not a function`. Only data crosses fro
 
 Pair programming, with the whole class. I drive Claude Code on the projector; you navigate. After each step you read the output with me, decide whether to keep it or revise it, and say what to ask for next. Your own run comes in studio, with S12.
 
-We start from a copy of `final-project/` in `try/s12/` (without `node_modules`; then `npm install` there), in plan mode:
+We start from a copy of `sparks/astro-practice/` in `try/s12/` (without `node_modules`; then `npm install` there), in plan mode:
 
 ```text
 In try/s12/, add Svelte to the Astro site. On the Pokédex page, under the build-time list, add my P3 party builder (or P4 team planner) as an island. Pass it the Pokémon names from the page's frontmatter as a prop, keep its own PokéAPI lookups in the browser, and pick a client: directive. Explain the choice.
@@ -116,7 +116,7 @@ Then we put it under pressure, one step at a time. Each time, the question is wh
 
 **Dig deeper:** we run [`/dig-deeper`](/340/skills/dig-deeper/) on the line with the `client:` directive. Answer its predict question before the reveal.
 
-**On your own:** if you missed class or want another pass, copy your `final-project/` to `try/s12/`, run the starting prompt above, try the same four pressure tests, and answer the questions in the box below.
+**On your own:** if you missed class or want another pass, copy your `sparks/astro-practice/` to `try/s12/`, run the starting prompt above, try the same four pressure tests, and answer the questions in the box below.
 
 <details>
 <summary>Questions to ask your output</summary>

@@ -19,7 +19,7 @@ sticky_assignments: true # experiment 6, kept Nov 13 (PLAN.md, "Experiments")
 - **The right `type` and `autocomplete`** bring up the right phone keyboard, let the browser check the format, and fill in what it already knows.
 - **Radio buttons and checkboxes go in a `<fieldset>`,** with the question as its `<legend>`, so a screen reader hears the question with the choices.
 - **Let HTML check** (`required`, `type="email"`, `minlength`), style problems with `:user-invalid` (not `:invalid`, which is red before anyone types), and put the error in words with `aria-describedby`, never color alone.
-- **Today's Spark doesn't use this.** S09 is your Final Project intent brief; P4 is where your form comes in.
+- **Today's Spark puts it to work.** S09 fixes an RSVP form; P4 builds a bigger one.
 
 </details>
 

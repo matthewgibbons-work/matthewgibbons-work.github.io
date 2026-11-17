@@ -13,16 +13,15 @@ folder: final-project/
 
 Make a five-page site that answers one question for a reader you choose: what are the Digital Humanities? Define it in your own words on the home page, back the definition up with three real DH projects, one page each, and finish with a reflections page, in HTML and CSS only. It's due Sat Dec 12 at 11:59 pm. Submit by pasting two links in Learning Suite. It's graded on a 25-point rubric (25% of your grade), and AI use (`NOTES.md`) carries the most points. Rework doesn't apply: this is the finished piece.
 
-It draws on everything this term, and from Mon Nov 23 your studio time goes to it. Your S09 intent brief is its Intent and Spec: who it's for, a first draft of your definition, your three examples, and the "done" list you check it against. The writing is yours: the agent can help you find projects and write the markup, not write your definition, analysis, or reflections. The thing most people miss is checking every page, not just the home page: the validator, contrast, keyboard, 320px, and 200% zoom, on each one.
+It draws on everything this term. The Sparks keep practising each lecture on their own pages, so the Final Project grows alongside them: the **Milestones** below give a date for each piece, so you can see whether you're on pace. They're not graded. The first is your intent brief, its Intent and Spec: who it's for, a first draft of your definition, your three examples, and the "done" list you check it against. The writing is yours: the agent can help you find projects and write the markup, not write your definition, analysis, or reflections. The thing most people miss is checking every page, not just the home page: the validator, contrast, keyboard, 320px, and 200% zoom, on each one.
 
 **Key dates**
 
 - **Mon Nov 16:** brief out.
-- **Wed Nov 18:** intent brief (S09), due Mon Nov 23.
-- **Mon Nov 23:** studio time goes to the Final Project. P4, the last Prototype, is due Tue Nov 24.
+- **Mon Nov 23:** your intent brief in `final-project/INTENT.md` (milestone 1). P4, the last Prototype, is due Tue Nov 24.
 - **Sat Dec 12, 11:59 pm:** due. The open lab that day is for final help.
 
-The full week-by-week list is under **Timeline**.
+The full list, with what "done" looks like for each step, is under **Milestones**.
 
 ## The brief
 
@@ -44,16 +43,45 @@ A Spark is an idea and a Prototype is a working model. A **Final Project** is so
 
 The site lives in `final-project/` in your repo, starting at `final-project/index.html`, and your hub links to it under **Final Project**.
 
-## Timeline
+## Intent brief
 
-| When | What happens |
-| --- | --- |
-| Mon Nov 16 | This brief goes out. Start looking at DH projects: which ones would your reader care about? |
-| Wed Nov 18 | S09: write your intent brief in class. It's this project's Intent and Spec. |
-| Mon Nov 23 | From here, studio time goes to the Final Project. P4, the last Prototype, is due Tue Nov 24. |
-| Wed Dec 2 | S12: audit your Final Project and fix two things. |
-| Mon Dec 7 | S13: the big live build, then check your Final Project against your own "done" list. |
-| **Sat Dec 12** | Open lab. **Due, 11:59 pm:** links in Learning Suite. Come for final help if you need it. |
+Write it yourself, in plain words, in `final-project/INTENT.md`, by Mon Nov 23. It's the most important page you'll write this term, and the agent can't write it for you, any more than it can write your `NOTES.md`: say no if it offers to improve it, suggest a reader, define DH for you, or write your "done" list. You can ask it to help you *find* DH projects to look at, but you choose them, and you open each one yourself. Use these headings:
+
+1. **Who it's for.** One real or realistic person, and the question they'd ask you. "My roommate, a history major, who asked what I'd even do with a DH minor" beats "people curious about DH."
+2. **My definition, first draft.** Two to four sentences: what the Digital Humanities are, in your words, today. It's allowed to change by Dec 12; your reflections page will say how.
+3. **Three examples.** Three real DH projects, each with its link and one sentence on why it fits your definition and would matter to your reader. Open each link yourself.
+4. **"Done."** Eight to twelve lines you'll check the finished site against, each one checkable with a yes or a no, and at least three about accessibility. "Is accessible" can't be checked; "every image has `alt` text that fits its purpose" can.
+5. **Units.** At least four from this term you'll use, and where.
+6. **One risk.** What's most likely to go wrong, and what you'll do if it does.
+7. **Milestones.** The checklist below, pasted at the end, ticked off as you go.
+
+Keep the plan to HTML and CSS; anything that needs JavaScript (search, logins, saving things) is out. Nobody grades the brief on its own, but the finished site is checked against it (Functionality, and Intent and content). If an example turns out too thin to fill a page, swap it and say why in `NOTES.md`.
+
+## Milestones
+
+A suggested pace, one step at a time, alongside each week's Spark. They're not graded and there's nothing to submit: they're there so you can see on any day whether you're on track, and catch a problem while there's time to fix it. If you're behind, the open lab and class are the places to ask.
+
+| By | Milestone | Done when |
+| --- | --- | --- |
+| Mon Nov 16 | Brief out | You've looked at a few DH projects: which would your reader care about? |
+| **Mon Nov 23** | 1. Intent brief | `final-project/INTENT.md` has all seven headings above, in your words. |
+| **Mon Nov 30** | 2. The shell is live | All five pages exist with the shared nav and one CSS file, your hub links to `final-project/`, and the home page has your definition draft and two sources. P4 is in. |
+| **Wed Dec 2** | 3. Examples drafted | Each example page has its overview, a first draft of your analysis with a specific from your own time in the project, credited media, and its links. |
+| **Mon Dec 7** | 4. Reflections, and an audit | The reflections page is drafted, and you've run S12's audit (validator, axe, keyboard, 320px, 200% zoom) on every page and fixed what it found. |
+| **Wed Dec 9** | 5. Checked | [`/check`](/250/skills/check/) `final-project` passes with the "done" list below and your own, and `final-project/NOTES.md` has every section. |
+| **Sat Dec 12** | Due, 11:59 pm | Links in Learning Suite. The open lab that day is for final help. |
+
+Paste this at the end of your `INTENT.md` and tick each one off as you go (the **Copy** button copies it):
+
+```text
+## Milestones
+
+- [ ] 1. Intent brief (Mon Nov 23)
+- [ ] 2. The shell is live: five pages, shared nav, one CSS file, definition draft and two sources on the home page (Mon Nov 30)
+- [ ] 3. Examples drafted: overview, analysis draft with a specific, credited media, links (Wed Dec 2)
+- [ ] 4. Reflections drafted; audit run on every page, and fixes made (Mon Dec 7)
+- [ ] 5. /check passes with both "done" lists; NOTES.md has every section (Wed Dec 9)
+```
 
 ## Spec: the "done" list
 
@@ -64,7 +92,7 @@ The site lives in `final-project/` in your repo, starting at `final-project/inde
 - [ ] Five pages in `final-project/`: `index.html`, three example pages, and `reflections.html`, joined by a nav that's the same on every page. The current page is marked with `aria-current="page"`, and styled so it doesn't rely on color alone.
 - [ ] One shared CSS file for the whole site (an extra file for one page's special parts is fine).
 - [ ] It uses at least four of this term's units, named in `NOTES.md`: color, typography, box model, Flexbox, Grid, responsive design, forms, multimedia, modern CSS, motion.
-- [ ] Every line of your S09 "done" list. If your plan changed, `NOTES.md` says what changed and why.
+- [ ] Every line of your intent brief's "done" list. If your plan changed, `NOTES.md` says what changed and why.
 
 **The content**
 
@@ -85,6 +113,7 @@ The site lives in `final-project/` in your repo, starting at `final-project/inde
 
 **The record**
 
+- [ ] `final-project/INTENT.md` is your intent brief, in your own words.
 - [ ] `final-project/NOTES.md` covers every section, in your own words. **AI use** says what the agent helped with (research, markup) and confirms the site's writing is yours. **Accepted / changed / rejected** covers the whole project, with at least three real decisions and why.
 - [ ] Commits spread across at least two weeks, each with a message that says what changed.
 - [ ] Your hub links to `final-project/` under Final Project, and the live site loads.
@@ -97,7 +126,7 @@ The site lives in `final-project/` in your repo, starting at `final-project/inde
 
 | Category | Points | Strong (full points) | Developing | Missing (0) |
 | --- | --- | --- | --- | --- |
-| Functionality | 4 | Every page loads on the live URL, every link works, and your S09 "done" list is met. | One or two broken links, or a few unmet lines. | The live site doesn't load, or most of the list isn't met. |
+| Functionality | 4 | Every page loads on the live URL, every link works, and your intent brief's "done" list is met. | One or two broken links, or a few unmet lines. | The live site doesn't load, or most of the list isn't met. |
 | Code quality | 3 | Valid HTML, one shared stylesheet, readable CSS with reused values, no leftover code you don't use. | Mostly clean, with some duplication or dead code. | Invalid HTML, or styles copied page to page. |
 | Git | 3 | Small commits across two or more weeks, each saying what changed. | A few large commits, or vague messages ("update"). | One or two commits, all at the deadline. |
 | AI use (`NOTES.md`) | 6 | Every section in your own voice; prompts named; real decisions with reasons; clear enough that I could tell what any part of the code does and why it's there; open questions that show what you still want to understand. | Thin sections, or decisions with no reasons. | Sections missing, or written by the agent. |
@@ -108,7 +137,7 @@ The site lives in `final-project/` in your repo, starting at `final-project/inde
 
 The same loop as every Spark, at full size:
 
-1. **Intent and Spec:** your S09 intent brief. Keep it open; it's what you verify against.
+1. **Intent and Spec:** your intent brief, `final-project/INTENT.md`. Keep it open; it's what you verify against.
 2. **Generate:** write each page's words yourself first, then ask the agent to turn them into the page, page by page, in small requests. Ask for a plan first, every time.
 3. **Verify:** each page as you finish it: the Feedback checks on every push, then keyboard, 320px, 200%, and contrast by hand. Open every link.
 4. **Explain:** write `final-project/NOTES.md` as you go, not the night before. Every rejected suggestion is worth a line.

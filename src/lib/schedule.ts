@@ -164,7 +164,7 @@ export async function scheduleRows(course: Course): Promise<ScheduleRow[]> {
     add(p.due, { text: `${p.id} due`, href: page && pageHref(page) });
   }
   add(c.release.released, { text: 'Final Project brief out', href: releaseHref });
-  add(c.release.intentBrief, { text: 'Final Project intent brief, in class', href: releaseHref });
+  add(c.release.intentBrief, { text: 'Final Project milestone 1: intent brief', href: releaseHref && `${releaseHref}#milestones` });
   add(c.release.due, { text: `Final Project due, ${c.release.dueTime}`, href: releaseHref });
   add(c.release.openLab, { text: 'Open lab: final help' });
 

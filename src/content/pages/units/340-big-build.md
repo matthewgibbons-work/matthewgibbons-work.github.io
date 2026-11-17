@@ -13,7 +13,7 @@ date: 2026-12-09
 
 ## In short
 
-Today we build a whole small app together, the way you'll finish your Final Project, doing every step of the loop in order at full size; nothing in it is new. Then the agent itself: S14 asks you to write your Final Project's own `final-project/AGENTS.md` and one custom skill, yourself, and test that Claude Code picks them up (it loads both only once it has opened a file in `final-project/`).
+Today we build a whole small app together, the way you'll finish your Final Project, doing every step of the loop in order at full size; nothing in it is new. Then the agent itself: S14 hands you a small project Claude keeps getting wrong, and asks you to write its own `AGENTS.md` and one custom skill, yourself, and test that Claude Code picks them up (it loads both only once it has opened a file in that folder). Then you do the same for `final-project/`.
 
 ## How it works
 
@@ -126,7 +126,7 @@ We'll build **Type Matchups** together, in `try/s14/`: pick a type and see what 
 <details>
 <summary>Questions to ask your output</summary>
 
-Use these in studio on your own Final Project, out loud or to Claude:
+Use these in studio on S14 and your own Final Project, out loud or to Claude:
 
 - Did you plan before code? Which step, if any, rewrote an earlier one?
 - What does the data actually contain? Did you open the endpoint before building on it?

@@ -1,7 +1,7 @@
 # DIGHT 340 feedback checks, with end-to-end tests (ships Dec 7, replaces the Nov 2 file).
 # On every push: ESLint (the course conventions in eslint.config.mjs), the Vitest tests
 # in every folder that has them, then Playwright + axe in every folder that has
-# @playwright/test (your final-project/ site, from S13). Feedback only: a red mark on a commit
+# @playwright/test (your practice site from S13, and your final-project/). Feedback only: a red mark on a commit
 # means "look at this", and nothing is blocked. Your page still deploys.
 # Your instructor wrote this file; don't edit it, and don't ask the agent to.
 name: Checks

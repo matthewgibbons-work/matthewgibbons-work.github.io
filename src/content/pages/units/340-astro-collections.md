@@ -13,7 +13,7 @@ date: 2026-11-30
 
 ## In short
 
-A content collection turns a folder of files into data with rules: a **loader** reads the files, a **schema** stops the build if one breaks the rules, and a **dynamic route** makes a page for each entry. For S11 you need the course's notes loader (copy it from below), a zod schema that requires all five `NOTES.md` sections, a notes index, and a page for each note in your Final Project, and every old note fixed until the build passes.
+A content collection turns a folder of files into data with rules: a **loader** reads the files, a **schema** stops the build if one breaks the rules, and a **dynamic route** makes a page for each entry. For S11 you need the course's notes loader (copy it from below), a zod schema that requires all five `NOTES.md` sections, a notes index, and a page for each note on your practice site, and every old note fixed until the build passes.
 
 ## How it works
 
@@ -159,7 +159,7 @@ export const notesLoader = {
 ## Predict, then reveal
 
 <details>
-<summary>Your S04 <code>NOTES.md</code> has the <code>## Open questions</code> heading but nothing under it. You run <code>npm run build</code> in <code>final-project/</code>. What happens?</summary>
+<summary>Your S04 <code>NOTES.md</code> has the <code>## Open questions</code> heading but nothing under it. You run <code>npm run build</code> in <code>sparks/astro-practice/</code>. What happens?</summary>
 
 The build stops before any page is made:
 
@@ -168,7 +168,7 @@ The build stops before any page is made:
   openQuestions: Open questions is empty
 ```
 
-The schema's `.min(1, 'Open questions is empty')` caught it, and the message names the entry (the folder) and the field. Delete the heading entirely and it says `Dig deeper is missing` instead (or whichever section went). On GitHub, the **Build and deploy** run goes red, and your Final Project is missing from that deploy until you fix the note and push again. So build before you push.
+The schema's `.min(1, 'Open questions is empty')` caught it, and the message names the entry (the folder) and the field. Delete the heading entirely and it says `Dig deeper is missing` instead (or whichever section went). On GitHub, the **Build and deploy** run goes red, and your site is missing from that deploy until you fix the note and push again. So build before you push.
 
 </details>
 
@@ -183,7 +183,7 @@ The build passes, and the note page goes live with an empty section. A schema wh
 
 Pair programming, with the whole class. I drive Claude Code on the projector; you navigate. After each step you read the output with me, decide whether to keep it or revise it, and say what to ask for next. Your own run comes in studio, with S11.
 
-We start from a copy of `final-project/` in `try/s11/` (without `node_modules`; then `npm install` there), in plan mode, and paste the loader in from this page before approving the plan:
+We start from a copy of `sparks/astro-practice/` in `try/s11/` (without `node_modules`; then `npm install` there), in plan mode, and paste the loader in from this page before approving the plan:
 
 ```text
 In try/s11/, add a notes collection. I'll paste the course's notes loader into src/notes-loader.js myself. Write src/content.config.js with a zod schema that requires all five NOTES.md sections, a notes index page that lists every note by title, and a page for each note at notes/<id>/. Use the layout and the url() helper.
@@ -198,7 +198,7 @@ Then we put it under pressure, one step at a time. Each time, the question is wh
 
 **Dig deeper:** we run [`/dig-deeper`](/340/skills/dig-deeper/) on `getStaticPaths` in `[id].astro`. Answer its predict question before the reveal.
 
-**On your own:** if you missed class or want another pass, copy your `final-project/` to `try/s11/`, run the starting prompt above, try the same four pressure tests, and answer the questions in the box below.
+**On your own:** if you missed class or want another pass, copy your `sparks/astro-practice/` to `try/s11/`, run the starting prompt above, try the same four pressure tests, and answer the questions in the box below.
 
 <details>
 <summary>Questions to ask your output</summary>

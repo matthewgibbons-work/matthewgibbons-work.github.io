@@ -1,6 +1,6 @@
 ---
 title: "Svelte forms and shared state"
-description: "bind:, shared state in .svelte.js modules, labeled inputs, and errors people can perceive. Spark: your Final Project intent brief."
+description: "bind:, shared state in .svelte.js modules, labeled inputs, and errors people can perceive."
 courses: [dight340]
 ready: true
 session: 9
@@ -19,7 +19,7 @@ sticky_assignments: true # experiment 6, kept Nov 13 (PLAN.md, "Experiments")
 - **Handle `onsubmit`, not the button's click**, so Enter works too, and call `event.preventDefault()` so the browser doesn't send the form and leave the page.
 - **An error people can perceive** is text in an element that's on the page from the start (`role="alert"`), joined to its input by `aria-describedby`, with `aria-invalid` on the input.
 - **Shared state lives in a `.svelte.js` module.** Export it as a `const` and change what's inside it; Svelte won't build a module that reassigns exported state (`state_invalid_export`).
-- **Today's Spark doesn't use this.** S09 is your Final Project intent brief; P4 is where forms and shared state come in.
+- **Today's Spark puts it to work.** S09 adds a nickname form and a shared party to your S08 page; P4 builds the team planner on both.
 
 </details>
 

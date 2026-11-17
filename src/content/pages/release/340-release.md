@@ -13,16 +13,16 @@ folder: final-project/
 
 Build a small Astro website with Svelte islands that answers one question for a reader you choose: what are the Digital Humanities? Your definition is in your own words, your three or more examples are a content collection, live data comes from a free museum or Wikipedia API, your term's `NOTES.md` files are a second collection, tests run on every push, and you write your own `AGENTS.md` and skill. It's due Wed Dec 16 at 11:59 pm. Submit by pasting two links in Learning Suite. It's graded on a 25-point rubric (25% of your grade), and AI use carries the most points. Rework doesn't apply: this is the finished piece.
 
-It draws on everything this term, including the four sessions from Nov 23 on (Astro intro, content collections, islands, and testing); from S10 on, each Spark is a piece of it, so it grows a layer a week. Your S09 intent brief is where you choose your reader, your examples, and your API. The writing is yours: Claude can help you find projects and build the site, not write your definition, analysis, or reflections. The thing most people miss is the agent configuration: you write `final-project/AGENTS.md` and the skill yourself, and explain why each rule is there.
+It draws on everything this term, including the four sessions from Nov 23 on (Astro intro, content collections, islands, and testing). Each of those Sparks practises its concept on a Pokémon practice site first; then you use it here. The **Milestones** below put each piece right after the Spark that teaches it, so you can see whether you're on pace. They're not graded. The first is your intent brief, where you choose your reader, your examples, and your API. The writing is yours: Claude can help you find projects and build the site, not write your definition, analysis, or reflections. The thing most people miss is the agent configuration: you write `final-project/AGENTS.md` and the skill yourself, and explain why each rule is there.
 
 **Key dates**
 
 - **Mon Nov 16:** brief out.
-- **Wed Nov 18:** intent brief (S09), due Mon Nov 23.
-- **Mon Nov 23:** `final-project/` becomes an Astro site and deploys (S10).
+- **Mon Nov 23:** your intent brief in `final-project/INTENT.md` (milestone 1). P4 is due Tue Nov 24.
+- **Mon Nov 30:** `final-project/` is an Astro site and deploys (milestone 2, after S10).
 - **Wed Dec 16, 11:59 pm:** due. The open lab that day is for final help.
 
-The full week-by-week list is under **Timeline**.
+The full list, with what "done" looks like for each step, is under **Milestones**.
 
 ## The brief
 
@@ -41,15 +41,15 @@ The site has:
 
   At least one page gets its data **when the site is built** (an example page pulls the museum record for the object it discusses); at least one island fetches **in the browser** (search the collection for more objects like it, look up a term your reader might not know).
 - **A reflections page:** what changed in your understanding of DH as you worked, and one pattern across your examples.
-- **Your `NOTES.md` files as a collection.** Every Spark and Prototype you've written this term becomes a page in a "How I built this" section, checked by a schema (S11). It's a portfolio of how you worked, not just what you built.
-- **Tests.** Vitest for your logic, and Playwright with axe for the site (S13). They run on every push.
+- **Your `NOTES.md` files as a collection.** Every Spark and Prototype you've written this term becomes a page in a "How I built this" section, checked by a schema (S11 practises the pattern). It's a portfolio of how you worked, not just what you built.
+- **Tests.** Vitest for your logic, and Playwright with axe for the site. They run on every push (S13 practises them).
 - **Configure your agent.** You write your project's own `final-project/AGENTS.md` and one custom skill, and explain why (below).
 
 **The words are yours.** Your definition, analysis, and reflections are your own writing, like your `NOTES.md`. Claude can help you find projects, check a fact, write your schema, and build the pages around your writing. It doesn't write the prose. If it drafts a sentence you keep, rewrite it, and say so in `NOTES.md`.
 
-The site moves into `final-project/` on Mon Nov 23, when it becomes an Astro site (S10). Until then, read about DH projects and open your API's endpoints in the browser.
+The site goes into `final-project/` once S10 has shown you an Astro site on your practice project: you set up the same thing here (milestone 2). Until then, read about DH projects and open your API's endpoints in the browser.
 
-**Another API:** you can propose a different free DH data source in your S09 intent brief (a digital archive, a library, a gazetteer). It must need no key (a key in a public repo or a static site isn't secret), and it must return JSON your site can use. Everything else in the "done" list applies.
+**Another API:** you can use a different free DH data source (a digital archive, a library, a gazetteer) if you ask your instructor before you build on it, and say so in your intent brief's Data section. It must need no key (a key in a public repo or a static site isn't secret), and it must return JSON your site can use. Everything else in the "done" list applies.
 
 **A real outside user is optional**, and worth it if you have one: the reader you named, or someone like them. If you test with someone, write up what they did and what you changed in `NOTES.md`.
 
@@ -62,18 +62,54 @@ You've worked all term under the course's `AGENTS.md`. Now write the rules for *
 - **You write both.** The course's `AGENTS.md` keeps Claude out of `AGENTS.md` and `.claude/` files, and that's the point: these are your decisions. Ask Claude to *review* them ("What's ambiguous in final-project/AGENTS.md? Don't edit it.") and to try your skill.
 - **Explain why** in `final-project/NOTES.md`: each rule's reason, and one time the file or the skill changed what Claude did (or didn't, and what you changed).
 
-## Timeline
+## Intent brief
 
-| Date | Session | What happens for your Final Project |
-| --- | --- | --- |
-| Mon Nov 16 | S08 | Brief out. Start looking at DH projects and the APIs. |
-| Wed Nov 18 | S09 | **Intent brief** (the S09 Spark): reader, definition draft, examples, API, pages and islands, your "done" list. |
-| Mon Nov 23 | S10 | `final-project/` becomes an Astro site and deploys. P4 is due Tue Nov 24. |
-| Mon Nov 30 | S11 | Content collections: your `NOTES.md` files, and the same pattern for your examples. |
-| Wed Dec 2 | S12 | Svelte islands and client-side data. |
-| Mon Dec 7 | S13 | Playwright + axe tests run in CI. |
-| Wed Dec 9 | S14 | Big live build; configure your agent (the S14 Spark). |
-| **Wed Dec 16** | Open lab | **Due, 11:59 pm.** Come for final help if you need it. |
+Write it yourself in `final-project/INTENT.md`, by Mon Nov 23. Claude doesn't write any of it: say no if it offers to tidy it up or define DH for you. It can help you *find* DH projects to look at, but you choose them and open each one yourself. Use these sections:
+
+- **Reader:** one real or realistic person the site is for, and the question they'd ask you (not "people curious about DH").
+- **My definition, first draft:** two to four sentences, in your own words. It can change by Dec 16; your reflections page will say how.
+- **Examples:** three or more real DH projects, each linked, with one sentence on why it fits your definition. You've opened each link.
+- **Data:** the API, and the two or three endpoints you'll use. You've opened each one in the browser, named the fields you need, and said which example each one serves. (The Met's search is `/v1.1/search`; the old `/v1/search` is retired.)
+- **Pages and islands:** each page, one line each, marked "built" (data at build time) or "island" (interactive in the browser), with the `client:` directive you expect to use.
+- **My "done" list:** 6–10 checkable items, beyond the course's list. "Looks good" can't be checked; "every example page shows its object's museum image and credit" can.
+- **Risks:** the one or two things most likely to go wrong, and your plan B.
+- **Milestones:** the checklist below, pasted at the end, ticked off as you go.
+
+Then have Claude question it like a client. Paste this into your `dight340` session, with the "done" list below pasted after it (its **Copy** button copies it; Claude can't see the course site):
+
+```text
+Read final-project/INTENT.md and the Final Project brief's "done" list, pasted below. Don't edit any file. Act as the reader my brief names: ask me five hard questions about my definition, my examples, and my plan, one at a time, and wait for my answer to each. Don't suggest a definition or examples of your own. Then tell me which items in my "done" list couldn't be checked by someone else, where the API data doesn't seem to help that reader, and which page is most likely to be too big for the time left.
+```
+
+Answer in the chat, then change `INTENT.md` yourself, and add a short **Changes after review** section: what you changed, what you kept, and why. Nobody grades the brief on its own, but the finished site is checked against it (Intent and content).
+
+## Milestones
+
+A suggested pace, each step right after the Spark that teaches it: practise the concept on your Pokémon practice site, then use it here. They're not graded and there's nothing to submit: they're there so you can see on any day whether you're on track, and catch a problem while there's time to fix it. If you're behind, bring it to class or the open lab.
+
+| By | After | Milestone | Done when |
+| --- | --- | --- | --- |
+| Mon Nov 16 | S08 | Brief out | You've looked at a few DH projects and opened your API's endpoints in the browser. |
+| **Mon Nov 23** | S09 | 1. Intent brief | `final-project/INTENT.md` has every section above and your Changes after review. |
+| **Mon Nov 30** | S10 | 2. Astro skeleton, live | `final-project/` is an Astro site with your shared layout and nav, a home page with your definition draft and two sources, and one page with API data fetched at build time, live at `…/dight340/final-project/` with every link using `BASE_URL`. P4 is in. |
+| **Wed Dec 2** | S11 | 3. Collections | Your examples are a content collection with a zod schema and a page each (overview written), and your notes collection has its index and pages. |
+| **Mon Dec 7** | S12 | 4. Your island | The island from your intent brief works on the live site with a `client:` directive you can justify, and each example's analysis is drafted. |
+| **Wed Dec 9** | S13 | 5. Tests | Vitest covers your data logic, Playwright + axe cover each kind of page, both run in Checks, and your reflections page is drafted. |
+| **Mon Dec 14** | S14 | 6. Your agent, and the record | `final-project/AGENTS.md` and your skill are written and tested, you've done the screen-reader pass, `final-project/NOTES.md` has every section, and [`/check`](/340/skills/check/) `final-project` passes. |
+| **Wed Dec 16** | | Due, 11:59 pm | Links in Learning Suite. The open lab that day is for final help. |
+
+Paste this at the end of your `INTENT.md` and tick each one off as you go (the **Copy** button copies it):
+
+```text
+## Milestones
+
+- [ ] 1. Intent brief, with Changes after review (Mon Nov 23)
+- [ ] 2. Astro skeleton live: layout and nav, home with definition draft and sources, one build-time data page, BASE_URL links (Mon Nov 30)
+- [ ] 3. Collections: examples with schema and pages, notes index and pages (Wed Dec 2)
+- [ ] 4. My island works live; analysis drafted for each example (Mon Dec 7)
+- [ ] 5. Vitest and Playwright + axe in Checks; reflections drafted (Wed Dec 9)
+- [ ] 6. AGENTS.md and skill tested; screen-reader pass; NOTES.md complete; /check passes (Mon Dec 14)
+```
 
 ## Spec: the "done" list
 
@@ -112,6 +148,7 @@ You've worked all term under the course's `AGENTS.md`. Now write the rules for *
 
 **Your agent and your notes**
 
+- [ ] `final-project/INTENT.md` is your intent brief, in your own words.
 - [ ] `final-project/AGENTS.md` and one custom skill in `final-project/.claude/skills/`, written by you.
 - [ ] `final-project/NOTES.md` covers every section, plus: what Claude helped with (research, code) and that the site's writing is yours; why each `AGENTS.md` rule is there; what your skill does and when you used it; and whether the site answers your reader's question.
 - [ ] Meaningful commits across the work window, not one big one at the end.

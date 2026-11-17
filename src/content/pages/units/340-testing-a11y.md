@@ -13,11 +13,11 @@ date: 2026-12-07
 
 ## In short
 
-Playwright drives a real browser through your built site the way a person would, finding things by role and name, and axe scans each page for the accessibility failures a machine can find. For S13 you need the Dec 7 kit update, then Playwright tests in your Final Project that check the nav marks the current page, that the main island works from the keyboard, and that axe finds nothing on each kind of page, each one broken once on purpose to prove it can fail.
+Playwright drives a real browser through your built site the way a person would, finding things by role and name, and axe scans each page for the accessibility failures a machine can find. For S13 you need the Dec 7 kit update, then Playwright tests on your practice site that check the nav marks the current page, that the main island works from the keyboard, and that axe finds nothing on each kind of page, each one broken once on purpose to prove it can fail.
 
 ## How it works
 
-**End-to-end tests.** Vitest checked your logic without a browser. Playwright builds your Final Project, serves it, opens Chromium, and does what a visitor does: go to a page, find a button, press Enter, and `expect` what should happen. Everything from the HTML to the island's JavaScript has to work for a test to pass.
+**End-to-end tests.** Vitest checked your logic without a browser. Playwright builds your site, serves it, opens Chromium, and does what a visitor does: go to a page, find a button, press Enter, and `expect` what should happen. Everything from the HTML to the island's JavaScript has to work for a test to pass.
 
 **Find things the way people do.** `page.getByRole('button', { name: 'Add bulbasaur' })` finds a button by its role and accessible name, which is how a screen reader finds it too. If the test can't find your button that way, a screen-reader user probably can't either. Prefer `getByRole` and `getByLabel` to CSS selectors. Keyboard tests use `page.keyboard.press('Tab')` and `'Enter'`. For islands, wait until they've hydrated before you press anything (S12's race).
 
@@ -26,7 +26,7 @@ Playwright drives a real browser through your built site the way a person would,
 **The kit update** adds both to the **Checks** workflow: on every push, it installs Playwright's Chromium on GitHub, runs your tests, and marks the commit red if one fails. It reports; it doesn't block the deploy.
 
 ```js
-// final-project/playwright.config.js
+// sparks/astro-practice/playwright.config.js
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
@@ -43,7 +43,7 @@ export default defineConfig({
 ```
 
 ```js
-// final-project/tests/site.spec.js
+// sparks/astro-practice/tests/site.spec.js
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
@@ -146,7 +146,7 @@ Yes. The class is still there, so the test finds the button, presses it, and the
 
 Pair programming, with the whole class. I drive Claude Code on the projector; you navigate. After each step you read the output with me, decide whether to keep it or revise it, and say what to ask for next. Your own run comes in studio, with S13.
 
-We start from a copy of `final-project/` in `try/s13/` (without `node_modules`; then `npm install` there), in plan mode:
+We start from a copy of `sparks/astro-practice/` in `try/s13/` (without `node_modules`; then `npm install` there), in plan mode:
 
 ```text
 In try/s13/, set up Playwright with @axe-core/playwright. Write tests that use role and label locators: one that the nav marks the current page, one that uses the island with only the keyboard, and an axe scan of each kind of page. Have Playwright build and preview the site itself.
@@ -161,7 +161,7 @@ Then `npx playwright install chromium` (once), and `npx playwright test`. Then w
 
 **Dig deeper:** we run [`/dig-deeper`](/340/skills/dig-deeper/) on the `AxeBuilder` line. Answer its predict question before the reveal.
 
-**On your own:** if you missed class or want another pass, do the kit update (S13, step 0), copy your `final-project/` to `try/s13/`, run the starting prompt above, try the same four pressure tests, and answer the questions in the box below.
+**On your own:** if you missed class or want another pass, do the kit update (S13, step 0), copy your `sparks/astro-practice/` to `try/s13/`, run the starting prompt above, try the same four pressure tests, and answer the questions in the box below.
 
 <details>
 <summary>Questions to ask your output</summary>

@@ -226,19 +226,20 @@ const findYourWay = [
     {
       course === '250' ? (
         <p>
-          Build a small site, three to five pages, in HTML and CSS for a real or realistic audience: expand the
-          Saturday Morning Archive, or bring your own idea.
+          Build a five-page site in HTML and CSS that defines the Digital Humanities, in your own words, for a reader
+          you name, with three real DH projects as examples and a reflections page.
         </p>
       ) : (
         <p>
-          Build an Astro site with Svelte islands for an audience you choose, with PokéAPI data (or your own API, by
-          proposal), your <code>NOTES.md</code> files as a collection, and tests. You’ll also write your project’s own
-          <code>AGENTS.md</code> and one custom skill, and explain why.
+          Build an Astro site that defines the Digital Humanities, in your own words, for a reader you name: real DH
+          projects as a content collection, live data from the Art Institute of Chicago, the Met, or Wikipedia, a
+          Svelte island, your <code>NOTES.md</code> files as a collection, and tests. You’ll also write your project’s
+          own <code>AGENTS.md</code> and one custom skill, and explain why.
         </p>
       )
     }
     <ul>
-      <li>Brief out <strong>{fmtDay(r.released)}</strong>; intent brief in class <strong>{fmtDay(r.intentBrief)}</strong>.</li>
+      <li>Brief out <strong>{fmtDay(r.released)}</strong>; intent brief (milestone 1, ungraded) <strong>{fmtDay(r.intentBrief)}</strong>. The brief's milestone map paces the rest.</li>
       <li>
         Due <strong>{fmtDay(r.due)}, {r.dueTime}</strong>, the day of the open lab (the final-exam slot), which is for final
         help.

@@ -47,7 +47,7 @@
 - name: Forms
   session: 9
   unit: forms
-  summary: Write your Final Project intent brief, and learn the labelled, accessible forms P4 needs.
+  summary: Fix an RSVP form with labels, grouped choices, and errors in words; your Final Project intent brief is due Nov 23.
   prototype: P4
 - name: Multimedia and positioning
   session: 10
@@ -60,7 +60,7 @@
 - name: Transitions, animations, and an accessibility audit
   session: 12
   unit: motion-audit
-  summary: Add one bit of motion to your Final Project that calms down on request, then audit it and fix two things.
+  summary: Audit a page that looks finished, fix what you find, and give it one bit of motion that calms down on request.
 - name: Big live build
   session: 13
   unit: big-build

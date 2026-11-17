@@ -45,7 +45,7 @@
         ".claude/skills/check/SKILL.md": "55d5a55fb69dc8ea135d99790af1aecc1a1cd6d2814834240d484f61f534f006",
         ".claude/skills/dig-deeper/SKILL.md": "8222526167f273dd4a4dcbef1e07cd8429cb59a5fe7cb786ca6a7504afe05519",
         ".claude/skills/update-kit/SKILL.md": "4197cfb66dbb9f25c45db79f6af1bb1ed1867ad5bde208b527b2060e93fafe61",
-        ".github/workflows/check.yml": "92a28b3b73f92c6ce9ac642704301d451306c3e7dcea07924948a3997c81b450",
+        ".github/workflows/check.yml": "503b60208c5bb4a925c0bfb2d09aaf87ad11681fad9990910723c82ce01bf30a",
         ".github/workflows/deploy.yml": "8d8d00e9962813f2838db99514773aec5e9731bd92d91c5ada4b4766b798f5b1",
         ".gitignore": "a37996c0d81abe8b1488a013fed984862052428cd045849aa21dbdde3da3c2d0",
         "AGENTS.md": "be95cd7662be8e71b73fba540015fc15512a2988e45a04b5c35ec87b977e58b7",
@@ -76,7 +76,7 @@
     ],
     ".github/workflows/check.yml": [
       "0acefe1f8fca85533d28485073146f05bdca573f34d77d71bb487d35917f7a94",
-      "92a28b3b73f92c6ce9ac642704301d451306c3e7dcea07924948a3997c81b450"
+      "503b60208c5bb4a925c0bfb2d09aaf87ad11681fad9990910723c82ce01bf30a"
     ],
     ".github/workflows/deploy.yml": [
       "8a4c6b4da2c96d2ac17fa39a82fd7a509c4990fb7c88433e46f3994097b8940c",

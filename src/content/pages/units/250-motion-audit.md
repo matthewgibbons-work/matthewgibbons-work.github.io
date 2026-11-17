@@ -1,6 +1,6 @@
 ---
 title: "Motion and an accessibility audit"
-description: "Transitions and animations that explain rather than decorate and calm down when asked, then an audit of your Final Project with the tools and your own hands."
+description: "Transitions and animations that explain rather than decorate and calm down when asked, then an audit of a page with the tools and your own hands."
 courses: [dight250]
 ready: false # true once the S12 dry run passes (PLAN.md: Build order)
 session: 12
@@ -9,11 +9,11 @@ date: 2026-12-02
 
 # Motion and an accessibility audit
 
-**The big idea:** motion should explain, not decorate, and it calms down for people who ask. Then audit your Final Project: the tools find some of the problems, and your own hands find the rest.
+**The big idea:** motion should explain, not decorate, and it calms down for people who ask. Then audit a page: the tools find some of the problems, and your own hands find the rest.
 
 ## In short
 
-Motion should help someone notice or understand something, and it calms down for anyone whose system asks for reduced motion. An audit checks every page twice: with the tools (the validator, axe, your Feedback checks) and by hand (keyboard, 200% zoom, 320px, contrast, a short screen-reader pass). For S12 you need one bit of motion in your Final Project with a reason and a reduced-motion version, hover effects that also work on focus, and an audit table of what you found, with at least two fixes.
+Motion should help someone notice or understand something, and it calms down for anyone whose system asks for reduced motion. An audit checks every page twice: with the tools (the validator, axe, your Feedback checks) and by hand (keyboard, 200% zoom, 320px, contrast, a short screen-reader pass). For S12 you need to audit a page that looks finished and isn't, fix at least six problems, and replace its endless animation with one bit of motion that has a reason and a reduced-motion version, with an audit table of what you found.
 
 ## Transitions
 
@@ -75,7 +75,7 @@ Your Feedback checks run the validator and axe on every push. Automated tools ar
 3. **200% zoom and 320px:** nothing overlapping, cut off, or scrolling sideways.
 4. **Contrast spot checks:** text, focus outlines, and field borders, in every color mode you support.
 5. **A two-minute screen-reader pass:** VoiceOver (Cmd + F5 on a Mac) or NVDA on Windows. Listen to the headings, the links, and one form. Does it make sense without the screen?
-6. **Your intent brief:** does the site do what you said, for the person you named?
+6. **What it's for:** does the page do its job, for the people it's for? On your Final Project, that's your intent brief and the person you named.
 
 <figure class="diagram">
 <svg class="d-wide" viewBox="0 0 640 312" role="img" aria-labelledby="audit-wide-title">

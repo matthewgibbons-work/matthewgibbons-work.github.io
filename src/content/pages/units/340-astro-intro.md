@@ -1,6 +1,6 @@
 ---
 title: "Astro intro and repo conversion"
-description: "Your final-project/ folder becomes an Astro site: file-based routing, layouts, components that run at build time, and deploying under a base path."
+description: "Your practice site becomes an Astro site: file-based routing, layouts, components that run at build time, and deploying under a base path."
 courses: [dight340]
 ready: false # true once the S10 dry run passes, with the S10 brief (PLAN.md: Build order)
 session: 10
@@ -13,7 +13,7 @@ date: 2026-11-23
 
 ## In short
 
-Astro runs your components once, when the site is built, and ships plain HTML: the files in `src/pages/` are the site's pages, and a layout wraps them all. For S10 you need your `final-project/` folder turned into a deployed Astro site with a layout, a home page, and one page of real data fetched at build time, with every internal link going through `BASE_URL` so it works at `/dight340/final-project/`.
+Astro runs your components once, when the site is built, and ships plain HTML: the files in `src/pages/` are the site's pages, and a layout wraps them all. For S10 you need a new practice site in `sparks/astro-practice/`: a deployed Astro site with a layout, a home page, and one page of real data fetched at build time, with every internal link going through `BASE_URL` so it works at `/dight340/sparks/astro-practice/`. Then you set up your Final Project the same way.
 
 ## How it works
 
@@ -23,7 +23,7 @@ Astro runs your components once, when the site is built, and ships plain HTML: t
 
 **Layouts.** A layout wraps every page: the `<html>`, the `<head>`, the landmarks, the nav. It puts the page's own content where it says `<slot />`. Write the nav once, mark the current page with `aria-current="page"`, and every page gets it right.
 
-**The base path.** Your site lives at `/dight340/final-project/`, not the root of `github.io`, so `href="/pokedex/"` 404s. Every internal link goes through `import.meta.env.BASE_URL`, which the deploy workflow sets for you. A three-line helper keeps it tidy:
+**The base path.** Your site lives at `/dight340/sparks/astro-practice/` (and your Final Project at `/dight340/final-project/`), not the root of `github.io`, so `href="/pokedex/"` 404s. Every internal link goes through `import.meta.env.BASE_URL`, which the deploy workflow sets for you. A three-line helper keeps it tidy:
 
 ```js
 // src/lib/url.js
@@ -31,9 +31,9 @@ export const url = (path = '') =>
   `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${path.replace(/^\//, '')}`;
 ```
 
-Then `<a href={url('pokedex/')}>` works at `/` in `npm run dev` and at `/dight340/final-project/` on GitHub Pages.
+Then `<a href={url('pokedex/')}>` works at `/` in `npm run dev` and at `/dight340/sparks/astro-practice/` on GitHub Pages.
 
-**The kit update.** The deploy workflow now builds `final-project/` as an Astro site with the right base. And Claude switches from the **Learning** output style to **Explanatory**: it stops leaving `TODO(human)` gaps and explains its choices as it goes (look for `★ Insight`). Your job is reading every explanation and deciding.
+**The kit update.** The deploy workflow now builds any folder with an Astro config (your practice site, then `final-project/`) as an Astro site with the right base. And Claude switches from the **Learning** output style to **Explanatory**: it stops leaving `TODO(human)` gaps and explains its choices as it goes (look for `★ Insight`). Your job is reading every explanation and deciding.
 
 <figure class="diagram">
 <svg class="d-wide" viewBox="0 0 640 180" role="img" aria-labelledby="astro-wide-title">
@@ -92,9 +92,9 @@ Then `<a href={url('pokedex/')}>` works at `/` in `npm run dev` and at `/dight34
 ```
 
 <details>
-<summary>This link is in your <code>final-project/</code> site's nav. It works in <code>npm run dev</code>. Where does it go on GitHub Pages?</summary>
+<summary>This link is in your practice site's nav. It works in <code>npm run dev</code>. Where does it go on GitHub Pages?</summary>
 
-To `https://<username>.github.io/pokedex/`: the root of *all* your Pages sites, not your Final Project. That's a 404, or someone else's page if you have a repo called `pokedex`. In dev the site lives at `/`, so the mistake hides until you deploy. Write it as `href={url('pokedex/')}`, which becomes `/dight340/final-project/pokedex/` once the workflow sets the base. The template's own `href="/favicon.svg"` has the same bug.
+To `https://<username>.github.io/pokedex/`: the root of *all* your Pages sites, not your site. That's a 404, or someone else's page if you have a repo called `pokedex`. In dev the site lives at `/`, so the mistake hides until you deploy. Write it as `href={url('pokedex/')}`, which becomes `/dight340/final-project/pokedex/` once the workflow sets the base. The template's own `href="/favicon.svg"` has the same bug.
 
 </details>
 
@@ -112,7 +112,7 @@ Pair programming, with the whole class, after the kit update (in a **new** sessi
 We start here, in plan mode:
 
 ```text
-In try/s10/, create an Astro site with the minimal template (no git repository of its own). Add a shared layout with a nav, a home page, and a Pokédex page that lists the first 12 Pokémon from PokéAPI at build time. The site will be served from /dight340/final-project/, so every internal link must work under that base.
+In try/s10/, create an Astro site with the minimal template (no git repository of its own). Add a shared layout with a nav, a home page, and a Pokédex page that lists the first 12 Pokémon from PokéAPI at build time. The site will be served from /dight340/sparks/astro-practice/, so every internal link must work under that base.
 ```
 
 Then we put it under pressure, one step at a time. Each time, the question is what *our* code does, and which line does it:

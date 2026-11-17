@@ -48,28 +48,28 @@
 - name: Svelte forms and shared state
   unit: svelte-forms
   session: 9
-  summary: Forms with labels and announced errors, and shared state (for P4); write your Final Project intent brief.
+  summary: A nickname form with labels and announced errors, and a party shared through a module; your Final Project intent brief is due Nov 23.
   prototype: P4
 - name: Astro intro and repo conversion
   unit: astro-intro
   session: 10
-  summary: Your Final Project becomes a deployed Astro site, with a layout and build-time data.
+  summary: Start an Astro practice site with a layout and build-time data, then set up your Final Project the same way.
 - name: Astro content collections
   unit: astro-collections
   session: 11
-  summary: Your NOTES.md files become pages on your Final Project, checked by a schema.
+  summary: Your NOTES.md files become pages on your practice site, checked by a schema.
 - name: Astro islands and client-side data
   unit: astro-islands
   session: 12
-  summary: A Svelte component becomes an island on your Final Project, with view transitions.
+  summary: A Svelte component becomes an island on your practice site, with view transitions.
 - name: Testing and accessibility
   unit: testing-a11y
   session: 13
-  summary: Playwright and axe tests for your Final Project, run on every push.
+  summary: Playwright and axe tests for your practice site, run on every push.
 - name: Big live build
   unit: big-build
   session: 14
-  summary: A whole app built together, then your Final Project's own AGENTS.md and skill.
+  summary: A whole app built together, then an AGENTS.md and a skill for a project Claude keeps getting wrong.
   tier: release
 - name: Open lab
   summary: Final help, if you need it.
