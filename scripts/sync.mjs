@@ -97,7 +97,9 @@ const pagesTo = path.join(site, 'src/content/pages');
 await mkdir(pagesTo, { recursive: true });
 for (const name of await listFiles(pagesFrom, '.md')) {
   const text = await readFile(path.join(pagesFrom, name), 'utf8');
-  for (const course of courses) {
+  // A shared page can name fewer courses in its `courses:` line (ai-accounts.md is 250 only, Nov 16).
+  const listedIn = text.match(/^courses: \[(.*)\]$/m)?.[1].split(',').map((c) => c.trim().replace(/^dight/, ''));
+  for (const course of courses.filter((c) => !listedIn || listedIn.includes(c))) {
     const out = name.replace(/\.md$/, `-${course}.md`);
     await writeFile(path.join(pagesTo, out), forCourse(text, course));
     console.log(`  ${path.relative(source, path.join(pagesFrom, name))} → ${path.relative(site, path.join(pagesTo, out))}`);
