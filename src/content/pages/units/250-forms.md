@@ -167,72 +167,83 @@ The elements and attributes on this page in one place.
 | `name` | a field | `name="email"` | What the answer is called when the form is sent |
 | `type` | `<input>` | `email`, `url`, `tel`, `number`, `date` | The right phone keyboard, and the browser checks the format |
 | `autocomplete` | a field | `name`, `email`, `tel` | Lets the browser fill in what it already knows |
-| `<fieldset>` + `<legend>` | around radios or checkboxes | `<legend>Which decade did it first air?</legend>` | Groups the choices under their question |
-| `required`, `minlength` | a field | `required minlength="20"` | Checks the browser runs on submit, with its own message in words |
+| `<fieldset>` + `<legend>` | around radios, checkboxes, or related fields | `<legend>Which decade did it first air?</legend>`, `<legend>Drop-off</legend>` | Groups the fields under their question or heading; a screen reader says it as you enter the group |
+| `required`, `minlength`, `min`, `max` | a field | `required minlength="20"`, `min="1970" max="1999"` | Checks the browser runs on submit, with its own message in words |
 | `:user-invalid` | a CSS selector | `input:user-invalid { … }` | Matches a field with a problem, but only after someone has changed it or tried to submit |
 | `:invalid` | a CSS selector | | Matches from the moment the page loads. **Not for error styles:** empty required fields are red before anyone types |
 | `aria-describedby` | a field | `aria-describedby="email-hint"` | A screen reader reads that element's words along with the field |
+| `:user-invalid + .hint::before` | a CSS selector | `content: "Check this: ";` | Adds words to the hint once its field has a problem, so the error isn't only a color |
 | `action`, `method` | `<form>` | `action="thanks.html" method="get"` | Where the answers go, and how (`get` puts them in the URL) |
 
 ## Live demo
 
-The whole class, one form: I change the HTML and CSS on the projector, you call what happens next. The sandbox is a "Suggest a show" form for the Saturday Morning Archive that looks fine with a mouse and fails nearly everyone else: placeholders instead of labels, a plain text box for the email, radio buttons with no question, red borders before anyone types, and nowhere to send it. [Open the Forms sandbox](/sandbox/250-s09/index.html) in your browser, or download <a href="/sandbox/250-s09/index.html" download="index.html">index.html</a> and <a href="/sandbox/250-s09/thanks.html" download="thanks.html">thanks.html</a> into one folder to edit your own copy in VS Code. The CSS is in the `<style>` at the top; each comment in the form says which step changes it.
+The whole class, one form: I change the HTML and CSS on the projector, you call what happens next. The sandbox is a "Lend us a tape" form for the Saturday Morning Archive. It looks fine with a mouse and fails nearly everyone else: the field names are plain text, not labels; every field takes anything you type; two groups both have a field called "Date"; required fields are red before anyone types; and the form goes nowhere. [Open the Forms sandbox](/sandbox/250-s09/index.html) in your browser, or download <a href="/sandbox/250-s09/index.html" download="index.html">index.html</a> and <a href="/sandbox/250-s09/thanks.html" download="thanks.html">thanks.html</a> into one folder to edit your own copy in VS Code. The CSS is in the `<style>` at the top; each comment in the form says which step changes it.
 
-Each step says what to change, what to type, and what to look for. Save after every change (Cmd S) and look at the browser.
+Each step says what to change, what to type, and what to look for. Save after every change (Cmd S) and look at the browser. For steps 1, 3, and 5, open DevTools (Cmd Option I), right-click a field and choose **Inspect**, then open the **Accessibility** tab beside Styles: **Name** is what a screen reader calls the field.
 
-1. **Labels, not placeholders.** Click in the first box and type your name: "Your name" is gone, and nothing says what the box was for. Replace the two `<input>` lines with:
+1. **Text that only looks like a label.** Click the words "Your name": nothing happens. Inspect the box under them: its Name is empty, so a screen reader says only "edit text". Replace the four lines under the step 1 comment with:
 
    ```html
-   <label for="name">Your name (required)</label>
-   <input type="text" id="name" name="name" required>
-   <label for="email">Email (required)</label>
-   <input type="text" id="email" name="email" required>
+   <label for="name">Your name</label>
+   <input type="text" id="name" name="name" autocomplete="name" required>
+   <label for="phone">Phone</label>
+   <input type="tel" id="phone" name="phone" autocomplete="tel" required>
    ```
 
-   The labels stay while you type. Click the word "Email": the cursor jumps into its box.
+   Click "Phone": the cursor jumps into its box. Inspect it: Name is "Phone". (On a phone, `type="tel"` brings up the number pad, and `autocomplete` offers the number the browser already knows.)
 
-2. **The right field for the answer.** Type your name, `abc` in the email box, and press Send: the browser skips the email and complains about the empty "Why" box instead, because a text box takes anything. Change the email `<input>` to `type="email"`, and add `autocomplete="email"` to it and `autocomplete="name"` to the name field. Save, type your name and `abc` again, and press Send: now the browser stops at the email and says, in words, that it needs an `@`. On a phone, the email keyboard now has an `@` key.
+2. **The right field for the answer.** Type a name and a phone number first (the browser checks fields in order). Type `the eighties` in the year box and `my photo` in the link box, and press Send: the browser complains about the empty dates, and never notices the year or the link. Replace the five lines under the step 2 comment with:
 
-3. **Group the choices under their question.** The three radio buttons say "1970s, 1980s, 1990s", but nothing asks a question; a screen reader says "1980s, radio button, 2 of 3", and that's all. Wrap the three `<div class="choice">` blocks in:
+   ```html
+   <label for="year">Year it was recorded</label>
+   <input type="number" id="year" name="year" min="1970" max="1999" required>
+   <p class="hint">Any year from 1970 to 1999.</p>
+   <label for="photo">Link to a photo of the label (optional)</label>
+   <input type="url" id="photo" name="photo">
+   ```
+
+   Try typing letters in the year box: most won't go in (an `e` can, for numbers like `1e3`). Clear it, type `2005`, and press Send: the browser stops at the year and says it must be 1999 or earlier. Fix it, and it stops at the link: it wants a URL. Clear the link (it's optional, so empty is fine).
+
+3. **Two fields called "Date".** Inspect the first Date box: no Name at all. Labels alone won't fix this one. With labels, both boxes would be called "Date", and a screen reader user tabbing in wouldn't know which is which. Replace everything under the step 3 comment, down to the button, with:
 
    ```html
    <fieldset>
-     <legend>Which decade did it first air?</legend>
-     …
+     <legend>Drop-off</legend>
+     <label for="dropoff-date">Date</label>
+     <input type="date" id="dropoff-date" name="dropoff-date" required>
+     <label for="dropoff-time">Time</label>
+     <input type="time" id="dropoff-time" name="dropoff-time">
+   </fieldset>
+
+   <fieldset>
+     <legend>Pick-up</legend>
+     <label for="pickup-date">Date</label>
+     <input type="date" id="pickup-date" name="pickup-date" required>
+     <label for="pickup-time">Time</label>
+     <input type="time" id="pickup-time" name="pickup-time">
    </fieldset>
    ```
 
-   The question sits in the box's border, and a screen reader reads it as you enter the group.
+   Each pair sits in a box with its question in the border, and the boxes now have a calendar and a clock. In the Accessibility tab, open the **Accessibility tree**: each Date box sits inside a group called "Drop-off" or "Pick-up", so a screen reader says "Pick-up, group" as you enter it. (Notice the `id`s have to differ, even though the labels don't.)
 
-4. **Red before anyone's typed.** Reload the page: every required field is already red, and you haven't done anything wrong. That's the `:invalid` rule at the top of the `<style>`: an empty required field is invalid from the start. Change both selectors to `:user-invalid`:
+4. **Red before anyone's typed.** Reload: the name, phone, year, and both dates are red, and you haven't done anything wrong. That's the `input:invalid` rule at the top of the `<style>`: an empty required field is invalid from the start. Change it to:
 
    ```css
-   input:user-invalid,
-   textarea:user-invalid {
+   input:user-invalid {
      border-color: #b3261e;
    }
    ```
 
-   Reload: no red. Press Send with everything empty: the browser stops at the first problem and says what's wrong, and now the empty fields turn red.
+   Reload: no red. Type `2005` in the year and click away: only the year turns red. Press Send with the rest empty: the browser stops at the first problem, and now every empty required field turns red.
 
-5. **Say it in words, not just red.** A red border means nothing to someone who can't see red. Replace the `<textarea>` line with a label, the field, and a hint tied to it:
+5. **Tie the hint to its field.** Inspect the year box: its Name is "Year it was recorded", and that's all. The hint right under it is on the screen, but a screen reader never connects the two. Give the hint an `id`, and point the field at it:
 
    ```html
-   <label for="why">Why should we add it? (required)</label>
-   <textarea id="why" name="why" required minlength="20" aria-describedby="why-hint"></textarea>
-   <p class="hint" id="why-hint">At least 20 characters.</p>
+   <input type="number" id="year" name="year" min="1970" max="1999" required aria-describedby="year-hint">
+   <p class="hint" id="year-hint">Any year from 1970 to 1999.</p>
    ```
 
-   Then add a hint after the email field (`<p class="hint" id="email-hint">An address like name@example.com.</p>`, and `aria-describedby="email-hint"` on the email `<input>`), and under the step 4 rule, add:
-
-   ```css
-   :user-invalid + .hint::before {
-     content: "Check this: ";
-     font-weight: bold;
-   }
-   ```
-
-   Press Send with "Why" too short: "**Check this:** At least 20 characters." The words change, not only the color, and a screen reader reads the hint with the field.
+   Inspect it again: the Accessibility tab now shows **Description: Any year from 1970 to 1999.** A screen reader reads it after the label, so someone who hears "invalid" also hears what's allowed.
 
 6. **Where does it go?** Fill in everything (made-up details) and press Send: the page just reloads, because `action="#"` sends it right back here. Change the form's opening tag to:
 
@@ -240,13 +251,13 @@ Each step says what to change, what to type, and what to look for. Save after ev
    <form action="thanks.html" method="get">
    ```
 
-   Send again: the thank-you page. Look at the address bar: everything you typed is in the URL, after the `?`. That's `method="get"`, and it's why you only ever practise with made-up details.
+   Send again: the thank-you page. Look at the address bar: everything you typed is in the URL after the `?`, phone number included. It's now in the browser's history, too. That's `method="get"`: fine for a search box, wrong for personal details on a real site, which use `method="post"` and a server. That's why you only ever practise with made-up details.
 
 **On your own:** in your copy of the sandbox (a few minutes each):
 
-- Add a "Which channel?" `<select>` with three channels and a visible label. Does it need a `<fieldset>`?
-- Add an optional "Episode link" field. Which `type` makes the browser check it, and what does it say for `abc`?
-- Tab through the whole form without the mouse, and fill it in with only the keyboard (arrow keys move between radio buttons). Is anything unreachable?
+- Make the pick-up optional. Which attribute comes out of which fields, and does the Pick-up box still need its legend?
+- Stop people choosing a drop-off date before Wed Nov 18, 2026. Which attribute does it, and what does the browser say for Nov 1?
+- Fill in and send the whole form with the keyboard only, the calendar and clock included. Where is it hardest?
 
 ## Links
 

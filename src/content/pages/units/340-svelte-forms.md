@@ -108,107 +108,120 @@ The syntax on this page in one place.
 
 ## Live demo
 
-The whole class, one form: I change it on the projector, you call what happens next. The sandbox is a Svelte Playground where `App.svelte` owns a party of three and has a nickname form with no binding, no label, and no submit handler. `TeamSummary.svelte` and `party.svelte.js` are empty. Switch files with the tabs above the editor. [Open the Svelte sandbox in the Playground](https://svelte.dev/playground/untitled#H4sIAAAAAAAAE5VW224bNxD9lekmgOxgL5JlJ8hKdhGgQFogaAPYb1aQUOJIOzGXXHC4kgVBQD6k_Y6-91PyJQW5q6tlNH3bneGcOTw8O8tVpEWJUR798tv7X--gf9mFf_6G2-5bYKHl2DxGceQEqQVpGeVToRjjaEoKOcrvV5FbVr7YB6J4A_WuqlKeo3I-NhaMp-ITox1qx1EeDX9KkpEG-EBzBIml2fSGqbFwGyr8Y8kgtAQuhEUJ7IRDOOtfdmNgZCaj4e15Cn9UqFGCK6ypZwWQY4_donxUYjmzptYSFOkHOHMFQq3JQSVmCIVgIHc-ADF1aAElOdIzEHoJfotAGlxBDFOjJNrYA1ucoUbruXgsj5qDNhJhYmrLmDA5TNrdZu3GsmrLI_EVafmVvfYJd9960HdVBWahOUBWwrplkEKbxQDYYQVXUJo5erJA2plmTStu-pVTuCsaybxM1jEsyBUeWRsYk5akZ7F_VmKMKg6yagNcj0tyUAgtFdpB6B7OQ0gZuJQp3KEob-uyFHbTz1d76CMOTWfAsnLLdKST5GakhzyxVLkbv5zKyli3jwdTa0ropNnTHp3BSPsiha7V4xpeBgec3fs4wApI5nBxFYN3Ww6dih7EpKg7MWiaPLTBDqzj_fW9fn9bgDhH_I_ll7vlrI1V4vF0wafzPcKb_I5zp-Pzw2wrx0gPi97NnRWk0QYvDrOi1yRqFfRavUAxKdrdC4bKPGBpNJy1DynJ83VDdqjoZrUJ-87r3duGy8_wxX_p37_9-fJJcv39219fwG9nPcwUNe0z337tWQdCIz30_gq5IemqdlApMcEifBrXo-j3TSfv3I_NYYwiyJqKce2c0Te3Yo5bfYZZGw0rqpuPFueEixxWW2LDrPI2ytrWIz3c90_WhNgtFQaQ7BV8MOYh-HuKqMBotUzhvTJjoWJgA2EtB46osPQTaWf7QrDuOO9-lLBEB9Lojms0BiuIESbMn2tdM8rPjAonzlhYCKtJz7j5rth4wCXYcHz71oZXmcfKZ4HO2djI5TmsGvip0S6HXtq7uLJYZr30CnjJDsukptjPR04YLU0Hfvm68doGqFZbmEpI_63n0B00AUXskrBpP6U0nqpXtK0vhZ2RTsbKTB5y6KaezOAYOkShm77Zy46NlWhzuKgegY0iCS_6_f5BMrFCUs0HsEdM_DFvuUhiPzZzmFmSLdJMVEe0SvGYLEi6IoeLy2dgw9Q7kDpZIM0Kl8ObbvdURTD4eXxwXMGrRwdGukBL7qlEF080OupwLyyJhPRcKJLXHWdr7Hzaom_k7O_kHHe73YuTZO-tUXjdEQqt28MoSSdFu81eerWnmD_jnUUmRhmbHzT4MZEEk8Rj6zhThXYnjdOo0jttGym4QAkvXr9-_X99k0_NpOZkTkxjtaNkaqdIYw6XOxl7vd7gIJuY6ZTRBa032MNsM1P8dQgfXZT7A1rHz9yAjn6Fh9egp8m9u1CWwW34wedhDLV3nWbozwwyFGgx_VEeT3-kh1RO5o9uZls-Arids64Qzs-z5lLwHEkIv_xDop_W_wJVr0PQcQoAAA). It runs in your browser with nothing to install; to keep your changes, use the Playground's **Save** (it asks you to sign in with GitHub) or download the starting files: <a href="/sandbox/340-s09/App.svelte" download="App.svelte">App.svelte</a>, <a href="/sandbox/340-s09/TeamSummary.svelte" download="TeamSummary.svelte">TeamSummary.svelte</a>, <a href="/sandbox/340-s09/party.svelte.js" download="party.svelte.js">party.svelte.js</a>.
+The whole class, one form: I change it on the projector, you call what happens next. The sandbox is a Svelte Playground for a digital archive's reading room. `App.svelte` has a settings form with no bindings, two boxes whose names are plain text instead of labels, and no submit handler. Below it is a sample diary page that reads the *saved* settings. `Greeting.svelte` and `settings.svelte.js` are empty. Switch files with the tabs above the editor. [Open the Svelte sandbox in the Playground](https://svelte.dev/playground/untitled#H4sIAAAAAAAAE61X247juBH9lYomgLoXutjunl6M2u1ggUkmASabxfQAeWg3FrRYsjhNkQJJ38YwsB-y-x37vp-yXxIUKUvuyyCTy5OtInnq1KlikdxHijUYFdHbv73760e4uBzBb7_C7egNWKb4Qm-jJHJMyI1QPCoqJi0mUSUk2qi420du19JiMkTJEeq7ts3sGqUj24JZfMleauVQORsV0fQPaTpXAO_FGoFjo4--odIGbv0K-ttYYIqDrZlBDtYxh3B2cTlKwKK1Qit4c57BP1pUyMHVRq-WNQhnCbtD-UGy3dLoleIghXqAM1cjrJRw0LIlQs0sCHd-DaxyaAC5cEItgakdUIggFLhaWKi05GgSAja4RIWGuBAWoRagNEco9cpYTK1wmHbR5l1gedvzSGlF1nyypH1qR28I9ANutHlADt_rNYyv4KwPEHDbohENKld4h14vYYEBF1WFBpWD1uiFxAYqoxs_6bZl5uE8o7wGzpQRWtNgs0ADuvLTWmbcDs6YAmYM253DRrgaGDjcOqgESn4d4j_mx_s1yDipZLRuYi-2RUe62QK0QtCLT1i6BAzjQsNi5ZxWNgEGZY3lw0JvE59WBmrlyTgdRjL4rm1Bb5T15CxbIz9F99Wh9OYarMMWrqDRa_RzGxDK6X5iV3TZJ5vBxzqUEpWPcTZEqDThLoSiOGwCSoNkC5TBhXAW3EbDQm_RBq5Kg10tGuGgZopLNBm8M4jkrXNG007JDhyCZ8CmdbtsrtJ0NldTWxrRuhmtEE2rjevxQhLjLH_iIL6eK5qe5_DPmrnYBoGKTqumlRhqeoFSb3ySvDYWaZVEN-h4A3_0m-lsD1QXBcQfkHE0cQJWfKZvpU3DZJyAM0wFrraA0A1gqZksYDKCw_kzTn7DBMUTWGClDSmzo7JoDVqLFm7ZuqdE7gc6cUyAHVnx-XSkIzSMnxAbpnmCwxwiOgxORke6pVY2eKC1ewjgBcRjg02cgGRmSSqMs8nrYIm3qTfG3uqNcLieq2neJ3Kupn0K8_Bdj2cfTvZKn4BpXo_DDNLJF8HUtkxBKZm1N_PIb72UxJlHs7fCUvfwWk1zmhdWCNWuXOcKYOrXWAw1BTCV1Kf47CNtZQp1mneW4zgV_KxDobZ-M4_8jp1H3tXNPKJl8wjWTK7oM8g0jyCfwff-_zQPKP81pBc1IL6nv_8zYJenAPnnrTMsZPMUeJqfaOUNL_k5NqsAdVvrja_soe6oPa8Up2ODlTXYkqnBy7_LKRNy1zdSX6dntHnt-fMMd3xCs_RsOvjQWWe0n05Kq7NSbXbVNVfTtqfRGlwL3Mwj7-KH8FXAnogd6CqwJ0UP4Qj47dcn8e5Pt92fINYqhgJiXVVxWEyhHHwf8icU2xGPNpBgxolSIli3k1hUWrmUfN14j_Zu6JziM94fggT1ZPZWMLOjE4tBrRu0zveqJDS78TSvJ2HqECOlYh7N7ui3W8gU3xjhHCq_LoHxm9HkPlAD2L8S1dC5T2I8dIXYzn7_6ee_M1PWcJHBrdIbYEsmVAZ_Ya5GAxs6hp0GpzfKHyKV1Cvjz46SetyClQ_H07USnEvMfv_pl95_LqoDKdVJFPTyOvnx_Bt4r_WDh6sQJWgldxm8k3rBZAJWB03D8YUS6bZgh9tCzayKHTDOkcMOHXCtYhdCA8OERSit_XGlVhb5jxYllk4b2DCjwvnob2GaAH3RlvVw-sE3OQEVS8_lbKH57hz2AZtSXMA4G_s2mo-z12B31mGTrkRCdwqbWjSi8g37EKr6CES12wPx0AILWBrBr4NtydoCRr4Xd5aGbdON4K4uYHJ5ND-BzYZteJ6cDviNe1dpc__E7pvmo5DSDYpl7Qr4djR6kXrXXb6G_uSE_0IbjqaASbsFq6Xg8Ori4uLRYErdb2UfBf7Eu28aj2MILeFJWoSq0QjXwbeMUyvqKcEo-_ZLHu6YESwVas2k4DexMyuM73v0YxQXQxSL0Wg0eVGqO6Ml3sRMonEnGI1Qad2JPM5en2TYLIUqYNR9l1pqUzxy8HUpyro22Hs8Il1eXr40v9uXA0FPJHW6LWA8ZPCZiuP_d3Yz6mk9jd7f-HQfUK8Jb40CXiHia35xKk1ovyAck6J80cey29zP_QRiXwqLM1sjh1dXV1f_aVxFpcuVTdfCisWJznrlpFBYwOWg2ng8vn40muqqsuh8yR2xp_mxe9J7FrcuKqhOD8kXnrBPLtuP37HPB588ZuHWP0gKYHDUDlzN3HAL7x-xxzv4UqOFGg1m4F8EX0fz-eviMdMXx0_I5nlP9WVSgdJTOveHfwEabwTKNxAAAA). It runs in your browser with nothing to install; to keep your changes, use the Playground's **Save** (it asks you to sign in with GitHub) or download the starting files: <a href="/sandbox/340-s09/App.svelte" download="App.svelte">App.svelte</a>, <a href="/sandbox/340-s09/Greeting.svelte" download="Greeting.svelte">Greeting.svelte</a>, <a href="/sandbox/340-s09/settings.svelte.js" download="settings.svelte.js">settings.svelte.js</a>.
 
 Each step says which file, what to type, and what to look for. Two things to know first:
 
-- **Every edit restarts the app.** The party is back to three, with no nicknames.
+- **Every edit restarts the app.** The form and the saved settings go back to how they started.
 - **If the result goes blank,** make any edit (even a space) and it comes back.
 
-1. **Bind the box to the state.** Type in the box: the "Preview:" line under the button stays empty, because nothing connects them. In `App.svelte`, add `bind:value={nickname}` to the `<input>`:
+1. **Bind the box to the state.** Type in the Display name box: the "Preview:" line under the form stays empty, because nothing connects them. In `App.svelte`, add `bind:value={name}` to the first `<input>`:
 
    ```svelte
-   <input placeholder="Nickname for Pikachu" bind:value={nickname} />
+   <input bind:value={name} />
    ```
 
-   Type again: the preview follows every key. Now the other way: change `let nickname = $state('');` to `$state('Sparky')`. The box starts with "Sparky" in it. Change it back to `''`.
+   Type again: the preview follows every key. Now the other way: change `let name = $state('');` to `$state('Ada')`. The box starts with "Ada" in it. Change it back to `''`.
 
-2. **A label that stays.** Type a few letters: the placeholder is gone, and nothing on the page says what the box is for. Replace the `<input>` line with:
+2. **Radio buttons and a checkbox.** Click "Large": the preview still says "normal text", and the checkbox does nothing either. Add `bind:group={size}` to each of the three radio buttons, and `bind:checked={transcripts}` to the checkbox:
 
    ```svelte
-   <label for="nickname">Nickname for Pikachu</label>
-   <input id="nickname" bind:value={nickname} />
+   <label><input type="radio" name="size" value="normal" bind:group={size} /> Normal</label>
+   <label><input type="radio" name="size" value="large" bind:group={size} /> Large</label>
+   <label><input type="radio" name="size" value="x-large" bind:group={size} /> Extra large</label>
    ```
 
-   The label stays while you type. Click the label: the cursor jumps into the box.
+   ```svelte
+   <label><input type="checkbox" bind:checked={transcripts} /> Show the transcription under each scan</label>
+   ```
 
-3. **Handle the submit, and say what's wrong in words.** Press **Save nickname** first: the result goes blank. The browser sent the form and left the page (make any edit to bring it back). In `App.svelte`, add this before `</script>`:
+   "Normal" starts checked, because `size` starts as `'normal'`. Click "Large": the preview says "large text". Tick the box: "transcription on". One `bind:group` variable holds the whole set's answer, and it's the checked button's `value`. The diary page hasn't changed: it reads what's *saved*, and nothing saves yet.
+
+3. **Labels for the two boxes.** Click the words "Display name": nothing happens. They're a `<span>`, so a screen reader reaching the box hears only "edit text". (The radio buttons and checkbox are fine: each `<input>` sits inside its `<label>`.) Replace the two `<span>`s and their boxes, giving the goal box its binding at the same time:
+
+   ```svelte
+   <label for="name">Display name</label>
+   <input id="name" bind:value={name} />
+   ```
+
+   ```svelte
+   <label for="goal">Daily reading goal (pages)</label>
+   <input id="goal" type="number" bind:value={goal} />
+   ```
+
+   Click "Daily reading goal": the cursor jumps into its box. The preview says "20 pages a day": with `type="number"`, `bind:value` gives `goal` a number, not text.
+
+4. **Handle the submit, and say what's wrong in words.** Press **Save settings** first: the result goes blank. The browser sent the form and left the page (make any edit to bring it back). In `App.svelte`, add this before `</script>`:
 
    ```js
    let error = $state('');
 
    function save(event) {
      event.preventDefault();
-     const name = nickname.trim();
-     if (name === '') {
-       error = 'Enter a nickname for Pikachu.';
-     } else if (name.length > 12) {
-       error = 'Use 12 characters or fewer.';
+     if (!Number.isInteger(goal) || goal < 1 || goal > 200) {
+       error = 'Pick a goal from 1 to 200 pages.';
      } else {
        error = '';
-       party[0].nickname = name;
-       nickname = '';
+       settings.name = name.trim() || 'Reader';
+       settings.size = size;
+       settings.transcripts = transcripts;
+       settings.goal = goal;
      }
    }
    ```
 
-   Change `<form>` to `<form onsubmit={save}>`, and right after the `<input>` add the error's home, empty until there's an error:
+   Change `<form>` to `<form onsubmit={save}>`, and right after the goal `<input>`, add the error's home, empty until there's an error:
 
    ```svelte
-   <p id="nickname-error" role="alert">{error}</p>
+   <p id="goal-error" role="alert">{error}</p>
    ```
 
-   Press Save with the box empty: "Enter a nickname for Pikachu." Type 13 letters and press Enter: the length message. Type "Sparky" and press Enter: Pikachu's row says "Sparky", and the box clears.
+   Type `500` in the goal box and press Enter: "Pick a goal from 1 to 200 pages." Empty the box and press Save: the same message (an empty number box binds as `null`, which isn't a whole number). Type `25`, choose "Extra large", tick the transcription, and press Save: the diary page grows, and the transcription appears.
 
-4. **Tie the error to the field, and put focus back.** Replace the `<input>` line with:
+5. **Tie the error to the box, and put focus back.** Replace the goal `<input>` line with:
 
    ```svelte
-   <input id="nickname" bind:value={nickname} bind:this={input}
-     aria-invalid={error !== ''} aria-describedby="nickname-error" />
+   <input id="goal" type="number" bind:value={goal} bind:this={goalInput}
+     aria-invalid={error !== ''} aria-describedby="goal-error" />
    ```
 
-   Add `let input;` before `</script>`, and `input.focus();` as the last line of *both* error branches in `save`. Click Save with the box empty: the box gets a red border, the message appears, and the cursor is back in the box, ready to fix it. Right-click the box and choose **Inspect**: `aria-invalid="true"`, and `aria-describedby` names the message's `id`. (A screen reader reads the label, "invalid", then the message.)
+   Add `let goalInput;` before `</script>`, and `goalInput.focus();` as the last line of the error branch in `save`. Type `500` in the goal, then click Save with the mouse (so focus leaves the box): the goal box gets a red border, the message appears, and the cursor is back in the goal box, ready to fix it. Right-click the box and choose **Inspect**: `aria-invalid="true"`, and `aria-describedby` names the message's `id`. (A screen reader reads the label, "invalid", then the message.)
 
-5. **Share the party with a module.** In `party.svelte.js`, replace the comment with the party from `App.svelte`, exported, plus a function that empties it:
+6. **Share the settings with a module.** In `settings.svelte.js`, replace the comment with the saved settings, exported, plus a function that puts them back to the defaults:
 
    ```js
-   export let party = $state([
-     { id: 25, name: 'pikachu', nickname: '' },
-     { id: 133, name: 'eevee', nickname: '' },
-     { id: 143, name: 'snorlax', nickname: '' },
-   ]);
+   const defaults = { name: 'Reader', size: 'normal', transcripts: false, goal: 20 };
 
-   export function clear() {
-     party = [];
+   export let settings = $state({ ...defaults });
+
+   export function reset() {
+     settings = { ...defaults };
    }
    ```
 
-   In `App.svelte`, delete the `let party = $state([…]);` block and import it instead:
+   In `App.svelte`, delete the `let settings = $state({ … });` line and import them instead:
 
    ```js
-   import { party } from './party.svelte.js';
+   import { settings } from './settings.svelte.js';
    ```
 
-   The result says **Error compiling party.svelte.js**: "Cannot export state from a module if it is reassigned" (`state_invalid_export`). The module reassigns `party` in `clear`. Delete `clear`, and change `export let` to `export const`: the app is back. Now in `TeamSummary.svelte`, replace the comment with:
+   The result says **Error compiling settings.svelte.js**: "Cannot export state from a module if it is reassigned" (`state_invalid_export`). The module reassigns `settings` in `reset`. Delete `reset`, and change `export let` to `export const`: the app is back. Now in `Greeting.svelte`, replace the comment with:
 
    ```svelte
    <script>
-     import { party } from './party.svelte.js';
+     import { settings } from './settings.svelte.js';
    </script>
 
-   <aside aria-labelledby="summary-title">
-     <h2 id="summary-title">Team summary</h2>
-     <p>{party.length} members: {party.map((p) => p.nickname || p.name).join(', ')}</p>
-   </aside>
+   <p class="greeting">Welcome back, {settings.name}. Today's goal: {settings.goal} pages.</p>
    ```
 
-   A dashed Team summary box lists the party. Save "Sparky" as Pikachu's nickname: the summary changes too. `App` and `TeamSummary` never pass a prop; they import the same party.
+   A dashed greeting appears at the top: "Welcome back, Reader." Type "Ada" as the display name, set a goal of 30, and press Save: the greeting changes too. `App` and `Greeting` never pass a prop; they import the same settings object.
 
 **On your own:** in your own Playground copy (a few minutes each):
 
-- Let the form rename anyone: three radio buttons in a `<fieldset>` with a `<legend>`, one `bind:group`, and `save` changes the chosen member. What does the label say now?
-- Add a **Clear party** button to `TeamSummary` that empties the shared party *without* reassigning it.
-- Send focus to the error message instead of the box. Is that better or worse for someone who has to fix the name?
+- After a good save, show "Saved." in an element with `role="status"`, on the page from the start. Why `status` here and not `alert`?
+- Make the transcription checkbox take effect the moment it's ticked, with no Save. Which line changes, and is that better or worse for this setting than for the goal?
+- Add a **Typeface** choice (serif or sans-serif) as a labeled `<select>` with `bind:value`, saved like the others, and make the diary page use it.
 
 ## Links
 
