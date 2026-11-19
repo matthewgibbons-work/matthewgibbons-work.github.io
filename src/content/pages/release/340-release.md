@@ -22,7 +22,7 @@ It draws on everything this term, including the three Astro sessions from Nov 23
 - **Mon Nov 30:** `final-project/` is an Astro site and deploys (milestone 2, after S10).
 - **Wed Dec 16, 11:59 pm:** due. The open lab that day is for final help.
 
-**Changed Nov 23:** Playwright is no longer required. Your tests are Vitest only, and the accessibility scan is the axe DevTools browser extension, run by hand.
+**Changed Nov 19:** Playwright is no longer required. Your tests are Vitest only, and the accessibility scan is the axe DevTools browser extension, run by hand.
 
 The full list, with what "done" looks like for each step, is under **Milestones**.
 
@@ -59,7 +59,7 @@ The site goes into `final-project/` once S10 has shown you an Astro site on your
 
 You've worked all term under the course's `AGENTS.md`. Now write the rules for *this* project, as the person who knows it best.
 
-- **`final-project/AGENTS.md`:** 10–25 lines, in your words: what the site is and for whom, where things live (`src/pages/`, `src/components/`, `src/content/`, your data module), the commands that prove it works (`npm run build`, `npx vitest run`, `npx playwright test`), and the rules you've learned the hard way this term (keys on every `{#each}`, `BASE_URL` in every link, no `$effect` that sets state, "don't write or rewrite my prose", whatever bit you). Claude Code loads it on demand, once it reads a file in `final-project/`, alongside the course's root `AGENTS.md`, which still applies.
+- **`final-project/AGENTS.md`:** 10–25 lines, in your words: what the site is and for whom, where things live (`src/pages/`, `src/components/`, `src/content/`, your data module), the commands that prove it works (`npm run build`, `npx vitest run`), and the rules you've learned the hard way this term (keys on every `{#each}`, `BASE_URL` in every link, no `$effect` that sets state, "don't write or rewrite my prose", whatever bit you). Claude Code loads it on demand, once it reads a file in `final-project/`, alongside the course's root `AGENTS.md`, which still applies.
 - **One custom skill:** `final-project/.claude/skills/<name>/SKILL.md`, with a `name`, a `description`, and instructions in the same format as `/check` and `/dig-deeper`. Make it something you'd actually run more than once: `/new-example` (scaffold an example's Markdown file with the schema's fields and ask you for each one, without writing the analysis), `/new-note` (the same for a `NOTES.md`), `/a11y-pass` (walk a page with you: keyboard, zoom, names, live regions), `/check-links` (open every link on a page and report the broken ones).
 - **You write both.** The course's `AGENTS.md` keeps Claude out of `AGENTS.md` and `.claude/` files, and that's the point: these are your decisions. Ask Claude to *review* them ("What's ambiguous in final-project/AGENTS.md? Don't edit it.") and to try your skill.
 - **Explain why** in `final-project/NOTES.md`: each rule's reason, and one time the file or the skill changed what Claude did (or didn't, and what you changed).
