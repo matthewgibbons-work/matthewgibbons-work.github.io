@@ -61,10 +61,10 @@
   session: 12
   unit: motion-audit
   summary: Audit a page that looks finished, fix what you find, and give it one bit of motion that calms down on request.
-- name: Big live build
+- name: "Live build: Minimal Expression"
   session: 13
   unit: big-build
-  summary: Build a small site in class, from intent brief to verified deploy, checking at every step.
+  summary: Watch a small site get built, gate by gate, that defines pop culture with a clip, four colors, and a font, and adapts to any screen. Then make your own.
   tier: release
 - name: Bridge to DIGHT 340
   session: 14

@@ -62,14 +62,14 @@
   unit: astro-islands
   session: 12
   summary: A Svelte component becomes an island on your practice site, with view transitions.
-- name: Testing and accessibility
-  unit: testing-a11y
+- name: Pokédex live build, day 1
+  unit: pokedex-1
   session: 13
-  summary: Playwright and axe tests for your practice site, run on every push.
-- name: Big live build
-  unit: big-build
+  summary: We configure the agent, then build a Pokédex of the first 151 at build time, with a page for each, and deploy it. Then an AGENTS.md and a skill for a project Claude keeps getting wrong.
+- name: Pokédex live build, day 2
+  unit: pokedex-2
   session: 14
-  summary: A whole app built together, then an AGENTS.md and a skill for a project Claude keeps getting wrong.
+  summary: The Pokédex gets a tested search, one Svelte island, an announced result count, and an axe DevTools scan.
   tier: release
 - name: Open lab
   summary: Final help, if you need it.
