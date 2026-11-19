@@ -1,0 +1,24 @@
+---
+// slide:file
+const { title } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{title} · Berry guide</title>
+</head>
+<body>
+  <nav aria-label="Site">
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/berries/">Berries</a></li>
+    </ul>
+  </nav>
+  <main>
+    <slot />
+  </main>
+</body>
+</html>
+<!-- /slide:file -->

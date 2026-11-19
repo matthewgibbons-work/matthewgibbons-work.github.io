@@ -5,15 +5,22 @@ courses: [dight340]
 ready: false # true once the S10 dry run passes, with the S10 brief (PLAN.md: Build order)
 session: 10
 date: 2026-11-23
+sticky_assignments: true # experiment 6, kept Nov 13 (PLAN.md, "Experiments")
 ---
 
 # Astro intro and repo conversion
 
-**The big idea:** most of a site doesn't need JavaScript in the browser. Astro runs your components once, when the site is built, and ships plain HTML; you add interactivity only where it earns its place.
+<details>
+<summary>Key takeaways</summary>
 
-## In short
+- **Most of a site doesn't need JavaScript in the browser.** Astro runs your components once, when the site is built, and ships plain HTML.
+- **Pages are files:** `src/pages/berries.astro` is `/berries/`. No router to set up.
+- **A layout is written once** (the `<html>`, `<head>`, nav, and `<main>`), and each page's content goes where it says `<slot />`.
+- **The frontmatter runs at build time.** A `fetch` there runs once, on GitHub, and its results are in the HTML. Check `response.ok`, so a bad answer stops the build instead of shipping "undefined".
+- **Every internal link goes through `import.meta.env.BASE_URL`.** `href="/…"` works in dev and 404s on GitHub Pages.
+- **Today's Spark puts it to work.** S10 starts your Astro practice site, after the Nov 23 kit update; your Final Project's milestone 2 repeats it.
 
-Astro runs your components once, when the site is built, and ships plain HTML: the files in `src/pages/` are the site's pages, and a layout wraps them all. For S10 you need a new practice site in `sparks/astro-practice/`: a deployed Astro site with a layout, a home page, and one page of real data fetched at build time, with every internal link going through `BASE_URL` so it works at `/dight340/sparks/astro-practice/`. Then you set up your Final Project the same way.
+</details>
 
 ## How it works
 
@@ -85,64 +92,126 @@ Then `<a href={url('first-twelve/')}>` works at `/` in `npm run dev` and at `/di
 <figcaption>Everything before the dashed line happens once, when the site is built. Visitors only ever get the finished HTML, so a page that fetched PokéAPI at build time loads instantly and works with JavaScript off.</figcaption>
 </figure>
 
-## Predict, then reveal
+## At a glance
 
-```astro
-<a href="/first-twelve/">First twelve</a>
-```
+The syntax on this page in one place.
+
+| Syntax | Example | What it does |
+| --- | --- | --- |
+| `src/pages/` | `src/pages/berries.astro` | Each file is a page at its own URL, here `/berries/` |
+| `---` fences | `---` … `---` at the top of a `.astro` file | The frontmatter: JavaScript that runs at build time, never in the visitor's browser |
+| `{expression}` | `{berries.map((berry) => <li>{berry.name}</li>)}` | Puts build-time values into the HTML |
+| `await fetch()` in the frontmatter | `const response = await fetch(api);` | Fetches once, when the site is built; the results are in the HTML |
+| `response.ok` | `if (!response.ok) throw new Error(…);` | Stops the build on an error answer instead of shipping a broken page |
+| `src/layouts/` + `<slot />` | `<main><slot /></main>` | One layout for every page; each page's content goes in the slot |
+| `Astro.props` | `const { title } = Astro.props;` | What a page passes to the layout: `<Base title="Berries">` |
+| `aria-current="page"` | `<a href={url('berries/')} aria-current="page">` | Marks the nav link for the page you're on |
+| `import.meta.env.BASE_URL` | `/dight340/sparks/astro-practice/` | Where the site lives; the deploy workflow sets it, so there's no `base` in `astro.config.mjs` |
+| `url()` helper | `href={url('berries/')}` | Puts the base in front of every internal link and asset |
+
+## Live demo
+
+The whole class, one site: we step through it on the projector, and you call each change before it appears. The site is a "Berry guide" built on [PokéAPI's berries](https://pokeapi.co/api/v2/berry?limit=12): a home page and a list of twelve berries. It's already an Astro project, but every page stands alone: each is a whole HTML document with its own copy of the nav, the list arrives from a `<script>` in the browser behind "Loading…" (so it's blank with JavaScript off), and every link starts with `/`. There's no Playground for Astro, so the slides are the demo. Each preview is that step's site, built once, with its base set to where the preview lives. That's why the root-relative links break inside the preview until step 4.
+
+<div data-slides="340-s10"><p>The slides need JavaScript. Every step is in the demo script below.</p></div>
 
 <details>
-<summary>This link is in your practice site's nav. It works in <code>npm run dev</code>. Where does it go on GitHub Pages?</summary>
+<summary>Demo script</summary>
 
-To `https://<username>.github.io/first-twelve/`: the root of *all* your Pages sites, not your site. That's a 404, or someone else's page if you have a repo called `first-twelve`. In dev the site lives at `/`, so the mistake hides until you deploy. Write it as `href={url('first-twelve/')}`, which becomes `/dight340/final-project/first-twelve/` once the workflow sets the base. The template's own `href="/favicon.svg"` has the same bug.
+Each step says which file changes and what to look for in the preview.
+
+1. **One layout.** Both pages carry their own `<html>`, `<head>`, and nav. Add `src/layouts/Base.astro`:
+
+   ```astro
+   ---
+   const { title } = Astro.props;
+   ---
+   <!doctype html>
+   <html lang="en">
+   <head>
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <title>{title} · Berry guide</title>
+   </head>
+   <body>
+     <nav aria-label="Site">
+       <ul>
+         <li><a href="/">Home</a></li>
+         <li><a href="/berries/">Berries</a></li>
+       </ul>
+     </nav>
+     <main>
+       <slot />
+     </main>
+   </body>
+   </html>
+   ```
+
+   Then `src/pages/index.astro` keeps only its own content:
+
+   ```astro
+   ---
+   import Base from '../layouts/Base.astro';
+   ---
+   <Base title="Home">
+     <h1>Berry guide</h1>
+     <p>Every berry a trainer can grow, for players planning a garden.</p>
+   </Base>
+   ```
+
+   The preview looks the same. The difference is in the files: the nav now lives in one place.
+
+2. **The second page, with no copying.** `src/pages/berries.astro` drops its `<html>`, `<head>`, and nav and wraps its content in `<Base title="Berries">`, the same way. Its `<script>` stays for now. The tab title says "Berries · Berry guide": that's `Astro.props`.
+
+3. **Fetch once, at build time.** Move the fetch out of the `<script>` and above the fence:
+
+   ```astro
+   ---
+   import Base from '../layouts/Base.astro';
+
+   const response = await fetch('https://pokeapi.co/api/v2/berry?limit=12');
+   if (!response.ok) throw new Error(`PokéAPI answered ${response.status}`);
+   const { results: berries } = await response.json();
+   ---
+   <Base title="Berries">
+     <h1>Berries</h1>
+     <ul>
+       {berries.map((berry) => <li>{berry.name}</li>)}
+     </ul>
+   </Base>
+   ```
+
+   No "Loading…": the names are in the page when it arrives. If PokéAPI answers with an error, the build stops with that message instead of shipping a page of "undefined".
+
+4. **Every link through `BASE_URL`.** Click Berries in the step 3 preview: it leaves this site for the root of the server. Add `src/lib/url.js`:
+
+   ```js
+   export const url = (path = '') =>
+     `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${path.replace(/^\//, '')}`;
+   ```
+
+   Then, in the layout, `import { url } from '../lib/url.js';` in the frontmatter, and the nav becomes:
+
+   ```astro
+   <li><a href={url()}>Home</a></li>
+   <li><a href={url('berries/')}>Berries</a></li>
+   ```
+
+   Click Berries in the preview now: it stays inside the site. On GitHub Pages, the same line becomes `/dight340/sparks/astro-practice/berries/`.
+
+5. **JavaScript off, View Source.** Open [the finished Berries page](/sandbox/340-s10/slides/preview/04/berries/) in its own tab, then View Source (Cmd Option U): all twelve names are in the HTML, and there's no `<script>`. Turn JavaScript off (DevTools → Cmd Shift P → "Disable JavaScript") and reload: the page still reads.
 
 </details>
 
-<details>
-<summary>Your First twelve page's frontmatter does <code>await fetch('https://pokeapi.co/api/v2/pokemon?limit=12')</code>. A hundred people open the page. How many times does that fetch run?</summary>
+**On your own:** in your own practice site, after S10 (a few minutes each):
 
-None of those hundred times. It ran once, when GitHub built the site, and the 12 names are already in the HTML they download. That's why View Source shows the names and no `<script>`, and why the page works with JavaScript off. It also means the list only changes when the site is rebuilt: fine for a list of Pokémon, wrong for anything that has to be live (that's what islands are for).
-
-</details>
-
-## Try it together
-
-Pair programming, with the whole class, after the kit update (in a **new** session, so Explanatory is on). I drive Claude Code on the projector; you navigate. After each step you read the output and its `★ Insight`s with me, decide whether to keep it or revise it, and say what to ask for next. Your own run comes in studio, with S10.
-
-We start here, in plan mode:
-
-```text
-In try/s10/, create an Astro site with the minimal template (no git repository of its own). Add a shared layout with a nav, a home page, and a "First twelve" page that lists the first 12 Pokémon from PokéAPI at build time. The site will be served from /dight340/sparks/astro-practice/, so every internal link must work under that base.
-```
-
-Then we put it under pressure, one step at a time. Each time, the question is what *our* code does, and which line does it:
-
-- **Hunt for slashes.** Search the project for `href="/` and `src="/`. Does every internal link go through `BASE_URL`?
-- **View Source** on the First twelve page (in the browser, not DevTools). Are the 12 names in the HTML? Is there any `<script>`?
-- **Turn JavaScript off** (DevTools → Command menu, Cmd+Shift+P → "Disable JavaScript"), and reload. Does everything still work?
-- **Find the landmarks and the nav.** One `<main>`, a labelled `<nav>`, and `aria-current="page"` on the current link?
-
-**Dig deeper:** we run [`/dig-deeper`](/340/skills/dig-deeper/) on the `await fetch` line in the First twelve page's frontmatter. Answer its predict question before the reveal.
-
-**On your own:** if you missed class or want another pass, do the kit update (S10, step 0), open a new session, run the starting prompt above, try the same four pressure tests, and answer the questions in the box below.
-
-<details>
-<summary>Questions to ask your output</summary>
-
-Use these in studio on your own S10, out loud or to Claude:
-
-- Where does every internal link get its base from? Is there one that doesn't?
-- When does the PokéAPI fetch run, and how often?
-- Is a `base` set in `astro.config.mjs`? Why doesn't it need one?
-- What happens to the build if PokéAPI answers with an error? Which line checks?
-- Which element marks the current page in the nav?
-
-**Watch for:** root-relative links (`href="/first-twelve/"`) that work in dev and 404 on Pages, including the template's own favicon link; a `base` hard-coded in `astro.config.mjs` (the workflow passes it); the fetch in a `<script>` tag, so it runs in every visitor's browser; no `response.ok` check, so a PokéAPI hiccup builds a page of "undefined"; no `aria-current`, or a nav that isn't in a `<nav>`.
-
-</details>
+- Run `npm run build` and open `dist/`. Which files did Astro write, and is there a `.js` file anywhere?
+- Break your data URL on purpose (add a letter) and run `npm run build`. What does your `response.ok` check say, and does a page still get built?
+- Add a third page with a `.astro` file in `src/pages/` and a link in the layout's nav. How many files did you change?
 
 ## Links
 
 - Astro: [Why Astro?](https://docs.astro.build/en/concepts/why-astro/), [Project structure](https://docs.astro.build/en/basics/project-structure/), [Pages](https://docs.astro.build/en/basics/astro-pages/), [Components](https://docs.astro.build/en/basics/astro-components/), [Layouts](https://docs.astro.build/en/basics/layouts/), [Routing](https://docs.astro.build/en/guides/routing/), [`base` and `BASE_URL`](https://docs.astro.build/en/reference/configuration-reference/#base), [Deploy to GitHub Pages](https://docs.astro.build/en/guides/deploy/github/)
 - Claude Code: [Output styles](https://code.claude.com/docs/en/output-styles) (Learning and Explanatory)
 - MDN: [`aria-current`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-current), [`<nav>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/nav)
+- Dig deeper: run [`/dig-deeper`](/340/skills/dig-deeper/) on the `await fetch` line in your practice site's data page. Answer its predict question before the reveal.

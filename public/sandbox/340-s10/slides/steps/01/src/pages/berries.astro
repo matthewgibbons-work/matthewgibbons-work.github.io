@@ -1,0 +1,28 @@
+<!-- slide:file -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Berries · Berry guide</title>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/berries/">Berries</a></li>
+    </ul>
+  </nav>
+  <h1>Berries</h1>
+  <ul id="berries"><li>Loading…</li></ul>
+  <script>
+    fetch('https://pokeapi.co/api/v2/berry?limit=12')
+      .then((response) => response.json())
+      .then((data) => {
+        document.querySelector('#berries').innerHTML =
+          data.results.map((berry) => `<li>${berry.name}</li>`).join('');
+      });
+  </script>
+</body>
+</html>
+<!-- /slide:file -->

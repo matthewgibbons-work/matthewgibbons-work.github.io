@@ -1,0 +1,17 @@
+---
+// slide:file
+import Base from '../layouts/Base.astro';
+---
+<Base title="Berries">
+  <h1>Berries</h1>
+  <ul id="berries"><li>Loading…</li></ul>
+  <script>
+    fetch('https://pokeapi.co/api/v2/berry?limit=12')
+      .then((response) => response.json())
+      .then((data) => {
+        document.querySelector('#berries').innerHTML =
+          data.results.map((berry) => `<li>${berry.name}</li>`).join('');
+      });
+  </script>
+</Base>
+<!-- /slide:file -->

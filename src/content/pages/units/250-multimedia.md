@@ -5,15 +5,22 @@ courses: [dight250]
 ready: false # true once the S10 dry run passes (PLAN.md: Build order)
 session: 10
 date: 2026-11-23
+sticky_assignments: true # experiment 6, kept Nov 13 (PLAN.md, "Experiments")
 ---
 
 # Multimedia and positioning
 
-**The big idea:** media has to work for people who can't see or hear it: text alternatives, captions, and nothing that starts on its own. Positioning lets you layer things on top of each other, and visually hidden text gives screen readers words that eyes don't need.
+<details>
+<summary>Key takeaways</summary>
 
-## In short
+- **Media has to work for people who can't see or hear it:** `alt` text that says what the image is for, captions for speech and sound, and nothing that plays on its own.
+- **`<video controls>`** gives the browser's own buttons, keyboard included. Leave out `autoplay`, and give anything that moves for more than five seconds a way to pause.
+- **Captions are a `.vtt` file you write by listening,** joined with `<track kind="captions">`. The agent can't hear the clip.
+- **`position: absolute` measures from the nearest positioned ancestor.** Put `position: relative` on the card, or every badge lands in the page's corner. `sticky` and `fixed` pin things to the screen, so check that they don't cover focus.
+- **Hide on purpose:** `.visually-hidden` keeps words for screen readers, `aria-hidden="true"` hides decoration from them, and `display: none` hides from everyone.
+- **Today's Spark puts it to work.** S10 fixes a "Clip of the week" page.
 
-Media has to work for people who can't see or hear it: `alt` text, captions, `controls`, and nothing that plays on its own. `position: absolute` places something inside the nearest positioned ancestor, and a `.visually-hidden` class gives screen readers words that eyes don't need. For S10 you need a captioned image, a video with `controls`, no autoplay, and a captions file you wrote by listening, a "New" badge positioned in its own card's corner and written in words, and an icon link named by hidden text.
+</details>
 
 ## Images, revisited
 
@@ -57,7 +64,7 @@ A badge in a card's corner is the classic pair:
 .badge { position: absolute; top: 0.5rem; right: 0.5rem; }
 ```
 
-Positioned things sit on top of other content, so check them at 200% zoom: a badge can cover a heading, and a sticky header can cover half the screen, or hide the thing that has keyboard focus (WCAG 2.4.11).
+Positioned things sit on top of other content, so check them at 200% zoom: a badge can cover a heading, and a sticky header can cover half the screen, or hide the thing that has keyboard focus (WCAG 2.4.11). `scroll-padding-top` on `html`, as tall as the header, keeps whatever you tab to or jump to from landing underneath it.
 
 ## Hidden, but for whom?
 
@@ -129,67 +136,109 @@ The arrow is for eyes, and hidden from screen readers, which might read out its 
 <figcaption>Three ways to hide, and who each one hides from. Only <code>.visually-hidden</code> keeps words for screen readers while hiding them from view.</figcaption>
 </figure>
 
-## Predict, then reveal
+## At a glance
+
+The elements, attributes, and properties on this page in one place.
+
+| Element, attribute, or property | Goes on | Example | What it does |
+| --- | --- | --- | --- |
+| `alt` | `<img>` | `alt="Poster: a robot dog leaping over a moon"`, `alt=""` | Says what the image is *for*; `alt=""` when the words next to it already say it all |
+| `width`, `height` | `<img>`, `<video>` | `width="300" height="450"` | The real size, so the browser saves the space and the page doesn't jump as it loads |
+| `<figure>` + `<figcaption>` | around an image or video | `<figcaption>Saturday 9:00</figcaption>` | A caption everyone can see; it shouldn't repeat the `alt` |
+| `controls` | `<video>`, `<audio>` | `<video controls>` | The browser's own play, pause, volume, and captions buttons, keyboard included |
+| `autoplay`, `loop` | `<video>`, `<audio>` | | Starts on its own, plays forever. **Leave them out:** let people press play |
+| `<track kind="captions">` | inside `<video>` | `src="clip.vtt" srclang="en" label="English"` | Joins a WebVTT file of captions you wrote by listening; turns on the CC button |
+| `position: relative` | the container | `.poster { position: relative; }` | Stays in the flow, and becomes what `absolute` children measure from |
+| `position: absolute` + `top`, `right`… | the thing to place | `top: 0.5rem; right: 0.5rem;` | Leaves the flow, placed from the nearest positioned ancestor (or the page, if there isn't one) |
+| `position: sticky` | a header | `top: 0;` | Scrolls with the page, then sticks once it reaches the top |
+| `position: fixed` | a button or link | `bottom: 1rem; right: 1rem;` | Pinned to the screen, whatever you scroll |
+| `scroll-padding-top` | `html` | `scroll-padding-top: 5rem;` | Leaves room for a sticky header, so what you tab or jump to isn't hidden under it |
+| `.visually-hidden` | a `<span>` of words | `<span class="visually-hidden">Back to top</span>` | Not seen, but heard: a name for an icon-only link |
+| `aria-hidden="true"` | an icon or symbol | `<span aria-hidden="true">↑</span>` | Seen, but not heard: decoration next to real words |
+| `display: none` | | | Not seen and not heard. **Not for names:** a screen reader skips it too |
+
+## Live demo
+
+The whole class, one page: I change the HTML and CSS, you call what happens next. The sandbox is a "Now showing" poster wall for the Saturday Morning Archive's cartoon matinee. It looks fine to someone with a mouse, good eyes, and the sound up, and fails nearly everyone else: the trailer starts on its own and loops forever, with no buttons and no captions; the posters make the page jump as they load, and their captions repeat their `alt`; every "Sold out" ribbon lands in the page's corner; the sticky header hides what you tab to; and the "back to top" arrow is read as just "link". [Open the Multimedia sandbox](/sandbox/250-s10/index.html) in your browser, or download <a href="/sandbox/250-s10/250-s10.zip" download>its folder as a zip</a> to edit your own copy in VS Code. The CSS is in the `<style>` at the top; each comment says which step changes it.
+
+<div data-slides="250-s10"><p>The slides need JavaScript. Every step is in the demo script below.</p></div>
 
 <details>
-<summary>A "New" badge has <code>position: absolute; top: 0; right: 0;</code>, and the card has no <code>position</code> at all. Where does the badge go?</summary>
+<summary>Demo script</summary>
 
-To the top right corner of the page (or of the nearest positioned ancestor, if there is one), not the card. `absolute` measures from the nearest ancestor that has a `position` other than `static`. Every badge on the page piles up in the same corner. `position: relative` on the card fixes it.
+Each step says what to change, what to type, and what to look for. Save after every change (Cmd S) and look at the browser. For steps 3 and 6, open DevTools (Cmd Option I), right-click the element and choose **Inspect**, then open the **Accessibility** tab beside Styles: **Name** is what a screen reader calls it.
+
+1. **A trailer that plays itself.** Reload: the trailer starts at once, loops forever, and has no buttons, so there's no way to stop it. Replace the `<video>` tag under the step 1 comment with:
+
+   ```html
+   <video controls width="640" height="360">
+   ```
+
+   Reload: it waits. Tab to it: the browser's own play, pause, and volume buttons work with Space and the arrow keys.
+
+2. **Captions for a clip with no words.** The trailer has no speech, but it has sound, and someone who can't hear it should know that. Under the `<source>` line, add:
+
+   ```html
+   <track kind="captions" src="flower.vtt" srclang="en" label="English">
+   ```
+
+   Reload: a CC button appears in the controls. Turn it on and play: the cues from `flower.vtt` show on the picture. Open `flower.vtt` in VS Code: plain text, a start and end time, then the words.
+
+3. **Posters that make the page jump.** Inspect the first poster: it has no `width` or `height`, so the browser can't save its space until the file arrives, and on a slow connection everything below it jumps. Open the Accessibility tab: its Name is the same words as its caption, so a screen reader says them twice. Replace the first `<figure>` under the step 3 comment with:
+
+   ```html
+   <figure class="poster">
+     <img src="poster-robodog.svg" width="300" height="450"
+          alt="A robot dog leaping over a crescent moon">
+     <figcaption>Robo-Dog Rides Again · Saturday 9:00</figcaption>
+     <p class="ribbon">Sold out</p>
+   </figure>
+   ```
+
+   (The other two are already done.) Reload: the space is saved before the posters arrive, and the `alt` says what the poster shows while the caption says what and when.
+
+4. **Every ribbon in one corner.** All three "Sold out" ribbons sit in a pile at the top right of the page. They're `position: absolute`, and nothing around them is positioned, so they measure from the page. Under the step 4 comment, add:
+
+   ```css
+   .poster {
+     position: relative;
+   }
+   ```
+
+   Each ribbon jumps to its own poster's corner.
+
+5. **A sticky header that hides focus.** Zoom to 200% and press Shift Tab up from the bottom of the page: links slide under the sticky header, and the focus ring vanishes behind it. Under the step 5 comment, add:
+
+   ```css
+   html {
+     scroll-padding-top: 6rem;
+   }
+   ```
+
+   Do it again: each link stops below the header, focus ring and all.
+
+6. **An arrow that says "link".** Inspect the ↑ in the bottom corner: it's `position: fixed`, and its Name is "↑", which a screen reader reads as "upwards arrow, link", or just "link". Replace the link under the step 6 comment with:
+
+   ```html
+   <a class="to-top" href="#top">
+     <span aria-hidden="true">↑</span>
+     <span class="visually-hidden">Back to top</span>
+   </a>
+   ```
+
+   Inspect it again: Name is "Back to top", and the arrow looks the same.
 
 </details>
 
-<details>
-<summary>A background video is muted and loops forever. No sound, so no problem?</summary>
+**On your own:** in your copy of the sandbox (a few minutes each):
 
-Still a problem. Anything that moves on its own for more than five seconds needs a way to pause it (WCAG 2.2.2), because movement pulls attention away from reading, and for some people it causes dizziness or nausea. Give it `controls`, or don't loop it, and don't `autoplay`.
-
-</details>
-
-<details>
-<summary>An icon-only link's name is in a <code>&lt;span&gt;</code> with <code>display: none</code>. What does a screen reader say when it reaches the link?</summary>
-
-Just "link", or the URL read out letter by letter, because `display: none` hides the text from screen readers too. Use the `.visually-hidden` class instead, so the name is read but not shown.
-
-</details>
-
-## Try it together
-
-Pair programming, with the whole class. I drive Copilot on the projector; you navigate. After each step you read the output with me, decide whether to keep it or revise it, and say what to ask for next. Your own run comes in studio, with S10.
-
-We start from a copy of an S08 page in `try/s10/`, with MDN's free sample clip, [friday.mp4](https://developer.mozilla.org/shared-assets/videos/friday.mp4) (six seconds from the 1940 film *His Girl Friday*), saved in the same folder:
-
-```text
-Add the video friday.mp4 from this folder to the page, and put a "New" badge in the corner of each featured card.
-```
-
-Then we put it under pressure, one step at a time. Each time, the question is what *our* code does, and which line does it:
-
-- Reload the page. Does the video start on its own? Does it have controls? Is there a captions (CC) button?
-- Is each badge in its own card's corner, or are they all piled up in one corner of the page?
-- Is "New" in words, not just a colored dot? Turn on VoiceOver (Cmd + F5) for a card: does it say "New"?
-- Zoom to 200%. Does a badge cover a heading or a link?
-
-**Dig deeper:** we highlight `position: absolute` (or the `.visually-hidden` rule, if it wrote one) and run [`/dig-deeper`](/250/skills/dig-deeper/). We ask what it's measured from. Answer its predict question before the reveal.
-
-**On your own:** if you missed class or want another pass, copy your `sparks/s08-responsive/` folder to `try/s10/`, download the clip into it, run the starting prompt above, try the same pressure tests, and answer the questions in the box below.
-
-<details>
-<summary>Questions to ask your output</summary>
-
-Use these in studio on your own S10, out loud or to the agent:
-
-- Does anything play on its own when the page loads? Which attribute would make it?
-- Where do the captions come from, and could the agent have heard the clip?
-- What is each badge positioned against, and which line sets that?
-- What will a screen reader say for the badge, and for the icon link?
-- Is anything hidden with `display: none` that a screen reader needs?
-
-**Watch for:** `autoplay` (often with `muted` and `loop`), or no `controls`; no captions track at all. Or, when asked for captions, a `.vtt` file of words the agent made up: it can't hear the clip; badges with `position: absolute` and no `position: relative` on the card, so they all land in one corner of the page; a badge that's only a colored dot, or the word "New" hidden with `display: none` "for screen readers."; no `width` and `height` on the video, so the page jumps as it loads.
-
-</details>
+- Move every "Sold out" ribbon to the bottom left of its poster. Which two properties change?
+- Change the header from `sticky` to `fixed`. What happens to the "Now showing" heading under it, and why?
+- Turn the third poster into a link to the show's page, with no words but the poster. What should its `alt` say now?
 
 ## Links
 
-- MDN: [Video and audio content (Learn)](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/HTML_video_and_audio), [`<img>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/img), [`<figure>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/figure), [`<video>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/video), [`<track>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/track), [WebVTT format](https://developer.mozilla.org/en-US/docs/Web/API/WebVTT_API/Web_Video_Text_Tracks_Format), [`<iframe>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/iframe), [`position`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/position), [`z-index`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/z-index), [`aria-hidden`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-hidden)
+- MDN: [Video and audio content (Learn)](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/HTML_video_and_audio), [`<img>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/img), [`<figure>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/figure), [`<video>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/video), [`<track>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/track), [WebVTT format](https://developer.mozilla.org/en-US/docs/Web/API/WebVTT_API/Web_Video_Text_Tracks_Format), [`<iframe>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/iframe), [`position`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/position), [`z-index`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/z-index), [`scroll-padding-top`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/scroll-padding-top), [`aria-hidden`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-hidden)
 - WCAG: [Understanding 1.1.1 Non-text Content](https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html), [Understanding 1.2.2 Captions (Prerecorded)](https://www.w3.org/WAI/WCAG22/Understanding/captions-prerecorded.html), [Understanding 1.4.2 Audio Control](https://www.w3.org/WAI/WCAG22/Understanding/audio-control.html), [Understanding 2.2.2 Pause, Stop, Hide](https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html), [Understanding 2.4.11 Focus Not Obscured (Minimum)](https://www.w3.org/WAI/WCAG22/Understanding/focus-not-obscured-minimum.html)
 - W3C: [An alt decision tree](https://www.w3.org/WAI/tutorials/images/decision-tree/); WebAIM: [Invisible content just for screen reader users](https://webaim.org/techniques/css/invisiblecontent/)
+- Dig deeper: when you start S10, highlight `position: absolute` (or your `.visually-hidden` rule) in your own page and run [`/dig-deeper`](/250/skills/dig-deeper/). Ask what it's measured from, and answer its predict question before the reveal.

@@ -11,7 +11,8 @@
 // Previews: a 250 step folder is its own page (steps/NN/<file>). A 340 step is built once in
 // prep by dight-refactor/tools/slides (`npm run previews -- 340-sNN`) into slides/preview/NN/.
 // `preview: false` on a step (a compile error shown on purpose) means no preview. `show: <selector>`
-// scrolls the preview to the part the step changes.
+// scrolls the preview to the part the step changes. `page:` previews another page in the step
+// (250: a file in the folder; 340: a path under the built preview, such as berries/index.html).
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { createHighlighter, createCssVariablesTheme } from 'shiki';
@@ -67,7 +68,7 @@ export async function buildDecks(sandboxRoot) {
           ? null
           : course === '250'
             ? `steps/${step}/${s.page ?? s.file}`
-            : `preview/${step}/index.html`;
+            : `preview/${step}/${s.page ?? 'index.html'}`;
       steps.push({
         title: s.title,
         look: s.look,

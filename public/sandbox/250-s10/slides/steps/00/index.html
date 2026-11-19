@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multimedia sandbox · DIGHT 250</title>
+<!--
+  Code slides step 00 for the Multimedia unit (session 10 experiment 1: the whole page after
+  demo step 0). Generated with the sandbox; the slide shows the region between slide: markers.
+-->
+<style>
+  /* ============ Your CSS goes here (demo steps in the unit page) ============ */
+  /* slide:css */
+  /* Step 4: what the ribbons measure from */
+
+  /* Step 5: room for the sticky header */
+  /* /slide:css */
+
+  /* ============ Look and feel only below this line ============ */
+
+  * { box-sizing: border-box; }
+
+  body {
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 0 1rem 4rem;
+    font: 1.125rem/1.5 system-ui, sans-serif;
+    color: #111;
+    background: #fafafa;
+  }
+
+  /* The sticky header (step 5 is about what it hides) */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding: 0.75rem 1rem;
+    border: 3px solid #333;
+    border-top: 0;
+    border-radius: 0 0 0.5rem 0.5rem;
+    background: #dbe8ff;
+  }
+  header p { margin: 0; font-weight: 700; font-size: 1.25rem; }
+  header ul { display: flex; flex-wrap: wrap; gap: 0 1rem; margin: 0; padding: 0; list-style: none; }
+
+  main section { margin-block: 1.5rem; }
+  h1, h2 { line-height: 1.2; }
+
+  a { color: #1d3f8f; }
+  a:focus-visible { outline: 3px solid #b3261e; outline-offset: 2px; }
+
+  video, img { display: block; max-width: 100%; height: auto; background: #ddd; }
+
+  .posters {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    gap: 1rem;
+  }
+  .poster { margin: 0; padding: 0.5rem; border: 3px solid #333; border-radius: 0.5rem; background: #fff; }
+  .poster figcaption { margin-block-start: 0.5rem; font-weight: 700; }
+
+  /* The ribbons are absolute from the start; step 4 gives them something to measure from */
+  .ribbon {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    margin: 0;
+    padding: 0.2rem 0.6rem;
+    border: 2px solid #111;
+    border-radius: 0.3rem;
+    background: #ffd23f;
+    font-weight: 800;
+  }
+
+  /* The "back to top" link, pinned to the corner of the screen */
+  .to-top {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    padding: 0.4rem 0.8rem;
+    border: 3px solid #333;
+    border-radius: 0.5rem;
+    background: #fff;
+    font-size: 1.5rem;
+    text-decoration: none;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>
+</head>
+<body>
+<header>
+  <p>Saturday Morning Archive</p>
+  <nav aria-label="Archive">
+    <ul>
+      <li><a href="#trailer">Trailer</a></li>
+      <li><a href="#posters">Now showing</a></li>
+      <li><a href="#visit">Visit</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+<h1>Cartoon matinee</h1>
+<p>Three Saturday-morning shows on the big screen, one after another, with cereal at the interval.</p>
+
+<section id="trailer">
+<h2>The trailer</h2>
+<!-- Step 1: the video tag. Step 2: the captions track goes under <source>. -->
+<!-- slide:trailer -->
+<video autoplay muted loop>
+  <source src="https://developer.mozilla.org/shared-assets/videos/flower.mp4" type="video/mp4">
+</video>
+<!-- /slide:trailer -->
+</section>
+
+<section id="posters">
+<h2>Now showing</h2>
+<!-- Step 3: the first poster. Step 4 (CSS): the ribbons. -->
+<div class="posters">
+<!-- slide:posters -->
+<figure class="poster">
+  <img src="poster-robodog.svg"
+       alt="Robo-Dog Rides Again · Saturday 9:00">
+  <figcaption>Robo-Dog Rides Again · Saturday 9:00</figcaption>
+  <p class="ribbon">Sold out</p>
+</figure>
+<!-- /slide:posters -->
+<figure class="poster">
+  <img src="poster-comet.svg" width="300" height="450"
+       alt="A comet streaking across a purple night sky">
+  <figcaption>Captain Comet · Saturday 10:00</figcaption>
+  <p class="ribbon">Sold out</p>
+</figure>
+<figure class="poster">
+  <img src="poster-pirates.svg" width="300" height="450"
+       alt="A little pirate ship sailing a puddle">
+  <figcaption>The Puddle Pirates · Saturday 11:00</figcaption>
+  <p class="ribbon">Sold out</p>
+</figure>
+</div>
+</section>
+
+<section id="visit">
+<h2>Visit</h2>
+<!-- Step 5 (CSS): Shift Tab up through these links at 200% zoom. -->
+<p>Doors open at 8:30. The archive is on the second floor of the <a href="#visit">Harris Building</a>, with a <a href="#visit">lift by the main stairs</a>.</p>
+<p>Every screening has captions on the big screen. <a href="#visit">Ask us about seating</a> or <a href="#visit">quiet-room times</a>.</p>
+<p>Can't make it? <a href="#visit">Join the mailing list</a> for the next matinee, or <a href="#visit">borrow a tape</a> to watch at home.</p>
+<p>Cereal is free. Bring your own bowl, or <a href="#visit">borrow one of ours</a>.</p>
+</section>
+</main>
+
+<!-- Step 6: the "back to top" link. -->
+<!-- slide:totop -->
+<a class="to-top" href="#top">↑</a>
+<!-- /slide:totop -->
+</body>
+</html>

@@ -1,0 +1,53 @@
+# Code slides for the 250 Multimedia Live demo (session 10 experiment 1, Nov 19).
+# Each step folder is the whole page after that demo step; the slide shows the region between
+# its slide:<name> markers. The course site's `npm run sync` turns this into slides.json.
+title: Now showing
+steps:
+  - step: 0
+    file: index.html
+    region: trailer
+    lang: html
+    show: "#trailer"
+    title: The starting page
+    look: The trailer plays on its own and loops, with no buttons and no captions. Every "Sold out" ribbon is piled in the page's corner.
+  - step: 1
+    file: index.html
+    region: trailer
+    lang: html
+    show: "#trailer"
+    title: A trailer that plays itself
+    look: Reload and it waits. Tab to it, and the browser's own buttons work with Space and the arrow keys.
+  - step: 2
+    file: index.html
+    region: trailer
+    lang: html
+    show: "#trailer"
+    title: Captions for a clip with no words
+    look: A CC button appears in the controls. Turn it on and play, and the cues from flower.vtt show on the picture.
+  - step: 3
+    file: index.html
+    region: posters
+    lang: html
+    show: "#posters"
+    title: Posters that make the page jump
+    look: The browser can save the poster's space before it arrives. The alt says what it shows, and the caption says what and when.
+  - step: 4
+    file: index.html
+    region: css
+    lang: css
+    show: "#posters"
+    title: Every ribbon in one corner
+    look: Each "Sold out" ribbon jumps to its own poster's corner.
+  - step: 5
+    file: index.html
+    region: css
+    lang: css
+    show: "#visit"
+    title: A sticky header that hides focus
+    look: At 200%, Shift Tab up the page. Each link stops below the header, focus ring and all.
+  - step: 6
+    file: index.html
+    region: totop
+    lang: html
+    title: An arrow that says "link"
+    look: Inspect the arrow. Its Name is "Back to top", and it looks the same.

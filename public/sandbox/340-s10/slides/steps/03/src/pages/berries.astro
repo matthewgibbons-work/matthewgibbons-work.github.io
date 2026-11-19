@@ -1,0 +1,15 @@
+---
+// slide:file
+import Base from '../layouts/Base.astro';
+
+const response = await fetch('https://pokeapi.co/api/v2/berry?limit=12');
+if (!response.ok) throw new Error(`PokéAPI answered ${response.status}`);
+const { results: berries } = await response.json();
+---
+<Base title="Berries">
+  <h1>Berries</h1>
+  <ul>
+    {berries.map((berry) => <li>{berry.name}</li>)}
+  </ul>
+</Base>
+<!-- /slide:file -->

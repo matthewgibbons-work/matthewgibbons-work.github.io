@@ -52,7 +52,7 @@
 - name: Multimedia and positioning
   session: 10
   unit: multimedia
-  summary: Add an image, a video with captions you write, a positioned badge, and a named icon link.
+  summary: Fix a clip page with a captioned video that waits for you, a badge on its own card, and an icon link a screen reader can name.
 - name: Modern CSS
   session: 11
   unit: modern-css

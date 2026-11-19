@@ -1,0 +1,60 @@
+# Code slides for the 340 Astro intro Live demo (session 10 experiment 1, Nov 19). There's no
+# Playground for Astro, so the slides are the demo. Each step folder is the whole Astro project
+# after that demo step (no package.json: tools/slides builds it). Build the previews after any change:
+#   cd tools/slides && npm run previews -- 340-s10
+# Build-time fetches (PokéAPI /berry) run then, not in class. The course site's `npm run sync`
+# turns this into slides.json.
+title: Berry guide
+steps:
+  - step: "00"
+    file: src/pages/berries.astro
+    region: file
+    lang: astro
+    page: berries/index.html
+    title: The starting site
+    look: Each page is a whole HTML document with its own copy of the nav. The berry list arrives from a script in the browser, behind "Loading…".
+  - step: "01"
+    file: src/layouts/Base.astro
+    region: file
+    lang: astro
+    title: One layout
+    look: The <html>, <head>, labelled nav, and <main> are written once. The page's own content goes where it says <slot />.
+  - step: "01"
+    file: src/pages/index.astro
+    region: file
+    lang: astro
+    title: The home page uses it
+    look: The home page shrinks to its own content. The preview looks the same, and the nav now comes from the layout.
+  - step: "02"
+    file: src/pages/berries.astro
+    region: file
+    lang: astro
+    page: berries/index.html
+    title: The second page, with no copying
+    look: Berries uses the same layout, with its own title. There's one nav for the whole site.
+  - step: "03"
+    file: src/pages/berries.astro
+    region: file
+    lang: astro
+    page: berries/index.html
+    title: Fetch once, at build time
+    look: The fetch moves above the fence, with a response.ok check. No "Loading…", because the names are in the HTML when it arrives.
+  - step: "04"
+    file: src/lib/url.js
+    region: file
+    lang: javascript
+    title: A helper for the base path
+    look: url('berries/') puts the site's base in front of the path, whatever the base is.
+  - step: "04"
+    file: src/layouts/Base.astro
+    region: file
+    lang: astro
+    title: Every link through BASE_URL
+    look: Click Berries in the preview. Until now that link went to the root of the server, but now it stays inside this site.
+  - step: "04"
+    file: src/pages/berries.astro
+    region: file
+    lang: astro
+    page: berries/index.html
+    title: JavaScript off, View Source
+    look: View Source shows all twelve names and no <script>. Turn JavaScript off and reload, and the page still reads.
