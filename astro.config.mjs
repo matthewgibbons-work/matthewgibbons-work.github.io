@@ -7,7 +7,8 @@ export default defineConfig({
   site: 'https://matthewgibbons-work.github.io',
   // Links with or without a trailing slash both work; Pages serves both forms.
   trailingSlash: 'ignore',
-  // No Shiki: code blocks use the site's own contrast-checked colours.
+  // No Shiki for code blocks: they use the site's own contrast-checked colours. (Code slides
+  // are highlighted at sync time by scripts/decks.mjs, with a theme built from those colours.)
   markdown: { syntaxHighlight: false },
   // Keep source whitespace: compression drops the space before an inline tag
   // that starts a new line ("Write it\n<em>before</em>" → "Write it<em>before</em>").

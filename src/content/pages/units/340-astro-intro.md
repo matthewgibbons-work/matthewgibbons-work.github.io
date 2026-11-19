@@ -17,13 +17,13 @@ Astro runs your components once, when the site is built, and ships plain HTML: t
 
 ## How it works
 
-**Pages are files.** `src/pages/index.astro` is the home page and `src/pages/pokedex.astro` is `/pokedex/`. That's **file-based routing**: no router to set up.
+**Pages are files.** `src/pages/index.astro` is the home page and `src/pages/first-twelve.astro` is `/first-twelve/`. That's **file-based routing**: no router to set up.
 
 **Build time.** An `.astro` file has two parts. Between the `---` fences at the top is the **frontmatter**, JavaScript that runs at build time on your computer or on GitHub, never in the visitor's browser. It can import components and even `await fetch(…)` PokéAPI. Below the fences is the template, HTML with `{expressions}`, and the build turns it into a finished `.html` file with no JavaScript at all, unless you ask for some (that's islands, on Dec 2).
 
 **Layouts.** A layout wraps every page: the `<html>`, the `<head>`, the landmarks, the nav. It puts the page's own content where it says `<slot />`. Write the nav once, mark the current page with `aria-current="page"`, and every page gets it right.
 
-**The base path.** Your site lives at `/dight340/sparks/astro-practice/` (and your Final Project at `/dight340/final-project/`), not the root of `github.io`, so `href="/pokedex/"` 404s. Every internal link goes through `import.meta.env.BASE_URL`, which the deploy workflow sets for you. A three-line helper keeps it tidy:
+**The base path.** Your site lives at `/dight340/sparks/astro-practice/` (and your Final Project at `/dight340/final-project/`), not the root of `github.io`, so `href="/first-twelve/"` 404s. Every internal link goes through `import.meta.env.BASE_URL`, which the deploy workflow sets for you. A three-line helper keeps it tidy:
 
 ```js
 // src/lib/url.js
@@ -31,7 +31,7 @@ export const url = (path = '') =>
   `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${path.replace(/^\//, '')}`;
 ```
 
-Then `<a href={url('pokedex/')}>` works at `/` in `npm run dev` and at `/dight340/sparks/astro-practice/` on GitHub Pages.
+Then `<a href={url('first-twelve/')}>` works at `/` in `npm run dev` and at `/dight340/sparks/astro-practice/` on GitHub Pages.
 
 **The kit update.** The deploy workflow now builds any folder with an Astro config (your practice site, then `final-project/`) as an Astro site with the right base. And Claude switches from the **Learning** output style to **Explanatory**: it stops leaving `TODO(human)` gaps and explains its choices as it goes (look for `★ Insight`). Your job is reading every explanation and deciding.
 
@@ -88,20 +88,20 @@ Then `<a href={url('pokedex/')}>` works at `/` in `npm run dev` and at `/dight34
 ## Predict, then reveal
 
 ```astro
-<a href="/pokedex/">Pokédex</a>
+<a href="/first-twelve/">First twelve</a>
 ```
 
 <details>
 <summary>This link is in your practice site's nav. It works in <code>npm run dev</code>. Where does it go on GitHub Pages?</summary>
 
-To `https://<username>.github.io/pokedex/`: the root of *all* your Pages sites, not your site. That's a 404, or someone else's page if you have a repo called `pokedex`. In dev the site lives at `/`, so the mistake hides until you deploy. Write it as `href={url('pokedex/')}`, which becomes `/dight340/final-project/pokedex/` once the workflow sets the base. The template's own `href="/favicon.svg"` has the same bug.
+To `https://<username>.github.io/first-twelve/`: the root of *all* your Pages sites, not your site. That's a 404, or someone else's page if you have a repo called `first-twelve`. In dev the site lives at `/`, so the mistake hides until you deploy. Write it as `href={url('first-twelve/')}`, which becomes `/dight340/final-project/first-twelve/` once the workflow sets the base. The template's own `href="/favicon.svg"` has the same bug.
 
 </details>
 
 <details>
-<summary>Your Pokédex page's frontmatter does <code>await fetch('https://pokeapi.co/api/v2/pokemon?limit=12')</code>. A hundred people open the page. How many times does that fetch run?</summary>
+<summary>Your First twelve page's frontmatter does <code>await fetch('https://pokeapi.co/api/v2/pokemon?limit=12')</code>. A hundred people open the page. How many times does that fetch run?</summary>
 
-None of those hundred times. It ran once, when GitHub built the site, and the 12 names are already in the HTML they download. That's why View Source shows the names and no `<script>`, and why the page works with JavaScript off. It also means the list only changes when the site is rebuilt: fine for a Pokédex, wrong for anything that has to be live (that's what islands are for).
+None of those hundred times. It ran once, when GitHub built the site, and the 12 names are already in the HTML they download. That's why View Source shows the names and no `<script>`, and why the page works with JavaScript off. It also means the list only changes when the site is rebuilt: fine for a list of Pokémon, wrong for anything that has to be live (that's what islands are for).
 
 </details>
 
@@ -112,17 +112,17 @@ Pair programming, with the whole class, after the kit update (in a **new** sessi
 We start here, in plan mode:
 
 ```text
-In try/s10/, create an Astro site with the minimal template (no git repository of its own). Add a shared layout with a nav, a home page, and a Pokédex page that lists the first 12 Pokémon from PokéAPI at build time. The site will be served from /dight340/sparks/astro-practice/, so every internal link must work under that base.
+In try/s10/, create an Astro site with the minimal template (no git repository of its own). Add a shared layout with a nav, a home page, and a "First twelve" page that lists the first 12 Pokémon from PokéAPI at build time. The site will be served from /dight340/sparks/astro-practice/, so every internal link must work under that base.
 ```
 
 Then we put it under pressure, one step at a time. Each time, the question is what *our* code does, and which line does it:
 
 - **Hunt for slashes.** Search the project for `href="/` and `src="/`. Does every internal link go through `BASE_URL`?
-- **View Source** on the Pokédex page (in the browser, not DevTools). Are the 12 names in the HTML? Is there any `<script>`?
+- **View Source** on the First twelve page (in the browser, not DevTools). Are the 12 names in the HTML? Is there any `<script>`?
 - **Turn JavaScript off** (DevTools → Command menu, Cmd+Shift+P → "Disable JavaScript"), and reload. Does everything still work?
 - **Find the landmarks and the nav.** One `<main>`, a labelled `<nav>`, and `aria-current="page"` on the current link?
 
-**Dig deeper:** we run [`/dig-deeper`](/340/skills/dig-deeper/) on the `await fetch` line in the Pokédex page's frontmatter. Answer its predict question before the reveal.
+**Dig deeper:** we run [`/dig-deeper`](/340/skills/dig-deeper/) on the `await fetch` line in the First twelve page's frontmatter. Answer its predict question before the reveal.
 
 **On your own:** if you missed class or want another pass, do the kit update (S10, step 0), open a new session, run the starting prompt above, try the same four pressure tests, and answer the questions in the box below.
 
@@ -137,7 +137,7 @@ Use these in studio on your own S10, out loud or to Claude:
 - What happens to the build if PokéAPI answers with an error? Which line checks?
 - Which element marks the current page in the nav?
 
-**Watch for:** root-relative links (`href="/pokedex/"`) that work in dev and 404 on Pages, including the template's own favicon link; a `base` hard-coded in `astro.config.mjs` (the workflow passes it); the fetch in a `<script>` tag, so it runs in every visitor's browser; no `response.ok` check, so a PokéAPI hiccup builds a page of "undefined"; no `aria-current`, or a nav that isn't in a `<nav>`.
+**Watch for:** root-relative links (`href="/first-twelve/"`) that work in dev and 404 on Pages, including the template's own favicon link; a `base` hard-coded in `astro.config.mjs` (the workflow passes it); the fetch in a `<script>` tag, so it runs in every visitor's browser; no `response.ok` check, so a PokéAPI hiccup builds a page of "undefined"; no `aria-current`, or a nav that isn't in a `<nav>`.
 
 </details>
 

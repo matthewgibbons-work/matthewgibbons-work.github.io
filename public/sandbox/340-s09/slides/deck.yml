@@ -1,0 +1,79 @@
+# Code slides for the 340 Svelte forms Live demo (session 10 experiment 1, trial deck, Nov 18).
+# Each step folder is the whole app after that demo step. Build the previews after any change:
+#   cd tools/slides && npm run previews -- 340-s09
+# The course site's `npm run sync` turns this into slides.json.
+title: Reading room settings
+steps:
+  - step: "00"
+    file: App.svelte
+    region: form
+    lang: svelte
+    title: The starting form
+    look: No bindings, two boxes named by a plain <span>, and no submit handler. The diary page reads the saved settings.
+  - step: "01"
+    file: App.svelte
+    region: form
+    lang: svelte
+    show: "#name"
+    title: Bind the box to the state
+    look: Type in Display name. The Preview line follows every key.
+  - step: "02"
+    file: App.svelte
+    region: form
+    lang: svelte
+    show: "fieldset"
+    title: Radio buttons and a checkbox
+    look: Click Large and the preview says "large text". Tick the box and it says "transcription on". The diary page doesn't change yet.
+  - step: "03"
+    file: App.svelte
+    region: form
+    lang: svelte
+    show: "#goal"
+    title: Labels for the two boxes
+    look: Click "Daily reading goal" and the cursor jumps into its box. The preview says "20 pages a day", a number, not text.
+  - step: "04"
+    file: App.svelte
+    region: script
+    lang: svelte
+    show: "#goal"
+    title: Handle the submit (the script)
+    look: save() stops the browser leaving the page, checks the goal, and only then copies the form into settings.
+  - step: "04"
+    file: App.svelte
+    region: form
+    lang: svelte
+    show: "#goal"
+    title: Handle the submit (the form)
+    look: Type 500 and press Enter for "Pick a goal from 1 to 200 pages." Type 25, choose Extra large, and Save. The diary page grows.
+  - step: "05"
+    file: App.svelte
+    region: form
+    lang: svelte
+    show: "#goal"
+    title: Tie the error to the box (the form)
+    look: The goal box says it's invalid and points at the message's id.
+  - step: "05"
+    file: App.svelte
+    region: script
+    lang: svelte
+    title: Put focus back (the script)
+    look: Type 500, click Save with the mouse, and the cursor is back in the goal box, which now has a red border.
+  - step: "06a"
+    file: settings.svelte.js
+    region: module
+    lang: javascript
+    title: Share the settings with a module
+    look: 'Error compiling settings.svelte.js: "Cannot export state from a module if it is reassigned" (state_invalid_export).'
+    preview: false
+  - step: "06b"
+    file: settings.svelte.js
+    region: module
+    lang: javascript
+    title: Export it as a const
+    look: Delete reset and change export let to export const, and the app is back. App.svelte now imports settings.
+  - step: "06c"
+    file: Greeting.svelte
+    region: greeting
+    lang: svelte
+    title: A second component reads the same settings
+    look: Type Ada, set a goal of 30, and Save. The greeting changes too, with no prop passed.

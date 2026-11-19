@@ -5,6 +5,7 @@
 import { render } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import AssignmentBar from './AssignmentBar.astro';
+import CodeSlides from './CodeSlides.astro';
 import CopyButton from './CopyButton.astro';
 import DraftBanner from './DraftBanner.astro';
 import PageMeta from './PageMeta.astro';
@@ -53,4 +54,5 @@ const spark = sparkPage && { href: pageHref(sparkPage), title: sparkPage.data.ti
   </MarkdownBody>
   {kind === 'unit' && page.data.sticky_assignments && <AssignmentBar {page} {course} />}
   <SessionPanel {page} {course} />
+  {page.body?.includes('data-slides=') && <CodeSlides />}
 </Base>

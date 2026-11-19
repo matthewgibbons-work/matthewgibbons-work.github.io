@@ -1,0 +1,52 @@
+# Code slides for the 250 Forms Live demo (session 10 experiment 1, trial deck, Nov 18).
+# Each step folder is the whole page after that demo step; the slide shows the region between
+# its slide:<name> markers. The course site's `npm run sync` turns this into slides.json.
+title: Lend us a tape
+steps:
+  - step: 0
+    file: index.html
+    region: form
+    lang: html
+    title: The starting form
+    look: Field names are plain text, every box is type="text", two groups each have a "Date", and the form goes nowhere.
+  - step: 1
+    file: index.html
+    region: form
+    lang: html
+    show: "#phone"
+    title: Text that only looks like a label
+    look: Click "Phone" and the cursor jumps into its box. In the Accessibility tab, its Name is now "Phone".
+  - step: 2
+    file: index.html
+    region: form
+    lang: html
+    show: "#year"
+    title: The right field for the answer
+    look: Type 2005 in the year and press Send. The browser stops there and says it must be 1999 or earlier.
+  - step: 3
+    file: index.html
+    region: form
+    lang: html
+    show: "#pickup-date"
+    title: Two fields called "Date"
+    look: Each pair sits in a box with its question in the border. A screen reader says "Pick-up, group" as you enter it.
+  - step: 4
+    file: index.html
+    region: css
+    lang: css
+    show: "#year"
+    title: Red before anyone's typed
+    look: Reload and nothing is red. Type 2005 in the year and click away, and only the year turns red.
+  - step: 5
+    file: index.html
+    region: form
+    lang: html
+    show: "#year"
+    title: Tie the hint to its field
+    look: Inspect the year box. The Accessibility tab shows Description, "Any year from 1970 to 1999."
+  - step: 6
+    file: index.html
+    region: form
+    lang: html
+    title: Where does it go?
+    look: Send it and the thank-you page loads. Everything you typed is in the address bar, phone number included.

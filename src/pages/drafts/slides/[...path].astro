@@ -1,0 +1,24 @@
+---
+// /drafts/slides/: the code-slides trial decks (session 10 experiment 1, Nov 18). Dev only, like
+// /drafts/: production builds no path for it. The S09 decks are built from the taught S09 Live
+// demos to prove the tool; they're not added to the S09 unit pages (no backfilling).
+import Base from '../../../layouts/Base.astro';
+import CodeSlides from '../../../components/CodeSlides.astro';
+
+export function getStaticPaths() {
+  return import.meta.env.DEV ? [{ params: { path: undefined } }] : [];
+}
+---
+
+<Base title="Code slides trial" description="Dev only: the code-slides trial decks.">
+  <h1>Code slides trial</h1>
+  <p class="lede">Dev only. Two decks built from the S09 Live demos.</p>
+
+  <h2>DIGHT 250 · Forms: Lend us a tape</h2>
+  <div data-slides="250-s09"><p>The slides didn't load. Run <code>npm run sync</code>.</p></div>
+
+  <h2>DIGHT 340 · Svelte forms: Reading room settings</h2>
+  <div data-slides="340-s09"><p>The slides didn't load. Run <code>npm run sync</code>.</p></div>
+
+  <CodeSlides />
+</Base>

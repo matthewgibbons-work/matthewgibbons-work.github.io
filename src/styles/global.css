@@ -523,3 +523,166 @@ main :is(p, li, dt, dd, blockquote, summary) {
   color: var(--muted);
   font-size: 0.95rem;
 }
+
+/* ==========================================================================
+   Code slides (CodeSlides.astro, session 10 experiment 1, Nov 18). The code colours are
+   the site's palette, each 4.5:1 or better on --surface in both modes (dark 5.4–13.9:1,
+   light 5.0–18.8:1). scripts/decks.mjs highlights with a theme that points at these.
+   ========================================================================== */
+
+:root {
+  --code-foreground: var(--text);
+  --code-background: var(--surface);
+  --code-token-keyword: var(--pink);
+  --code-token-string: var(--green);
+  --code-token-string-expression: var(--teal);
+  --code-token-comment: var(--muted);
+  --code-token-constant: var(--yellow);
+  --code-token-function: var(--blue);
+  --code-token-parameter: var(--text);
+  --code-token-punctuation: var(--muted);
+  --code-token-link: var(--teal);
+  --code-token-inserted: var(--green);
+  --code-token-deleted: var(--red);
+  --code-token-changed: var(--blue);
+}
+
+.slides {
+  margin: 0 0 1.5rem;
+  padding: 1rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.slides-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+
+.slides-count {
+  margin: 0;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.slides-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.slides-buttons button {
+  font: inherit;
+  font-weight: 700;
+  min-block-size: 2.75rem;
+  padding: 0.5rem 1.25rem;
+  color: var(--bg);
+  background: var(--teal);
+  border: 2px solid var(--teal);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.slides-buttons button:hover:not(:disabled) {
+  background: var(--text);
+  border-color: var(--text);
+}
+
+.slides-buttons button:disabled {
+  color: var(--muted);
+  background: transparent;
+  border-color: var(--border);
+  cursor: default;
+}
+
+.slides-title {
+  margin: 0.75rem 0;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  line-height: 1.3;
+}
+
+.slides-stage {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 60rem) {
+  .slides-stage {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  }
+}
+
+.slides-code {
+  position: relative;
+  contain: paint; /* tokens leaving mid-animation stay inside the panel */
+  max-block-size: 30rem;
+  overflow: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.slides-pre {
+  margin: 0;
+  padding: 1rem;
+  border: 0;
+  line-height: 1.5;
+  overflow: visible;
+}
+
+.slides-view {
+  min-block-size: 20rem;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.slides-frame {
+  display: block;
+  inline-size: 100%;
+  block-size: 30rem;
+  border: 0;
+}
+
+.slides-frame[hidden],
+.slides-none[hidden] {
+  display: none;
+}
+
+.slides-none {
+  margin: 0;
+  padding: 1rem;
+  color: #3d4560;
+}
+
+.slides-look {
+  margin: 0.75rem 0 0;
+}
+
+/* Projected: the slides fill the screen, code and preview get the height. */
+.slides:fullscreen {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  font-size: 1.25rem;
+  overflow: auto;
+}
+
+.slides:fullscreen .slides-stage {
+  flex: 1;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+}
+
+.slides:fullscreen .slides-code {
+  max-block-size: none;
+}
+
+.slides:fullscreen .slides-frame {
+  block-size: 100%;
+}

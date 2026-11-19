@@ -25,20 +25,20 @@ An island is one interactive component in a page of static HTML: without a `clie
 
 Everything else on the page stays plain HTML, so a page with one small island ships one small script.
 
-**Two places for data.** **At build time**, in the page's frontmatter: the same for every visitor, fetched once (a Pokédex list). **In the browser**, inside the island: data that depends on what this person does (look up the name they typed). The page passes build-time data to the island as **props**, and only data crosses: strings, numbers, arrays, plain objects. A function passed from an `.astro` page arrives as `null`, with no warning; callbacks between Svelte components *inside* the island work as before.
+**Two places for data.** **At build time**, in the page's frontmatter: the same for every visitor, fetched once (a list of Pokémon). **In the browser**, inside the island: data that depends on what this person does (look up the name they typed). The page passes build-time data to the island as **props**, and only data crosses: strings, numbers, arrays, plain objects. A function passed from an `.astro` page arrives as `null`, with no warning; callbacks between Svelte components *inside* the island work as before.
 
 **Hydration and transitions.** There's a moment between the HTML appearing and the island waking up when a button looks ready but does nothing; keep islands small, and use `client:load` for anything people reach for first. `<ClientRouter />` from `astro:transitions`, in your layout's `<head>`, animates between pages instead of reloading. It turns its animations off for anyone whose system asks for reduced motion, and an island starts fresh on each page unless you give it `transition:persist`.
 
 <figure class="diagram">
 <svg class="d-wide" viewBox="0 0 640 230" role="img" aria-labelledby="island-wide-title">
-<title id="island-wide-title">A page that is mostly static HTML: a header and nav, a Pokédex list fetched at build time, and a notes link, none of which send JavaScript. One region, the team planner, is a Svelte island with client:visible; it receives the Pokémon names as props from the page, sends its own JavaScript, and fetches more data in the browser when the person adds a Pokémon.</title>
+<title id="island-wide-title">A page that is mostly static HTML: a header and nav, a list of Pokémon fetched at build time, and a notes link, none of which send JavaScript. One region, the team planner, is a Svelte island with client:visible; it receives the Pokémon names as props from the page, sends its own JavaScript, and fetches more data in the browser when the person adds a Pokémon.</title>
 <defs><marker id="arrow-wide" viewBox="0 0 8 8" refX="8" refY="4" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="d-arrow" d="M0,0 L8,4 L0,8 z" /></marker></defs>
 <rect class="d-box" x="150" y="8" width="320" height="214" rx="8" />
-<text class="d-muted" x="160" y="28">pokedex.astro, as the browser gets it</text>
+<text class="d-muted" x="160" y="28">first-twelve.astro, as the browser gets it</text>
 <rect class="d-box" x="166" y="40" width="288" height="34" rx="4" />
 <text x="310" y="62" text-anchor="middle">Header and nav: HTML only</text>
 <rect class="d-box" x="166" y="82" width="288" height="44" rx="4" />
-<text x="310" y="102" text-anchor="middle">Pokédex list: HTML only</text>
+<text x="310" y="102" text-anchor="middle">Pokémon list: HTML only</text>
 <text class="d-muted" x="310" y="119" text-anchor="middle">fetched once, at build time</text>
 <rect class="d-key" x="166" y="134" width="288" height="78" rx="4" />
 <text x="310" y="156" text-anchor="middle">Team planner: a Svelte island</text>
@@ -55,13 +55,13 @@ Everything else on the page stays plain HTML, so a page with one small island sh
 <text class="d-muted" x="504" y="184">when you add one</text>
 </svg>
 <svg class="d-narrow" viewBox="0 0 300 330" role="img" aria-labelledby="island-narrow-title">
-<title id="island-narrow-title">A page that is mostly static HTML: a header and nav, a Pokédex list fetched at build time, and a notes link, none of which send JavaScript. One region, the team planner, is a Svelte island with client:visible; it receives the Pokémon names as props from the page, sends its own JavaScript, and fetches more data in the browser when the person adds a Pokémon.</title>
+<title id="island-narrow-title">A page that is mostly static HTML: a header and nav, a list of Pokémon fetched at build time, and a notes link, none of which send JavaScript. One region, the team planner, is a Svelte island with client:visible; it receives the Pokémon names as props from the page, sends its own JavaScript, and fetches more data in the browser when the person adds a Pokémon.</title>
 <rect class="d-box" x="4" y="4" width="292" height="320" rx="8" />
 <text class="d-muted" x="14" y="24">the page, as the browser gets it</text>
 <rect class="d-box" x="16" y="36" width="268" height="36" rx="4" />
 <text x="150" y="59" text-anchor="middle">Header, nav: HTML only</text>
 <rect class="d-box" x="16" y="80" width="268" height="60" rx="4" />
-<text x="150" y="104" text-anchor="middle">Pokédex list: HTML only</text>
+<text x="150" y="104" text-anchor="middle">Pokémon list: HTML only</text>
 <text class="d-muted" x="150" y="126" text-anchor="middle">fetched at build time</text>
 <rect class="d-key" x="16" y="148" width="268" height="164" rx="4" />
 <text x="150" y="172" text-anchor="middle">Team planner island</text>
@@ -104,7 +104,7 @@ Pair programming, with the whole class. I drive Claude Code on the projector; yo
 We start from a copy of `sparks/astro-practice/` in `try/s12/` (without `node_modules`; then `npm install` there), in plan mode:
 
 ```text
-In try/s12/, add Svelte to the Astro site. On the Pokédex page, under the build-time list, add my P3 party builder (or P4 team planner) as an island. Pass it the Pokémon names from the page's frontmatter as a prop, keep its own PokéAPI lookups in the browser, and pick a client: directive. Explain the choice.
+In try/s12/, add Svelte to the Astro site. On the First twelve page, under the build-time list, add my P3 party builder (or P4 team planner) as an island. Pass it the Pokémon names from the page's frontmatter as a prop, keep its own PokéAPI lookups in the browser, and pick a client: directive. Explain the choice.
 ```
 
 Then we put it under pressure, one step at a time. Each time, the question is what *our* code does, and which line does it:

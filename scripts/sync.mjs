@@ -7,7 +7,8 @@
 //   course-site-content/topics-NNN.yml → src/content/topics/NNN.yml
 //   starter-kits/dist/*.zip            → public/downloads/
 //   starter-kits/dist/kit/<course>/   → public/kit/<course>/ (manifest.json + files/<sha256>, for /update-kit)
-//   course-site-content/sandbox/<course>-sNN/ → public/sandbox/<course>-sNN/ (Live demo sandboxes)
+//   course-site-content/sandbox/<course>-sNN/ → public/sandbox/<course>-sNN/ (Live demo sandboxes;
+//                                      a slides/deck.yml also gets slides/slides.json, scripts/decks.mjs)
 //   starter-kits/dist/copy-paste/*.md  → src/content/prompts/
 //   starter-kits/src/templates/NOTES.md → src/content/templates/NOTES.md
 //
@@ -22,6 +23,7 @@
 import { cp, mkdir, readdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { buildDecks } from './decks.mjs';
 
 const site = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const source = path.resolve(process.env.DIGHT_REFACTOR ?? path.join(site, '../dight-refactor'));
@@ -180,6 +182,9 @@ if (await exists(sandboxFrom)) {
     console.log(`  ${path.relative(source, path.join(sandboxFrom, name))}/ → ${path.relative(site, path.join(sandboxTo, name))}/`);
   }
 }
+// Code slides (session 10 experiment 1, Nov 18): each sandbox's slides/deck.yml becomes
+// slides/slides.json, highlighted here so the browser never loads Shiki (scripts/decks.mjs).
+await buildDecks(sandboxTo);
 
 const promptsFrom = path.join(dist, 'copy-paste');
 const promptsTo = path.join(site, 'src/content/prompts');

@@ -1,0 +1,163 @@
+---
+// Code slides (session 10 experiment 1, Nov 18): plays a Live demo as a slideshow. The code
+// morphs from step to step (shiki-magic-move) beside a preview of the whole page at that step.
+//
+// A unit page asks for a deck with a placeholder in its Markdown, inside the Live demo section:
+//   <div data-slides="250-s10"><p>…fallback text…</p></div>
+// The script fetches /sandbox/<id>/slides/slides.json (built at sync time by
+// scripts/decks.mjs, already highlighted) and replaces the placeholder. Without JavaScript the
+// fallback text stays, and the written demo script below it still has every step.
+//
+// Accessibility: real buttons (Previous, Next, Full screen); the arrow keys step through when
+// focus is anywhere in the slides; each change is announced in a polite status line; the code
+// panel is a focusable, labelled region (it scrolls); the preview iframe is titled per step.
+// With prefers-reduced-motion, steps swap without animating.
+---
+
+<script>
+  import { MagicMoveRenderer } from '@shikijs/magic-move/renderer';
+  import { syncTokenKeys, type KeyedTokensInfo } from '@shikijs/magic-move/core';
+  import '@shikijs/magic-move/style.css';
+
+  interface Step {
+    title: string;
+    look: string;
+    file: string;
+    region: string;
+    preview: string | null;
+    show: string | null;
+    focus: number;
+    tokens: KeyedTokensInfo;
+  }
+  interface Deck {
+    title: string;
+    steps: Step[];
+  }
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  const el = <K extends keyof HTMLElementTagNameMap>(tag: K, attrs: Record<string, string> = {}, text?: string) => {
+    const node = document.createElement(tag);
+    for (const [key, value] of Object.entries(attrs)) node.setAttribute(key, value);
+    if (text !== undefined) node.textContent = text;
+    return node;
+  };
+
+  async function mount(holder: HTMLElement) {
+    const id = holder.dataset.slides!;
+    const base = `/sandbox/${id}/slides/`;
+    let deck: Deck;
+    try {
+      const response = await fetch(`${base}slides.json`);
+      if (!response.ok) throw new Error(`${response.status}`);
+      deck = await response.json();
+    } catch {
+      return; // Keep the fallback text: the written script below has every step.
+    }
+    const steps = deck.steps;
+
+    const root = el('section', { class: 'slides', 'aria-label': `Code slides: ${deck.title}` });
+    const bar = el('div', { class: 'slides-bar' });
+    const count = el('p', { class: 'slides-count' });
+    const buttons = el('div', { class: 'slides-buttons' });
+    const prev = el('button', { type: 'button' }, 'Previous');
+    const next = el('button', { type: 'button' }, 'Next');
+    const full = el('button', { type: 'button', 'aria-pressed': 'false' }, 'Full screen');
+    buttons.append(prev, next);
+    if (root.requestFullscreen) buttons.append(full);
+    bar.append(count, buttons);
+
+    const title = el('p', { class: 'slides-title' });
+    const stage = el('div', { class: 'slides-stage' });
+    const codePanel = el('div', { class: 'slides-code', tabindex: '0', role: 'region' });
+    const pre = el('pre', { class: 'slides-pre' });
+    codePanel.append(pre);
+    const view = el('div', { class: 'slides-view' });
+    const frame = el('iframe', { class: 'slides-frame', loading: 'lazy' });
+    const none = el('p', { class: 'slides-none', hidden: '' }, 'No preview for this step.');
+    view.append(frame, none);
+    stage.append(codePanel, view);
+    const look = el('p', { class: 'slides-look' });
+    const status = el('p', { class: 'visually-hidden', role: 'status' });
+    root.append(bar, title, stage, look, status);
+    holder.replaceChildren(root);
+
+    const renderer = new MagicMoveRenderer(pre, { duration: 650, stagger: 0 });
+    let index = 0;
+    let current = steps[0].tokens;
+    renderer.replace(current);
+
+    // Scroll the preview to the part this step changes (`show` in deck.yml, a CSS selector).
+    function reveal() {
+      const selector = steps[index].show;
+      if (!selector) return;
+      try {
+        frame.contentDocument?.querySelector(selector)?.scrollIntoView({ block: 'center' });
+      } catch {
+        // A preview that isn't same-origin just stays at the top.
+      }
+    }
+    frame.addEventListener('load', reveal);
+
+    const lineHeight = () => parseFloat(getComputedStyle(pre).lineHeight) || 24;
+
+    function show(n: number, announce: boolean) {
+      const step = steps[n];
+      const before = steps[index];
+      const sameRegion = before && before.file === step.file && before.region === step.region;
+      if (n === index || !sameRegion || reduceMotion.matches) {
+        current = step.tokens;
+        renderer.replace(current);
+      } else {
+        current = syncTokenKeys(current, step.tokens).to;
+        renderer.render(current);
+      }
+      index = n;
+
+      const label = `Step ${n + 1} of ${steps.length}`;
+      count.textContent = label;
+      title.textContent = step.title;
+      look.replaceChildren(el('strong', {}, 'Look for: '), step.look);
+      codePanel.setAttribute('aria-label', `Code, ${label}: ${step.file}`);
+      if (step.preview) {
+        frame.hidden = false;
+        none.hidden = true;
+        frame.title = `Preview, ${label}`;
+        const src = new URL(base + step.preview, location.href).href;
+        if (frame.src === src) reveal();
+        else frame.src = src;
+      } else {
+        frame.hidden = true;
+        none.hidden = false;
+      }
+      prev.disabled = n === 0;
+      next.disabled = n === steps.length - 1;
+      codePanel.scrollTo({
+        top: Math.max(0, (step.focus - 2) * lineHeight()),
+        behavior: reduceMotion.matches ? 'auto' : 'smooth',
+      });
+      if (announce) status.textContent = `${label}: ${step.title}. Look for: ${step.look}`;
+    }
+
+    prev.addEventListener('click', () => index > 0 && show(index - 1, true));
+    next.addEventListener('click', () => index < steps.length - 1 && show(index + 1, true));
+    root.addEventListener('keydown', (event) => {
+      if (event.altKey || event.ctrlKey || event.metaKey) return;
+      if (event.key === 'ArrowRight' && index < steps.length - 1) show(index + 1, true);
+      else if (event.key === 'ArrowLeft' && index > 0) show(index - 1, true);
+      else return;
+      event.preventDefault();
+    });
+    full.addEventListener('click', () => {
+      if (document.fullscreenElement) document.exitFullscreen();
+      else root.requestFullscreen();
+    });
+    document.addEventListener('fullscreenchange', () => {
+      full.setAttribute('aria-pressed', String(document.fullscreenElement === root));
+    });
+
+    show(0, false);
+  }
+
+  for (const holder of document.querySelectorAll<HTMLElement>('[data-slides]')) mount(holder);
+</script>

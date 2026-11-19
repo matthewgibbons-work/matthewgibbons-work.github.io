@@ -13,7 +13,7 @@ folder: final-project/
 
 Build a small Astro website with Svelte islands that answers one question for a reader you choose: what are the Digital Humanities? Your definition is in your own words, your three or more examples are a content collection, live data comes from a free museum or Wikipedia API, your term's `NOTES.md` files are a second collection, tests run on every push, and you write your own `AGENTS.md` and skill. It's due Wed Dec 16 at 11:59 pm. Submit by pasting two links in Learning Suite. It's graded on a 25-point rubric (25% of your grade), and AI use carries the most points. Rework doesn't apply: this is the finished piece.
 
-It draws on everything this term, including the four sessions from Nov 23 on (Astro intro, content collections, islands, and testing). Each of those Sparks practises its concept on a Pokémon practice site first; then you use it here. The **Milestones** below put each piece right after the Spark that teaches it, so you can see whether you're on pace. They're not graded. The first is your intent brief, where you choose your reader, your examples, and your API. The writing is yours: Claude can help you find projects and build the site, not write your definition, analysis, or reflections. The thing most people miss is the agent configuration: you write `final-project/AGENTS.md` and the skill yourself, and explain why each rule is there.
+It draws on everything this term, including the three Astro sessions from Nov 23 on (Astro intro, content collections, islands) and the two-day Pokédex live build that ends the term (Dec 7 and 9). Each Astro Spark practises its concept on a Pokémon practice site first; then you use it here. The **Milestones** below put each piece right after the Spark that teaches it, so you can see whether you're on pace. They're not graded. The first is your intent brief, where you choose your reader, your examples, and your API. The writing is yours: Claude can help you find projects and build the site, not write your definition, analysis, or reflections. The thing most people miss is the agent configuration: you write `final-project/AGENTS.md` and the skill yourself, and explain why each rule is there.
 
 **Key dates**
 
@@ -21,6 +21,8 @@ It draws on everything this term, including the four sessions from Nov 23 on (As
 - **Mon Nov 23:** your intent brief in `final-project/INTENT.md` (milestone 1). P4 is due Tue Nov 24.
 - **Mon Nov 30:** `final-project/` is an Astro site and deploys (milestone 2, after S10).
 - **Wed Dec 16, 11:59 pm:** due. The open lab that day is for final help.
+
+**Changed Nov 23:** Playwright is no longer required. Your tests are Vitest only, and the accessibility scan is the axe DevTools browser extension, run by hand.
 
 The full list, with what "done" looks like for each step, is under **Milestones**.
 
@@ -42,7 +44,7 @@ The site has:
   At least one page gets its data **when the site is built** (an example page pulls the museum record for the object it discusses); at least one island fetches **in the browser** (search the collection for more objects like it, look up a term your reader might not know).
 - **A reflections page:** what changed in your understanding of DH as you worked, and one pattern across your examples.
 - **Your `NOTES.md` files as a collection.** Every Spark and Prototype you've written this term becomes a page in a "How I built this" section, checked by a schema (S11 practises the pattern). It's a portfolio of how you worked, not just what you built.
-- **Tests.** Vitest for your logic, and Playwright with axe for the site. They run on every push (S13 practises them).
+- **Tests.** Vitest for your logic, run on every push (you'll see some written in the Pokédex live build on Wed Dec 9).
 - **Configure your agent.** You write your project's own `final-project/AGENTS.md` and one custom skill, and explain why (below).
 
 **The words are yours.** Your definition, analysis, and reflections are your own writing, like your `NOTES.md`. Claude can help you find projects, check a fact, write your schema, and build the pages around your writing. It doesn't write the prose. If it drafts a sentence you keep, rewrite it, and say so in `NOTES.md`.
@@ -94,8 +96,8 @@ A suggested pace, each step right after the Spark that teaches it: practise the 
 | **Mon Nov 30** | S10 | 2. Astro skeleton, live | `final-project/` is an Astro site with your shared layout and nav, a home page with your definition draft and two sources, and one page with API data fetched at build time, live at `…/dight340/final-project/` with every link using `BASE_URL`. P4 is in. |
 | **Wed Dec 2** | S11 | 3. Collections | Your examples are a content collection with a zod schema and a page each (overview written), and your notes collection has its index and pages. |
 | **Mon Dec 7** | S12 | 4. Your island | The island from your intent brief works on the live site with a `client:` directive you can justify, and each example's analysis is drafted. |
-| **Wed Dec 9** | S13 | 5. Tests | Vitest covers your data logic, Playwright + axe cover each kind of page, both run in Checks, and your reflections page is drafted. |
-| **Mon Dec 14** | S14 | 6. Your agent, and the record | `final-project/AGENTS.md` and your skill are written and tested, you've done the screen-reader pass, `final-project/NOTES.md` has every section, and [`/check`](/340/skills/check/) `final-project` passes. |
+| **Wed Dec 9** | Live build | 5. Tests | Vitest covers your data logic and runs in Checks, an axe DevTools scan of each kind of page is clean, and your reflections page is drafted. |
+| **Mon Dec 14** | S13 | 6. Your agent, and the record | `final-project/AGENTS.md` and your skill are written and tested, you've done the screen-reader pass, `final-project/NOTES.md` has every section, and [`/check`](/340/skills/check/) `final-project` passes. |
 | **Wed Dec 16** | | Due, 11:59 pm | Links in Learning Suite. The open lab that day is for final help. |
 
 Paste this at the end of your `INTENT.md` and tick each one off as you go (the **Copy** button copies it):
@@ -107,7 +109,7 @@ Paste this at the end of your `INTENT.md` and tick each one off as you go (the *
 - [ ] 2. Astro skeleton live: layout and nav, home with definition draft and sources, one build-time data page, BASE_URL links (Mon Nov 30)
 - [ ] 3. Collections: examples with schema and pages, notes index and pages (Wed Dec 2)
 - [ ] 4. My island works live; analysis drafted for each example (Mon Dec 7)
-- [ ] 5. Vitest and Playwright + axe in Checks; reflections drafted (Wed Dec 9)
+- [ ] 5. Vitest in Checks; axe DevTools scan clean on each kind of page; reflections drafted (Wed Dec 9)
 - [ ] 6. AGENTS.md and skill tested; screen-reader pass; NOTES.md complete; /check passes (Mon Dec 14)
 ```
 
@@ -137,14 +139,13 @@ Paste this at the end of your `INTENT.md` and tick each one off as you go (the *
 
 **Quality and tests**
 
-- [ ] Your logic (turning API responses into what your pages need, at least) lives in plain modules with Vitest tests.
-- [ ] At least three Playwright tests, including an axe scan of each kind of page, run in the **Checks** workflow. Checks is green, or `final-project/NOTES.md` says what's failing and why.
+- [ ] Your logic (turning API responses into what your pages need, at least) lives in plain modules, with at least three Vitest tests that run in the **Checks** workflow. Checks is green, or `final-project/NOTES.md` says what's failing and why.
 - [ ] `const`/`let` and `===`; no console errors; no Svelte or Astro warnings in the build.
 
 **Accessibility**
 
 - [ ] Works with the keyboard alone, with visible focus; readable at 200% zoom and at 320px wide; motion respects `prefers-reduced-motion`.
-- [ ] axe reports no violations, and you've done one screen-reader pass of your main flow (VoiceOver: Cmd+F5), written up in `final-project/NOTES.md`.
+- [ ] An axe DevTools scan (the browser extension) of each kind of page reports no violations, and you've done one screen-reader pass of your main flow (VoiceOver: Cmd+F5), written up in `final-project/NOTES.md`.
 
 **Your agent and your notes**
 
@@ -165,7 +166,7 @@ The Final Project is 25% of your grade.
 | **Code quality** | 3 | Small components with typed props and one owner per piece of data; logic in tested modules; schemas that catch a missing field; no warnings; readable names. |
 | **Git** | 2 | Meaningful commits over the work window, each saying what changed; nothing generated or secret committed. |
 | **AI use** | 7 | A complete `final-project/NOTES.md`, honest about what you accepted, changed, and rejected, and clear enough that I could tell what any part of the code does and why it's there; your "Open questions" show what you still want to understand; your `AGENTS.md` and skill, with reasons, and evidence they changed how you worked. |
-| **Accessibility** | 4 | Keyboard, focus, zoom, reflow, names, announcements, and reduced motion all hold; axe clean; a written screen-reader pass. |
+| **Accessibility** | 4 | Keyboard, focus, zoom, reflow, names, announcements, and reduced motion all hold; axe DevTools clean on each kind of page; a written screen-reader pass. |
 | **Intent and content** | 4 | A clear definition in your own words, examples and analysis that back it up with specifics from your own time in each project, sources cited and media credited, all written for the reader your intent brief named; or `NOTES.md` explains what changed and why. |
 
 ## Submitting
