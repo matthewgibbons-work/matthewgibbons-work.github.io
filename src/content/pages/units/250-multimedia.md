@@ -2,10 +2,10 @@
 title: "Multimedia and positioning"
 description: "Images, video, and audio that work for people who can't see or hear them, plus positioning and visually hidden text."
 courses: [dight250]
-ready: false # true once the S10 dry run passes (PLAN.md: Build order)
+ready: true # published Nov 23 without its Spark (S10 dropped for Thanksgiving week; PLAN.md Decision log)
 session: 10
 date: 2026-11-23
-sticky_assignments: true # experiment 6, kept Nov 13 (PLAN.md, "Experiments")
+sticky_assignments: false # S10 dropped Nov 23, so no Spark to pin (PLAN.md Decision log)
 ---
 
 # Multimedia and positioning
@@ -18,7 +18,6 @@ sticky_assignments: true # experiment 6, kept Nov 13 (PLAN.md, "Experiments")
 - **Captions are a `.vtt` file you write by listening,** joined with `<track kind="captions">`. The agent can't hear the clip.
 - **`position: absolute` measures from the nearest positioned ancestor.** Put `position: relative` on the card, or every badge lands in the page's corner. `sticky` and `fixed` pin things to the screen, so check that they don't cover focus.
 - **Hide on purpose:** `.visually-hidden` keeps words for screen readers, `aria-hidden="true"` hides decoration from them, and `display: none` hides from everyone.
-- **Today's Spark puts it to work.** S10 fixes a "Clip of the week" page.
 
 </details>
 
@@ -31,7 +30,7 @@ sticky_assignments: true # experiment 6, kept Nov 13 (PLAN.md, "Experiments")
 ## Video and audio
 
 ```html
-<video controls width="640" height="360">
+<video controls width="640" height="480">
   <source src="friday.mp4" type="video/mp4">
   <track kind="captions" src="friday.vtt" srclang="en" label="English" default>
 </video>
@@ -171,18 +170,19 @@ Each step says what to change, what to type, and what to look for. Save after ev
 1. **A trailer that plays itself.** Reload: the trailer starts at once, loops forever, and has no buttons, so there's no way to stop it. Replace the `<video>` tag under the step 1 comment with:
 
    ```html
-   <video controls width="640" height="360">
+   <video controls width="352" height="288">
    ```
 
    Reload: it waits. Tab to it: the browser's own play, pause, and volume buttons work with Space and the arrow keys.
 
-2. **Captions for a clip with no words.** The trailer has no speech, but it has sound, and someone who can't hear it should know that. Under the `<source>` line, add:
+2. **Captions, and subtitles in Italian.** The trailer is narrated, so someone who can't hear it misses the whole story. Under the `<source>` line, add:
 
    ```html
-   <track kind="captions" src="flower.vtt" srclang="en" label="English">
+   <track kind="captions" src="captions_en.vtt" srclang="en" label="English">
+   <track kind="subtitles" src="subtitles_it.vtt" srclang="it" label="Italiano">
    ```
 
-   Reload: a CC button appears in the controls. Turn it on and play: the cues from `flower.vtt` show on the picture. Open `flower.vtt` in VS Code: plain text, a start and end time, then the words.
+   Reload: a CC button appears in the controls. Turn on English and play: the cues from `captions_en.vtt` show on the picture. Switch to Italiano: same times, translated words. Open `captions_en.vtt` in VS Code: plain text, a start and end time, then the words. `captions` are for people who can't hear the sound; `subtitles` are for people who can hear it but don't speak the language.
 
 3. **Posters that make the page jump.** Inspect the first poster: it has no `width` or `height`, so the browser can't save its space until the file arrives, and on a slow connection everything below it jumps. Open the Accessibility tab: its Name is the same words as its caption, so a screen reader says them twice. Replace the first `<figure>` under the step 3 comment with:
 
@@ -241,4 +241,4 @@ Each step says what to change, what to type, and what to look for. Save after ev
 - MDN: [Video and audio content (Learn)](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/HTML_video_and_audio), [`<img>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/img), [`<figure>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/figure), [`<video>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/video), [`<track>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/track), [WebVTT format](https://developer.mozilla.org/en-US/docs/Web/API/WebVTT_API/Web_Video_Text_Tracks_Format), [`<iframe>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/iframe), [`position`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/position), [`z-index`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/z-index), [`scroll-padding-top`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/scroll-padding-top), [`aria-hidden`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-hidden)
 - WCAG: [Understanding 1.1.1 Non-text Content](https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html), [Understanding 1.2.2 Captions (Prerecorded)](https://www.w3.org/WAI/WCAG22/Understanding/captions-prerecorded.html), [Understanding 1.4.2 Audio Control](https://www.w3.org/WAI/WCAG22/Understanding/audio-control.html), [Understanding 2.2.2 Pause, Stop, Hide](https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html), [Understanding 2.4.11 Focus Not Obscured (Minimum)](https://www.w3.org/WAI/WCAG22/Understanding/focus-not-obscured-minimum.html)
 - W3C: [An alt decision tree](https://www.w3.org/WAI/tutorials/images/decision-tree/); WebAIM: [Invisible content just for screen reader users](https://webaim.org/techniques/css/invisiblecontent/)
-- Dig deeper: when you start S10, highlight `position: absolute` (or your `.visually-hidden` rule) in your own page and run [`/dig-deeper`](/250/skills/dig-deeper/). Ask what it's measured from, and answer its predict question before the reveal.
+- Dig deeper: highlight `position: absolute` (or the `.visually-hidden` rule) in your copy of the sandbox and run [`/dig-deeper`](/250/skills/dig-deeper/). Ask what it's measured from, and answer its predict question before the reveal.

@@ -22,8 +22,8 @@ steps:
     region: trailer
     lang: html
     show: "#trailer"
-    title: Captions for a clip with no words
-    look: A CC button appears in the controls. Turn it on and play, and the cues from flower.vtt show on the picture.
+    title: Captions, and subtitles in Italian
+    look: A CC button appears in the controls. Turn on English and play, and the cues from captions_en.vtt show on the picture. Switch to Italiano for the subtitles.
   - step: 3
     file: index.html
     region: posters
