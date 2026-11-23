@@ -2,7 +2,7 @@
 title: "Astro intro and repo conversion"
 description: "Your practice site becomes an Astro site: file-based routing, layouts, components that run at build time, and deploying under a base path."
 courses: [dight340]
-ready: false # true once the S10 dry run passes, with the S10 brief (PLAN.md: Build order)
+ready: true
 session: 10
 date: 2026-11-23
 sticky_assignments: true # experiment 6, kept Nov 13 (PLAN.md, "Experiments")
