@@ -1,0 +1,60 @@
+# Code slides for the 250 Modern CSS Live demo (session 10 experiment 1, kept Nov 25).
+# Each step folder is the whole page after that demo step; the slide shows the region between
+# its slide:<name> markers. A slide preview doesn't follow the site's dark mode, so the dark-mode
+# slides preview preview-dark.html: the same page with the dark block applied (@media all).
+# The course site's `npm run sync` turns this into slides.json.
+title: Late-night reruns
+steps:
+  - step: 0
+    file: index.html
+    region: css
+    lang: css
+    title: Every color typed into its rule
+    look: The accent, #8a1c1c, is typed four times, and every other color at least once. Changing the accent means finding all four. And at 2 a.m. the page is a white screen.
+  - step: 1
+    file: index.html
+    region: css
+    lang: css
+    title: Tokens on :root
+    look: Each color gets a name for its job, once, on :root, and the rules use var(). The page looks exactly the same. Can you spot a rule that still has a color typed in?
+  - step: 2
+    file: index.html
+    region: css
+    lang: css
+    show: ".tonight"
+    title: The lime test
+    look: Change --accent to lime for a moment. The links, the header line, and the show names turn lime. The "Starts soon" badge stays dark red, so it has a color typed in.
+  - step: 3
+    file: index.html
+    region: css
+    lang: css
+    show: ".tonight"
+    title: The leftover, fixed
+    look: The badge uses var(--accent) now, and --accent is back to #8a1c1c. Changing the accent is one line.
+  - step: 4
+    file: index.html
+    region: css
+    lang: css
+    page: preview-dark.html
+    title: "Dark mode: new values, same rules"
+    look: 'In dark mode the tokens get new values, and no rule changes. color-scheme turns the email field dark too. But the links are still #8a1c1c, now on #14161f: 1.94:1, far under 4.5:1. (The preview shows the dark values; in your copy, use DevTools → Rendering → prefers-color-scheme.)'
+  - step: 5
+    file: index.html
+    region: css
+    lang: css
+    page: preview-dark.html
+    title: A dark accent
+    look: A lighter accent for dark mode, #ff9b8a on #14161f, is 8.85:1. The badge's text flips to the dark background color, so it still passes.
+  - step: 6
+    file: index.html
+    region: css
+    lang: css
+    title: Focus you can see
+    look: 'a:focus { outline: none } hid the keyboard''s cursor. :focus-visible draws a 3px accent outline, 9.12:1 on the light background and 8.85:1 on the dark one. Click into the preview and press Tab.'
+  - step: 7
+    file: index.html
+    region: css
+    lang: css
+    show: "#tonight"
+    title: "Cards with a picture: :has() and nesting"
+    look: .card:has(img) puts the poster in a narrow column beside the words, and the card with no picture stays as it was. The & rules sit inside .card, one level deep.

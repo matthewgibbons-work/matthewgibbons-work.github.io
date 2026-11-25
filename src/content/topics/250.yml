@@ -56,7 +56,7 @@
 - name: Modern CSS
   session: 11
   unit: modern-css
-  summary: Turn your colors and spacing into tokens, and add a dark mode where every pair still passes.
+  summary: Fix a night-time checklist with tokens, a dark mode where every pair still passes, focus you can see, and ticked items that look done.
 - name: Transitions, animations, and an accessibility audit
   session: 12
   unit: motion-audit

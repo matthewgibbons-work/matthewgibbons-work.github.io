@@ -55,7 +55,7 @@ export async function buildDecks(sandboxRoot) {
     } catch {
       continue;
     }
-    highlighter ??= await createHighlighter({ themes: [theme], langs: ['html', 'css', 'javascript', 'svelte', 'astro'] });
+    highlighter ??= await createHighlighter({ themes: [theme], langs: ['html', 'css', 'javascript', 'svelte', 'astro', 'markdown'] });
     const course = entry.name.split('-')[0];
     const previous = new Map();
     const steps = [];

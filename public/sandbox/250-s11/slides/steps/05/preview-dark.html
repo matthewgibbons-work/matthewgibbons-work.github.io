@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Modern CSS sandbox · DIGHT 250</title>
+<!--
+  Code slides step 05 for the Modern CSS unit (session 10 experiment 1, kept Nov 25: the whole
+  page after demo step 5). Generated with the sandbox; the slide shows the region between
+  slide: markers.
+  preview-dark.html: the same page with the dark block applied unconditionally
+  (@media all), because a slide preview doesn't follow the site's dark mode. The
+  slide shows index.html; only the preview uses this copy.
+-->
+<style>
+  /* ============ Your CSS goes here (demo steps in the unit page) ============ */
+  /* slide:css */
+  /* Step 1: tokens on :root. Step 4: dark mode. */
+  :root {
+    --bg: #fffdf7;
+    --surface: #ffffff;
+    --band: #f3e9d2;
+    --text: #1f2430;
+    --muted: #5b6170;
+    --accent: #8a1c1c;
+    --on-accent: #ffffff;
+  }
+
+  :root {
+    color-scheme: light dark;
+  }
+
+  @media all {
+    :root {
+      --bg: #14161f;
+      --surface: #1e2130;
+      --band: #262a3b;
+      --text: #eceff6;
+      --muted: #a9afbd;
+      --accent: #ff9b8a;
+      --on-accent: #14161f;
+    }
+  }
+
+  body {
+    color: var(--text);
+    background: var(--bg);
+  }
+
+  header {
+    background: var(--band);
+    border-bottom: 3px solid var(--accent);
+  }
+
+  a {
+    color: var(--accent);
+  }
+
+  /* Step 6: focus */
+  a:focus {
+    outline: none;
+  }
+
+  /* Step 7: cards with a picture */
+  .card {
+    background: var(--surface);
+    border: 2px solid var(--text);
+  }
+
+  .card h3 {
+    color: var(--accent);
+  }
+
+  .time {
+    color: var(--muted);
+  }
+
+  .tonight {
+    color: var(--on-accent);
+    background: var(--accent);
+  }
+  /* /slide:css */
+
+  /* ============ Look and feel only below this line ============ */
+
+  * { box-sizing: border-box; }
+
+  body {
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 0 1rem 3rem;
+    font: 1.125rem/1.5 system-ui, sans-serif;
+  }
+
+  header { padding: 0.75rem 1rem; }
+  header p { margin: 0; font-weight: 700; font-size: 1.25rem; }
+  header ul { display: flex; flex-wrap: wrap; gap: 0 1rem; margin: 0; padding: 0; list-style: none; }
+
+  h1, h2, h3 { line-height: 1.2; }
+
+  .cards { display: grid; gap: 1rem; padding: 0; list-style: none; }
+  .card { padding: 1rem; border-radius: 0.5rem; }
+  .card h3 { margin: 0 0 0.25rem; }
+  .card p { margin: 0.25rem 0; }
+  .card img { display: block; max-width: 100%; height: auto; border-radius: 0.25rem; }
+  .time { font-weight: 700; }
+  .tonight { display: inline-block; padding: 0.1rem 0.5rem; border-radius: 0.3rem; font-size: 0.9rem; font-weight: 800; }
+
+  form { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: end; }
+  label { display: block; font-weight: 700; }
+  input, button { font: inherit; padding: 0.4rem 0.6rem; }
+</style>
+</head>
+<body>
+<header>
+  <p>Saturday Morning Archive</p>
+  <nav aria-label="Archive">
+    <ul>
+      <li><a href="#tonight">Tonight</a></li>
+      <li><a href="#schedule">Schedule by email</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+<h1>Late-night reruns</h1>
+<p>Saturday-morning cartoons, after midnight, for night owls and new parents. Every show has captions.</p>
+
+<section id="tonight">
+<h2>Tonight</h2>
+<!-- slide:cards -->
+<ul class="cards">
+  <li class="card">
+    <img src="poster-comet.svg" width="300" height="450" alt="">
+    <div>
+      <h3>Captain Comet</h3>
+      <p class="time">11:30 pm <span class="tonight">Starts soon</span></p>
+      <p>A comet with a cape keeps the night sky tidy. <a href="#tonight">Episode guide</a></p>
+    </div>
+  </li>
+  <li class="card">
+    <div>
+      <h3>The Puddle Pirates</h3>
+      <p class="time">12:00 am</p>
+      <p>A very small ship on a very big puddle. <a href="#tonight">Episode guide</a></p>
+    </div>
+  </li>
+  <li class="card">
+    <img src="poster-robodog.svg" width="300" height="450" alt="">
+    <div>
+      <h3>Robo-Dog Rides Again</h3>
+      <p class="time">12:30 am</p>
+      <p>A robot dog who fetches the moon. <a href="#tonight">Episode guide</a></p>
+    </div>
+  </li>
+</ul>
+<!-- /slide:cards -->
+</section>
+
+<section id="schedule">
+<h2>Schedule by email</h2>
+<form action="#schedule">
+  <div>
+    <label for="email">Email</label>
+    <input id="email" type="email" autocomplete="email">
+  </div>
+  <button>Send me the week</button>
+</form>
+</section>
+</main>
+</body>
+</html>

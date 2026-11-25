@@ -1,0 +1,18 @@
+---
+// slide:file
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { url } from '../../lib/url.js';
+
+const berries = (await getCollection('berries'))
+  .sort((a, b) => a.data.name.localeCompare(b.data.name));
+---
+<Base title="Berries">
+  <h1>Berries</h1>
+  <ul>
+    {berries.map((berry) => (
+      <li><a href={url(`berries/${berry.id}/`)}>{berry.data.name}</a></li>
+    ))}
+  </ul>
+</Base>
+<!-- /slide:file -->

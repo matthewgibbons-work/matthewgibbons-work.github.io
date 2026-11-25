@@ -1,0 +1,73 @@
+# Code slides for the 340 Astro collections Live demo (session 10 experiment 1, kept Nov 25).
+# The Berry guide from S10's demo grows a grower's note for each berry: a different problem
+# from S11 (Astro's glob() loader and Markdown frontmatter, not the course's notes loader).
+# Each step folder is the whole Astro project after that demo step (no package.json: tools/slides
+# builds it). Step 02 fails to build on purpose (Pecha has no flavor), so it has no preview.
+# Build the previews after any change:
+#   cd tools/slides && npm run previews -- 340-s11
+# The course site's `npm run sync` turns this into slides.json.
+title: Berry guide, grower's notes
+steps:
+  - step: "00"
+    file: src/pages/berries/cheri.astro
+    region: file
+    lang: astro
+    page: berries/cheri/index.html
+    title: A page by hand for every berry
+    look: Cheri, Pecha, and Rawst each have a page like this, copied and edited. Pecha's page lost its flavor line, and nobody noticed. A fourth berry means a fifth file to edit.
+  - step: "00"
+    file: src/pages/berries/index.astro
+    region: file
+    lang: astro
+    page: berries/index.html
+    title: A list by hand, too
+    look: Every link is typed in, in whatever order they were written.
+  - step: "01"
+    file: src/content/berries/cheri.md
+    region: file
+    lang: markdown
+    page: berries/cheri/index.html
+    title: The berry as data
+    look: The facts move into frontmatter (name, flavor, cures), and the grower's note is the Markdown below it. The preview hasn't changed, because nothing reads these files yet.
+  - step: "02"
+    file: src/content.config.js
+    region: file
+    lang: javascript
+    preview: false
+    title: A collection with a schema
+    look: glob() reads every .md in the folder. The schema says what every berry must have. Read it aloud like a checklist.
+  - step: "02"
+    file: src/content/berries/pecha.md
+    region: file
+    lang: markdown
+    preview: false
+    title: The build refuses
+    look: 'Pecha has no flavor, so the build stops: "berries → pecha data does not match collection schema. flavor: Invalid option: expected one of "spicy"|"dry"|"sweet"|"bitter"|"sour"". The hole the hand pages hid is now an error with a file name.'
+  - step: "03"
+    file: src/content/berries/pecha.md
+    region: file
+    lang: markdown
+    page: berries/pecha/index.html
+    title: Fix the data, not a page
+    look: One line, flavor sweet, and the build passes. Pecha's hand page still says nothing about flavor, because the pages don't read the collection yet.
+  - step: "03"
+    file: src/pages/berries/index.astro
+    region: file
+    lang: astro
+    page: berries/index.html
+    title: The list from getCollection()
+    look: Every berry in the collection, sorted by name. Which line decides the order?
+  - step: "04"
+    file: src/pages/berries/[id].astro
+    region: file
+    lang: astro
+    page: berries/pecha/index.html
+    title: One file makes every page
+    look: The three hand pages are gone. getStaticPaths() returns one path per berry, and render() gives the note's <Content />. Pecha's page now shows its flavor.
+  - step: "05"
+    file: src/content/berries/aspear.md
+    region: file
+    lang: markdown
+    page: berries/index.html
+    title: A new berry is a new file
+    look: Add aspear.md and build. Aspear is in the list, in order, with its own page, and no page file changed.
