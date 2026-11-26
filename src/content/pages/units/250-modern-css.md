@@ -2,7 +2,7 @@
 title: "Modern CSS"
 description: "Custom properties, dark mode, :focus-visible, :has(), and nesting: name your design decisions once, and respond to the reader's settings."
 courses: [dight250]
-ready: false # true once the S11 model build passes, with the S11 brief (PLAN.md: Build order)
+ready: true # model build passed Nov 25
 session: 11
 date: 2026-11-30
 sticky_assignments: true # experiment 6, kept Nov 13 (PLAN.md, "Experiments")

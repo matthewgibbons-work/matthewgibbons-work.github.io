@@ -2,7 +2,7 @@
 title: "Astro content collections"
 description: "Your NOTES.md files become a content collection: a loader, a zod schema that checks every section, and a page per entry from dynamic routes."
 courses: [dight340]
-ready: false # true once the S11 model build passes, with the S11 brief (PLAN.md: Build order)
+ready: true # model build passed Nov 25
 session: 11
 date: 2026-11-30
 sticky_assignments: true # experiment 6, kept Nov 13 (PLAN.md, "Experiments")
